@@ -266,6 +266,7 @@ footer i {
 }
 /*  */
 /**/
+/*****/
 footer a {
     color: #3c97bf;
     text-decoration: none;
