@@ -45,7 +45,7 @@ width:55px;
 height:55px;
 border-radius:50%;
 background-color:#393e46;
-margin-bottom:40%;
+margin-bottom:20%;
 cursor:pointer;
 }
 /* .side { 
