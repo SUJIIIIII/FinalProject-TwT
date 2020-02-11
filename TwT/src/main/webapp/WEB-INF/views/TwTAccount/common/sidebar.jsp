@@ -60,7 +60,7 @@ bottom: 1%;
     <i class="far fa-comment-dots fa-2x" style="color:white; margin-left:25%; margin-top:25%;"></i>
    </div>
    <div>
-     <img src="<%=request.getContextPath()%>/TwTAccount/images/side_kakao.png" width="55" style="cursor:pointer; margin-bottom:20px;">
+     <img src="${pageContext.request.contextPath}/resources/images/account/side_kakao.png" width="55" style="cursor:pointer; margin-bottom:20px;">
    </div>
    <a href="#footer">
 	   <div class="side">
