@@ -29,6 +29,12 @@
     <link rel="stylesheet" href="css/icomoon.css">
     <link rel="stylesheet" href="css/style.css">
     
+    <!-- chat -->
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
+	<link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.9.0/css/all.min.css'>
+    <link rel="stylesheet" href="TwTAccount/common/chat.css">
+
+    
     <!-- font -->
 	<link href="https://fonts.googleapis.com/css?family=Shadows+Into+Light&display=swap" rel="stylesheet">
 	<link href="https://fonts.googleapis.com/css?family=Kalam&display=swap" rel="stylesheet">
@@ -93,6 +99,8 @@
     </style>
 </head>
 <body id="body">
+	
+	
   	<!-- 오른쪽 네비게이션 메뉴 DIV 시작 -->
 	<div id="sidebar"><%@ include file="/TwTAccount/common/sidebar.jsp" %></div>
 	<!-- sidebar end -->
@@ -444,6 +452,7 @@
   <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBVWaKrjvy3MaE7SQ74_uJiULgl1JY0H2s&sensor=false"></script>
   <script src="js/google-map.js"></script>
   <script src="js/main.js"></script>
-    
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js'></script>
+  <script src="TwTAccount/common/chat.js"></script>
   </body>
 </html>
