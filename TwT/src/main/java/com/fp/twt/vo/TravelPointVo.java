@@ -14,15 +14,16 @@ public class TravelPointVo {
     private String cityName; 	//도시 이름
     private int cityLati; 		//도시 위도
     private int cityLong; 		//도시 경도
-    private String ciryImg; 	//도시 이미지
+    private String cityImg; 	//도시 이미지
+    private String cityEng;		//도시 영문명
     
     public TravelPointVo() {
 		super();
 	}
     
 	public TravelPointVo(String tpCode, String cityCode, String tpName, int tpLati, int tpLong, String tpType,
-			String tpContent, String tpImg, String tpAddr, String cityName, int cityLati, int cityLong,
-			String ciryImg) {
+			String tpContent, String tpImg, String tpAddr, String cityName, int cityLati, int cityLong, String cityImg,
+			String cityEng) {
 		super();
 		this.tpCode = tpCode;
 		this.cityCode = cityCode;
@@ -36,7 +37,8 @@ public class TravelPointVo {
 		this.cityName = cityName;
 		this.cityLati = cityLati;
 		this.cityLong = cityLong;
-		this.ciryImg = ciryImg;
+		this.cityImg = cityImg;
+		this.cityEng = cityEng;
 	}
 
 	public String getTpCode() {
@@ -135,12 +137,20 @@ public class TravelPointVo {
 		this.cityLong = cityLong;
 	}
 
-	public String getCiryImg() {
-		return ciryImg;
+	public String getCityImg() {
+		return cityImg;
 	}
 
-	public void setCiryImg(String ciryImg) {
-		this.ciryImg = ciryImg;
+	public void setCityImg(String cityImg) {
+		this.cityImg = cityImg;
 	}
-    
+
+	public String getCityEng() {
+		return cityEng;
+	}
+
+	public void setCityEng(String cityEng) {
+		this.cityEng = cityEng;
+	}
+
 }
