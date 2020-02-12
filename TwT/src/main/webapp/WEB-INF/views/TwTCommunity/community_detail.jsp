@@ -141,7 +141,6 @@
 						<i class="far fa-eye"></i>
 						</div>
 					</div>
-
 				</div>
 				
  <main id="home" class="contents">
