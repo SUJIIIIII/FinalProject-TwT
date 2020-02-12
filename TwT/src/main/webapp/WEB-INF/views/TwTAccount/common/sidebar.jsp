@@ -34,10 +34,10 @@ $(document).ready(function() {
 <style type="text/css">
 #floatMenu {
 position: absolute;
-width: 100px;
-height: 200px;
-left: 1400px;
-top: 420px;
+width: 4%;
+height: 41%;
+left: 93%;
+bottom: 1%;
 }
 
 .side { 
