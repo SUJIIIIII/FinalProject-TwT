@@ -131,20 +131,16 @@
             <h2 class="mb-3" style="text-align: center; margin-top: 20px; font-weight: bold;">제목</h2>
             <div class="plan_info" style="float: right; margin-top: 20px;">
 					<div class="plan_info_box">
+						<div class="cnt_copy">
+						<i class="fas fa-heart" style="color:#fc3c3c;"></i>
+						</div>
 						<div class="cnt_spot">
-						<i class="fas fa-map-marker-alt fa-2x"></i>
-						장소
+						<i class="fas fa-map-marker-alt"></i>
 						</div>
 						<div class="cnt_view">
-						<i class="far fa-eye fa-2x"></i>
-						조회수
-						</div>
-						<div class="cnt_copy">
-						<i class="fas fa-heart fa-2x" style="color:#fc3c3c;"></i>
-						찜횟수
+						<i class="far fa-eye"></i>
 						</div>
 					</div>
-
 				</div>
 				
  <main id="home" class="contents">
