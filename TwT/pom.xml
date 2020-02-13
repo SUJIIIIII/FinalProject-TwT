@@ -271,7 +271,7 @@
 	   <repositories>
       <repository>
          <id>atlassian</id>
-         <url>http://www.datanucleus.org/down3loads/maven2/</url> <!-- maven repository에서 ojdb6의 repository에서 url 가져오기 -->
+         <url>http://www.datanucleus.org/downloads/maven2/</url> <!-- maven repository에서 ojdb6의 repository에서 url 가져오기 -->
       </repository>   
    </repositories>
     <build>
