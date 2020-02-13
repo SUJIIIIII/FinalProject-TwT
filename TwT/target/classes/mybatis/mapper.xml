@@ -30,16 +30,16 @@
 
 		
 		<!-- ================================보미==================================  -->
-  <resultMap type="Member" id="memberMap">
-		<result property="mCode" column="M_CODE" />
-		<result property="mId" column="M_ID" />
-		<result property="mPass" column="M_PASS" />
-		<result property="mName" column="M_NAME" />
-		<result property="mEmail" column="M_EMAIL" />
-		<result property="mApi" column="M_API" />
-	</resultMap>
+    <resultMap type="Member" id="memberMap">
+      <result property="mCode" column="M_CODE" />
+      <result property="mId" column="M_ID" />
+      <result property="mPass" column="M_PASS" />
+      <result property="mName" column="M_NAME" />
+      <result property="mEmail" column="M_EMAIL" />
+      <result property="mApi" column="M_API" />
+	  </resultMap>
 
-	<!-- 회원가입 -->
+	  <!-- 회원가입 -->
 	<insert id="insert" parameterType="Member">
 		INSERT INTO TWTMEMBER VALUES
 		('M4', #{mId}, #{mPass}, #{mName}, #{mEmail},
@@ -56,6 +56,7 @@
 	<select id="idChk" resultType="int">
 	   SELECT COUNT(*) FROM TWTMEMBER WHERE M_ID = #{mId}
 	</select>
+
 		
 		
 		<!-- ================================찬우==================================  -->
@@ -69,6 +70,7 @@
 		<!-- ================================철환==================================  -->
 		
 
-
 	</mapper>
+
+	
 	
