@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+	<mapper namespace="twt">
+		<!-- ================================용훈==================================  -->
+		
+		
+		
+		<!-- ================================범식==================================  -->
+
+		  <resultMap type="Hotel" id="list">
+				<result property="h_Code" column="H_CODE" />
+				<result property="city_Code" column="CITY_CODE" />
+				<result property="h_Name" column="H_NAME" />
+				<result property="h_Lati" column="H_LATI" />
+				<result property="h_Long" column="H_LONG" />
+				<result property="h_phone" column="H_PHONE" />
+				<result property="h_Basicaddr" column="H_BASICADDR" />
+				<result property="h_Addr" column="H_ADDR" />
+				<result property="h_Img" column="H_IMG" />
+				<result property="h_Content" column="H_CONTENT" />
+				<result property="h_Starn" column="H_STARN" />
+				<result property="h_Basiccontent" column="H_BASICCONTENT" />
+				<result property="city_Name" column="CITY_NAME" />
+				
+		  </resultMap>
+             <select id="hotel_list" resultType="list">
+               SELECT H_CODE,CITY_CODE,H_NAME,H_LATI,H_LONG,H_PHONE,H_BASICADDR,H_ADDR,H_IMG,H_CONTENT,H_STARN,H_BASICCONTENT 
+               FROM HOTEL
+               
+             </select>
+		
+		
+		<!-- ================================도영==================================  -->
+		
+		
+		
+		<!-- ================================보미==================================  -->
+		
+		
+		
+		<!-- ================================찬우==================================  -->
+		
+		
+		
+		<!-- ================================수지==================================  -->
+		
+		
+		
+		<!-- ================================철환==================================  -->
+		
+
+	</mapper>
+	
+	
