@@ -13,8 +13,21 @@
 		
 		
 		<!-- ================================도영==================================  -->
-		
-		
+		<resultMap type="TravelSchedule" id="TravelScheduleMap">
+			<result property="ts_Code" column="TS_CODE" />
+			<result property="m_Code" column="M_CODE" />
+			<result property="tp_Code" column="TP_CODE" />
+			<result property="ts_Title" column="TS_TITLE" />
+			<result property="ts_Sday" column="TS_SDAY" />
+			<result property="ts_Theme" column="TS_THEME" />
+			<result property="ts_People" column="TS_PEOPLE" />
+			<result property="ts_Thum" column="TS_THUM" />
+			<result property="ts_Period" column="TS_PERIOD" />
+		</resultMap>
+		<select id="TS_selectList" resultMap="TravelScheduleMap">
+			SELECT * FROM TRABLESCHEDULE ORDER BY TS_CODE
+		</select>
+
 		
 		<!-- ================================보미==================================  -->
 		

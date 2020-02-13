@@ -267,7 +267,17 @@
 		    <artifactId>jackson-mapper-asl</artifactId>
 		    <version>1.9.13</version>
 		</dependency>
+		
+		<!-- 트랜잭션 -->
+		<!-- https://mvnrepository.com/artifact/org.springframework/spring-tx -->
+		<dependency>
+	    	<groupId>org.springframework</groupId>
+	    	<artifactId>spring-tx</artifactId>
+	    	<version>5.2.2.RELEASE</version>
+		</dependency>
+
 	</dependencies>
+	
 	   <repositories>
       <repository>
          <id>atlassian</id>

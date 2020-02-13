@@ -40,10 +40,10 @@ public class HomeController {
 	public String hotelDetail() {
 		return "TwTHotel/hotel_detail";
 	}
-	@RequestMapping("community.do")
-	public String community() {
-		return "TwTCommunity/community_list";
-	}
+	/*
+	 * @RequestMapping("community.do") public String community() { return
+	 * "TwTCommunity/community_list"; }
+	 */
 	@RequestMapping("communityDetail.do")
 	public String communityDetail(){
 		return "TwTCommunity/community_detail";
