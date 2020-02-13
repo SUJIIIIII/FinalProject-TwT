@@ -55,7 +55,7 @@
 	<link rel="alternate" href="https://www.earthtory.com/plan/create" hreflang="x-default" title="English">
 	<link rel="alternate" href="https://www.earthtory.com/ja/plan/create" hreflang="ja-jp" title="日本語">
 	<link rel="alternate" href="https://www.earthtory.com/ko/plan/create" hreflang="ko-kr" title="한국어">
-  
+
 	<meta name="google-site-verification" content="MwgpAlNbsXRZEln-QQP8Jra-Aj8cTKcCtDd3L_StvTc">
 	<meta name="naver-site-verification" content="48a2af847268bfd79153f73690ad01b35cb1593a">
 	<script type="text/javascript" charset="UTF-8" src="https://maps.googleapis.com/maps-api-v3/api/js/39/9/intl/ko_ALL/common.js"></script>
@@ -65,13 +65,177 @@
 	<script type="text/javascript" charset="UTF-8" src="https://maps.googleapis.com/maps-api-v3/api/js/39/9/intl/ko_ALL/onion.js"></script>
 	<script type="text/javascript" charset="UTF-8" src="https://maps.googleapis.com/maps-api-v3/api/js/39/9/intl/ko_ALL/overlay.js"></script>
 	<script type="text/javascript" charset="UTF-8" src="https://maps.googleapis.com/maps-api-v3/api/js/39/9/intl/ko_ALL/controls.js"></script>
-</head>
+	
+<script type="text/javascript" src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<script>
+var marker;
+	// map 추가
+	var count = 0;
+	function initMap() {
+		var bangkok = {lat: 13.755161, lng: 100.502371}; //방콕위치 위도/경도
+		// 방콕을 센터로 맵 생성
+		var map = new google.maps.Map( //지도 객체 생성
+			document.getElementById('map'), {zoom: 6, center: bangkok}); //기본 줌,시작 센터 설정
+		
+		// 지도에 마커 표시
+		// 위치 배열 되는 코드
+		/* var locations = [
+	        {
+	          position: new google.maps.LatLng(13.757691, 100.505969)
+	        }, {
+	          position: new google.maps.LatLng(18.795185, 98.9598123)
+	        }, {
+	          position: new google.maps.LatLng(12.9230812, 100.8832977)
+	        }, {
+	          position: new google.maps.LatLng(7.9558174, 98.3420414)
+	        }
+       	]; */
+		
+		//db에서 가져오기
+		var tmp = ${res.get(2).getcity_Lati()};
+		alert(tmp);
+		var locations = new Array();
+		
+		for(var i = 0;i<4;i++){
+			alert("google.maps" + i + " : " + ${res.get(i).getcity_Long()});
+			alert("google.maps비교" + 2 + " : " + ${res.get(2).getcity_Long()});
+			// locations[i] = {position : new google.maps.LatLng(${res.get(i).getcity_Lati()}, ${res.get(i).getcity_Long()})};
+			// alert(locations[i].position);		
+			};
+       	alert(locations.length);
+		
+		alert(locations[2].position);
+			
+		/* alert("location?" + locations); */
+		// 마커 아이콘
+		var myIcon = new google.maps.MarkerImage("${pageContext.request.contextPath}/resources/images/marker.png",null,null,null,new google.maps.Size(50,45));
+	
+		/* var contentString = "<div>치앙마이</div>";
+		var infowindow = new google.maps.InfoWindow({
+			content: contentString,
+			size: new google.maps.Size(200,100)
+		}); */
+       	var content = ["방콕","치앙마이","파타야","푸켓"]; // 말풍선 안에 들어갈 내용
+       	
+		// 위치 배열 마커찍기
+		for (var i = 0; i < locations.length; i++) {
+          	 marker = new google.maps.Marker({
+            	position: locations[i].position,
+            	map: map,
+            	icon: myIcon,
+            	title: content[i]
+          		/* ,
+            	labelContent: content[i],
+    		    labelAnchor: new google.maps.Point(-11, 30),
+   			    labelClass: "labels", // the CSS class for the label
+    		    labelStyle: {opacity: 0.75} */
+          	});
+          	
+       	/* google.maps.event.addListener(marker, 'click', bounceEvent(map,marker)); */
+          	
+          	
+          	
+       	// 마커를 클릭했을 때의 말풍선 이벤트
+          	
+		/*  infoWindow.setOptions({
+		   	content: contentString,
+		     position: locations[i].position
+		 }); */
 
+          	
+       	/* 클릭시 줌되는 것 */
+		/* var infowindow = new google.maps.InfoWindow();
+       	google.maps.event.addListener(marker, 'click', (function(marker, i) {
+           	return function() {
+           		infowindow.setContent(locations[i][0]);
+               	infowindow.open(map, marker);
+            }
+       	})(marker, i));
+           
+       	if(marker){
+           	marker.addListener('click', function() {
+          		map.setZoom(15);
+           		map.setCenter(this.getPosition());
+        	});
+        } */
+			google.maps.event.addListener(marker, 'click', toggleBounce);
+        
+		};
+       	
+       	
+       /* var infowindow = new google.maps.InfoWindow({content: content[count]});
+       	google.maps.event.addListener(marker, "click", function() {
+			infowindow.open(map,marker);
+        	count++;
+       	}); */
+            
+       	
+		/* 바운스 */
+    	/* google.maps.event.addListener(marker, 'click', function() {
+				marker.setAnimation(google.maps.Animation.BOUNCE);
+   			});
+    	
+   		marker.setMap(map); */
+       	/* 바운스 */
+  	    /* infoWindow.open(map);
+       	google.maps.event.addListener(marker, 'click', function() {
+			infowindow.open(map, marker);
+
+			if (marker.getAnimation() != null) {
+				marker.setAnimation(null);
+			}else {
+				marker.setAnimation(google.maps.Animation.BOUNCE);
+			}
+		}); 
+       	marker.setMap(map);
+       	*/
+       	
+       	/* 마커 클릭시 바운딩, detail box 나타내기 */
+		//google.maps.event.addListener(marker, 'click', function() {
+			//marker.setAnimation(google.maps.Animation.BOUNCE);
+			//$('#select_detail_view_city').show("slide", {direction:"left"}, 200);
+       		/* $("#select_detail_view_city").animate({right: -200}, 500 ); */
+       		/* $("#select_detail_view_city").css("display","block"); */
+       		/* $("#select_detail_view_city").attr('style',"display:block;"); */
+       	//});
+       	
+
+	}
+	
+	function toggleBounce(){
+		if (marker.getAnimation() != null) {
+		    marker.setAnimation(null);
+			$('#select_detail_view_city').hide();
+		  } else {
+		    marker.setAnimation(google.maps.Animation.BOUNCE);
+			$('#select_detail_view_city').show(); //show("slide", {direction:"left"}, 200);
+		  }
+	}
+	
+	/* function bounceEvent(map, marker){
+		return function(){
+			if(marker.clicked){
+				marker.setAnimation(google.maps.Animation.BOUNCE);
+			}
+		}
+	} */
+	
+	google.maps.event.addDomListener(window, 'load', initialize);
+
+</script>
+<!-- 구글맵 API KEY -->
+<script async defer
+src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCiDE5HBue4mflsdkcsGvSZrUeEooX8gWQ&callback=initMap&language=ko&region=KR">
+</script>
+</head>
 <body style="">
 	<!-- <script>
 
 	</script> -->
-
+	<%-- <%
+		${res.get(i)
+	
+	%> --%>
 	<!-- @@@@@@@헤더@@@@@@@@  -->
 	<div id="header">
 		<div class="wrap" style="width:100%;padding:0px 10px;">
@@ -95,10 +259,10 @@
 
 	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/plan/date_picker.css">
 
-	<style>
+	<style type="text/css">
 		html, body{overflow:hidden !important;}
 		.left_full_box{border-right:solid 1px #a7a7a7;height:100%;z-index:999;}
-		#cat_menu{width:70px;height:100%;background:#203341}
+		#cat_menu{width:70px;height:100vh;background:#203341}
 		#cat_menu li{width:70px;height:70px;background:#203341;color:#fff;text-align:center;border-bottom:solid 1px #374854;font-size:12px;cursor:pointer;}
 		#cat_menu li img{padding-top:17px;padding-bottom:9px;}
 		#cat_menu li img.s{padding-top:10px;padding-bottom:0px;}
@@ -118,7 +282,7 @@
 
 		#select_detail_view_city{width:300px;position:absolute;left:10px;top:10px;padding-bottom:20px;z-index:999;background:#fff;border-radius:5px;display:none;}
 		.detail_view_full_box{width:337px;background:url('/res/map/detail_bg.png');position:relative;}
-		#select_detail_view_city .city_title{width:100%;height:59px;line-height:59px;padding-left:20px;color:#363636;font-size:17px;font-weight:bold;background:#1a7ad9;color:#fff;border-top-left-radius:5px;border-top-right-radius:5px;}
+		#select_detail_view_city .city_title{width:100%;height:59px;line-height:59px;padding-left:20px;color:#fff;font-size:17px;font-weight:bold;background:#ffba00;color:#fff;border-top-left-radius:5px;border-top-right-radius:5px;}
 
 		#country_list_box .item {
 		  padding: 15px;
@@ -189,13 +353,7 @@
 			<ul class="fl" id="cat_menu" data="" data-member_srl="1213145">
 				<li data="as" data-val="아시아" class="on">
 					<span style="position:relative; top:8px;"><i class="fas fa-globe-asia fa-3x"></i><br>아시아</span>
-					<!-- <span><br>아시아</span> -->
 				</li>
-				<!-- <li data="as" data-val="아시아" class="on"><img src="/res/img/workspace/new/cat_as.png" class="s"><br>아시아</li> -->
-				<!-- <li data="eu" data-val="유럽"><img src="/res/img/workspace/new/cat_eu.png" class="s"><br>유럽</li>
-				<li data="oc" data-val="남태평양"><img src="/res/img/workspace/new/cat_oc.png" class="s"><br>남태평양</li>
-				<li data="na" data-val="북아메리카"><img src="/res/img/workspace/new/cat_na.png" class="s"><br>북아메리카</li>
-				<li data="sa" data-val="중남미"><img src="/res/img/workspace/new/cat_sa.png" class="s" style="padding-bottom:7px;"><br>중남미</li> -->
 			</ul>
 			
 		    <div class="fl" id="schedule_full_box" style="width:265px" data="0">
@@ -211,143 +369,9 @@
 		          	</div>
 		        </div>
 				<!-- <div id="search_box" style="width:100%;height:51px;border-bottom:solid #d6d6d6 1px;"></div> -->
-		        <div id="country_list_box" style="height: 537px; display: none;">
-		        	<!-- <div class="item" data-no="0" data="338" data-latlng="28.39485700,84.12400800" data-val="네팔">
-			        	<div class="img_box fl"><img src="http://mw2.google.com/mw-panoramio/photos/medium/72200085.jpg"></div>
-			        	<div class="info_box fl">
-			        		<div class="info_title">네팔</div>
-			        		<div class="info_sub_title">Nepal</div>
-		        		</div>
-		        		<div class="clear"></div>
-	        		</div>
-	        		<div class="item" data-no="1" data="26" data-latlng="24.92301400,121.24632200" data-val="대만">
-	        			<div class="img_box fl"><img src="http://img.earthtory.com/img/city_images/91/kaohsiung_1425362067.jpg"></div>
-	        			<div class="info_box fl">
-	        				<div class="info_title">대만</div>
-	        				<div class="info_sub_title">Taiwan</div>
-        				</div>
-        				<div class="clear"></div>
-       				</div>
-       				<div class="item" data-no="2" data="205" data-latlng="35.90775700,127.76692200" data-val="대한민국">
-	       				<div class="img_box fl"><img src="http://img.earthtory.com/img/city_images/310/seoul_1425373106.jpg"></div>
-	       				<div class="info_box fl">
-	       					<div class="info_title">대한민국</div>
-	       					<div class="info_sub_title">Republic of Korea</div>
-	    				</div>
-	    				<div class="clear"></div>
-    				</div>
-    				<div class="item" data-no="3" data="328" data-latlng="19.85627000,102.49549600" data-val="라오스">
-    					<div class="img_box fl"><img src="http://mw2.google.com/mw-panoramio/photos/medium/76227332.jpg"></div>
-    					<div class="info_box fl">
-    						<div class="info_title">라오스</div>
-    						<div class="info_sub_title">Laos</div>
-   						</div>
-   						<div class="clear"></div>
-					</div>
-					<div class="item" data-no="4" data="9" data-latlng="22.19874500,113.54387300" data-val="마카오">
-						<div class="img_box fl"><img src="http://img.earthtory.com/img/city_images/16/macau_1426774435.jpg"></div>
-						<div class="info_box fl">
-							<div class="info_title">마카오</div>
-							<div class="info_sub_title">Macau</div>
-						</div>
-						<div class="clear"></div>
-					</div>
-					<div class="item" data-no="5" data="10" data-latlng="4.21048400,101.97576600" data-val="말레이시아">
-						<div class="img_box fl"><img src="http://img.earthtory.com/img/city_images/17/langkawi_1426774473.jpg"></div>
-						<div class="info_box fl">
-							<div class="info_title">말레이시아</div>
-							<div class="info_sub_title">Malaysia</div>
-						</div>
-						<div class="clear"></div>
-					</div>
-					<div class="item" data-no="6" data="344" data-latlng="1.97724700,73.53610340" data-val="몰디브">
-						<div class="img_box fl"><img src="http://mw2.google.com/mw-panoramio/photos/medium/95769042.jpg"></div>
-						<div class="info_box fl">
-							<div class="info_title">몰디브</div>
-							<div class="info_sub_title">Maldives</div>
-						</div>
-						<div class="clear"></div>
-					</div>
-					<div class="item" data-no="7" data="330" data-latlng="21.91396500,95.95622300" data-val="미얀마(버마)">
-						<div class="img_box fl"><img src="http://mw2.google.com/mw-panoramio/photos/medium/6535717.jpg"></div>
-						<div class="info_box fl">
-							<div class="info_title">미얀마(버마)</div>
-							<div class="info_sub_title">Myanmar</div>
-						</div>
-						<div class="clear"></div>
-					</div>
-					<div class="item" data-no="8" data="15" data-latlng="14.05832400,108.27719900" data-val="베트남">
-						<div class="img_box fl"><img src="http://img.earthtory.com/img/city_images/32/danang_1425366017.jpg"></div>
-						<div class="info_box fl">
-							<div class="info_title">베트남</div>
-							<div class="info_sub_title">Vietnam</div>
-						</div>
-						<div class="clear"></div>
-					</div>
-					<div class="item" data-no="9" data="345" data-latlng="7.87305400,80.77179700" data-val="스리랑카">
-						<div class="img_box fl"><img src="http://mw2.google.com/mw-panoramio/photos/medium/2712178.jpg"></div>
-						<div class="info_box fl">
-							<div class="info_title">스리랑카</div>
-							<div class="info_sub_title">Sri Lanka</div>
-						</div>
-						<div class="clear"></div>
-					</div>
-					<div class="item" data-no="10" data="19" data-latlng="1.35208300,103.81983600" data-val="싱가포르">
-						<div class="img_box fl"><img src="http://img.earthtory.com/img/city_images/243/singapore_1426840110.jpg"></div>
-						<div class="info_box fl">
-							<div class="info_title">싱가포르</div>
-							<div class="info_sub_title">Singapore</div>
-						</div>
-						<div class="clear"></div>
-					</div>
-					<div class="item" data-no="11" data="327" data-latlng="23.42407600,53.84781800" data-val="아랍에미리트">
-						<div class="img_box fl"><img src="http://mw2.google.com/mw-panoramio/photos/medium/86017015.jpg"></div>
-						<div class="info_box fl">
-							<div class="info_title">아랍에미리트</div>
-							<div class="info_sub_title">United Arab Emirates</div>
-						</div>
-						<div class="clear"></div>
-					</div>
-					<div class="item" data-no="12" data="20" data-latlng="20.59368400,78.96288000" data-val="인도">
-						<div class="img_box fl"><img src="http://img.earthtory.com/img/city_images/38/new-delhi_1425363969.jpg"></div>
-						<div class="info_box fl">
-							<div class="info_title">인도</div>
-							<div class="info_sub_title">India</div>
-						</div>
-						<div class="clear"></div>
-					</div>
-					<div class="item" data-no="13" data="301" data-latlng="-7.21083200,110.85177800" data-val="인도네시아">
-						<div class="img_box fl"><img src="http://img.earthtory.com/img/city_images/10024/bali_1428898505.jpg"></div>
-						<div class="info_box fl">
-							<div class="info_title">인도네시아</div>
-							<div class="info_sub_title">Indonesia</div>
-						</div>
-						<div class="clear"></div>
-					</div>
-					<div class="item" data-no="14" data="6" data-latlng="36.20482400,138.25292400" data-val="일본">
-						<div class="img_box fl"><img src="http://img.earthtory.com/img/city_images/49/kobe_1425362138.jpg"></div>
-						<div class="info_box fl">
-							<div class="info_title">일본</div>
-							<div class="info_sub_title">Japan</div>
-						</div>
-						<div class="clear"></div>
-					</div>
-					<div class="item" data-no="15" data="23" data-latlng="35.86166000,104.19539700" data-val="중국">
-						<div class="img_box fl"><img src="http://img.earthtory.com/img/city_images/71/shanghai_1425372227.jpg"></div>
-						<div class="info_box fl">
-							<div class="info_title">중국</div>
-							<div class="info_sub_title">China</div>
-						</div>
-						<div class="clear"></div>
-					</div>
-					<div class="item" data-no="16" data="24" data-latlng="12.56567900,104.99096300" data-val="캄보디아">
-						<div class="img_box fl"><img src="http://img.earthtory.com/img/city_images/244/siem-reap_1425526326.jpg"></div>
-						<div class="info_box fl">
-							<div class="info_title">캄보디아</div>
-							<div class="info_sub_title">Cambodia</div>
-						</div>
-						<div class="clear"></div>
-					</div> -->
+				
+				<!-- 나라 선택 -->
+		        <!-- <div id="country_list_box" style="height: 537px; display: none;">
 					<div class="item" data-no="17" data="25" data-latlng="15.87003200,100.99254100" data-val="태국">
 						<div class="img_box fl"><img src="http://img.earthtory.com/img/city_images/86/bangkok_1425369552.jpg"></div>
 						<div class="info_box fl">
@@ -356,34 +380,10 @@
 						</div>
 						<div class="clear"></div>
 					</div>
-					<!-- <div class="item" data-no="18" data="202" data-latlng="12.87972100,121.77401700" data-val="필리핀">
-						<div class="img_box fl"><img src="http://img.earthtory.com/img/city_images/303/manila_1425367455.jpg"></div>
-						<div class="info_box fl">
-							<div class="info_title">필리핀</div>
-							<div class="info_sub_title">Philippines</div>
-						</div>
-						<div class="clear"></div>
-					</div>
-					<div class="item" data-no="19" data="28" data-latlng="22.39642800,114.10949700" data-val="홍콩">
-						<div class="img_box fl"><img src="http://img.earthtory.com/img/city_images/245/hong-kong_1426839831.jpg"></div>
-						<div class="info_box fl">
-							<div class="info_title">홍콩</div>
-							<div class="info_sub_title">Hongkong</div>
-						</div>
-						<div class="clear"></div>
-					</div> -->
-				</div>
-		
-		        <div id="city_list_box" style="height: 537px;">
-		        	<!-- <div class="item" data-no="0" data="10382" data-ci_name="끄라비" data-lat="8.08629970" data-lng="98.90628350">
-		        		<div class="img_box fl"><img src="http://mw2.google.com/mw-panoramio/photos/medium/108139843.jpg"></div>
-		        		<div class="info_box fl">
-		        			<div class="info_title">끄라비</div>
-		        			<div class="info_sub_title">Krabi</div>
-	        			</div>
-	        			<div class="spot_to_inspot"><img src="/res/img/workspace/new/spot_to_inspot_a.png"></div>
-	        			<div class="clear"></div>
-        			</div> -->
+				</div> -->
+				
+				<!-- 지역 선택 -->
+		        <div id="city_list_box" style="height: 100vh;">
         			<div class="item" data-no="1" data="86" data-ci_name="방콕" data-lat="13.75222220" data-lng="100.49388890">
         				<div class="img_box fl"><img src="http://img.earthtory.com/img/city_images/86/bangkok_1425369552.jpg"></div>
         				<div class="info_box fl">
@@ -393,33 +393,6 @@
        					<div class="spot_to_inspot"><img src="${pageContext.request.contextPath}/resources/images/plan/spot_to_inspot_a.png"></div>
        					<div class="clear"></div>
    					</div>
-   					<!-- <div class="item" data-no="2" data="10639" data-ci_name="빠이" data-lat="19.35922830" data-lng="98.43726910">
-   						<div class="img_box fl"><img src="http://mw2.google.com/mw-panoramio/photos/medium/2130054.jpg"></div>
-   						<div class="info_box fl">
-   							<div class="info_title">빠이</div>
-   							<div class="info_sub_title">Pai</div>
-						</div>
-						<div class="spot_to_inspot"><img src="/res/img/workspace/new/spot_to_inspot_a.png"></div>
-						<div class="clear"></div>
-					</div>
-					<div class="item" data-no="3" data="10391" data-ci_name="아유타야" data-lat="14.35321280" data-lng="100.56895990">
-						<div class="img_box fl"><img src="http://mw2.google.com/mw-panoramio/photos/medium/59760844.jpg"></div>
-						<div class="info_box fl">
-							<div class="info_title">아유타야</div>
-							<div class="info_sub_title">Ayutthaya</div>
-						</div>
-						<div class="spot_to_inspot"><img src="/res/img/workspace/new/spot_to_inspot_a.png"></div>
-						<div class="clear"></div>
-					</div>
-					<div class="item" data-no="4" data="10385" data-ci_name="치앙라이" data-lat="19.90716560" data-lng="99.83095500">
-						<div class="img_box fl"><img src="http://mw2.google.com/mw-panoramio/photos/medium/11655605.jpg"></div>
-						<div class="info_box fl">
-							<div class="info_title">치앙라이</div>
-							<div class="info_sub_title">Chiang Rai</div>
-						</div>
-						<div class="spot_to_inspot"><img src="/res/img/workspace/new/spot_to_inspot_a.png"></div>
-						<div class="clear"></div>
-					</div> -->
 					<div class="item" data-no="5" data="87" data-ci_name="치앙마이" data-lat="18.79906428" data-lng="98.99514161">
 						<div class="img_box fl"><img src="http://img.earthtory.com/img/city_images/87/chiang-mai_1425528980.jpg"></div>
 						<div class="info_box fl">
@@ -429,69 +402,6 @@
 						<div class="spot_to_inspot"><img src="${pageContext.request.contextPath}/resources/images/plan/spot_to_inspot_a.png"></div>
 						<div class="clear"></div>
 					</div>
-					<!-- <div class="item" data-no="6" data="10383" data-ci_name="카오락" data-lat="8.63508410" data-lng="98.26361320">
-						<div class="img_box fl"><img src="http://mw2.google.com/mw-panoramio/photos/medium/14713219.jpg"></div>
-						<div class="info_box fl">
-							<div class="info_title">카오락</div>
-							<div class="info_sub_title">Khao Lak</div>
-						</div>
-						<div class="spot_to_inspot"><img src="/res/img/workspace/new/spot_to_inspot_a.png"></div>
-						<div class="clear"></div>
-					</div>
-					<div class="item" data-no="7" data="10388" data-ci_name="칸차나부리" data-lat="14.02277970" data-lng="99.53281150">
-						<div class="img_box fl"><img src="http://mw2.google.com/mw-panoramio/photos/medium/66403143.jpg"></div>
-						<div class="info_box fl">
-							<div class="info_title">칸차나부리</div>
-							<div class="info_sub_title">Kanchanaburi</div>
-						</div>
-						<div class="spot_to_inspot"><img src="/res/img/workspace/new/spot_to_inspot_a.png"></div>
-						<div class="clear"></div>
-					</div>
-					<div class="item" data-no="8" data="10386" data-ci_name="코란타" data-lat="7.62436770" data-lng="99.07922630">
-						<div class="img_box fl"><img src="http://mw2.google.com/mw-panoramio/photos/medium/2680894.jpg"></div>
-						<div class="info_box fl">
-							<div class="info_title">코란타</div>
-							<div class="info_sub_title">Ko Lanta</div>
-						</div>
-						<div class="spot_to_inspot"><img src="/res/img/workspace/new/spot_to_inspot_a.png"></div>
-						<div class="clear"></div>
-					</div>
-					<div class="item" data-no="9" data="88" data-ci_name="코사무이" data-lat="9.51201680" data-lng="100.01359290">
-						<div class="img_box fl"><img src="http://img.earthtory.com/img/city_images/88/koh-samui_1425529171.jpg"></div>
-						<div class="info_box fl">
-							<div class="info_title">코사무이</div>
-							<div class="info_sub_title">Samui</div>
-						</div>
-						<div class="spot_to_inspot"><img src="/res/img/workspace/new/spot_to_inspot_a.png"></div>
-						<div class="clear"></div>
-					</div>
-					<div class="item" data-no="10" data="10389" data-ci_name="코창" data-lat="12.08206670" data-lng="102.31203040">
-						<div class="img_box fl"><img src="http://mw2.google.com/mw-panoramio/photos/medium/7041501.jpg"></div>
-						<div class="info_box fl">
-							<div class="info_title">코창</div>
-							<div class="info_sub_title">Ko Chang</div>
-						</div>
-						<div class="spot_to_inspot"><img src="/res/img/workspace/new/spot_to_inspot_a.png"></div>
-						<div class="clear"></div>
-					</div>
-					<div class="item" data-no="11" data="10390" data-ci_name="코타오" data-lat="10.09561020" data-lng="99.84039590">
-						<div class="img_box fl"><img src="http://mw2.google.com/mw-panoramio/photos/medium/8189131.jpg"></div>
-						<div class="info_box fl">
-							<div class="info_title">코타오</div>
-							<div class="info_sub_title">Ko Tao</div>
-						</div>
-						<div class="spot_to_inspot"><img src="/res/img/workspace/new/spot_to_inspot_a.png"></div>
-						<div class="clear"></div>
-					</div>
-					<div class="item" data-no="12" data="10387" data-ci_name="코팡안" data-lat="9.73187530" data-lng="100.01359290">
-						<div class="img_box fl"><img src="http://mw2.google.com/mw-panoramio/photos/medium/42783212.jpg"></div>
-						<div class="info_box fl">
-							<div class="info_title">코팡안</div>
-							<div class="info_sub_title">Ko Phangan</div>
-						</div>
-						<div class="spot_to_inspot"><img src="/res/img/workspace/new/spot_to_inspot_a.png"></div>
-						<div class="clear"></div>
-					</div> -->
 					<div class="item" data-no="13" data="89" data-ci_name="파타야" data-lat="12.92750000" data-lng="100.87527780">
 						<div class="img_box fl"><img src="http://img.earthtory.com/img/city_images/89/pattaya_1425530603.jpg"></div>
 						<div class="info_box fl">
@@ -510,15 +420,6 @@
 						<div class="spot_to_inspot"><img src="${pageContext.request.contextPath}/resources/images/plan/spot_to_inspot_a.png"></div>
 						<div class="clear"></div>
 					</div>
-					<!-- <div class="item" data-no="15" data="10384" data-ci_name="후아힌" data-lat="12.56837470" data-lng="99.95768880">
-						<div class="img_box fl"><img src="http://mw2.google.com/mw-panoramio/photos/medium/48033738.jpg"></div>
-						<div class="info_box fl">
-							<div class="info_title">후아힌</div>
-							<div class="info_sub_title">Hua Hin</div>
-						</div>
-						<div class="spot_to_inspot"><img src="/res/img/workspace/new/spot_to_inspot_a.png"></div>
-						<div class="clear"></div>
-					</div> -->
 				</div>
 		    </div>
 			<div class="clear"></div>
@@ -535,8 +436,16 @@
                 
                 <div class="list_box"></div>
            	</div>
-	
-			<div id="map" class="fl" style="height: 658px; position: relative; width: 1200px; overflow: hidden;">
+           	
+			<div id="map" class="fl" style="height: 659px; position: relative; width: 1200px; overflow: hidden; left:0px"></div>
+			
+			
+				
+
+			
+			
+			
+			<!-- <div id="map" class="fl" style="height: 100vh; position: relative; width: 100vh; overflow: hidden; left:0px">
 				<div style="height: 100%; width: 100%; position: absolute; top: 0px; left: 0px; background-color: rgb(229, 227, 223);">
 					<div class="gm-style" style="position: absolute; z-index: 0; left: 0px; top: 0px; height: 100%; width: 100%; padding: 0px; border-width: 0px; margin: 0px;">
 						<div tabindex="0" style="position: absolute; z-index: 0; left: 0px; top: 0px; height: 100%; width: 100%; padding: 0px; border-width: 0px; margin: 0px; cursor: url(&quot;https://maps.gstatic.com/mapfiles/openhand_8_8.cur&quot;), default; touch-action: pan-x pan-y;">
@@ -895,7 +804,7 @@
 								<div style="position: absolute; left: 50%; top: 50%;"></div><div style="position: absolute; left: 50%; top: 50%;">
 								<img src="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2223%22%20height%3D%2238%22%20viewBox%3D%220%200%2023%2038%22%3E%0A%3Cpath%20d%3D%22M16.6%2C38.1h-5.5l-0.2-2.9-0.2%2C2.9h-5.5L5%2C25.3l-0.8%2C2a1.53%2C1.53%2C0%2C0%2C1-1.9.9l-1.2-.4a1.58%2C1.58%2C0%2C0%2C1-1-1.9v-0.1c0.3-.9%2C3.1-11.2%2C3.1-11.2a2.66%2C2.66%2C0%2C0%2C1%2C2.3-2l0.6-.5a6.93%2C6.93%2C0%2C0%2C1%2C4.7-12%2C6.8%2C6.8%2C0%2C0%2C1%2C4.9%2C2%2C7%2C7%2C0%2C0%2C1%2C2%2C4.9%2C6.65%2C6.65%2C0%2C0%2C1-2.2%2C5l0.7%2C0.5a2.78%2C2.78%2C0%2C0%2C1%2C2.4%2C2s2.9%2C11.2%2C2.9%2C11.3a1.53%2C1.53%2C0%2C0%2C1-.9%2C1.9l-1.3.4a1.63%2C1.63%2C0%2C0%2C1-1.9-.9l-0.7-1.8-0.1%2C12.7h0Zm-3.6-2h1.7L14.9%2C20.3l1.9-.3%2C2.4%2C6.3%2C0.3-.1c-0.2-.8-0.8-3.2-2.8-10.9a0.63%2C0.63%2C0%2C0%2C0-.6-0.5h-0.6l-1.1-.9h-1.9l-0.3-2a4.83%2C4.83%2C0%2C0%2C0%2C3.5-4.7A4.78%2C4.78%200%200%2C0%2011%202.3H10.8a4.9%2C4.9%2C0%2C0%2C0-1.4%2C9.6l-0.3%2C2h-1.9l-1%2C.9h-0.6a0.74%2C0.74%2C0%2C0%2C0-.6.5c-2%2C7.5-2.7%2C10-3%2C10.9l0.3%2C0.1%2C2.5-6.3%2C1.9%2C0.3%2C0.2%2C15.8h1.6l0.6-8.4a1.52%2C1.52%2C0%2C0%2C1%2C1.5-1.4%2C1.5%2C1.5%2C0%2C0%2C1%2C1.5%2C1.4l0.9%2C8.4h0Zm-10.9-9.6h0Zm17.5-.1h0Z%22%20style%3D%22fill%3A%23333%3Bopacity%3A0.7%3Bisolation%3Aisolate%22%2F%3E%0A%3Cpath%20d%3D%22M5.9%2C13.6l1.1-.9h7.8l1.2%2C0.9%22%20style%3D%22fill%3A%23ce592c%22%2F%3E%0A%3Cellipse%20cx%3D%2210.9%22%20cy%3D%2213.1%22%20rx%3D%222.7%22%20ry%3D%220.3%22%20style%3D%22fill%3A%23ce592c%3Bopacity%3A0.5%3Bisolation%3Aisolate%22%2F%3E%0A%3Cpath%20d%3D%22M20.6%2C26.1l-2.9-11.3a1.71%2C1.71%2C0%2C0%2C0-1.6-1.2H5.7a1.69%2C1.69%2C0%2C0%2C0-1.5%2C1.3l-3.1%2C11.3a0.61%2C0.61%2C0%2C0%2C0%2C.3.7l1.1%2C0.4a0.61%2C0.61%2C0%2C0%2C0%2C.7-0.3l2.7-6.7%2C0.2%2C16.8h3.6l0.6-9.3a0.47%2C0.47%2C0%2C0%2C1%2C.44-0.5h0.06c0.4%2C0%2C.4.2%2C0.5%2C0.5l0.6%2C9.3h3.6L15.7%2C20.3l2.5%2C6.6a0.52%2C0.52%2C0%2C0%2C0%2C.66.31h0l1.2-.4a0.57%2C0.57%2C0%2C0%2C0%2C.5-0.7h0Z%22%20style%3D%22fill%3A%23fdbf2d%22%2F%3E%0A%3Cpath%20d%3D%22M7%2C13.6l3.9%2C6.7%2C3.9-6.7%22%20style%3D%22fill%3A%23cf572e%3Bopacity%3A0.6%3Bisolation%3Aisolate%22%2F%3E%0A%3Ccircle%20cx%3D%2210.9%22%20cy%3D%227%22%20r%3D%225.9%22%20style%3D%22fill%3A%23fdbf2d%22%2F%3E%0A%3C%2Fsvg%3E%0A" aria-label="스트리트 뷰 페그맨 컨트롤" style="height: 30px; width: 30px; position: absolute; transform: translate(-50%, -50%); pointer-events: none;">
 								<img src="data:image/svg+xml,%3Csvg%20width%3D%2224px%22%20height%3D%2238px%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20xmlns%3Axlink%3D%22http%3A%2F%2Fwww.w3.org%2F1999%2Fxlink%22%20viewBox%3D%220%200%2024%2038%22%3E%0A%3Cpath%20d%3D%22M22%2C26.6l-2.9-11.3a2.78%2C2.78%2C0%2C0%2C0-2.4-2l-0.7-.5a6.82%2C6.82%2C0%2C0%2C0%2C2.2-5%2C6.9%2C6.9%2C0%2C0%2C0-13.8%2C0%2C7%2C7%2C0%2C0%2C0%2C2.2%2C5.1l-0.6.5a2.55%2C2.55%2C0%2C0%2C0-2.3%2C2s-3%2C11.1-3%2C11.2v0.1a1.58%2C1.58%2C0%2C0%2C0%2C1%2C1.9l1.2%2C0.4a1.63%2C1.63%2C0%2C0%2C0%2C1.9-.9l0.8-2%2C0.2%2C12.8h11.3l0.2-12.6%2C0.7%2C1.8a1.54%2C1.54%2C0%2C0%2C0%2C1.5%2C1%2C1.09%2C1.09%2C0%2C0%2C0%2C.5-0.1l1.3-.4a1.85%2C1.85%2C0%2C0%2C0%2C.7-2h0Zm-1.2.9-1.2.4a0.61%2C0.61%2C0%2C0%2C1-.7-0.3l-2.5-6.6-0.2%2C16.8h-9.4L6.6%2C21l-2.7%2C6.7a0.52%2C0.52%2C0%2C0%2C1-.66.31h0l-1.1-.4a0.52%2C0.52%2C0%2C0%2C1-.31-0.66v0l3.1-11.3a1.69%2C1.69%2C0%2C0%2C1%2C1.5-1.3h0.2l1-.9h2.3a5.9%2C5.9%2C0%2C1%2C1%2C3.2%2C0h2.3l1.1%2C0.9h0.2a1.71%2C1.71%2C0%2C0%2C1%2C1.6%2C1.2l2.9%2C11.3a0.84%2C0.84%2C0%2C0%2C1-.4.7h0Z%22%20style%3D%22fill%3A%23333%3Bfill-opacity%3A0.2%22%2F%3E%22%0A%3C%2Fsvg%3E%0A%0A" aria-label="지도 위에 페그맨이 있음" style="display: none; height: 30px; width: 30px; position: absolute; transform: translate(-50%, -50%); pointer-events: none;">
-								<!-- 엄청길다 --><img src="data:image/svg+xml,%3Csvg%20width%3D%2240px%22%20height%3D%2250px%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20xmlns%3Axlink%3D%22http%3A%2F%2Fwww.w3.org%2F1999%2Fxlink%22%20viewBox%3D%220%200%2040%2050%22%3E%0A%3Cpath%20d%3D%22M34.00%2C-30.40l-2.9-11.3a2.78%2C2.78%2C0%2C0%2C0-2.4-2l-0.7-.5a6.82%2C6.82%2C0%2C0%2C0%2C2.2-5%2C6.9%2C6.9%2C0%2C0%2C0-13.8%2C0%2C7%2C7%2C0%2C0%2C0%2C2.2%2C5.1l-0.6.5a2.55%2C2.55%2C0%2C0%2C0-2.3%2C2s-3%2C11.1-3%2C11.2v0.1a1.58%2C1.58%2C0%2C0%2C0%2C1%2C1.9l1.2%2C0.4a1.63%2C1.63%2C0%2C0%2C0%2C1.9-.9l0.8-2%2C0.2%2C12.8h11.3l0.2-12.6%2C0.7%2C1.8a1.54%2C1.54%2C0%2C0%2C0%2C1.5%2C1%2C1.09%2C1.09%2C0%2C0%2C0%2C.5-0.1l1.3-.4a1.85%2C1.85%2C0%2C0%2C0%2C.7-2h0Zm-1.2.9-1.2.4a0.61%2C0.61%2C0%2C0%2C1-.7-0.3l-2.5-6.6-0.2%2C16.8h-9.4L18.60%2C-36.00l-2.7%2C6.7a0.52%2C0.52%2C0%2C0%2C1-.66.31h0l-1.1-.4a0.52%2C0.52%2C0%2C0%2C1-.31-0.66v0l3.1-11.3a1.69%2C1.69%2C0%2C0%2C1%2C1.5-1.3h0.2l1-.9h2.3a5.9%2C5.9%2C0%2C1%2C1%2C3.2%2C0h2.3l1.1%2C0.9h0.2a1.71%2C1.71%2C0%2C0%2C1%2C1.6%2C1.2l2.9%2C11.3a0.84%2C0.84%2C0%2C0%2C1-.4.7h0Zm1.2%2C59.1-2.9-11.3a2.78%2C2.78%2C0%2C0%2C0-2.4-2l-0.7-.5a6.82%2C6.82%2C0%2C0%2C0%2C2.2-5%2C6.9%2C6.9%2C0%2C0%2C0-13.8%2C0%2C7%2C7%2C0%2C0%2C0%2C2.2%2C5.1l-0.6.5a2.55%2C2.55%2C0%2C0%2C0-2.3%2C2s-3%2C11.1-3%2C11.2v0.1a1.58%2C1.58%2C0%2C0%2C0%2C1%2C1.9l1.2%2C0.4a1.63%2C1.63%2C0%2C0%2C0%2C1.9-.9l0.8-2%2C0.2%2C12.8h11.3l0.2-12.6%2C0.7%2C1.8a1.54%2C1.54%2C0%2C0%2C0%2C1.5%2C1%2C1.09%2C1.09%2C0%2C0%2C0%2C.5-0.1l1.3-.4a1.85%2C1.85%2C0%2C0%2C0%2C.7-2h0Zm-1.2.9-1.2.4a0.61%2C0.61%2C0%2C0%2C1-.7-0.3l-2.5-6.6-0.2%2C16.8h-9.4L18.60%2C24.00l-2.7%2C6.7a0.52%2C0.52%2C0%2C0%2C1-.66.31h0l-1.1-.4a0.52%2C0.52%2C0%2C0%2C1-.31-0.66v0l3.1-11.3a1.69%2C1.69%2C0%2C0%2C1%2C1.5-1.3h0.2l1-.9h2.3a5.9%2C5.9%2C0%2C1%2C1%2C3.2%2C0h2.3l1.1%2C0.9h0.2a1.71%2C1.71%2C0%2C0%2C1%2C1.6%2C1.2l2.9%2C11.3a0.84%2C0.84%2C0%2C0%2C1-.4.7h0Z%22%20style%3D%22fill%3A%23333%3Bfill-opacity%3A0.2%22%3E%3C%2Fpath%3E%0A%3Cpath%20d%3D%22M15.40%2C38.80h-4a1.64%2C1.64%2C0%2C0%2C1-1.4-1.1l-3.1-8a0.9%2C0.9%2C0%2C0%2C1-.5.1l-1.4.1a1.62%2C1.62%2C0%2C0%2C1-1.6-1.4l-1.1-13.1%2C1.6-1.3a6.87%2C6.87%2C0%2C0%2C1-3-4.6A7.14%2C7.14%200%200%2C1%202%204a7.6%2C7.6%2C0%2C0%2C1%2C4.7-3.1%2C7.14%2C7.14%2C0%2C0%2C1%2C5.5%2C1.1%2C7.28%2C7.28%2C0%2C0%2C1%2C2.3%2C9.6l2.1-.1%2C0.1%2C1c0%2C0.2.1%2C0.5%2C0.1%2C0.8a2.41%2C2.41%2C0%2C0%2C1%2C1%2C1s1.9%2C3.2%2C2.8%2C4.9c0.7%2C1.2%2C2.1%2C4.2%2C2.8%2C5.9a2.1%2C2.1%2C0%2C0%2C1-.8%2C2.6l-0.6.4a1.63%2C1.63%2C0%2C0%2C1-1.5.2l-0.6-.3a8.93%2C8.93%2C0%2C0%2C0%2C.5%2C1.3%2C7.91%2C7.91%2C0%2C0%2C0%2C1.8%2C2.6l0.6%2C0.3v4.6l-4.5-.1a7.32%2C7.32%2C0%2C0%2C1-2.5-1.5l-0.4%2C3.6h0Zm-10-19.2%2C3.5%2C9.8%2C2.9%2C7.5h1.6V35l-1.9-9.4%2C3.1%2C5.4a8.24%2C8.24%2C0%2C0%2C0%2C3.8%2C3.8h2.1v-1.4a14%2C14%2C0%2C0%2C1-2.2-3.1%2C44.55%2C44.55%2C0%2C0%2C1-2.2-8l-1.3-6.3%2C3.2%2C5.6c0.6%2C1.1%2C2.1%2C3.6%2C2.8%2C4.9l0.6-.4c-0.8-1.6-2.1-4.6-2.8-5.8-0.9-1.7-2.8-4.9-2.8-4.9a0.54%2C0.54%2C0%2C0%2C0-.4-0.3l-0.7-.1-0.1-.7a4.33%2C4.33%2C0%2C0%2C0-.1-0.5l-5.3.3%2C2.2-1.9a4.3%2C4.3%2C0%2C0%2C0%2C.9-1%2C5.17%2C5.17%2C0%2C0%2C0%2C.8-4%2C5.67%2C5.67%2C0%2C0%2C0-2.2-3.4%2C5.09%2C5.09%2C0%2C0%2C0-4-.8%2C5.67%2C5.67%2C0%2C0%2C0-3.4%2C2.2%2C5.17%2C5.17%2C0%2C0%2C0-.8%2C4%2C5.67%2C5.67%2C0%2C0%2C0%2C2.2%2C3.4%2C3.13%2C3.13%2C0%2C0%2C0%2C1%2C.5l1.6%2C0.6-3.2%2C2.6%2C1%2C11.5h0.4l-0.3-8.2h0Z%22%20style%3D%22fill%3A%23333%22%3E%3C%2Fpath%3E%0A%3Cpath%20d%3D%22M3.35%2C15.90l1.1%2C12.5a0.39%2C0.39%2C0%2C0%2C0%2C.36.42l0.14%2C0%2C1.4-.1a0.66%2C0.66%2C0%2C0%2C0%2C.5-0.4l-0.2-3.8-3.3-8.6h0Z%22%20style%3D%22fill%3A%23fdbf2d%22%3E%3C%2Fpath%3E%0A%3Cpath%20d%3D%22M5.20%2C28.80l1.1-.1a0.66%2C0.66%2C0%2C0%2C0%2C.5-0.4l-0.2-3.8-1.2-3.1Z%22%20style%3D%22fill%3A%23ce592b%3Bfill-opacity%3A0.25%22%3E%3C%2Fpath%3E%0A%3Cpath%20d%3D%22M21.40%2C35.70l-3.8-1.2-2.7-7.8L12.00%2C15.5l3.4-2.9c0.2%2C2.4%2C2.2%2C14.1%2C3.7%2C17.1%2C0%2C0%2C1.3%2C2.6%2C2.3%2C3.1v2.9m-8.4-8.1-2-.3%2C2.5%2C10.1%2C0.9%2C0.4v-2.9%22%20style%3D%22fill%3A%23e5892b%22%3E%3C%2Fpath%3E%0A%3Cpath%20d%3D%22M17.80%2C25.40c-0.4-1.5-.7-3.1-1.1-4.8-0.1-.4-0.1-0.7-0.2-1.1l-1.1-2-1.7-1.6s0.9%2C5%2C2.4%2C7.1a19.12%2C19.12%2C0%2C0%2C0%2C1.7%2C2.4h0Z%22%20style%3D%22fill%3A%23cf572e%3Bopacity%3A0.6%3Bisolation%3Aisolate%22%3E%3C%2Fpath%3E%0A%3Cpath%20d%3D%22M14.40%2C37.80h-3a0.43%2C0.43%2C0%2C0%2C1-.4-0.4l-3-7.8-1.7-4.8-3-9%2C8.9-.4s2.9%2C11.3%2C4.3%2C14.4c1.9%2C4.1%2C3.1%2C4.7%2C5%2C5.8h-3.2s-4.1-1.2-5.9-7.7a0.59%2C0.59%2C0%2C0%2C0-.6-0.4%2C0.62%2C0.62%2C0%2C0%2C0-.3.7s0.5%2C2.4.9%2C3.6a34.87%2C34.87%2C0%2C0%2C0%2C2%2C6h0Z%22%20style%3D%22fill%3A%23fdbf2d%22%3E%3C%2Fpath%3E%0A%3Cpath%20d%3D%22M15.40%2C12.70l-3.3%2C2.9-8.9.4%2C3.3-2.7%22%20style%3D%22fill%3A%23ce592b%22%3E%3C%2Fpath%3E%0A%3Cpath%20d%3D%22M9.10%2C21.10l1.4-6.2-5.9.5%22%20style%3D%22fill%3A%23cf572e%3Bopacity%3A0.6%3Bisolation%3Aisolate%22%3E%3C%2Fpath%3E%0A%3Cpath%20d%3D%22M12.00%2C13.5a4.75%2C4.75%2C0%2C0%2C1-2.6%2C1.1c-1.5.3-2.9%2C0.2-2.9%2C0s1.1-.6%2C2.7-1%22%20style%3D%22fill%3A%23bb3d19%22%3E%3C%2Fpath%3E%0A%3Ccircle%20cx%3D%227.92%22%20cy%3D%228.19%22%20r%3D%226.3%22%20style%3D%22fill%3A%23fdbf2d%22%3E%3C%2Fcircle%3E%0A%3Cpath%20d%3D%22M4.70%2C13.60a6.21%2C6.21%2C0%2C0%2C0%2C8.4-1.9v-0.1a8.89%2C8.89%2C0%2C0%2C1-8.4%2C2h0Z%22%20style%3D%22fill%3A%23ce592b%3Bfill-opacity%3A0.25%22%3E%3C%2Fpath%3E%0A%3Cpath%20d%3D%22M21.20%2C27.20l0.6-.4a1.09%2C1.09%2C0%2C0%2C0%2C.4-1.3c-0.7-1.5-2.1-4.6-2.8-5.8-0.9-1.7-2.8-4.9-2.8-4.9a1.6%2C1.6%2C0%2C0%2C0-2.17-.65l-0.23.15a1.68%2C1.68%2C0%2C0%2C0-.4%2C2.1s2.3%2C3.9%2C3.1%2C5.3c0.6%2C1%2C2.1%2C3.7%2C2.9%2C5.1a0.94%2C0.94%2C0%2C0%2C0%2C1.24.49l0.16-.09h0Z%22%20style%3D%22fill%3A%23fdbf2d%22%3E%3C%2Fpath%3E%0A%3Cpath%20d%3D%22M19.40%2C19.80c-0.9-1.7-2.8-4.9-2.8-4.9a1.6%2C1.6%2C0%2C0%2C0-2.17-.65l-0.23.15-0.3.3c1.1%2C1.5%2C2.9%2C3.8%2C3.9%2C5.4%2C1.1%2C1.8%2C2.9%2C5%2C3.8%2C6.7l0.1-.1a1.09%2C1.09%2C0%2C0%2C0%2C.4-1.3%2C57.67%2C57.67%2C0%2C0%2C0-2.7-5.6h0Z%22%20style%3D%22fill%3A%23ce592b%3Bfill-opacity%3A0.25%22%3E%3C%2Fpath%3E%0A%3C%2Fsvg%3E%0A" aria-label="스트리트 뷰 페그맨 컨트롤" style="display: none; height: 40px; width: 40px; position: absolute; transform: translate(-60%, -45%); pointer-events: none;"></div></div><div class="gmnoprint" controlwidth="40" controlheight="40" style="display: none; position: absolute;"><div style="width: 40px; height: 40px;">
+								엄청길다<img src="data:image/svg+xml,%3Csvg%20width%3D%2240px%22%20height%3D%2250px%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20xmlns%3Axlink%3D%22http%3A%2F%2Fwww.w3.org%2F1999%2Fxlink%22%20viewBox%3D%220%200%2040%2050%22%3E%0A%3Cpath%20d%3D%22M34.00%2C-30.40l-2.9-11.3a2.78%2C2.78%2C0%2C0%2C0-2.4-2l-0.7-.5a6.82%2C6.82%2C0%2C0%2C0%2C2.2-5%2C6.9%2C6.9%2C0%2C0%2C0-13.8%2C0%2C7%2C7%2C0%2C0%2C0%2C2.2%2C5.1l-0.6.5a2.55%2C2.55%2C0%2C0%2C0-2.3%2C2s-3%2C11.1-3%2C11.2v0.1a1.58%2C1.58%2C0%2C0%2C0%2C1%2C1.9l1.2%2C0.4a1.63%2C1.63%2C0%2C0%2C0%2C1.9-.9l0.8-2%2C0.2%2C12.8h11.3l0.2-12.6%2C0.7%2C1.8a1.54%2C1.54%2C0%2C0%2C0%2C1.5%2C1%2C1.09%2C1.09%2C0%2C0%2C0%2C.5-0.1l1.3-.4a1.85%2C1.85%2C0%2C0%2C0%2C.7-2h0Zm-1.2.9-1.2.4a0.61%2C0.61%2C0%2C0%2C1-.7-0.3l-2.5-6.6-0.2%2C16.8h-9.4L18.60%2C-36.00l-2.7%2C6.7a0.52%2C0.52%2C0%2C0%2C1-.66.31h0l-1.1-.4a0.52%2C0.52%2C0%2C0%2C1-.31-0.66v0l3.1-11.3a1.69%2C1.69%2C0%2C0%2C1%2C1.5-1.3h0.2l1-.9h2.3a5.9%2C5.9%2C0%2C1%2C1%2C3.2%2C0h2.3l1.1%2C0.9h0.2a1.71%2C1.71%2C0%2C0%2C1%2C1.6%2C1.2l2.9%2C11.3a0.84%2C0.84%2C0%2C0%2C1-.4.7h0Zm1.2%2C59.1-2.9-11.3a2.78%2C2.78%2C0%2C0%2C0-2.4-2l-0.7-.5a6.82%2C6.82%2C0%2C0%2C0%2C2.2-5%2C6.9%2C6.9%2C0%2C0%2C0-13.8%2C0%2C7%2C7%2C0%2C0%2C0%2C2.2%2C5.1l-0.6.5a2.55%2C2.55%2C0%2C0%2C0-2.3%2C2s-3%2C11.1-3%2C11.2v0.1a1.58%2C1.58%2C0%2C0%2C0%2C1%2C1.9l1.2%2C0.4a1.63%2C1.63%2C0%2C0%2C0%2C1.9-.9l0.8-2%2C0.2%2C12.8h11.3l0.2-12.6%2C0.7%2C1.8a1.54%2C1.54%2C0%2C0%2C0%2C1.5%2C1%2C1.09%2C1.09%2C0%2C0%2C0%2C.5-0.1l1.3-.4a1.85%2C1.85%2C0%2C0%2C0%2C.7-2h0Zm-1.2.9-1.2.4a0.61%2C0.61%2C0%2C0%2C1-.7-0.3l-2.5-6.6-0.2%2C16.8h-9.4L18.60%2C24.00l-2.7%2C6.7a0.52%2C0.52%2C0%2C0%2C1-.66.31h0l-1.1-.4a0.52%2C0.52%2C0%2C0%2C1-.31-0.66v0l3.1-11.3a1.69%2C1.69%2C0%2C0%2C1%2C1.5-1.3h0.2l1-.9h2.3a5.9%2C5.9%2C0%2C1%2C1%2C3.2%2C0h2.3l1.1%2C0.9h0.2a1.71%2C1.71%2C0%2C0%2C1%2C1.6%2C1.2l2.9%2C11.3a0.84%2C0.84%2C0%2C0%2C1-.4.7h0Z%22%20style%3D%22fill%3A%23333%3Bfill-opacity%3A0.2%22%3E%3C%2Fpath%3E%0A%3Cpath%20d%3D%22M15.40%2C38.80h-4a1.64%2C1.64%2C0%2C0%2C1-1.4-1.1l-3.1-8a0.9%2C0.9%2C0%2C0%2C1-.5.1l-1.4.1a1.62%2C1.62%2C0%2C0%2C1-1.6-1.4l-1.1-13.1%2C1.6-1.3a6.87%2C6.87%2C0%2C0%2C1-3-4.6A7.14%2C7.14%200%200%2C1%202%204a7.6%2C7.6%2C0%2C0%2C1%2C4.7-3.1%2C7.14%2C7.14%2C0%2C0%2C1%2C5.5%2C1.1%2C7.28%2C7.28%2C0%2C0%2C1%2C2.3%2C9.6l2.1-.1%2C0.1%2C1c0%2C0.2.1%2C0.5%2C0.1%2C0.8a2.41%2C2.41%2C0%2C0%2C1%2C1%2C1s1.9%2C3.2%2C2.8%2C4.9c0.7%2C1.2%2C2.1%2C4.2%2C2.8%2C5.9a2.1%2C2.1%2C0%2C0%2C1-.8%2C2.6l-0.6.4a1.63%2C1.63%2C0%2C0%2C1-1.5.2l-0.6-.3a8.93%2C8.93%2C0%2C0%2C0%2C.5%2C1.3%2C7.91%2C7.91%2C0%2C0%2C0%2C1.8%2C2.6l0.6%2C0.3v4.6l-4.5-.1a7.32%2C7.32%2C0%2C0%2C1-2.5-1.5l-0.4%2C3.6h0Zm-10-19.2%2C3.5%2C9.8%2C2.9%2C7.5h1.6V35l-1.9-9.4%2C3.1%2C5.4a8.24%2C8.24%2C0%2C0%2C0%2C3.8%2C3.8h2.1v-1.4a14%2C14%2C0%2C0%2C1-2.2-3.1%2C44.55%2C44.55%2C0%2C0%2C1-2.2-8l-1.3-6.3%2C3.2%2C5.6c0.6%2C1.1%2C2.1%2C3.6%2C2.8%2C4.9l0.6-.4c-0.8-1.6-2.1-4.6-2.8-5.8-0.9-1.7-2.8-4.9-2.8-4.9a0.54%2C0.54%2C0%2C0%2C0-.4-0.3l-0.7-.1-0.1-.7a4.33%2C4.33%2C0%2C0%2C0-.1-0.5l-5.3.3%2C2.2-1.9a4.3%2C4.3%2C0%2C0%2C0%2C.9-1%2C5.17%2C5.17%2C0%2C0%2C0%2C.8-4%2C5.67%2C5.67%2C0%2C0%2C0-2.2-3.4%2C5.09%2C5.09%2C0%2C0%2C0-4-.8%2C5.67%2C5.67%2C0%2C0%2C0-3.4%2C2.2%2C5.17%2C5.17%2C0%2C0%2C0-.8%2C4%2C5.67%2C5.67%2C0%2C0%2C0%2C2.2%2C3.4%2C3.13%2C3.13%2C0%2C0%2C0%2C1%2C.5l1.6%2C0.6-3.2%2C2.6%2C1%2C11.5h0.4l-0.3-8.2h0Z%22%20style%3D%22fill%3A%23333%22%3E%3C%2Fpath%3E%0A%3Cpath%20d%3D%22M3.35%2C15.90l1.1%2C12.5a0.39%2C0.39%2C0%2C0%2C0%2C.36.42l0.14%2C0%2C1.4-.1a0.66%2C0.66%2C0%2C0%2C0%2C.5-0.4l-0.2-3.8-3.3-8.6h0Z%22%20style%3D%22fill%3A%23fdbf2d%22%3E%3C%2Fpath%3E%0A%3Cpath%20d%3D%22M5.20%2C28.80l1.1-.1a0.66%2C0.66%2C0%2C0%2C0%2C.5-0.4l-0.2-3.8-1.2-3.1Z%22%20style%3D%22fill%3A%23ce592b%3Bfill-opacity%3A0.25%22%3E%3C%2Fpath%3E%0A%3Cpath%20d%3D%22M21.40%2C35.70l-3.8-1.2-2.7-7.8L12.00%2C15.5l3.4-2.9c0.2%2C2.4%2C2.2%2C14.1%2C3.7%2C17.1%2C0%2C0%2C1.3%2C2.6%2C2.3%2C3.1v2.9m-8.4-8.1-2-.3%2C2.5%2C10.1%2C0.9%2C0.4v-2.9%22%20style%3D%22fill%3A%23e5892b%22%3E%3C%2Fpath%3E%0A%3Cpath%20d%3D%22M17.80%2C25.40c-0.4-1.5-.7-3.1-1.1-4.8-0.1-.4-0.1-0.7-0.2-1.1l-1.1-2-1.7-1.6s0.9%2C5%2C2.4%2C7.1a19.12%2C19.12%2C0%2C0%2C0%2C1.7%2C2.4h0Z%22%20style%3D%22fill%3A%23cf572e%3Bopacity%3A0.6%3Bisolation%3Aisolate%22%3E%3C%2Fpath%3E%0A%3Cpath%20d%3D%22M14.40%2C37.80h-3a0.43%2C0.43%2C0%2C0%2C1-.4-0.4l-3-7.8-1.7-4.8-3-9%2C8.9-.4s2.9%2C11.3%2C4.3%2C14.4c1.9%2C4.1%2C3.1%2C4.7%2C5%2C5.8h-3.2s-4.1-1.2-5.9-7.7a0.59%2C0.59%2C0%2C0%2C0-.6-0.4%2C0.62%2C0.62%2C0%2C0%2C0-.3.7s0.5%2C2.4.9%2C3.6a34.87%2C34.87%2C0%2C0%2C0%2C2%2C6h0Z%22%20style%3D%22fill%3A%23fdbf2d%22%3E%3C%2Fpath%3E%0A%3Cpath%20d%3D%22M15.40%2C12.70l-3.3%2C2.9-8.9.4%2C3.3-2.7%22%20style%3D%22fill%3A%23ce592b%22%3E%3C%2Fpath%3E%0A%3Cpath%20d%3D%22M9.10%2C21.10l1.4-6.2-5.9.5%22%20style%3D%22fill%3A%23cf572e%3Bopacity%3A0.6%3Bisolation%3Aisolate%22%3E%3C%2Fpath%3E%0A%3Cpath%20d%3D%22M12.00%2C13.5a4.75%2C4.75%2C0%2C0%2C1-2.6%2C1.1c-1.5.3-2.9%2C0.2-2.9%2C0s1.1-.6%2C2.7-1%22%20style%3D%22fill%3A%23bb3d19%22%3E%3C%2Fpath%3E%0A%3Ccircle%20cx%3D%227.92%22%20cy%3D%228.19%22%20r%3D%226.3%22%20style%3D%22fill%3A%23fdbf2d%22%3E%3C%2Fcircle%3E%0A%3Cpath%20d%3D%22M4.70%2C13.60a6.21%2C6.21%2C0%2C0%2C0%2C8.4-1.9v-0.1a8.89%2C8.89%2C0%2C0%2C1-8.4%2C2h0Z%22%20style%3D%22fill%3A%23ce592b%3Bfill-opacity%3A0.25%22%3E%3C%2Fpath%3E%0A%3Cpath%20d%3D%22M21.20%2C27.20l0.6-.4a1.09%2C1.09%2C0%2C0%2C0%2C.4-1.3c-0.7-1.5-2.1-4.6-2.8-5.8-0.9-1.7-2.8-4.9-2.8-4.9a1.6%2C1.6%2C0%2C0%2C0-2.17-.65l-0.23.15a1.68%2C1.68%2C0%2C0%2C0-.4%2C2.1s2.3%2C3.9%2C3.1%2C5.3c0.6%2C1%2C2.1%2C3.7%2C2.9%2C5.1a0.94%2C0.94%2C0%2C0%2C0%2C1.24.49l0.16-.09h0Z%22%20style%3D%22fill%3A%23fdbf2d%22%3E%3C%2Fpath%3E%0A%3Cpath%20d%3D%22M19.40%2C19.80c-0.9-1.7-2.8-4.9-2.8-4.9a1.6%2C1.6%2C0%2C0%2C0-2.17-.65l-0.23.15-0.3.3c1.1%2C1.5%2C2.9%2C3.8%2C3.9%2C5.4%2C1.1%2C1.8%2C2.9%2C5%2C3.8%2C6.7l0.1-.1a1.09%2C1.09%2C0%2C0%2C0%2C.4-1.3%2C57.67%2C57.67%2C0%2C0%2C0-2.7-5.6h0Z%22%20style%3D%22fill%3A%23ce592b%3Bfill-opacity%3A0.25%22%3E%3C%2Fpath%3E%0A%3C%2Fsvg%3E%0A" aria-label="스트리트 뷰 페그맨 컨트롤" style="display: none; height: 40px; width: 40px; position: absolute; transform: translate(-60%, -45%); pointer-events: none;"></div></div><div class="gmnoprint" controlwidth="40" controlheight="40" style="display: none; position: absolute;"><div style="width: 40px; height: 40px;">
 								<button draggable="false" title="지도 90도 회전" aria-label="지도 90도 회전" type="button" class="gm-control-active" style="background: none rgb(255, 255, 255); display: none; border: 0px; margin: 0px 0px 32px; padding: 0px; position: relative; cursor: pointer; user-select: none; width: 40px; height: 40px; top: 0px; left: 0px; overflow: hidden; box-shadow: rgba(0, 0, 0, 0.3) 0px 1px 4px -1px; border-radius: 2px;">
 								<img src="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2224%22%20height%3D%2222%22%20viewBox%3D%220%200%2024%2022%22%3E%0A%20%20%3Cpath%20fill%3D%22%23666%22%20fill-rule%3D%22evenodd%22%20d%3D%22M20%2010c0-5.52-4.48-10-10-10s-10%204.48-10%2010v5h5v-5c0-2.76%202.24-5%205-5s5%202.24%205%205v5h-4l6.5%207%206.5-7h-4v-5z%22%20clip-rule%3D%22evenodd%22%2F%3E%0A%3C%2Fsvg%3E%0A" style="height: 18px; width: 18px;">
 								<img src="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2224%22%20height%3D%2222%22%20viewBox%3D%220%200%2024%2022%22%3E%0A%20%20%3Cpath%20fill%3D%22%23333%22%20fill-rule%3D%22evenodd%22%20d%3D%22M20%2010c0-5.52-4.48-10-10-10s-10%204.48-10%2010v5h5v-5c0-2.76%202.24-5%205-5s5%202.24%205%205v5h-4l6.5%207%206.5-7h-4v-5z%22%20clip-rule%3D%22evenodd%22%2F%3E%0A%3C%2Fsvg%3E%0A" style="height: 18px; width: 18px;">
@@ -928,16 +837,17 @@
 								
 								<label style="vertical-align: middle; cursor: pointer;">라벨</label>
 								
-							</div></div></div></div></div></div></div>
+							</div></div></div></div></div></div></div> -->
 	
 	
-	
+			  
+			  <!-- 일정 정보 설정 -->
               <div id="select_detail_view_city" data="0">
 				  <div class="city_title">
 					<div class="ci_title_name fl">여행도시</div>
 					<div class="pn_date_box fr" id="date_pick_btn" data="0">
 						<div class="pn_date_info fl">출발일</div>
-						<div class="pn_date_icon fr"><img src="/res/img/workspace/new/pn_cal_btn.png"></div>
+						<div class="pn_date_icon fr"><i class="fas fa-calendar-alt"></i></div>
 						<div class="clear"></div>
 						<div id="date_pick" class="hasDatepicker">
 							<div class="ui-datepicker-inline ui-datepicker ui-widget ui-widget-content ui-helper-clearfix ui-corner-all" style="display: block;">
@@ -1030,7 +940,7 @@
 	</div>
 	
 	<!--//레알-->
-	<style>
+	<style type="text/css">
 		#selected_cities{width:100%;padding:0px 15px;padding-top:20px;padding-bottom:20px;overflow-y:auto}
 		.s_cities{width:100%;min-height:39px;}
 		.city_info{height:39px;background:#efefef;color:#555555;font-size:15px;line-height:39px;border-radius:5px;cursor:move;}
@@ -1043,9 +953,9 @@
 		.city_set_day_info{color:#555555;font-size:13px;min-width:40px;text-align:center;}
 		.city_air_search_btn{min-width:79px;height:23px;border:solid #cacaca 1px;background:url('/res/img/workspace/new/air_search_icon.png') no-repeat right 5px top 3px;line-height:23px;padding-left:15px;padding-right:25px;cursor:pointer;margin-top:7px;margin-right:15px;color:#808080;display:none;}
 		.detail_city_bottom{padding-top:20px;border-top:solid #d6d6d6 1px}
-		.detail_plan_go_btn{width:270px;height:44px;line-height:44px;text-align:center;color:#fff;font-size:16px;margin:0 auto;background:#49b2e9;border:solid #3099dd 1px;cursor:pointer;}
+		.detail_plan_go_btn{width:270px;height:44px;line-height:44px;text-align:center;color:#fff;font-size:16px;margin:0 auto;background:#fc3c3c;border:solid #fc3c3c 1px;cursor:pointer;}
 		.pn_date_box{margin-right:15px;cursor:pointer;}
-		.pn_date_info{font-size:13px;text-decoration:underline;margin-right:5px;}
+		.pn_date_info{font-size:13px;margin-right:5px;padding-top:3px;}
 		.pn_date_icon{margin-top:3px;}
 		
 		.list_title{width:265px;height:70px;background:#1a7ad9;line-height:70px;color:#fff;padding-left:10px;font-size:17px;font-weight:bold;}
