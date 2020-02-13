@@ -20,7 +20,7 @@ public class HotelAirDaoImpl implements HotelAirDao{
 	
 	//범식
 	
-	
+	//호텔 리스트
 	@Inject
 	private SqlSession session;
 	

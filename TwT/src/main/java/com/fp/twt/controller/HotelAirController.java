@@ -24,7 +24,7 @@ public class HotelAirController {
 	
 	//범식
 	
-	
+	//호텔 리스트
 	@Inject
 	private HotelAirBiz service;
 	

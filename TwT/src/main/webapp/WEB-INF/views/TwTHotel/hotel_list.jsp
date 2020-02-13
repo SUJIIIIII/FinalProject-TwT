@@ -170,6 +170,10 @@
 							</form>
         		</div>
           </div>
+          
+          
+          
+          
           <div class="col-lg-9">
           	<div class="row">
    		    <c:forEach items="${list}" var="HotelVo">
@@ -209,6 +213,9 @@
 		    			</div>
 			</c:forEach>
           	</div>
+          	
+          	
+          	
           	<div class="row mt-5">
 		          <div class="col text-center">
 		            <div class="block-27">

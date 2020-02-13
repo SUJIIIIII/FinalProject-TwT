@@ -24,7 +24,7 @@ public class HotelAirBizImpl implements HotelAirBiz{
 	
 	//범식
 	
-	
+	//호텔 리스트
 	@Inject
 	private HotelAirDao dao;
 	
