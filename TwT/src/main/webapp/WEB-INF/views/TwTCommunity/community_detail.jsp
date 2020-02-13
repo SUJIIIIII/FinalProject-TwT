@@ -142,7 +142,6 @@
 						<i class="fas fa-heart" style="color:#fc3c3c;"></i>
 						</div>
 					</div>
-
 				</div>
 				
  <main id="home" class="contents">
