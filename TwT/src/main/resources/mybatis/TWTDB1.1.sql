@@ -63,6 +63,7 @@ CREATE SEQUENCE CH_SEQ;
 --?채팅방?번호 CH1
 
 
+
 ------------------------------------------------------------------------------------
 --?테이블?생성
 CREATE TABLE "TWTMEMBER" -- 회원관리
@@ -476,6 +477,9 @@ INSERT INTO "HOTEL" (H_CODE, CITY_CODE, H_NAME, H_LATI, H_LONG, H_PHONE, H_BASIC
                      H_BASICCONTENT)
 VALUES ('H2', 'CT1', '테스트호텔', '1234', '1234', '1234-1234', '간략주소', '긴주소', 'HOTELIMG.JPG', '호텔설명', '5', '간략호텔설명');
 
+INSERT INTO "HOTEL" (H_NAME, H_BASICADDR,H_BASICCONTENT)
+VALUES ('테스트호텔', '간략주소', '간략호텔설명');
+
 -- 호텔방 샘플
 INSERT INTO "TWT"."HOTELROOM" (HR_CODE, H_CODE, HR_STANDARD, HR_MAX, HR_PRICE, HR_VALID, HR_RANK, HR_IMG, HR_WIFI, HR_SMOKING, HR_BREAKFAST, HR_BED, HR_DATE) 
 VALUES ('HR1', 'H1', '2', '4', '30000', '10', 'SWEET', 'HRIMG', 'Y', 'Y', 'Y', '3', TO_DATE('2020-02-12 14:19:26', 'YYYY-MM-DD HH24:MI:SS'));
@@ -504,7 +508,6 @@ INSERT INTO "REVIEW_ANS" (SRA_CODE, TS_CODE, M_CODE, SRA_CONTENT, SRA_DATE) VALU
 INSERT INTO "SCHEDULEREVIEW" (SR_CODE, M_CODE, TS_CODE, SR_TITLE, SR_CONTENT, SR_FILE, SR_VIEW, SR_DATE) VALUES ('SR1', 'M1', 'TS1', '일정리뷰제목', '일정리뷰내용', 'FILE', '0', TO_DATE('2020-02-12 13:50:34', 'YYYY-MM-DD HH24:MI:SS'));
 
 COMMIT;
-
 
 
 
