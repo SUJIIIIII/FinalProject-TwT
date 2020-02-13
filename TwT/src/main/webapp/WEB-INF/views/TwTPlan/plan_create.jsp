@@ -45,7 +45,7 @@
 			return '/ko';
 		}
 	</script>
-	<script type="text/javascript" src="/jslang?lang=ko&amp;lang_file=commonjs"></script>
+	<!-- <script type="text/javascript" src="/jslang?lang=ko&amp;lang_file=commonjs"></script> -->
     <link rel="image_src" href="https://www.earthtory.com/res/img/earthtory_logo_to_sns.png">
 
     <link rel="canonical" href="https://www.earthtory.com/ko/plan/create">
@@ -58,18 +58,16 @@
 
 	<meta name="google-site-verification" content="MwgpAlNbsXRZEln-QQP8Jra-Aj8cTKcCtDd3L_StvTc">
 	<meta name="naver-site-verification" content="48a2af847268bfd79153f73690ad01b35cb1593a">
-	<script type="text/javascript" charset="UTF-8" src="https://maps.googleapis.com/maps-api-v3/api/js/39/9/intl/ko_ALL/common.js"></script>
+	<!-- <script type="text/javascript" charset="UTF-8" src="https://maps.googleapis.com/maps-api-v3/api/js/39/9/intl/ko_ALL/common.js"></script>
 	<script type="text/javascript" charset="UTF-8" src="https://maps.googleapis.com/maps-api-v3/api/js/39/9/intl/ko_ALL/util.js"></script>
 	<script type="text/javascript" charset="UTF-8" src="https://maps.googleapis.com/maps-api-v3/api/js/39/9/intl/ko_ALL/marker.js"></script>
 	<script type="text/javascript" charset="UTF-8" src="https://maps.googleapis.com/maps-api-v3/api/js/39/9/intl/ko_ALL/map.js"></script>
 	<script type="text/javascript" charset="UTF-8" src="https://maps.googleapis.com/maps-api-v3/api/js/39/9/intl/ko_ALL/onion.js"></script>
 	<script type="text/javascript" charset="UTF-8" src="https://maps.googleapis.com/maps-api-v3/api/js/39/9/intl/ko_ALL/overlay.js"></script>
-	<script type="text/javascript" charset="UTF-8" src="https://maps.googleapis.com/maps-api-v3/api/js/39/9/intl/ko_ALL/controls.js"></script>
+	<script type="text/javascript" charset="UTF-8" src="https://maps.googleapis.com/maps-api-v3/api/js/39/9/intl/ko_ALL/controls.js"></script> -->
 	
 <script type="text/javascript" src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 <script>
-var marker;
-var count = 0;
 	// map 추가
 	function initMap() {
 		var bangkok = {lat: 13.755161, lng: 100.502371}; //방콕위치 위도/경도
@@ -119,7 +117,7 @@ var count = 0;
        	
 		// 위치 배열 마커찍기
 		for (var i = 0; i < locations.length; i++) {
-          	 marker = new google.maps.Marker({
+          	 var marker = new google.maps.Marker({
             	position: locations[i].position,
             	map: map,
             	icon: myIcon,
