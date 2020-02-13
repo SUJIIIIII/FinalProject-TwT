@@ -77,10 +77,8 @@ var marker;
 			document.getElementById('map'), {zoom: 6, center: bangkok}); //기본 줌,시작 센터 설정
 		
 		// 지도에 마커 표시
-		/* var marker = new google.maps.Marker({position: bangkok, map: map}); //marker찍어주기  */
-		
-		// 위치 배열
-		var locations = [
+		// 위치 배열 되는 코드
+		/* var locations = [
 	        {
 	          position: new google.maps.LatLng(13.757691, 100.505969)
 	        }, {
@@ -90,8 +88,27 @@ var marker;
 	        }, {
 	          position: new google.maps.LatLng(7.9558174, 98.3420414)
 	        }
-       	];
+       	]; */
+		
+		//db에서 가져오기
+		var tmp = ${res.get(2).getcity_Lati()};
+		alert(tmp);
+		var locations = new Array();
+		var count = 0;
+		for(var i = 0;i<4;i++){
+			alert("i : "  + i);
+			alert("count : " + count);
+			alert("google.maps0 : " + new google.maps.LatLng(${res.get(count).getcity_Lati()}, ${res.get(count).getcity_Long()}));
+			alert("google.maps1 : " + new google.maps.LatLng(${res.get(1).getcity_Lati()}, ${res.get(1).getcity_Long()}));
+			// locations[i] = {position : new google.maps.LatLng(${res.get(i).getcity_Lati()}, ${res.get(i).getcity_Long()})};
+			// alert(locations[i].position);
+			count++;
+		};
+       	alert(locations.length);
+		
+		alert(locations[2].position);
 			
+		/* alert("location?" + locations); */
 		// 마커 아이콘
 		var myIcon = new google.maps.MarkerImage("${pageContext.request.contextPath}/resources/images/marker.png",null,null,null,new google.maps.Size(50,45));
 	
@@ -190,8 +207,10 @@ var marker;
 	function toggleBounce(){
 		if (marker.getAnimation() != null) {
 		    marker.setAnimation(null);
+			$('#select_detail_view_city').hide();
 		  } else {
 		    marker.setAnimation(google.maps.Animation.BOUNCE);
+			$('#select_detail_view_city').show(); //show("slide", {direction:"left"}, 200);
 		  }
 	}
 	
@@ -206,6 +225,7 @@ var marker;
 	google.maps.event.addDomListener(window, 'load', initialize);
 
 </script>
+<!-- 구글맵 API KEY -->
 <script async defer
 src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCiDE5HBue4mflsdkcsGvSZrUeEooX8gWQ&callback=initMap&language=ko&region=KR">
 </script>

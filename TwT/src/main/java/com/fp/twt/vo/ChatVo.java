@@ -3,73 +3,73 @@ package com.fp.twt.vo;
 import java.util.Date;
 
 public class ChatVo {
-    private String mCode;		//회원번호
-    private String chCode;		//채팅방 번호
-    private String chMessage; 	//채팅 메세지
-    private Date chTime; 		//채팅 시간
-    private String cityCode; 	//도시 번호
-    private String chTitle; 	//채팅방 제목
+    private String m_Code;		//회원번호
+    private String ch_Code;		//채팅방 번호
+    private String ch_Message; 	//채팅 메세지
+    private Date ch_Time; 		//채팅 시간
+    private String city_Code; 	//도시 번호
+    private String ch_Title; 	//채팅방 제목
     
 	public ChatVo() {
 		super();
 	}
 
-	public ChatVo(String mCode, String chCode, String chMessage, Date chTime, String cityCode, String chTitle) {
+	public ChatVo(String m_Code, String ch_Code, String ch_Message, Date ch_Time, String city_Code, String ch_Title) {
 		super();
-		this.mCode = mCode;
-		this.chCode = chCode;
-		this.chMessage = chMessage;
-		this.chTime = chTime;
-		this.cityCode = cityCode;
-		this.chTitle = chTitle;
+		this.m_Code = m_Code;
+		this.ch_Code = ch_Code;
+		this.ch_Message = ch_Message;
+		this.ch_Time = ch_Time;
+		this.city_Code = city_Code;
+		this.ch_Title = ch_Title;
 	}
 
-	public String getmCode() {
-		return mCode;
+	public String getm_Code() {
+		return m_Code;
 	}
 
-	public void setmCode(String mCode) {
-		this.mCode = mCode;
+	public void setm_Code(String m_Code) {
+		this.m_Code = m_Code;
 	}
 
-	public String getChCode() {
-		return chCode;
+	public String getch_Code() {
+		return ch_Code;
 	}
 
-	public void setChCode(String chCode) {
-		this.chCode = chCode;
+	public void setch_Code(String ch_Code) {
+		this.ch_Code = ch_Code;
 	}
 
-	public String getChMessage() {
-		return chMessage;
+	public String getch_Message() {
+		return ch_Message;
 	}
 
-	public void setChMessage(String chMessage) {
-		this.chMessage = chMessage;
+	public void setch_Message(String ch_Message) {
+		this.ch_Message = ch_Message;
 	}
 
-	public Date getChTime() {
-		return chTime;
+	public Date getch_Time() {
+		return ch_Time;
 	}
 
-	public void setChTime(Date chTime) {
-		this.chTime = chTime;
+	public void setch_Time(Date ch_Time) {
+		this.ch_Time = ch_Time;
 	}
 
-	public String getCityCode() {
-		return cityCode;
+	public String getcity_Code() {
+		return city_Code;
 	}
 
-	public void setCityCode(String cityCode) {
-		this.cityCode = cityCode;
+	public void setcity_Code(String city_Code) {
+		this.city_Code = city_Code;
 	}
 
-	public String getChTitle() {
-		return chTitle;
+	public String getch_Title() {
+		return ch_Title;
 	}
 
-	public void setChTitle(String chTitle) {
-		this.chTitle = chTitle;
+	public void setch_Title(String ch_Title) {
+		this.ch_Title = ch_Title;
 	}
     
 }

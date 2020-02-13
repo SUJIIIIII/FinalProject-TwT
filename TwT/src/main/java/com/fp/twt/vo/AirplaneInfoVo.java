@@ -4,153 +4,145 @@ import java.util.Date;
 
 public class AirplaneInfoVo {
 
-    private String mCode; 		//회원 번호
-    private String depLoca1; 	//출국_출발지명
-    private String depLoca2; 	//출국_도착지명
-    private Date depDate1; 		//출국_출국날짜
-    private Date depDate2; 		//출국_도착날짜
-    private String depTime1; 	//출국_출발시간
-    private String depTime2; 	//출국_도착시간
-    private String reLoca1; 	//귀국_출발지명
-    private String reLoca2; 	//귀국_도착지명
-    private Date reDate1; 		//귀국_출발날짜 
-    private Date reDate2; 		//귀국_도착날짜
-    private String reTime1; 	//귀국_출발시간
-    private String reTime2; 	//귀국_도착시간
+    private String m_Code; 		//회원 번호
+    private String dep_Loca1; 	//출국_출발지명
+    private String dep_Loca2; 	//출국_도착지명
+    private Date dep_Date1; 		//출국_출국날짜
+    private Date dep_Date2; 		//출국_도착날짜
+    private String dep_Time1; 	//출국_출발시간
+    private String dep_Time2; 	//출국_도착시간
+    private String re_Loca1; 	//귀국_출발지명
+    private String re_Loca2; 	//귀국_도착지명
+    private Date re_Date1; 		//귀국_출발날짜 
+    private Date re_Date2; 		//귀국_도착날짜
+    private String re_Time1; 	//귀국_출발시간
+    private String re_Time2; 	//귀국_도착시간
     
     public AirplaneInfoVo() {
 		super();
 	}
 
-	public AirplaneInfoVo(String mCode, String depLoca1, String depLoca2, Date depDate1, Date depDate2, String depTime1,
-			String depTime2, String reLoca1, String reLoca2, Date reDate1, Date reDate2, String reTime1,
-			String reTime2) {
+	public AirplaneInfoVo(String m_Code, String dep_Loca1, String dep_Loca2, Date dep_Date1, Date dep_Date2, String dep_Time1,
+			String dep_Time2, String re_Loca1, String re_Loca2, Date re_Date1, Date re_Date2, String re_Time1,
+			String re_Time2) {
 		super();
-		this.mCode = mCode;
-		this.depLoca1 = depLoca1;
-		this.depLoca2 = depLoca2;
-		this.depDate1 = depDate1;
-		this.depDate2 = depDate2;
-		this.depTime1 = depTime1;
-		this.depTime2 = depTime2;
-		this.reLoca1 = reLoca1;
-		this.reLoca2 = reLoca2;
-		this.reDate1 = reDate1;
-		this.reDate2 = reDate2;
-		this.reTime1 = reTime1;
-		this.reTime2 = reTime2;
+		this.m_Code = m_Code;
+		this.dep_Loca1 = dep_Loca1;
+		this.dep_Loca2 = dep_Loca2;
+		this.dep_Date1 = dep_Date1;
+		this.dep_Date2 = dep_Date2;
+		this.dep_Time1 = dep_Time1;
+		this.dep_Time2 = dep_Time2;
+		this.re_Loca1 = re_Loca1;
+		this.re_Loca2 = re_Loca2;
+		this.re_Date1 = re_Date1;
+		this.re_Date2 = re_Date2;
+		this.re_Time1 = re_Time1;
+		this.re_Time2 = re_Time2;
 	}
 
-	public String getMCode() {
-        return mCode;
+	public String getm_Code() {
+        return m_Code;
     }
 
-    public void setMCode(String mCode) {
-        this.mCode = mCode;
+    public void setm_Code(String m_Code) {
+        this.m_Code = m_Code;
     }
 
-    public String getDepLoca1() {
-        return depLoca1;
+    public String getdep_Loca1() {
+        return dep_Loca1;
     }
 
-    public void setDepLoca1(String depLoca1) {
-        this.depLoca1 = depLoca1;
+    public void setdep_Loca1(String dep_Loca1) {
+        this.dep_Loca1 = dep_Loca1;
     }
 
-    public String getDepLoca2() {
-        return depLoca2;
+    public String getdep_Loca2() {
+        return dep_Loca2;
     }
 
-    public void setDepLoca2(String depLoca2) {
-        this.depLoca2 = depLoca2;
+    public void setdep_Loca2(String dep_Loca2) {
+        this.dep_Loca2 = dep_Loca2;
     }
 
-    public Date getDepDate1() {
-        return depDate1;
+    public Date getdep_Date1() {
+        return dep_Date1;
     }
 
-    public void setDepDate1(Date depDate1) {
-        this.depDate1 = depDate1;
+    public void setdep_Date1(Date dep_Date1) {
+        this.dep_Date1 = dep_Date1;
     }
 
-    public Date getDepDate2() {
-        return depDate2;
+    public Date getdep_Date2() {
+        return dep_Date2;
     }
 
-    public void setDepDate2(Date depDate2) {
-        this.depDate2 = depDate2;
+    public void setdep_Date2(Date dep_Date2) {
+        this.dep_Date2 = dep_Date2;
     }
 
-    public String getDepTime1() {
-        return depTime1;
+    public String getdep_Time1() {
+        return dep_Time1;
     }
 
-    public void setDepTime1(String depTime1) {
-        this.depTime1 = depTime1;
+    public void setdep_Time1(String dep_Time1) {
+        this.dep_Time1 = dep_Time1;
     }
 
-    public String getDepTime2() {
-        return depTime2;
+    public String getdep_Time2() {
+        return dep_Time2;
     }
 
-    public void setDepTime2(String depTime2) {
-        this.depTime2 = depTime2;
+    public void setdep_Time2(String dep_Time2) {
+        this.dep_Time2 = dep_Time2;
     }
 
-    public String getReLoca1() {
-        return reLoca1;
+    public String getre_Loca1() {
+        return re_Loca1;
     }
 
-    public void setReLoca1(String reLoca1) {
-        this.reLoca1 = reLoca1;
+    public void setre_Loca1(String re_Loca1) {
+        this.re_Loca1 = re_Loca1;
     }
 
-    public String getReLoca2() {
-        return reLoca2;
+    public String getre_Loca2() {
+        return re_Loca2;
     }
 
-    public void setReLoca2(String reLoca2) {
-        this.reLoca2 = reLoca2;
+    public void setre_Loca2(String re_Loca2) {
+        this.re_Loca2 = re_Loca2;
     }
 
-    public Date getReDate1() {
-        return reDate1;
+    public Date getre_Date1() {
+        return re_Date1;
     }
 
-    public void setReDate1(Date reDate1) {
-        this.reDate1 = reDate1;
+    public void setre_Date1(Date re_Date1) {
+        this.re_Date1 = re_Date1;
     }
 
-    public Date getReDate2() {
-        return reDate2;
+    public Date getre_Date2() {
+        return re_Date2;
     }
 
-    public void setReDate2(Date reDate2) {
-        this.reDate2 = reDate2;
+    public void setre_Date2(Date re_Date2) {
+        this.re_Date2 = re_Date2;
     }
 
-    public String getReTime1() {
-        return reTime1;
+    public String getre_Time1() {
+        return re_Time1;
     }
 
-    public void setReTime1(String reTime1) {
-        this.reTime1 = reTime1;
+    public void setre_Time1(String re_Time1) {
+        this.re_Time1 = re_Time1;
     }
 
-    public String getReTime2() {
-        return reTime2;
+    public String getre_Time2() {
+        return re_Time2;
     }
 
-    public void setReTime2(String reTime2) {
-        this.reTime2 = reTime2;
+    public void setre_Time2(String re_Time2) {
+        this.re_Time2 = re_Time2;
     }
-
-	public String getmCode() {
-		return mCode;
-	}
-
-	public void setmCode(String mCode) {
-		this.mCode = mCode;
-	}
     
 }

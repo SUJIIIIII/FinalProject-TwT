@@ -2,155 +2,155 @@ package com.fp.twt.vo;
 
 public class TravelPointVo {
 
-    private String tpCode; 		//여행지 번호
-    private String cityCode; 	//도시 번호
-    private String tpName; 		//여행지 이름
-    private int tpLati; 		//여행지 위도
-    private int tpLong; 		//여행지 경도
-    private String tpType; 		//여행지 타입
-    private String tpContent; 	//여행지 설명
-    private String tpImg; 		//여행지 이미지
-    private String tpAddr; 		//여행지 주소
-    private String cityName; 	//도시 이름
-    private int cityLati; 		//도시 위도
-    private int cityLong; 		//도시 경도
-    private String cityImg; 	//도시 이미지
-    private String cityEng;		//도시 영문명
+    private String tp_Code; 		//여행지 번호
+    private String city_Code; 	//도시 번호
+    private String tp_Name; 		//여행지 이름
+    private int tp_Lati; 		//여행지 위도
+    private int tp_Long; 		//여행지 경도
+    private String tp_Type; 		//여행지 타입
+    private String tp_Content; 	//여행지 설명
+    private String tp_Img; 		//여행지 이미지
+    private String tp_Addr; 		//여행지 주소
+    private String city_Name; 	//도시 이름
+    private int city_Lati; 		//도시 위도
+    private int city_Long; 		//도시 경도
+    private String city_Img; 	//도시 이미지
+    private String city_Eng;		//도시 영문명
     
     public TravelPointVo() {
 		super();
 	}
     
-	public TravelPointVo(String tpCode, String cityCode, String tpName, int tpLati, int tpLong, String tpType,
-			String tpContent, String tpImg, String tpAddr, String cityName, int cityLati, int cityLong, String cityImg,
-			String cityEng) {
+	public TravelPointVo(String tp_Code, String city_Code, String tp_Name, int tp_Lati, int tp_Long, String tp_Type,
+			String tp_Content, String tp_Img, String tp_Addr, String city_Name, int city_Lati, int city_Long, String city_Img,
+			String city_Eng) {
 		super();
-		this.tpCode = tpCode;
-		this.cityCode = cityCode;
-		this.tpName = tpName;
-		this.tpLati = tpLati;
-		this.tpLong = tpLong;
-		this.tpType = tpType;
-		this.tpContent = tpContent;
-		this.tpImg = tpImg;
-		this.tpAddr = tpAddr;
-		this.cityName = cityName;
-		this.cityLati = cityLati;
-		this.cityLong = cityLong;
-		this.cityImg = cityImg;
-		this.cityEng = cityEng;
+		this.tp_Code = tp_Code;
+		this.city_Code = city_Code;
+		this.tp_Name = tp_Name;
+		this.tp_Lati = tp_Lati;
+		this.tp_Long = tp_Long;
+		this.tp_Type = tp_Type;
+		this.tp_Content = tp_Content;
+		this.tp_Img = tp_Img;
+		this.tp_Addr = tp_Addr;
+		this.city_Name = city_Name;
+		this.city_Lati = city_Lati;
+		this.city_Long = city_Long;
+		this.city_Img = city_Img;
+		this.city_Eng = city_Eng;
 	}
 
-	public String getTpCode() {
-        return tpCode;
+	public String gettp_Code() {
+        return tp_Code;
     }
 
-    public void setTpCode(String tpCode) {
-        this.tpCode = tpCode;
+    public void settp_Code(String tp_Code) {
+        this.tp_Code = tp_Code;
     }
 
-    public String getCityCode() {
-        return cityCode;
+    public String getcity_Code() {
+        return city_Code;
     }
 
-    public void setCityCode(String cityCode) {
-        this.cityCode = cityCode;
+    public void setcity_Code(String city_Code) {
+        this.city_Code = city_Code;
     }
 
-    public String getTpName() {
-        return tpName;
+    public String gettp_Name() {
+        return tp_Name;
     }
 
-    public void setTpName(String tpName) {
-        this.tpName = tpName;
+    public void settp_Name(String tp_Name) {
+        this.tp_Name = tp_Name;
     }
 
-    public int getTpLati() {
-        return tpLati;
+    public int gettp_Lati() {
+        return tp_Lati;
     }
 
-    public void setTpLati(int tpLati) {
-        this.tpLati = tpLati;
+    public void settp_Lati(int tp_Lati) {
+        this.tp_Lati = tp_Lati;
     }
 
-    public int getTpLong() {
-        return tpLong;
+    public int gettp_Long() {
+        return tp_Long;
     }
 
-    public void setTpLong(int tpLong) {
-        this.tpLong = tpLong;
+    public void settp_Long(int tp_Long) {
+        this.tp_Long = tp_Long;
     }
 
-    public String getTpType() {
-        return tpType;
+    public String gettp_Type() {
+        return tp_Type;
     }
 
-    public void setTpType(String tpType) {
-        this.tpType = tpType;
+    public void settp_Type(String tp_Type) {
+        this.tp_Type = tp_Type;
     }
 
-    public String getTpContent() {
-        return tpContent;
+    public String gettp_Content() {
+        return tp_Content;
     }
 
-    public void setTpContent(String tpContent) {
-        this.tpContent = tpContent;
+    public void settp_Content(String tp_Content) {
+        this.tp_Content = tp_Content;
     }
 
-    public String getTpImg() {
-        return tpImg;
+    public String gettp_Img() {
+        return tp_Img;
     }
 
-    public void setTpImg(String tpImg) {
-        this.tpImg = tpImg;
+    public void settp_Img(String tp_Img) {
+        this.tp_Img = tp_Img;
     }
 
-    public String getTpAddr() {
-        return tpAddr;
+    public String gettp_Addr() {
+        return tp_Addr;
     }
 
-    public void setTpAddr(String tpAddr) {
-        this.tpAddr = tpAddr;
+    public void settp_Addr(String tp_Addr) {
+        this.tp_Addr = tp_Addr;
     }
 
-	public String getCityName() {
-		return cityName;
+	public String getcity_Name() {
+		return city_Name;
 	}
 
-	public void setCityName(String cityName) {
-		this.cityName = cityName;
+	public void setcity_Name(String city_Name) {
+		this.city_Name = city_Name;
 	}
 
-	public int getCityLati() {
-		return cityLati;
+	public int getcity_Lati() {
+		return city_Lati;
 	}
 
-	public void setCityLati(int cityLati) {
-		this.cityLati = cityLati;
+	public void setcity_Lati(int city_Lati) {
+		this.city_Lati = city_Lati;
 	}
 
-	public int getCityLong() {
-		return cityLong;
+	public int getcity_Long() {
+		return city_Long;
 	}
 
-	public void setCityLong(int cityLong) {
-		this.cityLong = cityLong;
+	public void setcity_Long(int city_Long) {
+		this.city_Long = city_Long;
 	}
 
-	public String getCityImg() {
-		return cityImg;
+	public String getcity_Img() {
+		return city_Img;
 	}
 
-	public void setCityImg(String cityImg) {
-		this.cityImg = cityImg;
+	public void setcity_Img(String city_Img) {
+		this.city_Img = city_Img;
 	}
 
-	public String getCityEng() {
-		return cityEng;
+	public String getcity_Eng() {
+		return city_Eng;
 	}
 
-	public void setCityEng(String cityEng) {
-		this.cityEng = cityEng;
+	public void setcity_Eng(String city_Eng) {
+		this.city_Eng = city_Eng;
 	}
 
 }
