@@ -2,11 +2,14 @@ package com.fp.twt.common.interceptor;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
+
+import com.fp.twt.vo.MemberVo;
 
 public class Interceptor implements HandlerInterceptor{
 	private Logger logger = LoggerFactory.getLogger(Interceptor.class);
@@ -14,24 +17,16 @@ public class Interceptor implements HandlerInterceptor{
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {
-		//contoller로 요청이 넘어가기 전에 요청을 가로채는 것
-		// return --> true : controller실행, false : controller 실행안됨
-		logger.info("[interceptor] : preHandel 실행");
 		
-		if(request.getRequestURI().contains("/loginform.do") || request.getRequestURI().contains("/ajaxlogin.do") ||
-			request.getRequestURI().contains("/test.do")) {
-			return true;
-		}
+		HttpSession session = request.getSession(false);
 		
-		if(request.getSession().getAttribute("login") == null) {
-			response.sendRedirect("loginform.do");
+		if(session == null) {
+			response.sendRedirect(request.getContextPath()+"login.jsp");
 			return false;
-		}
+		} 
 		
-		if(request.getSession().getAttribute("login") != null) {
-			return true;
-		}
-		
+		MemberVo vo  = (MemberVo)session.getAttribute("member");
+
 		return false;
 	}
 	
