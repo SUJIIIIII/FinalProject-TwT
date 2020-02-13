@@ -87,8 +87,10 @@ public class MypageController {
 		
 		Map<Object, Object> map = new HashMap<Object, Object>();
 		System.out.println("들어오는 아이디 : "+mId);
+		
 		int result = biz.idChk(mId);
 		System.out.println("확인 : "+result);
+		
 		map.put("check", result);
 
 		return map;
