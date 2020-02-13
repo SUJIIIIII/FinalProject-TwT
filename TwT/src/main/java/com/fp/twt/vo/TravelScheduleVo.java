@@ -19,8 +19,8 @@ public class TravelScheduleVo {
 		super();
 	}
 
-	public TravelScheduleVo(String ts_Code, String m_Code, String tp_Code, String ts_Title, Date ts_Sday,
-			String ts_Theme, String ts_People, String ts_Thum, int ts_Period, String ts_View) {
+	public TravelScheduleVo(String ts_Code, String m_Code, String tp_Code, String ts_Title, Date ts_Sday, String ts_Theme,
+			String ts_People, String ts_Thum, int ts_Period, String ts_View) {
 		super();
 		this.ts_Code = ts_Code;
 		this.m_Code = m_Code;
@@ -33,88 +33,92 @@ public class TravelScheduleVo {
 		this.ts_Period = ts_Period;
 		this.ts_View = ts_View;
 	}
-
-	public String getTs_Code() {
-		return ts_Code;
-	}
-
-	public void setTs_Code(String ts_Code) {
+	
+	// 조회수 사용
+	public TravelScheduleVo(String ts_Code, String ts_View) {
+		super();
 		this.ts_Code = ts_Code;
-	}
-
-	public String getM_Code() {
-		return m_Code;
-	}
-
-	public void setM_Code(String m_Code) {
-		this.m_Code = m_Code;
-	}
-
-	public String getTp_Code() {
-		return tp_Code;
-	}
-
-	public void setTp_Code(String tp_Code) {
-		this.tp_Code = tp_Code;
-	}
-
-	public String getTs_Title() {
-		return ts_Title;
-	}
-
-	public void setTs_Title(String ts_Title) {
-		this.ts_Title = ts_Title;
-	}
-
-	public Date getTs_Sday() {
-		return ts_Sday;
-	}
-
-	public void setTs_Sday(Date ts_Sday) {
-		this.ts_Sday = ts_Sday;
-	}
-
-	public String getTs_Theme() {
-		return ts_Theme;
-	}
-
-	public void setTs_Theme(String ts_Theme) {
-		this.ts_Theme = ts_Theme;
-	}
-
-	public String getTs_People() {
-		return ts_People;
-	}
-
-	public void setTs_People(String ts_People) {
-		this.ts_People = ts_People;
-	}
-
-	public String getTs_Thum() {
-		return ts_Thum;
-	}
-
-	public void setTs_Thum(String ts_Thum) {
-		this.ts_Thum = ts_Thum;
-	}
-
-	public int getTs_Period() {
-		return ts_Period;
-	}
-
-	public void setTs_Period(int ts_Period) {
-		this.ts_Period = ts_Period;
-	}
-
-	public String getTs_View() {
-		return ts_View;
-	}
-
-	public void setTs_View(String ts_View) {
 		this.ts_View = ts_View;
 	}
-    
-    
 
+	public String getts_Code() {
+        return ts_Code;
+    }
+
+    public void setts_Code(String ts_Code) {
+        this.ts_Code = ts_Code;
+    }
+
+    public String getm_Code() {
+        return m_Code;
+    }
+
+    public void setm_Code(String m_Code) {
+        this.m_Code = m_Code;
+    }
+
+    public String gettp_Code() {
+        return tp_Code;
+    }
+
+    public void settp_Code(String tp_Code) {
+        this.tp_Code = tp_Code;
+    }
+
+    public String getts_Title() {
+        return ts_Title;
+    }
+
+    public void setts_Title(String ts_Title) {
+        this.ts_Title = ts_Title;
+    }
+
+    public Date getts_Sday() {
+        return ts_Sday;
+    }
+
+    public void setts_Sday(Date ts_Sday) {
+        this.ts_Sday = ts_Sday;
+    }
+
+    public String getts_Theme() {
+        return ts_Theme;
+    }
+
+    public void setts_Theme(String ts_Theme) {
+        this.ts_Theme = ts_Theme;
+    }
+
+    public String getts_People() {
+        return ts_People;
+    }
+
+    public void setts_People(String ts_People) {
+        this.ts_People = ts_People;
+    }
+
+    public String getts_Thum() {
+        return ts_Thum;
+    }
+
+    public void setts_Thum(String ts_Thum) {
+        this.ts_Thum = ts_Thum;
+    }
+
+    public int getts_Period() {
+        return ts_Period;
+    }
+
+    public void setts_Period(int ts_Period) {
+        this.ts_Period = ts_Period;
+    }
+
+    public String getts_View() {
+        return ts_View;
+    }
+
+    public void setts_View(String ts_View) {
+        this.ts_View = ts_View;
+    }
     
 }

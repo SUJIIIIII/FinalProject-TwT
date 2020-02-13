@@ -2,88 +2,83 @@ package com.fp.twt.vo;
 
 public class MemberVo {
 
-	private String mCode; // 회원번호
-	private String mId; // 아이디
-	private String mPass; // 비밀번호
-	private String mName; // 이름
-	private String mEmail; // 이메일
-	private String mApi; // api로그인
-	private String field; // 이메일 인증 여부(Y/N)
-
-	public MemberVo() {
-		super();
+    private String m_Code; 	//회원번호
+    private String m_Id; 	//아이디
+    private String m_Pass;	//비밀번호
+    private String m_Name;	//이름
+    private String m_Email;	//이메일
+    private String m_Api;	//api로그인
+    private String field;	//관리자여부
+    
+    public MemberVo() {
+    	super();
+    }
+    
+    public MemberVo(String m_Code, String m_Id, String m_Pass, String m_Name, String m_Email, String m_Api, String field) {
+    	super();
+    	this.m_Code = m_Code;
+    	this.m_Id = m_Id;
+    	this.m_Pass = m_Pass;
+    	this.m_Name = m_Name;
+    	this.m_Email = m_Email;
+    	this.m_Api = m_Api;
+    	this.field = field;
+    }
+    
+    public String getm_Code() {
+		return m_Code;
 	}
 
-	public MemberVo(String mCode, String mId, String mPass, String mName, String mEmail, String mApi, String field) {
-		super();
-		this.mCode = mCode;
-		this.mId = mId;
-		this.mPass = mPass;
-		this.mName = mName;
-		this.mEmail = mEmail;
-		this.mApi = mApi;
-		this.field = field;
+	public void setm_Code(String m_Code) {
+		this.m_Code = m_Code;
 	}
 
-	public String getmCode() {
-		return mCode;
+	public String getm_Id() {
+		return m_Id;
 	}
 
-	public void setmCode(String mCode) {
-		this.mCode = mCode;
+	public void setm_Id(String m_Id) {
+		this.m_Id = m_Id;
 	}
 
-	public String getmId() {
-		return mId;
+	public String getm_Pass() {
+		return m_Pass;
 	}
 
-	public void setmId(String mId) {
-		this.mId = mId;
+	public void setm_Pass(String m_Pass) {
+		this.m_Pass = m_Pass;
 	}
 
-	public String getmPass() {
-		return mPass;
+	public String getm_Name() {
+		return m_Name;
 	}
 
-	public void setmPass(String mPass) {
-		this.mPass = mPass;
+	public void setm_Name(String m_Name) {
+		this.m_Name = m_Name;
 	}
 
-	public String getmName() {
-		return mName;
+	public String getm_Email() {
+		return m_Email;
 	}
 
-	public void setmName(String mName) {
-		this.mName = mName;
+	public void setm_Email(String m_Email) {
+		this.m_Email = m_Email;
 	}
 
-	public String getmEmail() {
-		return mEmail;
+	public String getm_Api() {
+		return m_Api;
 	}
 
-	public void setmEmail(String mEmail) {
-		this.mEmail = mEmail;
+	public void setm_Api(String m_Api) {
+		this.m_Api = m_Api;
 	}
 
-	public String getmApi() {
-		return mApi;
-	}
+    public String getField() {
+        return field;
+    }
 
-	public void setmApi(String mApi) {
-		this.mApi = mApi;
-	}
+    public void setField(String field) {
+        this.field = field;
+    }
 
-	public String getField() {
-		return field;
-	}
-
-	public void setField(String field) {
-		this.field = field;
-	}
-
-	@Override
-	public String toString() {
-		return "MemberVo [mCode=" + mCode + ", mId=" + mId + ", mPass=" + mPass + ", mName=" + mName + ", mEmail="
-				+ mEmail + "]";
-	}
 }

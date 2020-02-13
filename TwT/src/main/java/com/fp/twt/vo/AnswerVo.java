@@ -4,65 +4,65 @@ import java.util.Date;
 
 public class AnswerVo {
 
-    private String sraCode; 	//댓글 번호
-    private String srCode; 		//일정리뷰 번호
+    private String sra_Code; 	//댓글 번호
+    private String sr_Code; 		//일정리뷰 번호
     private String sba_code; 	//일정일정 번호
-    private String mName; 		//댓글 작성자
-    private String sraContent; 	//댓글 내용
-    private Date sraDate; 		//댓글 작성일
+    private String m_Name; 		//댓글 작성자
+    private String sra_Content; 	//댓글 내용
+    private Date sra_Date; 		//댓글 작성일
 
     public AnswerVo() {
 		super();
 	}
     
-	public AnswerVo(String sraCode, String srCode, String sba_code, String mName, String sraContent, Date sraDate) {
+	public AnswerVo(String sra_Code, String sr_Code, String sba_code, String m_Name, String sra_Content, Date sra_Date) {
 		super();
-		this.sraCode = sraCode;
-		this.srCode = srCode;
+		this.sra_Code = sra_Code;
+		this.sr_Code = sr_Code;
 		this.sba_code = sba_code;
-		this.mName = mName;
-		this.sraContent = sraContent;
-		this.sraDate = sraDate;
+		this.m_Name = m_Name;
+		this.sra_Content = sra_Content;
+		this.sra_Date = sra_Date;
 	}
 
-	public String getSraCode() {
-        return sraCode;
+	public String getsra_Code() {
+        return sra_Code;
     }
 
-    public void setSraCode(String sraCode) {
-        this.sraCode = sraCode;
+    public void setsra_Code(String sra_Code) {
+        this.sra_Code = sra_Code;
     }
 
-    public String getSrCode() {
-        return srCode;
+    public String getsr_Code() {
+        return sr_Code;
     }
 
-    public void setSrCode(String srCode) {
-        this.srCode = srCode;
+    public void setsr_Code(String sr_Code) {
+        this.sr_Code = sr_Code;
     }
 
-    public String getmName() {
-        return mName;
+    public String getm_Name() {
+        return m_Name;
     }
 
-    public void setmName(String mName) {
-        this.mName = mName;
+    public void setm_Name(String m_Name) {
+        this.m_Name = m_Name;
     }
 
-    public String getSraContent() {
-        return sraContent;
+    public String getsra_Content() {
+        return sra_Content;
     }
 
-    public void setSraContent(String sraContent) {
-        this.sraContent = sraContent;
+    public void setsra_Content(String sra_Content) {
+        this.sra_Content = sra_Content;
     }
 
-    public Date getSraDate() {
-        return sraDate;
+    public Date getsra_Date() {
+        return sra_Date;
     }
 
-    public void setSraDate(Date sraDate) {
-        this.sraDate = sraDate;
+    public void setsra_Date(Date sra_Date) {
+        this.sra_Date = sra_Date;
     }
 
 	public String getSba_code() {

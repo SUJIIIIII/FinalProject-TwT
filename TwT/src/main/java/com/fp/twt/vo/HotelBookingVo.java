@@ -4,140 +4,124 @@ import java.util.Date;
 
 public class HotelBookingVo {
 
-    private String hbCode; 		//예약번호
-    private String mCode; 		//회원번호
-    private String hrCode; 		//방코드
-    private String hCode; 		//숙소번호
-    private Date hbSdate; 		//예약날짜 입실
-    private Date hbEdate; 		//예약날짜 퇴실
-    private String hbCheck; 	//결제여부
-    private int hbPeople; 		//예약 인원
-    private String hbName; 		//예약 예약자
-    private String cityCode; 	//도시 번호
-    private String cityName; 	//도시 이름
+    private String hb_Code; 		//예약번호
+    private String m_Code; 		//회원번호
+    private String hr_Code; 		//방코드
+    private String h_Code; 		//숙소번호
+    private Date hb_Sdate; 		//예약날짜 입실
+    private Date hb_Edate; 		//예약날짜 퇴실
+    private String hb_Check; 	//결제여부
+    private int hb_People; 		//예약 인원
+    private String hb_Name; 		//예약 예약자
+    private String city_Code; 	//도시 번호
+    private String city_Name; 	//도시 이름
 
     public HotelBookingVo() {
 		super();
 	}
 
-	public HotelBookingVo(String hbCode, String mCode, String hrCode, String hCode, Date hbSdate, Date hbEdate,
-			String hbCheck, int hbPeople, String hbName, String cityCode, String cityName) {
+	public HotelBookingVo(String hb_Code, String m_Code, String hr_Code, String h_Code, Date hb_Sdate, Date hb_Edate,
+			String hb_Check, int hb_People, String hb_Name, String city_Code, String city_Name) {
 		super();
-		this.hbCode = hbCode;
-		this.mCode = mCode;
-		this.hrCode = hrCode;
-		this.hCode = hCode;
-		this.hbSdate = hbSdate;
-		this.hbEdate = hbEdate;
-		this.hbCheck = hbCheck;
-		this.hbPeople = hbPeople;
-		this.hbName = hbName;
-		this.cityCode = cityCode;
-		this.cityName = cityName;
+		this.hb_Code = hb_Code;
+		this.m_Code = m_Code;
+		this.hr_Code = hr_Code;
+		this.h_Code = h_Code;
+		this.hb_Sdate = hb_Sdate;
+		this.hb_Edate = hb_Edate;
+		this.hb_Check = hb_Check;
+		this.hb_People = hb_People;
+		this.hb_Name = hb_Name;
+		this.city_Code = city_Code;
+		this.city_Name = city_Name;
 	}
 
-	public String getHbCode() {
-        return hbCode;
+	public String gethb_Code() {
+        return hb_Code;
     }
 
-    public void setHbCode(String hbCode) {
-        this.hbCode = hbCode;
+    public void sethb_Code(String hb_Code) {
+        this.hb_Code = hb_Code;
     }
 
-    public String getMCode() {
-        return mCode;
+    public String getm_Code() {
+        return m_Code;
     }
 
-    public void setMCode(String mCode) {
-        this.mCode = mCode;
+    public void setm_Code(String m_Code) {
+        this.m_Code = m_Code;
     }
 
-    public String getHrCode() {
-        return hrCode;
+    public String gethr_Code() {
+        return hr_Code;
     }
 
-    public void setHrCode(String hrCode) {
-        this.hrCode = hrCode;
+    public void sethr_Code(String hr_Code) {
+        this.hr_Code = hr_Code;
     }
 
-    public String getHCode() {
-        return hCode;
+    public String geth_Code() {
+        return h_Code;
     }
 
-    public void setHCode(String hCode) {
-        this.hCode = hCode;
+    public void seth_Code(String h_Code) {
+        this.h_Code = h_Code;
     }
 
-    public Date getHbSdate() {
-        return hbSdate;
+    public Date gethb_Sdate() {
+        return hb_Sdate;
     }
 
-    public void setHbSdate(Date hbSdate) {
-        this.hbSdate = hbSdate;
+    public void sethb_Sdate(Date hb_Sdate) {
+        this.hb_Sdate = hb_Sdate;
     }
 
-    public Date getHbEdate() {
-        return hbEdate;
+    public Date gethb_Edate() {
+        return hb_Edate;
     }
 
-    public void setHbEdate(Date hbEdate) {
-        this.hbEdate = hbEdate;
+    public void sethb_Edate(Date hb_Edate) {
+        this.hb_Edate = hb_Edate;
     }
 
-    public String getHbCheck() {
-        return hbCheck;
+    public String gethb_Check() {
+        return hb_Check;
     }
 
-    public void setHbCheck(String hbCheck) {
-        this.hbCheck = hbCheck;
+    public void sethb_Check(String hb_Check) {
+        this.hb_Check = hb_Check;
     }
 
-    public int getHbPeople() {
-        return hbPeople;
+    public int gethb_People() {
+        return hb_People;
     }
 
-    public void setHbPeople(int hbPeople) {
-        this.hbPeople = hbPeople;
+    public void sethb_People(int hb_People) {
+        this.hb_People = hb_People;
     }
 
-    public String getHbName() {
-        return hbName;
+    public String gethb_Name() {
+        return hb_Name;
     }
 
-    public void setHbName(String hbName) {
-        this.hbName = hbName;
+    public void sethb_Name(String hb_Name) {
+        this.hb_Name = hb_Name;
     }
 
-	public String getmCode() {
-		return mCode;
+	public String getcity_Code() {
+		return city_Code;
 	}
 
-	public void setmCode(String mCode) {
-		this.mCode = mCode;
+	public void setcity_Code(String city_Code) {
+		this.city_Code = city_Code;
 	}
 
-	public String gethCode() {
-		return hCode;
+	public String getcity_Name() {
+		return city_Name;
 	}
 
-	public void sethCode(String hCode) {
-		this.hCode = hCode;
-	}
-
-	public String getCityCode() {
-		return cityCode;
-	}
-
-	public void setCityCode(String cityCode) {
-		this.cityCode = cityCode;
-	}
-
-	public String getCityName() {
-		return cityName;
-	}
-
-	public void setCityName(String cityName) {
-		this.cityName = cityName;
+	public void setcity_Name(String city_Name) {
+		this.city_Name = city_Name;
 	}
     
 }
