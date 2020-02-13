@@ -290,7 +290,6 @@
 			<version>${org.springframework-version}</version>
 		</dependency>
 		<!-- 이메일 인증 2018.11.20 KW -->
-		
 		<!-- 트랜잭션 -->
 		<!-- https://mvnrepository.com/artifact/org.springframework/spring-tx -->
 		<dependency>

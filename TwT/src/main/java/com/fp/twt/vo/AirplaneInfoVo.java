@@ -4,7 +4,7 @@ import java.util.Date;
 
 public class AirplaneInfoVo {
 
-    private String mCode; 		//회원 번호
+    private String m_Code; 		//회원 번호
     private String depLoca1; 	//출국_출발지명
     private String depLoca2; 	//출국_도착지명
     private Date depDate1; 		//출국_출국날짜
@@ -22,11 +22,11 @@ public class AirplaneInfoVo {
 		super();
 	}
 
-	public AirplaneInfoVo(String mCode, String depLoca1, String depLoca2, Date depDate1, Date depDate2, String depTime1,
+	public AirplaneInfoVo(String m_Code, String depLoca1, String depLoca2, Date depDate1, Date depDate2, String depTime1,
 			String depTime2, String reLoca1, String reLoca2, Date reDate1, Date reDate2, String reTime1,
 			String reTime2) {
 		super();
-		this.mCode = mCode;
+		this.m_Code = m_Code;
 		this.depLoca1 = depLoca1;
 		this.depLoca2 = depLoca2;
 		this.depDate1 = depDate1;
@@ -41,12 +41,12 @@ public class AirplaneInfoVo {
 		this.reTime2 = reTime2;
 	}
 
-	public String getMCode() {
-        return mCode;
+	public String getm_Code() {
+        return m_Code;
     }
 
-    public void setMCode(String mCode) {
-        this.mCode = mCode;
+    public void setm_Code(String m_Code) {
+        this.m_Code = m_Code;
     }
 
     public String getDepLoca1() {
@@ -144,13 +144,5 @@ public class AirplaneInfoVo {
     public void setReTime2(String reTime2) {
         this.reTime2 = reTime2;
     }
-
-	public String getmCode() {
-		return mCode;
-	}
-
-	public void setmCode(String mCode) {
-		this.mCode = mCode;
-	}
     
 }
