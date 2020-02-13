@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <link href="https://fonts.googleapis.com/css?family=Kaushan+Script&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css?family=Kalam&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css?family=Patrick+Hand&display=swap" rel="stylesheet">
@@ -19,8 +20,18 @@
           <li id="nav1" class="nav-item"><a href="flight.do" class="nav-link">Flight</a></li>
           <li id="nav2" class="nav-item"><a href="hotel.do" class="nav-link">Hotels</a></li>
           <li id="nav3" class="nav-item"><a href="community.do" class="nav-link">Community</a></li>
-          <li id="nav4" class="nav-item"><a href="mypage.do" class="nav-link"><i class="fas fa-user"></i>&nbsp;My</a></li>
-          <li class="nav-item cta"><a href="login.do" class="nav-link"><span>Login</span></a></li>
+          <%-- 세션 유무에 따른 버튼 이벤트 --%>
+          <c:choose>
+             <c:when test="${empty login}">
+                <li id="nav4" class="nav-item"><a href="login.do" class="nav-link"><i class="fas fa-user"></i>&nbsp;My</a></li>
+                <li class="nav-item cta"><a href="login.do" class="nav-link"><span>Login</span></a></li>
+             </c:when>
+             
+             <c:otherwise>
+                <li id="nav4" class="nav-item"><a href="mypage.do" class="nav-link"><i class="fas fa-user"></i>&nbsp;My</a></li>
+                <li class="nav-item cta"><a href="logout.do" class="nav-link"><span>Logout</span></a></li>
+             </c:otherwise>
+          </c:choose>
         </ul>
       </div>
     </div>

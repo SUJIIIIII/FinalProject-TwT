@@ -11,20 +11,57 @@
 <head>
 <meta charset="UTF-8">
 <script src="${pageContext.request.contextPath}/resources/js/jquery-3.2.1.min.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){
+	$(".info_box").hide();
+});
+
+function checkID() {
+	
+	$("#id_check").show();
+	
+	// input 태그에 입력한 내용 변수에 담음
+	var input = $("input[name=mId]").val();
+	
+	$.ajax({
+		url:"idChk.do?mId="+input,
+		type:"GET",
+		dataType:"json",
+		contentType:"application/json",
+		success : function(data){
+			if(data.check == '1') {
+				$("#id_check").text("이미 사용중인 아이디입니다.");
+				$("#id_check").css("color","red");
+				$("#submit").attr("disabled","true");
+			} else {
+				$("#id_check").text("사용 가능한 아이디입니다.");
+				$("#id_check").css("color","green");
+				$("#submit").removeAttr("disabled");
+			}
+		}, error:function(){
+			console.log("에러입니다.");
+		}
+	});
+}
+
+function checkEmail() {
+
+}
+</script>
 <style type="text/css">
 * {
 	box-sizing: border-box;
 }
 
 body {
-    background-color:#F85959;
+	background-color: #F85959;
 	display: flex;
 	justify-content: center;
 	align-items: center;
 	flex-direction: column;
 	font-family: 'Montserrat', sans-serif;
 	height: 100vh;
-	margin:0;
+	margin: 0;
 }
 
 h1 {
@@ -83,11 +120,11 @@ button.ghost {
 
 button.ghost2 {
 	background-color: transparent;
-	border:2px solid #FFFFFF;
+	border: 2px solid #FFFFFF;
 }
 
 form {
-    width:600px;
+	width: 600px;
 	background-color: #FFFFFF;
 	display: flex;
 	align-items: center;
@@ -109,8 +146,8 @@ input {
 .container {
 	background-color: #fff;
 	border-radius: 10px;
-  	box-shadow: 0 14px 28px rgba(0,0,0,0.25), 
-			0 10px 10px rgba(0,0,0,0.22);
+	box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px
+		rgba(0, 0, 0, 0.22);
 	position: relative;
 	overflow: hidden;
 	width: 960px;
@@ -148,18 +185,33 @@ input {
 	animation: show 0.6s;
 }
 
-@keyframes show {
-	0%, 49.99% {
-		opacity: 0;
-		z-index: 1;
-	}
-	
-	50%, 100% {
-		opacity: 1;
-		z-index: 5;
-	}
+@
+keyframes show { 0%, 49.99% {
+	opacity: 0;
+	z-index: 1;
 }
 
+50%,
+100%
+{
+opacity
+
+
+:
+
+ 
+
+1;
+z-index
+
+
+:
+
+ 
+
+5;
+}
+}
 .overlay-container {
 	position: absolute;
 	top: 0;
@@ -169,10 +221,10 @@ input {
 	overflow: hidden;
 	transition: transform 0.6s ease-in-out;
 	z-index: 100;
-	margin-left:120px;
+	margin-left: 120px;
 }
 
-.container.right-panel-active .overlay-container{
+.container.right-panel-active .overlay-container {
 	transform: translateX(-167%);
 }
 
@@ -183,12 +235,12 @@ input {
 	left: -100%;
 	height: 100%;
 	width: 200%;
-  	transform: translateX(0);
+	transform: translateX(0);
 	transition: transform 0.6s ease-in-out;
 }
 
 .container.right-panel-active .overlay {
-  	transform: translateX(50%);
+	transform: translateX(50%);
 }
 
 .overlay-panel {
@@ -207,10 +259,10 @@ input {
 }
 
 .overlay-left {
-	width:360px;
-	background-image:url("${pageContext.request.contextPath}/resources/images/account/login_key.jpg");
-	background-size:cover;
-
+	width: 360px;
+	background-image:
+		url("${pageContext.request.contextPath}/resources/images/account/login_key.jpg");
+	background-size: cover;
 }
 
 .container.right-panel-active .overlay-left {
@@ -220,10 +272,10 @@ input {
 .overlay-right {
 	right: 0;
 	transform: translateX(0);
-	width:360px;
-	background-image:url("${pageContext.request.contextPath}/resources/images/account/login_key.jpg");
-	background-size:cover;
-
+	width: 360px;
+	background-image:
+		url("${pageContext.request.contextPath}/resources/images/account/login_key.jpg");
+	background-size: cover;
 }
 
 .container.right-panel-active .overlay-right {
@@ -246,82 +298,111 @@ input {
 }
 
 footer {
-    background-color: #222;
-    color: #fff;
-    font-size: 14px;
-    bottom: 0;
-    position: fixed;
-    left: 0;
-    right: 0;
-    text-align: center;
-    z-index: 999;
+	background-color: #222;
+	color: #fff;
+	font-size: 14px;
+	bottom: 0;
+	position: fixed;
+	left: 0;
+	right: 0;
+	text-align: center;
+	z-index: 999;
 }
 
 footer p {
-    margin: 10px 0;
+	margin: 10px 0;
 }
 
 footer i {
-    color: red;
+	color: red;
 }
 
 footer a {
-    color: #3c97bf;
-    text-decoration: none;
+	color: #3c97bf;
+	text-decoration: none;
 }
 
-a:hover { color:#fc3c3c; }
+a:hover {
+	color: #fc3c3c;
+}
+
+.info_box { width:100%; 
+            height:20px;
+            line-height:20px;
+            font-size:10px;
+            text-align:left !important;
+            padding-left:20px;
+          }
 </style>
 <title>TWT - Login</title>
 </head>
 <body>
-<div class="container" id="container">
-	<div class="form-container sign-up-container">
-		<form action="#">
-			<img src="${pageContext.request.contextPath}/resources/images/account/register.png" width="40"><h1>Create Account</h1><br>
-			<%-- TODO : 아이디 중복체크 하단에 실시간으로 알리기 --%>
-			<input type="text" placeholder="ID" style="border-left:3px solid #fc3c3c;" />
-			<input type="email" placeholder="Email" style="border-left:3px solid #fc3c3c;" />
-			<input type="text" placeholder="Name" style="border-left:3px solid #fc3c3c;" />
-			<%-- TODO : 비밀번호 조건(대소문자/숫자포함 5자리이상)을 만족하지 않으면 하단에 실시간으로 글자띄우기, 만족하면 초록색으로 조건을 만족합니다 --%>
-			<input type="password" placeholder="Password" style="border-left:3px solid #fc3c3c;" />
-			<%-- TODO : 상단의 비밀번호와 일치하면 초록색으로 비밀번호가 일치합니다 --%>
-			<input type="password" placeholder="Password Check" style="border-left:3px solid #fc3c3c;"/><br>
-			<button>Sign Up</button>
-		</form>
-	</div>
-	<div class="form-container sign-in-container">
-		<form action="#">
-			<img src="${pageContext.request.contextPath}/resources/images/account/lock.png" width="40"><h1>LOGIN</h1>
-			<div class="social-container">
-				<a href="#" class="social"><img src="${pageContext.request.contextPath}/resources/images/account/kakao.png" style="border-radius:50px;"></a>
-				<a href="#" class="social"><img src="${pageContext.request.contextPath}/resources/images/account/naver.png" style="border-radius:50px;"></a>
-				<a href="#" class="social"><img src="${pageContext.request.contextPath}/resources/images/account/google.png" style="border-radius:50px;"></a>
-			</div>
-			<input type="text" placeholder="ID" style="border-left:3px solid #fc3c3c;"/>
-			<input type="password" placeholder="Password" style="border-left:3px solid #fc3c3c;"/>
-			<a href="#" style="font-size:12px; margin-right:-280px;" class="find">Forgot your password?</a>
-			<button>Sign In</button>
-		</form>
-	</div>
-	<div class="overlay-container">
-		<div class="overlay">
-			<div class="overlay-panel overlay-left">
-				<h1>Welcome Back!</h1>
-				<p>To keep connected with us please login with your personal info</p>
-				<button class="ghost2" id="signIn" style="margin-top:280px;">Sign In</button>
-			</div>
-			<div class="overlay-panel overlay-right">
-				<h1>Hello, Friend!</h1>
-				<p>Enter your personal details and start journey with us</p>
-				<button class="ghost2" id="signUp" style="margin-top:190px;">Sign Up</button>
+	<div class="container" id="container">
+	    <%-- 회원가입 시작 --%>
+		<div class="form-container sign-up-container">
+			<form action="createAccount.do" id="createAccount" method="post">
+				<img src="${pageContext.request.contextPath}/resources/images/account/register.png" width="40">
+				<h1>Create Account</h1>
+				<br>
+					<input type="text" name="mId" oninput="checkID()" placeholder="ID" style="border-left: 3px solid #fc3c3c;" />
+					<div class="info_box" id="id_check"></div>
+					
+					<input type="text" name="mEmail" oninput="checkEmail()" placeholder="Email" style="border-left: 3px solid #fc3c3c;" />
+					<div class="info_box"></div>
+					
+					<input type="text" name="mName" oninput="checkName()" placeholder="Name" style="border-left: 3px solid #fc3c3c;" />
+					<div class="info_box"></div>
+					
+					<input type="password" name="mPass" oninput="checkPwd()" placeholder="Password" style="border-left: 3px solid #fc3c3c;" />
+					<div class="info_box"></div>
+					
+					<input type="password" name="mPass_chk" oninput="checkPwd_Chk()" placeholder="Password Check" style="border-left: 3px solid #fc3c3c;" />
+					<div class="info_box"></div>
+					<br>
+				<button id="submit" type="submit">Sign Up</button>
+			</form>
+		</div>
+		<%-- 회원가입 끝 --%>
+		
+		<%-- 로그인 시작 --%>
+		<div class="form-container sign-in-container">
+			<form action="enter.do" method="post">
+				<img src="${pageContext.request.contextPath}/resources/images/account/lock.png" width="40">
+				<h1>LOGIN</h1>
+				<div class="social-container">
+					<a href="#" class="social"><img src="${pageContext.request.contextPath}/resources/images/account/kakao.png" style="border-radius: 50px;"></a>
+					<a href="#" class="social"><img src="${pageContext.request.contextPath}/resources/images/account/naver.png" style="border-radius: 50px;"></a>
+					<a href="#" class="social"><img src="${pageContext.request.contextPath}/resources/images/account/google.png" style="border-radius: 50px;"></a>
+				</div>
+				<input type="text" name="mId" placeholder="ID" style="border-left: 3px solid #fc3c3c;" />
+				<input type="password" name="mPass" placeholder="Password" style="border-left: 3px solid #fc3c3c;" />
+				<a href="#" style="font-size: 12px; margin-right: -280px;" class="find">Forgot your password?</a>
+				<button type="submit">Sign In</button>
+			</form>
+		</div>
+		<%-- 로그인 끝 --%>
+		
+		<div class="overlay-container">
+			<div class="overlay">
+				<div class="overlay-panel overlay-left">
+					<h1>Welcome Back!</h1>
+					<p>To keep connected with us please login with your personal
+						info</p>
+					<button class="ghost2" id="signIn" style="margin-top: 280px;">Sign
+						In</button>
+				</div>
+				<div class="overlay-panel overlay-right">
+					<h1>Hello, Friend!</h1>
+					<p>Enter your personal details and start journey with us</p>
+					<button class="ghost2" id="signUp" style="margin-top: 190px;">Sign
+						Up</button>
+				</div>
 			</div>
 		</div>
 	</div>
-</div>
 
-<%-- 로그인 판넬 이동 자바스크립트 시작 --%>
-<script type="text/javascript">
+	<%-- 로그인 판넬 이동 자바스크립트 시작 --%>
+	<script type="text/javascript">
 const signUpButton = document.getElementById('signUp');
 const signInButton = document.getElementById('signIn');
 const container = document.getElementById('container');

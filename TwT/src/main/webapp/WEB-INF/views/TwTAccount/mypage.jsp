@@ -481,17 +481,17 @@ html{
 			<div id="form_wrap">
 				<form action="#" method="post">
 					<div class="form-group">
-						<input type="text" value="bmi6638" /> <label for="input"
+						<input type="text" value="${login.mId}" /> <label for="input"
 							class="control-label">ID</label><i class="bar"></i>
 					</div>
 
 					<div class="form-group">
-						<input type="text" value="bmi6638@gmail.com" /> <label
+						<input type="text" value="${login.mEmail}" /> <label
 							for="input" class="control-label">E-MAIL</label><i class="bar"></i>
 					</div>
 
 					<div class="form-group">
-						<input type="password" required="required" value="123456789"
+						<input type="password" required="required" value="${login.mPass}"
 							id="password" /> <label for="input" class="control-label">PWD</label><i
 							class="bar"> <span style="float: right; margin-top: -30px;"
 							id="eye"> <i class="fas fa-eye"></i>
