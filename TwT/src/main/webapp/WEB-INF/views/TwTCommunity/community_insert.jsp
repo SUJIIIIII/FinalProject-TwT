@@ -33,9 +33,34 @@
 		        minHeight: 600,
 		        maxHeight: null,
 		        focus: true, 
-		        lang : 'ko-KR'
+		        lang : "ko-KR",
+				callbacks: {	//여기 부분이 이미지를 첨부하는 부분
+					onImageUpload : function(files) {
+						uploadImageFile(files[0],this);
+					}
+				}
 		  });
 		});
+	
+	function uploadImageFile(file, editor) {
+		date = new FormData();
+		date.append("file", file);
+		$.ajax({
+			data : date,
+			type : "post",
+			url : "uploadImageFile.do",
+			contentType : false,
+			processData : false,
+			success : function(data) {
+            	//항상 업로드된 파일의 url이 있어야 한다.
+				$(editor).summernote('insertImage', data.url);
+			},
+			error : function(){
+				alert("실패");
+			}
+		});
+	}
+	
 </script>
 <style type="text/css">
 body {
