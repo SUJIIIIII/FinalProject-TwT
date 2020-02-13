@@ -17,6 +17,7 @@
 			<typeAlias type="com.fp.twt.vo.TravelPointVo" alias="TravelPoint"/>
 			<typeAlias type="com.fp.twt.vo.TravelScheduleDayVo" alias="TravelScheduleDay"/>
 			<typeAlias type="com.fp.twt.vo.TravelScheduleVo" alias="TravelSchedule"/>
+			<typeAlias type="com.fp.twt.vo.HotelVo" alias="Hotel"/>
 		</typeAliases>
 		
 		<mappers>

@@ -2,80 +2,81 @@ package com.fp.twt.vo;
 
 public class HotelVo {
 
-    private String hCode; 			//숙소 번호
-    private String cityCode; 		//도시 번호
-    private String hName; 			//숙소명
-    private int hLati; 				//숙소 위도
-    private int hLong; 				//숙소 경도
+    private String h_Code; 			//숙소 번호
+    private String city_Code; 		//도시 번호
+    private String h_Name; 			//숙소명
+    private int h_Lati; 				//숙소 위도
+    private int h_Long; 				//숙소 경도
     private String h_phone; 		//숙소 전화번호
-    private String hBasicaddr; 		//숙소 간략주소
-    private String hAddr; 			//숙소 주소
-    private String hImg; 			//숙소 사진
-    private String hContent; 		//숙소 설명
-    private int hStarn; 			//숙소 별점
-    private String hBasiccontent; 	//숙소 간략 설명
-    private String cityName; 		//도시 이름
+    private String h_Basicaddr; 		//숙소 간략주소
+    private String h_Addr; 			//숙소 주소
+    private String h_Img; 			//숙소 사진
+    private String h_Content; 		//숙소 설명
+    private int h_Starn; 			//숙소 별점
+    private String h_Basiccontent; 	//숙소 간략 설명
+    private String city_Name; 		//도시 이름
     
-    public HotelVo() {
+	public HotelVo() {
 		super();
 	}
 
-	public HotelVo(String hCode, String cityCode, String hName, int hLati, int hLong, String h_phone, String hBasicaddr,
-			String hAddr, String hImg, String hContent, int hStarn, String hBasiccontent, String cityName) {
+	public HotelVo(String h_Code, String city_Code, String h_Name, int h_Lati, int h_Long, String h_phone,
+			String h_Basicaddr, String h_Addr, String h_Img, String h_Content, int h_Starn, String h_Basiccontent,
+			String city_Name) {
 		super();
-		this.hCode = hCode;
-		this.cityCode = cityCode;
-		this.hName = hName;
-		this.hLati = hLati;
-		this.hLong = hLong;
+		this.h_Code = h_Code;
+		this.city_Code = city_Code;
+		this.h_Name = h_Name;
+		this.h_Lati = h_Lati;
+		this.h_Long = h_Long;
 		this.h_phone = h_phone;
-		this.hBasicaddr = hBasicaddr;
-		this.hAddr = hAddr;
-		this.hImg = hImg;
-		this.hContent = hContent;
-		this.hStarn = hStarn;
-		this.hBasiccontent = hBasiccontent;
-		this.cityName = cityName;
+		this.h_Basicaddr = h_Basicaddr;
+		this.h_Addr = h_Addr;
+		this.h_Img = h_Img;
+		this.h_Content = h_Content;
+		this.h_Starn = h_Starn;
+		this.h_Basiccontent = h_Basiccontent;
+		this.city_Name = city_Name;
 	}
 
-	public String gethCode() {
-		return hCode;
+	public String getH_Code() {
+		return h_Code;
 	}
 
-	public void sethCode(String hCode) {
-		this.hCode = hCode;
+	public void setH_Code(String h_Code) {
+		this.h_Code = h_Code;
 	}
 
-	public String getCityCode() {
-		return cityCode;
+	public String getCity_Code() {
+		return city_Code;
 	}
 
-	public void setCityCode(String cityCode) {
-		this.cityCode = cityCode;
+	public void setCity_Code(String city_Code) {
+		this.city_Code = city_Code;
 	}
 
-	public String gethName() {
-		return hName;
+	public String getH_Name() {
+		return h_Name;
 	}
 
-	public void sethName(String hName) {
-		this.hName = hName;
+	public void setH_Name(String h_Name) {
+		this.h_Name = h_Name;
 	}
 
-	public int gethLati() {
-		return hLati;
+	public int getH_Lati() {
+		return h_Lati;
 	}
 
-	public void sethLati(int hLati) {
-		this.hLati = hLati;
+	public void setH_Lati(int h_Lati) {
+		this.h_Lati = h_Lati;
 	}
 
-	public int gethLong() {
-		return hLong;
+	public int getH_Long() {
+		return h_Long;
 	}
 
-	public void sethLong(int hLong) {
-		this.hLong = hLong;
+	public void setH_Long(int h_Long) {
+		this.h_Long = h_Long;
 	}
 
 	public String getH_phone() {
@@ -86,60 +87,61 @@ public class HotelVo {
 		this.h_phone = h_phone;
 	}
 
-	public String gethBasicaddr() {
-		return hBasicaddr;
+	public String getH_Basicaddr() {
+		return h_Basicaddr;
 	}
 
-	public void sethBasicaddr(String hBasicaddr) {
-		this.hBasicaddr = hBasicaddr;
+	public void setH_Basicaddr(String h_Basicaddr) {
+		this.h_Basicaddr = h_Basicaddr;
 	}
 
-	public String gethAddr() {
-		return hAddr;
+	public String getH_Addr() {
+		return h_Addr;
 	}
 
-	public void sethAddr(String hAddr) {
-		this.hAddr = hAddr;
+	public void setH_Addr(String h_Addr) {
+		this.h_Addr = h_Addr;
 	}
 
-	public String gethImg() {
-		return hImg;
+	public String getH_Img() {
+		return h_Img;
 	}
 
-	public void sethImg(String hImg) {
-		this.hImg = hImg;
+	public void setH_Img(String h_Img) {
+		this.h_Img = h_Img;
 	}
 
-	public String gethContent() {
-		return hContent;
+	public String getH_Content() {
+		return h_Content;
 	}
 
-	public void sethContent(String hContent) {
-		this.hContent = hContent;
+	public void setH_Content(String h_Content) {
+		this.h_Content = h_Content;
 	}
 
-	public int gethStarn() {
-		return hStarn;
+	public int getH_Starn() {
+		return h_Starn;
 	}
 
-	public void sethStarn(int hStarn) {
-		this.hStarn = hStarn;
+	public void setH_Starn(int h_Starn) {
+		this.h_Starn = h_Starn;
 	}
 
-	public String gethBasiccontent() {
-		return hBasiccontent;
+	public String getH_Basiccontent() {
+		return h_Basiccontent;
 	}
 
-	public void sethBasiccontent(String hBasiccontent) {
-		this.hBasiccontent = hBasiccontent;
+	public void setH_Basiccontent(String h_Basiccontent) {
+		this.h_Basiccontent = h_Basiccontent;
 	}
 
-	public String getCityName() {
-		return cityName;
+	public String getCity_Name() {
+		return city_Name;
 	}
 
-	public void setCityName(String cityName) {
-		this.cityName = cityName;
+	public void setCity_Name(String city_Name) {
+		this.city_Name = city_Name;
 	}
-	
+    
+    
 }
