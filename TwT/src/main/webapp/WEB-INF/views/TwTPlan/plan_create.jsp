@@ -70,6 +70,7 @@
 <script>
 var marker;
 	// map 추가
+	var count = 0;
 	function initMap() {
 		var bangkok = {lat: 13.755161, lng: 100.502371}; //방콕위치 위도/경도
 		// 방콕을 센터로 맵 생성
@@ -94,16 +95,13 @@ var marker;
 		var tmp = ${res.get(2).getcity_Lati()};
 		alert(tmp);
 		var locations = new Array();
-		var count = 0;
+		
 		for(var i = 0;i<4;i++){
-			alert("i : "  + i);
-			alert("count : " + count);
-			alert("google.maps0 : " + new google.maps.LatLng(${res.get(count).getcity_Lati()}, ${res.get(count).getcity_Long()}));
-			alert("google.maps1 : " + new google.maps.LatLng(${res.get(1).getcity_Lati()}, ${res.get(1).getcity_Long()}));
+			alert("google.maps" + i + " : " + ${res.get(i).getcity_Long()});
+			alert("google.maps비교" + 2 + " : " + ${res.get(2).getcity_Long()});
 			// locations[i] = {position : new google.maps.LatLng(${res.get(i).getcity_Lati()}, ${res.get(i).getcity_Long()})};
-			// alert(locations[i].position);
-			count++;
-		};
+			// alert(locations[i].position);		
+			};
        	alert(locations.length);
 		
 		alert(locations[2].position);
