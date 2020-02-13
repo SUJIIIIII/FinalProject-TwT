@@ -12,6 +12,8 @@ import com.fp.twt.vo.CityVo;
 
 @Controller
 public class PlanController {
+	@Autowired
+	public PlanBiz biz;
 	//철환
 	
 	
@@ -23,9 +25,6 @@ public class PlanController {
 	//-------------------------------------------------------------------------------------------------------------
 	
 	//수지
-	@Autowired
-	public PlanBiz biz;
-	
 	@RequestMapping("/plan.do")
 	public String createSelect(Model model) {
 //		List<CityVo> res = biz.selectCityAll();

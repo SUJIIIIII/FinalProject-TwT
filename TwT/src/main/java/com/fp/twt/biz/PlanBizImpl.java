@@ -10,6 +10,8 @@ import com.fp.twt.vo.CityVo;
 
 @Service
 public class PlanBizImpl implements PlanBiz{
+	@Autowired
+	private PlanDao dao;
 	//철환
 	
 	
@@ -19,10 +21,7 @@ public class PlanBizImpl implements PlanBiz{
 	
 	
 	//--------------------------------------------------------------------------------------------------//
-	
 	//수지
-	@Autowired
-	private PlanDao dao;
 	@Override
 	public List<CityVo> selectCityAll() {
 		return dao.selectCityAll();
