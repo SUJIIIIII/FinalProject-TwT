@@ -16,10 +16,10 @@ public class HomeController {
 	private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
 	
 	//페이지 이동
-	@RequestMapping("plan.do")
-	public String plan() {
-		return "TwTPlan/plan_create";
-	}
+//	@RequestMapping("plan.do")
+//	public String plan() {
+//		return "TwTPlan/plan_create";
+//	}
 	@RequestMapping("planDetail.do")
 	public String planDetail() {
 		return "TwTPlan/plan_detail";
