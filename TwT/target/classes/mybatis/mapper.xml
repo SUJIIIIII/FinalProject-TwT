@@ -64,7 +64,7 @@
 		
 		
 		<!-- ================================수지==================================  -->
-		<select id="selectcityall" resultType="City">
+		<select id="selectcityall_S" resultType="City">
 			SELECT * FROM CITY
 		</select>
 		

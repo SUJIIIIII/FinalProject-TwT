@@ -69,8 +69,8 @@
 <script type="text/javascript" src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 <script>
 var marker;
+var count = 0;
 	// map 추가
-	var count = 0;
 	function initMap() {
 		var bangkok = {lat: 13.755161, lng: 100.502371}; //방콕위치 위도/경도
 		// 방콕을 센터로 맵 생성
@@ -79,7 +79,7 @@ var marker;
 		
 		// 지도에 마커 표시
 		// 위치 배열 되는 코드
-		/* var locations = [
+		var locations = [
 	        {
 	          position: new google.maps.LatLng(13.757691, 100.505969)
 	        }, {
@@ -89,10 +89,10 @@ var marker;
 	        }, {
 	          position: new google.maps.LatLng(7.9558174, 98.3420414)
 	        }
-       	]; */
+       	];
 		
 		//db에서 가져오기
-		var tmp = ${res.get(2).getcity_Lati()};
+		/* var tmp = ${res.get(2).getcity_Lati()};
 		alert(tmp);
 		var locations = new Array();
 		
@@ -104,7 +104,7 @@ var marker;
 			};
        	alert(locations.length);
 		
-		alert(locations[2].position);
+		alert(locations[2].position); */
 			
 		/* alert("location?" + locations); */
 		// 마커 아이콘
