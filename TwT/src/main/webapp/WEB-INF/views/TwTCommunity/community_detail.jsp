@@ -26,6 +26,7 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/icomoon.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/style.css">
 	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/community/community_detail_css.css">
+	<link href = "https://fonts.googleapis.com/css?family= Modak & display = swap"rel = "stylesheet">
     
 <script src="https://kit.fontawesome.com/6953482b42.js" crossorigin="anonymous"></script>
 <script type="text/javascript" src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
@@ -122,30 +123,30 @@
 
 
    <!-- 폼 넣는 위치 -->
-   <section class="ftco-section ftco-degree-bg">
+   <section class="ftco-section ftco-degree-bg" style="padding: 2em 0;">
       <div class="container">
         <div class="row">
           <div class="col-md-8 ftco-animate">
-          <p style="text-align: center; margin-top: 35px; margin-bottom: 30px; font-weight:bold;"><i class="fas fa-user"></i> (아이디)님의 여행일정</p>
+          <p style="text-align: left; margin-left: 60px; margin-bottom: 30px; font-weight:bold;"><i class="fas fa-user"></i> (아이디)님의 여행일정</p>
           
-            <h2 class="mb-3" style="text-align: center; margin-top: 20px; font-weight: bold;">제목</h2>
-            <div class="plan_info" style="float: right; margin-top: 20px;">
-					<div class="plan_info_box">
-						<div class="cnt_copy">
-						<i class="fas fa-heart" style="color:#fc3c3c;"></i>
-						</div>
+            <h2 class="mb-3" style="text-align: center; margin-top: 40px; font-weight: bold; ">제목</h2>
+            <div class="plan_info" style="float: right; margin-top: 20px; ">
+					<div class="plan_info_box" style="margin-top: -25px; margin-right: 50px; ">
 						<div class="cnt_spot">
 						<i class="fas fa-map-marker-alt"></i>
 						</div>
 						<div class="cnt_view">
 						<i class="far fa-eye"></i>
 						</div>
+						<div class="cnt_copy">
+						<i class="fas fa-heart" style="color:#fc3c3c;"></i>
+						</div>
 					</div>
 				</div>
 				
  <main id="home" class="contents">
   <div class="container">
-    <h3 class="page-title text-center" style="margin-top: 70px; margin-left: 62px; color: silver; font-size: 17px;"><i class="fas fa-calendar-alt"></i>&nbsp; 2020.02.03 ~ 2020.02.06&nbsp;(여행기간)</h3>
+    <h3 class="page-title text-center" style="margin-top: 120px; margin-left: 62px; color: silver; font-size: 17px;"><i class="fas fa-calendar-alt"></i>&nbsp; 2020.02.03 ~ 2020.02.06&nbsp;(여행기간)</h3>
     <ul class="timeline">
       <li class="timeline-line"></li>
       <li class="timeline-group">
@@ -268,7 +269,7 @@
     </ul>
   </div>
             
-            
+  <!-- 댓글  -->
             
             <div class="pt-5 mt-5">
               <h3 class="mb-5">6 Comments</h3>
