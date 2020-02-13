@@ -34,8 +34,8 @@ public class MypageController {
 	// 회원가입
 	@RequestMapping("/createAccount.do")
 	public String memberInsert(MemberVo vo, HttpServletRequest request) {
-		vo.setmPass(passwordEncoder.encode(vo.getmPass()));
-		System.out.println("암호화 된 비밀번호 : " + vo.getmPass());
+		vo.setm_Pass(passwordEncoder.encode(vo.getm_Pass()));
+		System.out.println("암호화 된 비밀번호 : " + vo.getm_Pass());
 
 		if (biz.memberInsert(vo) > 0) {
 			System.out.println("회원가입 성공" + vo.toString());
@@ -60,7 +60,7 @@ public class MypageController {
 		boolean check = false;
 
 		// 비밀번호 해독
-		if (passwordEncoder.matches(vo.getmPass(), res.getmPass())) {
+		if (passwordEncoder.matches(vo.getm_Pass(), res.getm_Pass())) {
 			session.setAttribute("login", res);
 
 			check = true;
