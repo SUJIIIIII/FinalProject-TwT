@@ -4,92 +4,84 @@ import java.util.Date;
 
 public class HotelReviewVo {
 
-    private String hrvCode; 	//숙소후기 번호
-    private String hrCode; 		//방 코드
-    private String hbCode; 		//예약 번호
-    private String mCode; 		//회원 번호
-    private String hrvContent; 	//숙소후기 내용
-    private Date hrvDate; 		//숙소후기 작성일
-    private int hrvStarn; 		//숙소후기 평점
-    
-    public String getmCode() {
-		return mCode;
-	}
-
-	public void setmCode(String mCode) {
-		this.mCode = mCode;
-	}
+    private String hrv_Code; 	//숙소후기 번호
+    private String hr_Code; 		//방 코드
+    private String hb_Code; 		//예약 번호
+    private String m_Code; 		//회원 번호
+    private String hrv_Content; 	//숙소후기 내용
+    private Date hrv_Date; 		//숙소후기 작성일
+    private int hrv_Starn; 		//숙소후기 평점
 
 	public HotelReviewVo() {
 		super();
 	}
 
-	public HotelReviewVo(String hrvCode, String hrCode, String hbCode, String mCode, String hrvContent, Date hrvDate,
-			int hrvStarn) {
+	public HotelReviewVo(String hrv_Code, String hr_Code, String hb_Code, String m_Code, String hrv_Content, Date hrv_Date,
+			int hrv_Starn) {
 		super();
-		this.hrvCode = hrvCode;
-		this.hrCode = hrCode;
-		this.hbCode = hbCode;
-		this.mCode = mCode;
-		this.hrvContent = hrvContent;
-		this.hrvDate = hrvDate;
-		this.hrvStarn = hrvStarn;
+		this.hrv_Code = hrv_Code;
+		this.hr_Code = hr_Code;
+		this.hb_Code = hb_Code;
+		this.m_Code = m_Code;
+		this.hrv_Content = hrv_Content;
+		this.hrv_Date = hrv_Date;
+		this.hrv_Starn = hrv_Starn;
 	}
 
-	public String getHrvCode() {
-        return hrvCode;
+	public String gethrv_Code() {
+        return hrv_Code;
     }
 
-    public void setHrvCode(String hrvCode) {
-        this.hrvCode = hrvCode;
+    public void sethrv_Code(String hrv_Code) {
+        this.hrv_Code = hrv_Code;
     }
 
-    public String getHrCode() {
-        return hrCode;
+    public String gethr_Code() {
+        return hr_Code;
     }
 
-    public void setHrCode(String hrCode) {
-        this.hrCode = hrCode;
+    public void sethr_Code(String hr_Code) {
+        this.hr_Code = hr_Code;
     }
 
-    public String getHbCode() {
-        return hbCode;
+    public String gethb_Code() {
+        return hb_Code;
     }
 
-    public void setHbCode(String hbCode) {
-        this.hbCode = hbCode;
+    public void sethb_Code(String hb_Code) {
+        this.hb_Code = hb_Code;
     }
 
-    public String getMCode() {
-        return mCode;
+    public String getm_Code() {
+        return m_Code;
     }
 
-    public void setMCode(String mCode) {
-        this.mCode = mCode;
+    public void setm_Code(String m_Code) {
+        this.m_Code = m_Code;
     }
 
-    public String getHrvContent() {
-        return hrvContent;
+    public String gethrv_Content() {
+        return hrv_Content;
     }
 
-    public void setHrvContent(String hrvContent) {
-        this.hrvContent = hrvContent;
+    public void sethrv_Content(String hrv_Content) {
+        this.hrv_Content = hrv_Content;
     }
 
-    public Date getHrvDate() {
-        return hrvDate;
+    public Date gethrv_Date() {
+        return hrv_Date;
     }
 
-    public void setHrvDate(Date hrvDate) {
-        this.hrvDate = hrvDate;
+    public void sethrv_Date(Date hrv_Date) {
+        this.hrv_Date = hrv_Date;
     }
 
-    public int getHrvStarn() {
-        return hrvStarn;
+    public int gethrv_Starn() {
+        return hrv_Starn;
     }
 
-    public void setHrvStarn(int hrvStarn) {
-        this.hrvStarn = hrvStarn;
+    public void sethrv_Starn(int hrv_Starn) {
+        this.hrv_Starn = hrv_Starn;
     }
 
 }
