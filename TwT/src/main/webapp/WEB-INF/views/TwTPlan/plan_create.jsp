@@ -90,19 +90,18 @@
        	];
 		
 		//db에서 가져오기
-		/* var tmp = ${res.get(2).getcity_Lati()};
+		 var tmp = ${res.get(2).getcity_Lati()};
 		alert(tmp);
 		var locations = new Array();
 		
 		for(var i = 0;i<4;i++){
 			alert("google.maps" + i + " : " + ${res.get(i).getcity_Long()});
-			alert("google.maps비교" + 2 + " : " + ${res.get(2).getcity_Long()});
 			// locations[i] = {position : new google.maps.LatLng(${res.get(i).getcity_Lati()}, ${res.get(i).getcity_Long()})};
 			// alert(locations[i].position);		
 			};
        	alert(locations.length);
 		
-		alert(locations[2].position); */
+		alert(locations[2].position); 
 			
 		/* alert("location?" + locations); */
 		// 마커 아이콘
@@ -230,10 +229,6 @@ src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCiDE5HBue4mflsdkcsGvSZrUe
 	<!-- <script>
 
 	</script> -->
-	<%-- <%
-		${res.get(i)
-	
-	%> --%>
 	<!-- @@@@@@@헤더@@@@@@@@  -->
 	<div id="header">
 		<div class="wrap" style="width:100%;padding:0px 10px;">

@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.fp.twt.biz.PlanBiz;
 import com.fp.twt.vo.CityVo;
 
+// http://localhost:8090/twt/plan.do
+
 @Controller
 public class PlanController {
 	@Autowired
