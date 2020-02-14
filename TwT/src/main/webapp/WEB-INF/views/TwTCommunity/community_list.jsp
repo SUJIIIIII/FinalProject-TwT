@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
     <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+	<%@ page import="com.fp.twt.vo.MemberVo" %>
+	<%@ page import="com.fp.twt.vo.TravelScheduleVo" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -122,27 +124,47 @@
 					      	</div>						
 						<div class="row d-flex">
 						
-						 <%-- <c:forEach begin="${(page-1)*8 }" end="${((page-1)*8)+7 }" var="vo">
+						
+							<c:forEach items="${community }" var="vo">
+							 	<div class="col-md-3 d-flex ftco-animate">
+							            <div class="blog-entry align-self-stretch" style="min-width: 250px;">
+							              <a href="communityDetail.do" class="block-20" style="background-image: url('${pageContext.request.contextPath}/resources/images/image_1.jpg');"></a>
+							              <div class="text p-4 d-block" style="min-width: 250px;">
+							              	<span class="tag">${vo.ts_Sday }</span>
+							              	<span class="tag">| ${vo.ts_Period }DAYS</span>
+							              	<span style="padding: 0 0 0 18px;">
+								              	<i class="far fa-heart"></i>&nbsp;&nbsp;
+									            <i class="fas fa-eye"></i><span style="font-size:16px;">&nbsp;&nbsp;1</span>
+								            </span>
+								            <br>
+						              	    <h3 class="heading"><a href="communityDetail.do">${vo.ts_Title }</a></h3>
+						                    <div class="tagcloud">
+							                <a href="#" class="tag-cloud-link">${vo.ts_Theme }</a>
+						               	 	</div>
+						           		 	<br>
+						                    <div style="margin-top: -10px;"><i class="fas fa-user"></i> 아이디</div>			              	    
+							              </div>
+							            </div>
+							          </div>
+						 </c:forEach>
+						   <%-- <c:forEach begin="${(page-1)*8 }" end="${((page-1)*8)+7 }" var="vo">
 							 <c:choose>
 							 	<c:when test="${vo >= community.size() }">
 						          <div class="col-md-3 d-flex ftco-animate">
 						            <div class="blog-entry align-self-stretch" style="min-width: 250px;">
-						              <a href="communityDetail.do" class="block-20" style="background-image: url('${pageContext.request.contextPath}/resources/images/image_1.jpg');"></a>
 						              <div class="text p-4 d-block" style="min-width: 250px;">
-						              	<span class="tag">2020.02.05</span>
-						              	<span class="tag">| 5DAYS</span>
+						              	<span class="tag"></span>
+						              	<span class="tag"></span>
 						              	<span style="padding: 0 0 0 18px;">
-							              	<i class="far fa-heart"></i>&nbsp;&nbsp;
-								            <i class="fas fa-eye"></i><span style="font-size:16px;">&nbsp;&nbsp;1</span>
 							            </span>
 							            <br>
-					              	    <h3 class="heading"><a href="communityDetail.do">태국 여행</a></h3>
+					              	    <h3 class="heading"></h3>
 					                    <div class="tagcloud">
-						                <a href="#" class="tag-cloud-link">나홀로</a>
-						                <a href="#" class="tag-cloud-link">비즈니스 여행</a>
+						                <a href="#" class="tag-cloud-link"></a>
+						                <a href="#" class="tag-cloud-link"></a>
 					               	 	</div>
 					           		 	<br>
-					                    <div style="margin-top: -10px;"><i class="fas fa-user"></i> 아이디</div>			              	    
+					                    <div style="margin-top: -10px;"></div>			              	    
 						              </div>
 						            </div>
 						          </div>
@@ -171,7 +193,7 @@
 							          </div>
 							 	</c:otherwise>
 							 </c:choose>
-						 </c:forEach> --%>
+						 </c:forEach>  --%>
 
 
 						</div>

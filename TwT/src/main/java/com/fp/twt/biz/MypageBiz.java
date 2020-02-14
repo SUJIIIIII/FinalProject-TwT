@@ -10,6 +10,6 @@ public interface MypageBiz {
     public MemberVo login(MemberVo vo);
 
     // 아이디 중복검사
-    public int idChk(String mId);
+    public int idChk(String m_Id);
    
 }

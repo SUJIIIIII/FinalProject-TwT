@@ -52,55 +52,57 @@
 			<result property="ts_Thum" column="TS_THUM" />
 			<result property="ts_Period" column="TS_PERIOD" />
 		</resultMap>
-		<select id="TS_selectList" resultMap="TravelScheduleMap">
-			SELECT * FROM TRABLESCHEDULE ORDER BY TS_CODE
+		<select id="selectList_D" resultMap="TravelScheduleMap">
+			SELECT * FROM TRAVELSCHEDULE ORDER BY TS_CODE DESC
 		</select>
 
 		
 		<!-- ================================보미==================================  -->
-    <resultMap type="Member" id="memberMap">
-      <result property="mCode" column="M_CODE" />
-      <result property="mId" column="M_ID" />
-      <result property="mPass" column="M_PASS" />
-      <result property="mName" column="M_NAME" />
-      <result property="mEmail" column="M_EMAIL" />
-      <result property="mApi" column="M_API" />
-	  </resultMap>
 
-	  <!-- 회원가입 -->
-	<insert id="insert" parameterType="Member">
+  <!-- 회원가입 -->
+	<insert id="insertM" parameterType="Member">
 		INSERT INTO TWTMEMBER VALUES
-		('M4', #{mId}, #{mPass}, #{mName}, #{mEmail},
-		#{mApi,jdbcType=VARCHAR}, 'N')
+		('M6' , #{m_Id}, #{m_Pass}, #{m_Name}, #{m_Email},
+		#{m_Api,jdbcType=VARCHAR}, 'N')
 	</insert>
 
 	<!-- 로그인 -->
-	<select id="login" resultMap="memberMap">
-		SELECT * FROM TWTMEMBER WHERE M_ID
-		= #{mId}
+	<select id="loginM" resultType="Member">
+		SELECT * FROM TWTMEMBER WHERE
+		M_ID = #{m_Id}
 	</select>
 
 	<!-- 아이디 중복검사 -->
-	<select id="idChk" resultType="int">
-	   SELECT COUNT(*) FROM TWTMEMBER WHERE M_ID = #{mId}
+	<select id="idChkM" resultType="int">
+		SELECT COUNT(*) FROM TWTMEMBER
+		WHERE M_ID = #{m_Id}
 	</select>
 
-		
-		
-		<!-- ================================찬우==================================  -->
-		
-		
-		
-		<!-- ================================수지==================================  -->
-		<select id="selectcityall_S" resultType="City">
-			SELECT * FROM CITY
-		</select>
-		
-		
-		<!-- ================================철환==================================  -->
-		
+	<!-- 유저 인증키 생성 -->
+	<update id="GetKey" parameterType="Member">
+		UPDATE TWTMEMBER SET
+		M_MAILCHECK = #{m_mailcheck} WHERE M_ID = #{m_Id}
+	</update>
 
-	</mapper>
+	<!-- 유저 인증키(난수) Y로 변경 -->
+	<update id="alter_userKey" parameterType="Member">
+		UPDATE TWTMEMBER SET M_MAILCHECK = 'Y' WHERE M_ID = #{m_Id} AND M_MAILCHECK = #{m_mailcheck}
+	</update>
+
+	<!-- ================================찬우================================== -->
+
+
+
+	<!-- ================================수지================================== -->
+	<select id="selectcityall_S" resultType="City">
+		SELECT * FROM CITY
+	</select>
+
+
+	<!-- ================================철환================================== -->
+
+
+</mapper>
 
 	
 	
