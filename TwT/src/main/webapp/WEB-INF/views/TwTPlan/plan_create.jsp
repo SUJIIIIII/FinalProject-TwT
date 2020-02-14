@@ -505,7 +505,12 @@ src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCiDE5HBue4mflsdkcsGvSZrUe
 									</tbody>
 								</table>
 							</div>
-						</div>
+						</div><!--datepick end -->
+						<form>
+							<input type="hidden" id="schedule_date" name="schedule_date" value=""/> <!-- 날짜  -->
+							<input type="hidden" id="city_no" name="citycode" value=""/> <!-- 도시코드 -->
+							<input type="hidden" id="title" name="title" value=""/> <!-- 제목 -->
+						</form>
 					</div>
 					<div class="clear"></div>
 				</div>
@@ -572,9 +577,7 @@ src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCiDE5HBue4mflsdkcsGvSZrUe
 		#ddBoxPrint {background: url(http://earthtory.com/images/print.png) no-repeat; height: 16px; width: 26px;padding-left: 20px ;left: 4px !important; cursor: pointer; text-decoration: none; color: #66e}
 	</style>
 	
-	<!-- <script type="text/javascript">
-	
-	</script> -->
+	<script src="${pageContext.request.contextPath}/resources/js/plan/plan_create.js"></script> 
 	<div id="ui-datepicker-div" class="ui-datepicker ui-widget ui-widget-content ui-helper-clearfix ui-corner-all"></div>
 </body>
 </html>
