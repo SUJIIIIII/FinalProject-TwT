@@ -18,7 +18,7 @@ public class MypageDaoImpl implements MypageDao {
 		int res = 0;
 
 		try {
-			res = sqlSession.insert(namespace + "insert", vo);
+			res = sqlSession.insert(namespace + "insertM", vo);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -31,7 +31,7 @@ public class MypageDaoImpl implements MypageDao {
 		MemberVo res = null;
 
 		try {
-			res = sqlSession.selectOne(namespace + "login", vo);
+			res = sqlSession.selectOne(namespace + "loginM", vo);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -40,8 +40,20 @@ public class MypageDaoImpl implements MypageDao {
 
 	// 아이디 중복검사
 	@Override
-	public int idChk(String mId) {
-		return sqlSession.selectOne(namespace + "idChk", mId);
+	public int idChk(String m_Id) {
+		return sqlSession.selectOne(namespace + "idChkM", m_Id);
+	}
+
+	// 유저 인증키 생성 메소드
+	@Override
+	public int GetKey(String m_Id, String key) {
+		return 0;
+	}
+
+	// 유저 인증키 Y로 바꿔주는 메소드
+	@Override
+	public int alter_userKey(String m_Id, String key) {
+		return 0;
 	}
 
 }

@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.fp.twt.HomeController;
 import com.fp.twt.biz.MypageBiz;
+import com.fp.twt.common.email.UserMailSendService;
 import com.fp.twt.vo.MemberVo;
 
 @Controller
@@ -30,19 +31,27 @@ public class MypageController {
 
 	@Autowired
 	BCryptPasswordEncoder passwordEncoder;
+	
+	@Autowired
+	private UserMailSendService mailsender;
 
 	// 회원가입
 	@RequestMapping("/createAccount.do")
 	public String memberInsert(MemberVo vo, HttpServletRequest request) {
+		
+		// 비밀번호 암호화
 		vo.setm_Pass(passwordEncoder.encode(vo.getm_Pass()));
 		System.out.println("암호화 된 비밀번호 : " + vo.getm_Pass());
+		
+		// 인증메일 
+		mailsender.mailSendWithUserKey(vo.getm_Email(), vo.getm_Id(), request);
 
 		if (biz.memberInsert(vo) > 0) {
 			System.out.println("회원가입 성공" + vo.toString());
-			return "login";
+			return "TwTAccount/login";
 		} else {
 			System.out.println("회원가입 실패");
-			return "login";
+			return "TwTAccount/login";
 		}
 	}
 
@@ -83,11 +92,11 @@ public class MypageController {
 	// 아이디 중복 검사
 	@RequestMapping(value = "idChk.do", method = RequestMethod.GET)
 	@ResponseBody
-	public Map<Object, Object> idCheck(String mId) {
+	public Map<Object, Object> idCheck(String m_Id) {
 		
 		Map<Object, Object> map = new HashMap<Object, Object>();
-		System.out.println("들어오는 아이디 : "+mId);
-		int result = biz.idChk(mId);
+		System.out.println("들어오는 아이디 : "+m_Id);
+		int result = biz.idChk(m_Id);
 		System.out.println("확인 : "+result);
 		map.put("check", result);
 
