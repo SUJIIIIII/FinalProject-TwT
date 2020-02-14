@@ -76,6 +76,8 @@ CREATE TABLE "TWTMEMBER" -- 회원관리
     "M_MAILCHECK" VARCHAR2(500)  NOT NULL
 );
 
+select * from twtmember;
+
 CREATE TABLE "SCHEDULEREVIEW" -- 일정리뷰
 (
     "SR_CODE"    VARCHAR2(100)  NOT NULL,
@@ -504,7 +506,7 @@ INSERT INTO "REVIEW_ANS" (SRA_CODE, TS_CODE, M_CODE, SRA_CONTENT, SRA_DATE) VALU
 -- 여행리뷰
 INSERT INTO "SCHEDULEREVIEW" (SR_CODE, M_CODE, TS_CODE, SR_TITLE, SR_CONTENT, SR_FILE, SR_VIEW, SR_DATE) VALUES ('SR1', 'M1', 'TS1', '일정리뷰제목', '일정리뷰내용', 'FILE', '0', TO_DATE('2020-02-12 13:50:34', 'YYYY-MM-DD HH24:MI:SS'));
 
-COMMIT;
+COMMIT
 
 
 INSERT INTO  "TRAVELPOINT" (TP_CODE, CITY_CODE, TP_NAME, TP_LATI, TP_LONG, TP_TYPE, TP_CONTENT, TP_IMG, TP_ADDR) VALUES ('TP1', 'CT1', '카오산로드', '1', '1', '랜드마크', ' 동남아시아 배낭여행자들의 시작점이다. 규모가 크지는 않지만 여행하면서 꼭 필요한 숙소와 식사를 저렴한 가격에 해결할 수 있다. 많은 여행자들이 모이는만큼 다양한 국적의 친구들과 쉽게 어울릴 수 있다.', 'BK_01.jpg', 'Khao San Road, Talat Yot, Phra Nakhon, Bangkok 10200, Thailand');

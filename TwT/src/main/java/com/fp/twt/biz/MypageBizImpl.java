@@ -26,7 +26,7 @@ public class MypageBizImpl implements MypageBiz {
 
 	// 아이디 중복검사
 	@Override
-	public int idChk(String mId) {
-		return dao.idChk(mId);
+	public int idChk(String m_Id) {
+		return dao.idChk(m_Id);
 	}
 }
