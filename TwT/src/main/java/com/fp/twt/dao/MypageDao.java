@@ -13,5 +13,11 @@ public interface MypageDao {
 	public MemberVo memberLogin(MemberVo vo);
 	
 	// 아이디 중복검사
-	public int idChk(String mId);
+	public int idChk(String m_Id);
+
+	// 유저 인증키 생성 메소드
+	public int GetKey(String m_Id, String key);
+	
+	// 유저 인증키 Y로 바꿔주는 메소드
+	public int alter_userKey(String m_Id, String key);
 }

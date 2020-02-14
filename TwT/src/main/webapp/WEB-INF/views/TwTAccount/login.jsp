@@ -16,15 +16,16 @@ $(document).ready(function(){
 	$(".info_box").hide();
 });
 
+// 회원가입 아이디 실시간 중복확인 ajax
 function checkID() {
 	
 	$("#id_check").show();
 	
 	// input 태그에 입력한 내용 변수에 담음
-	var input = $("input[name=mId]").val();
+	var input = $("input[name=m_Id]").val();
 	
 	$.ajax({
-		url:"idChk.do?mId="+input,
+		url:"idChk.do?m_Id="+input,
 		type:"GET",
 		dataType:"json",
 		contentType:"application/json",
@@ -44,8 +45,114 @@ function checkID() {
 	});
 }
 
+// 회원가입 이메일 형식 실시간 검사 
 function checkEmail() {
+	$("#email_check").show();
+	
+	var email = $("input[name=m_Email]").val();
+	console.log(email);
+	
+	if(email != 0){
+		if(isValidEmailAddress(email)) {
+			$("#email_check").css("color","green");
+			$("#email_check").text("올바른 이메일 형식입니다.");
+		} else {
+			$("#email_check").css("color","red");
+			$("#email_check").text("이메일 형식으로 확인해주세요.");
+		}
+	}
+}
 
+// 회원가입 이메일 형식 정규화
+function isValidEmailAddress(emailAddress) {
+	var pattern = new RegExp(/^(("[\w-\s]+")|([\w-]+(?:\.[\w-]+)*)|("[\w-\s]+")([\w-]+(?:\.[\w-]+)*))(@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$)|(@\[?((25[0-5]\.|2[0-4][0-9]\.|1[0-9]{2}\.|[0-9]{1,2}\.))((25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\.){2}(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\]?$)/i);
+	return pattern.test(emailAddress);
+}
+
+// 회원가입 이름 검사
+function checkName() {
+	$("#name_check").show();
+	
+	for(var i=0; i<$("input[name=m_Name]").val().length; i++){
+		var name = $("input[name=m_Name]").val().substring(i,i+1);
+		if(name.match(/[0-9]|[a-z]|[A-Z]/)) {
+			$("#name_check").css("color","red");
+			$("#name_check").text("이름을 정확히 입력해주세요");
+		} else if(name.match(/([^가-힣\x20])/i)) {
+			$("#name_check").css("color","red");
+			$("#name_check").text("이름을 정확히 입력해주세요");
+		} else if($("input[name=m_Name]").val() == "") {
+			$("#name_check").css("color","red");
+			$("#name_check").text("이름을 정확히 입력해주세요");
+		} else if($("input[name=m_Name]").val().length <= 1) {
+			$("#name_check").css("color","red");
+			$("#name_check").text("이름을 정확히 입력해주세요");
+		} else {
+			$("#name_check").css("color","green");
+			$("#name_check").text("이름을 정확히 입력하셨습니다");
+		}
+	}
+}
+
+// 회원가입 비밀번호 유효성 검사
+function checkPwd() {
+	$("#pass_check").show();
+	
+	var pwd = $("input[name=m_Pass]").val();
+	
+	 if(!/^[a-zA-Z0-9!@#$%^&*()?_~]{4,8}$/.test(pwd)) {
+		$("#pass_check").css("color","red");
+		$("#pass_check").text("비밀번호는 숫자, 영문, 특수문자 조합으로 4~8자리를 사용해야 합니다");
+	 } else {
+		 $("#pass_check").css("color","green");
+		 $("#pass_check").text("사용 가능한 비밀번호입니다");
+	 }
+}
+
+// 회원가입 비밀번호 재 검사
+function checkPwd_Chk() {
+	$("#pass_check2").show();
+	
+	if($("input[name=m_Pass]").val() != $("input[name=m_Pass_chk]").val()) {
+		$("#pass_check2").css("color","red");
+		$("#pass_check2").text("비밀번호를 확인해주세요");
+	} else {
+		$("#pass_check2").css("color","green");
+		$("#pass_check2").text("비밀번호가 일치합니다");
+	}
+}
+
+// 회원가입 폼 유효성 검사
+function form_chk() {
+	var id = $("input[name=m_Id]").val();
+	var email = $("input[name=m_Email]").val();
+	var name = $("input[name=m_Name]").val();
+	var pwd = $("input[name=m_Pass]").val();
+	var pwd2 = $("input[name=m_Pass_chk]").val();
+	
+	if(id == null || id == "") {
+		alert("아이디를 입력해주세요");
+		$("input[name=m_Id]").focus();
+		return false;
+	} else if (email == null || email == "") {
+		alert("이메일을 입력해주세요");
+		$("input[name=m_Email]").focus();
+		return false;
+	} else if (name == null || name == "") {
+		alert("이름을 입력해주세요");
+		$("input[name=m_Name]").focus();
+		return false;
+	} else if (pwd == null || pwd == "") {
+		alert("비밀번호를 입력해주세요");
+		$("input[name=m_Pass]").focus();
+		return false;
+	} else if (pwd2 == null || pwd2 == "") {
+		alert("비밀번호 확인을 입력해주세요");
+		$("input[name=m_Pass_chk]").focus();
+		return false;
+	} else {
+		return true;
+	}
 }
 </script>
 <style type="text/css">
@@ -340,24 +447,24 @@ a:hover {
 	<div class="container" id="container">
 	    <%-- 회원가입 시작 --%>
 		<div class="form-container sign-up-container">
-			<form action="createAccount.do" id="createAccount" method="post">
+			<form action="createAccount.do" id="createAccount" method="post" onsubmit="return form_chk()">
 				<img src="${pageContext.request.contextPath}/resources/images/account/register.png" width="40">
 				<h1>Create Account</h1>
 				<br>
-					<input type="text" name="mId" oninput="checkID()" placeholder="ID" style="border-left: 3px solid #fc3c3c;" />
+					<input type="text" name="m_Id" oninput="checkID()" placeholder="ID" style="border-left: 3px solid #fc3c3c;" />
 					<div class="info_box" id="id_check"></div>
 					
-					<input type="text" name="mEmail" oninput="checkEmail()" placeholder="Email" style="border-left: 3px solid #fc3c3c;" />
-					<div class="info_box"></div>
+					<input type="text" name="m_Email" oninput="checkEmail()" placeholder="Email" style="border-left: 3px solid #fc3c3c;" />
+					<div class="info_box" id="email_check"></div>
 					
-					<input type="text" name="mName" oninput="checkName()" placeholder="Name" style="border-left: 3px solid #fc3c3c;" />
-					<div class="info_box"></div>
+					<input type="text" name="m_Name" oninput="checkName()" placeholder="Name" style="border-left: 3px solid #fc3c3c;" />
+					<div class="info_box" id="name_check"></div>
 					
-					<input type="password" name="mPass" oninput="checkPwd()" placeholder="Password" style="border-left: 3px solid #fc3c3c;" />
-					<div class="info_box"></div>
+					<input type="password" name="m_Pass" oninput="checkPwd()" placeholder="Password" style="border-left: 3px solid #fc3c3c;" />
+					<div class="info_box" id="pass_check"></div>
 					
-					<input type="password" name="mPass_chk" oninput="checkPwd_Chk()" placeholder="Password Check" style="border-left: 3px solid #fc3c3c;" />
-					<div class="info_box"></div>
+					<input type="password" name="m_Pass_chk" oninput="checkPwd_Chk()" placeholder="Password Check" style="border-left: 3px solid #fc3c3c;" />
+					<div class="info_box" id="pass_check2"></div>
 					<br>
 				<button id="submit" type="submit">Sign Up</button>
 			</form>
@@ -374,8 +481,8 @@ a:hover {
 					<a href="#" class="social"><img src="${pageContext.request.contextPath}/resources/images/account/naver.png" style="border-radius: 50px;"></a>
 					<a href="#" class="social"><img src="${pageContext.request.contextPath}/resources/images/account/google.png" style="border-radius: 50px;"></a>
 				</div>
-				<input type="text" name="mId" placeholder="ID" style="border-left: 3px solid #fc3c3c;" />
-				<input type="password" name="mPass" placeholder="Password" style="border-left: 3px solid #fc3c3c;" />
+				<input type="text" name="m_Id" placeholder="ID" style="border-left: 3px solid #fc3c3c;" />
+				<input type="password" name="m_Pass" placeholder="Password" style="border-left: 3px solid #fc3c3c;" />
 				<a href="#" style="font-size: 12px; margin-right: -280px;" class="find">Forgot your password?</a>
 				<button type="submit">Sign In</button>
 			</form>
