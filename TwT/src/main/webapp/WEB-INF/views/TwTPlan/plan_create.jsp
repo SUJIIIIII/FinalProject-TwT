@@ -72,7 +72,8 @@
 var marker;
 var myIcon;
 var content = new Array();
-/* var markers = []; */
+var locations = new Array();
+var markers = new Array();
 
 	// map 추가
 	function initMap() {
@@ -95,8 +96,7 @@ var content = new Array();
 	        }
        	]; */
        	
-       	// DB 불러와서
-        var locations = new Array();
+       	// DB 불러와서 위치 위도/경도 담기
        	for(var i=0;i<4;i++){
 			locations[i] = {"position" : new google.maps.LatLng($("#city_"+i).attr("data-lat"), $("#city_"+i).attr("data-lng"))}; 
        	}
@@ -106,6 +106,7 @@ var content = new Array();
 		// 말풍선 안에 들어갈 내용
 		/* content = ["방콕","치앙마이","파타야","푸켓"]; */
 		
+		//마커 정보(도시명)담기
 		for(var i=0;i<4;i++){
 			content[i] = $("#city_"+i).attr("data-ci_name");
 		}
@@ -125,9 +126,10 @@ var content = new Array();
        		});
         	
         	//생성된 마커를 마커배열에 추가
-        	/* markers.push(marker); */
+        	markers.push(marker);
 		}
-          	
+        
+		console.log(markers);
 		//바운스
         /* google.maps.event.addListener(marker, 'click', bounceEvent(map,marker)); */
           	
