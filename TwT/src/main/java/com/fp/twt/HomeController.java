@@ -32,10 +32,12 @@ public class HomeController {
 	public String flightList() {
 		return "TwTFlight/flight_list";
 	}
+	/*
 	@RequestMapping("hotel.do")
 	public String hotel() {
 		return "TwTHotel/hotel_list";
 	}
+	*/
 	@RequestMapping("hotelDetail.do")
 	public String hotelDetail() {
 		return "TwTHotel/hotel_detail";
