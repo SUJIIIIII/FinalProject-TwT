@@ -72,7 +72,8 @@
 var marker;
 var myIcon;
 var content = new Array();
-/* var markers = []; */
+var locations = new Array();
+var markers = new Array();
 
 	// map 추가
 	function initMap() {
@@ -95,8 +96,7 @@ var content = new Array();
 	        }
        	]; */
        	
-       	// DB 불러와서
-        var locations = new Array();
+       	// DB 불러와서 위치 위도/경도 담기
        	for(var i=0;i<4;i++){
 			locations[i] = {"position" : new google.maps.LatLng($("#city_"+i).attr("data-lat"), $("#city_"+i).attr("data-lng"))}; 
        	}
@@ -106,6 +106,7 @@ var content = new Array();
 		// 말풍선 안에 들어갈 내용
 		/* content = ["방콕","치앙마이","파타야","푸켓"]; */
 		
+		//마커 정보(도시명)담기
 		for(var i=0;i<4;i++){
 			content[i] = $("#city_"+i).attr("data-ci_name");
 		}
@@ -125,9 +126,10 @@ var content = new Array();
        		});
         	
         	//생성된 마커를 마커배열에 추가
-        	/* markers.push(marker); */
+        	markers.push(marker);
 		}
-          	
+        
+		console.log(markers);
 		//바운스
         /* google.maps.event.addListener(marker, 'click', bounceEvent(map,marker)); */
           	
@@ -503,7 +505,12 @@ src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCiDE5HBue4mflsdkcsGvSZrUe
 									</tbody>
 								</table>
 							</div>
-						</div>
+						</div><!--datepick end -->
+						<form>
+							<input type="hidden" id="schedule_date" name="schedule_date" value=""/> <!-- 날짜  -->
+							<input type="hidden" id="city_no" name="citycode" value=""/> <!-- 도시코드 -->
+							<input type="hidden" id="title" name="title" value=""/> <!-- 제목 -->
+						</form>
 					</div>
 					<div class="clear"></div>
 				</div>
@@ -570,9 +577,7 @@ src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCiDE5HBue4mflsdkcsGvSZrUe
 		#ddBoxPrint {background: url(http://earthtory.com/images/print.png) no-repeat; height: 16px; width: 26px;padding-left: 20px ;left: 4px !important; cursor: pointer; text-decoration: none; color: #66e}
 	</style>
 	
-	<!-- <script type="text/javascript">
-	
-	</script> -->
+	<script src="${pageContext.request.contextPath}/resources/js/plan/plan_create.js"></script> 
 	<div id="ui-datepicker-div" class="ui-datepicker ui-widget ui-widget-content ui-helper-clearfix ui-corner-all"></div>
 </body>
 </html>

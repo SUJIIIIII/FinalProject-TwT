@@ -89,7 +89,7 @@
             <h1 class="mb-4" data-scrollax="properties: { translateY: '30%', opacity: 1.6 }" style="font-family: 'Kalam', cursive;"><strong>Flight Search <br></strong></h1>
             <!-- <p data-scrollax="properties: { translateY: '30%', opacity: 1.6 }">Find great places to stay, eat, shop, or visit from local experts</p> -->
             <div class="block-17 my-4" style="width:140%; height:80px;">
-              <form action="" method="post" class="d-block d-flex">
+              <form action="airsearch.do" method="post" class="d-block d-flex">
                 <div class="fields d-block d-flex" style="width:140%; height:80px;">
                 <div class="select-wrap one-third">
                     <div class="icon"><span class="ion-ios-arrow-down"></span></div>
@@ -117,19 +117,19 @@
 		          <div class="select-wrap one-third">
                     <div class="icon"><span class="ion-ios-arrow-down"></span></div>
                     <select name="" id="" class="form-control">
-                      <option value="">1명</option>
-                      <option value="">2명</option>
-                      <option value="">3명</option>
-                      <option value="">4명</option>
-                      <option value="">5명</option>
-                      <option value="">6명</option>
-                      <option value="">7명</option>
-                      <option value="">8명</option>
+                      <option value="1">1명</option>
+                      <option value="2">2명</option>
+                      <option value="3">3명</option>
+                      <option value="4">4명</option>
+                      <option value="5">5명</option>
+                      <option value="6">6명</option>
+                      <option value="7">7명</option>
+                      <option value="8">8명</option>
                     </select>
                  </div>      
                 </div>
                 
-                <input type="submit" class="search-submit btn btn-primary" value="검색">  
+                <input type="submit" class="search-submit btn btn-primary" value="검색" >  
               </form>
             </div>
           </div>
@@ -139,8 +139,7 @@
 
     <section class="ftco-section ftco-destination">
     	<div class="container">
-    		
-	    		
+	
 					    <!-- 날씨 -->
         <div class="container row justify-content-start">
           <div class="col-md-5 heading-section ftco-animate">

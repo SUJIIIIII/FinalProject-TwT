@@ -29,13 +29,38 @@
 	});
 	
 	$(document).ready(function() {
-		  $('#summernote').summernote({
+		  $("#summernote").summernote({
 		        minHeight: 600,
 		        maxHeight: null,
 		        focus: true, 
-		        lang : 'ko-KR'
+		        lang : "ko-KR",
+				callbacks: {	//여기 부분이 이미지를 첨부하는 부분
+					onImageUpload : function(files) {
+						uploadImageFile(files[0], this);
+					}
+				}
 		  });
 		});
+	  
+		function uploadImageFile(file, editor) {
+			data = new FormData();
+			data.append("file", file);
+			$.ajax({
+				data : data,
+				type : "POST",
+				url : "uploadImageFile.do",
+				contentType : false,
+				processData : false,
+				enctype: "multipart/form-data",
+				success : function(data) {
+	            	//항상 업로드된 파일의 url이 있어야 한다.
+					$(editor).summernote("insertImage", data.url);
+				},
+				error : function(){
+					alert("실패");
+				}
+			});
+		}
 </script>
 <style type="text/css">
 body {
@@ -57,8 +82,8 @@ body {
 </style>
 </head>
 <body>
+	<form id="" method="post" action="" enctype="multipart/form-data">
 	<div class="col-sm-9" id="container">
-
 		<div class="col-sm-12" style="float: left; margin-top: 30px;">
 			<div class="title">
 				<input type="text" placeholder="제목"/>
@@ -73,11 +98,12 @@ body {
 				</div>
 			</div>
 		</div>
-
 		<div align="center">
-			<a href="#" style="text-decoration: none;" class="btns btns-primary btns-outline-primary mt-4 px-4 py-3">등록</a>&nbsp;&nbsp;&nbsp;
-			<a href="#" style="text-decoration: none;" class="btns btns-primary btns-outline-primary mt-4 px-4 py-3">취소</a>
+			<input type="submit" style="width: 60px;" class="btns btns-primary btns-outline-primary mt-4 px-4 py-3" value="등록" />
+			&nbsp;&nbsp;&nbsp;
+			<input type="button" style="width: 60px;" class="btns btns-primary btns-outline-primary mt-4 px-4 py-3" value="취소" />
 		</div>
 	</div>
+	</form>
 </body>
 </html>
