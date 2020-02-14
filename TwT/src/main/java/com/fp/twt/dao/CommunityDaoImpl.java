@@ -31,10 +31,10 @@ public class CommunityDaoImpl implements CommunityDao{
 		List<TravelScheduleVo> list = new ArrayList<TravelScheduleVo>();
 		
 		try {
-			list = sqlSession.selectList(NAMESPACE+"TS_selectList");
+			list = sqlSession.selectList(NAMESPACE+"selectList_D");
 			
 		} catch(Exception e) {
-			System.out.println("[error] : ts_selectList");
+			System.out.println("[error] : selectList_D");
 			e.printStackTrace();
 		}
 		return list;
