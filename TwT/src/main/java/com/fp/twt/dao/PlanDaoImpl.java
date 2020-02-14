@@ -28,7 +28,7 @@ public class PlanDaoImpl implements PlanDao{
 		List<CityVo> res = new ArrayList<CityVo>();
 		
 		try {
-			res = sqlSession.selectList(NAMESPACE+"selectcityall");
+			res = sqlSession.selectList(NAMESPACE+"selectcityall_S");
 			System.out.println("dao에서 res : "+res);
 		}catch(Exception e) {
 			e.printStackTrace();
