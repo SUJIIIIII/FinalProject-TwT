@@ -1,4 +1,4 @@
-package com.fp.twt.controller;
+﻿package com.fp.twt.controller;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,6 +14,12 @@ public class HotelAirController {
 	//찬우
 	
 	
+	@RequestMapping("/airsearch.do")//항공권 검색 
+	public String airSearch() {
+		
+		
+		return "TwTFlight/flight_list";
+	}
 	
 	
 	

@@ -290,7 +290,6 @@ $('#country_list_box').on('click','.item',function(){
 	}else{
 		get_city_list(_cu_srl,_cu_name);
 	}
-	
 });
 
 $('#city_list_title').on('click','.back_btn',function(){

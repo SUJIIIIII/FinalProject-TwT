@@ -52,7 +52,9 @@
 			</h1>
 			<div class="fl" style="width:357px;border-right:solid #ebebeb 1px;height:62px">
 				<!-- 제목부분 호버 style걸어서 수정할수있게@@ -->
-				<div class="fl" id="plan_title" data-url="http://www.earthtory.com/mypage/et_0630673001418979048?type=plan_sub&amp;gdb_srl=304061" style="background-color: rgb(255, 255, 255);">제목 부분@@</div>
+				<div class="fl" id="plan_title" data-url="http://www.earthtory.com/mypage/et_0630673001418979048?type=plan_sub&amp;gdb_srl=304061" style="background-color: rgb(255, 255, 255);">
+				제목 부분@@<%=request.getParameter("title") %>
+				</div>
 				<div class="clear"></div>
 			</div>
 			<div class="fl" style="width:181px;height:62px;line-height:62px;border-right:solid #ebebeb 1px;text-align:center;color: #555555;font-size:16px;font-weight:bold;" id="plan_total_budget">KRW 0</div>
@@ -647,28 +649,7 @@
                         <div class="list_cat_item fl" data="4"><img src="${pageContext.request.contextPath}/resources/images/plan/ic_400_a.png"></div>
 						<div class="list_cat_item fl" data="1"><img src="${pageContext.request.contextPath}/resources/images/plan/ic_100_a.png"></div>
 						<div class="list_cat_item fl" data="5"><img src="${pageContext.request.contextPath}/resources/images/plan/ic_000_a.png"></div>
-                        <div class="clear"></div>
-
-                        <!-- <div class="list_tag_box">
-                            <div id="map_tag_select_box" class="et_slide_parent" data-is_open="0">태그 선택<span style="float:right;"><i class="fas fa-angle-down"></i>&nbsp;&nbsp;</span></div>
-                            수정필요@@@
-                            <div id="map_tag_select_sub_box" class="et_slide" style="display: none;">
-                            	<div class="item" data-check="0" data="301011">공원/정원/광장</div>
-                            	<div class="item" data-check="0" data="301009">교통</div>
-                            	<div class="item" data-check="0" data="301008">기념관/기념비</div>
-                            	<div class="item" data-check="0" data="303001">나이트스팟</div>
-                            	<div class="item" data-check="0" data="302007">데이투어/액티비티</div>
-                            	<div class="item" data-check="0" data="301007">랜드마크</div>
-                            	<div class="item" data-check="0" data="303002">바</div>
-                            	<div class="item" data-check="0" data="301006">박물관/미술관</div>
-                            	<div class="item" data-check="0" data="301005">역사/종교</div>
-                            	<div class="item" data-check="0" data="302005">웰니스/스파</div>
-                            	<div class="item" data-check="0" data="301002">자연</div>
-                            	<div class="item" data-check="0" data="303003">클럽</div>
-                            	<div class="item" data-check="0" data="302003">테마파크/동물원</div>
-                            	<div class="item" data-check="0" data="303004">펍/선술집</div>
-                            </div>
-                        </div>  -->                       
+                        <div class="clear"></div>             
                     </div>
                	</div>
                 <div class="list_box_overlay"></div>
