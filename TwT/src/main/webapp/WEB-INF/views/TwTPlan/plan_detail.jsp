@@ -1,10 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-<html xmlns:fb="https://www.facebook.com/2008/fbml" xmlns:og="https://opengraphprotocol.org/schema/" lang="ko">
+<html lang="ko">
 <head>
 	<!-- 아이콘 -->
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css" />
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css" >
 	
 	<style>.gm-style .gm-style-mtc label,.gm-style .gm-style-mtc div{font-weight:400}</style>
 	<style>.gm-control-active>img{box-sizing:content-box;display:none;left:50%;pointer-events:none;position:absolute;top:50%;transform:translate(-50%,-50%)}.gm-control-active>img:nth-child(1){display:block}.gm-control-active:hover>img:nth-child(1),.gm-control-active:active>img:nth-child(1){display:none}.gm-control-active:hover>img:nth-child(2),.gm-control-active:active>img:nth-child(3){display:block}</style>
@@ -18,14 +18,6 @@
 	<meta http-equiv="content-type" content="text/html; charset=utf-8">
 	<meta name="google-site-verification" content="ipMgUnVX-SfjeuEkrb4h9kVsm7aKqjCDyEaCwb3EtlU">
 	<title>TwT - 일정만들기</title>
-	<!-- <meta name="description" content="20만개의 여행일정, 나만의 여행일정 계획하기">
-	<meta name="keywords" content="여행일정, 여행일정 만들기, 여행일정표, 여행 가이드북, 여행 동선, 여행 루트, 일정 추천, 싱가포르 여행일정, 오사카 여행일정, 홍콩 여행일정, 유럽 여행일정, 뉴욕 여행일정, 타이베이 여행일정">
-	<meta property="fb:app_id" content="334344006612913">
-    <meta property="og:title" content="여행 플래너 어스토리">
-    <meta property="og:type" content="article">
-    <meta property="og:url" content="https://www.earthtory.com/ko/plan/workspace?pn_srl=304061">
-    <meta property="og:description" content="여행 플래너 사이트 어스토리에서 제공하는 국내외 여행을 위한 관광명소, 맛집, 쇼핑장소, 밤문화, 호텔, 항공권 정보를 통해 나만의 여행일정을 짜보세요.">
-    <meta property="og:image" content="https://www.earthtory.com/res/img/earthtory_logo_to_sns.png"> -->
 			
 	<link rel="shortcut icon" href="/res/earthtory.ico">
 	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/plan/default_ko.css" type="text/css">
@@ -33,24 +25,8 @@
 	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/plan/default.css">
 	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/plan/gnb.css">
 	<script async="" src="//www.google-analytics.com/analytics.js"></script>
-	<script>
-		var et_lang = 'ko';
-	</script>
-	
-	<script type="text/javascript">
-		lang = {};
-		function lang_uri(){
-			return '/ko';
-		}
-	</script>
-    <link rel="image_src" href="https://www.earthtory.com/res/img/earthtory_logo_to_sns.png">
-   	<link rel="canonical" href="https://www.earthtory.com/ko/plan/workspace?pn_srl=304061">
-	<link rel="home" href="www.earthtory.com">
-	<link rel="alternate" href="https://www.earthtory.com/plan/workspace?pn_srl=304061" hreflang="x-default" title="English">
-	<link rel="alternate" href="https://www.earthtory.com/ja/plan/workspace?pn_srl=304061" hreflang="ja-jp" title="日本語">
-	<link rel="alternate" href="https://www.earthtory.com/ko/plan/workspace?pn_srl=304061" hreflang="ko-kr" title="한국어">
 
-
+	<script src="http://code.jquery.com/jquery-3.4.1.min.js"></script>
 	<meta name="google-site-verification" content="MwgpAlNbsXRZEln-QQP8Jra-Aj8cTKcCtDd3L_StvTc">
 	<meta name="naver-site-verification" content="48a2af847268bfd79153f73690ad01b35cb1593a">
 	<script type="text/javascript" charset="UTF-8" src="https://maps.googleapis.com/maps-api-v3/api/js/39/9/intl/ko_ALL/common.js"></script>
@@ -72,7 +48,7 @@
 	<div id="header">
 		<div style="width:100%;">
 			<h1 class="logo fl" alt="로고@@">
-				<a href="/ko/"><span style="color:purple;">&nbsp;&nbsp;<i class="fas fa-plane fa-3x"></i></span></a>
+				<a href="http://localhost:8090/twt/index.jsp"><span style="color:purple;">&nbsp;&nbsp;<i class="fas fa-plane fa-3x"></i></span></a>
 			</h1>
 			<div class="fl" style="width:357px;border-right:solid #ebebeb 1px;height:62px">
 				<!-- 제목부분 호버 style걸어서 수정할수있게@@ -->
