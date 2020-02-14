@@ -52,8 +52,8 @@
 			<result property="ts_Thum" column="TS_THUM" />
 			<result property="ts_Period" column="TS_PERIOD" />
 		</resultMap>
-		<select id="TS_selectList" resultMap="TravelScheduleMap">
-			SELECT * FROM TRABLESCHEDULE ORDER BY TS_CODE
+		<select id="selectList_D" resultMap="TravelScheduleMap">
+			SELECT * FROM TRAVELSCHEDULE ORDER BY TS_CODE DESC
 		</select>
 
 		
