@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
+﻿<%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
@@ -224,10 +224,6 @@ src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCiDE5HBue4mflsdkcsGvSZrUe
 	<!-- <script>
 
 	</script> -->
-	<%-- <%
-		${res.get(i)
-	
-	%> --%>
 	<!-- @@@@@@@헤더@@@@@@@@  -->
 	<div id="header">
 		<div class="wrap" style="width:100%;padding:0px 10px;">
