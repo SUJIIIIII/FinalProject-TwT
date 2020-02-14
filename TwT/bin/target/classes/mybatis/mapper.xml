@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+	<mapper namespace="twt">
+		<!-- ================================용훈==================================  -->
+		
+		
+		
+		<!-- ================================범식==================================  -->
+		
+		
+		
+		<!-- ================================도영==================================  -->
+		<resultMap type="TravelSchedule" id="TravelScheduleMap">
+			<result property="ts_Code" column="TS_CODE" />
+			<result property="m_Code" column="M_CODE" />
+			<result property="tp_Code" column="TP_CODE" />
+			<result property="ts_Title" column="TS_TITLE" />
+			<result property="ts_Sday" column="TS_SDAY" />
+			<result property="ts_Theme" column="TS_THEME" />
+			<result property="ts_People" column="TS_PEOPLE" />
+			<result property="ts_Thum" column="TS_THUM" />
+			<result property="ts_Period" column="TS_PERIOD" />
+		</resultMap>
+		<select id="TS_selectList" resultMap="TravelScheduleMap">
+			SELECT * FROM TRABLESCHEDULE ORDER BY TS_CODE
+		</select>
+
+		
+		<!-- ================================보미==================================  -->
+    <resultMap type="Member" id="memberMap">
+      <result property="mCode" column="M_CODE" />
+      <result property="mId" column="M_ID" />
+      <result property="mPass" column="M_PASS" />
+      <result property="mName" column="M_NAME" />
+      <result property="mEmail" column="M_EMAIL" />
+      <result property="mApi" column="M_API" />
+	  </resultMap>
+
+	  <!-- 회원가입 -->
+	<insert id="insert" parameterType="Member">
+		INSERT INTO TWTMEMBER VALUES
+		('M4', #{mId}, #{mPass}, #{mName}, #{mEmail},
+		#{mApi,jdbcType=VARCHAR}, 'N')
+	</insert>
+
+	<!-- 로그인 -->
+	<select id="login" resultMap="memberMap">
+		SELECT * FROM TWTMEMBER WHERE M_ID
+		= #{mId}
+	</select>
+
+	<!-- 아이디 중복검사 -->
+	<select id="idChk" resultType="int">
+	   SELECT COUNT(*) FROM TWTMEMBER WHERE M_ID = #{mId}
+	</select>
+
+		
+		
+		<!-- ================================찬우==================================  -->
+		
+		
+		
+		<!-- ================================수지==================================  -->
+		<select id="selectcityall_S" resultType="City">
+			SELECT * FROM CITY
+		</select>
+		
+		
+		<!-- ================================철환==================================  -->
+		
+
+	</mapper>
+
+	
+	
