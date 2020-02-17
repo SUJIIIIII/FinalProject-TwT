@@ -1,5 +1,8 @@
 package com.fp.twt.biz;
 
+import java.util.List;
+
+import com.fp.twt.vo.AirplaneInfoVo;
 import com.fp.twt.vo.MemberVo;
 
 public interface MypageBiz {
@@ -11,5 +14,13 @@ public interface MypageBiz {
 
     // 아이디 중복검사
     public int idChk(String m_Id);
-   
+
+    // 네이버 로그인
+	public MemberVo naverlogin(MemberVo vo);
+
+	// 내 항공권 전체 조회
+	public List<AirplaneInfoVo> selectAirList(MemberVo m_Code);
+
+	// 항공권 정보 입력
+	public int insertAir(AirplaneInfoVo vo);
 }
