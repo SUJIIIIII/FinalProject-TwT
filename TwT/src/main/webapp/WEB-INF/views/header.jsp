@@ -21,17 +21,15 @@
           <li id="nav2" class="nav-item"><a href="hotel.do" class="nav-link">Hotels</a></li>
           <li id="nav3" class="nav-item"><a href="community.do" class="nav-link">Community</a></li>
           <%-- 세션 유무에 따른 버튼 이벤트 --%>
-          <c:choose>
-             <c:when test="${empty login}">
+             <c:if test="${kakaoId eq null and naverId eq null and user eq null and googleId eq null}">
                 <li id="nav4" class="nav-item"><a href="login.do" class="nav-link"><i class="fas fa-user"></i>&nbsp;My</a></li>
                 <li class="nav-item cta"><a href="login.do" class="nav-link"><span>Login</span></a></li>
-             </c:when>
+             </c:if>
              
-             <c:otherwise>
+             <c:if test="${kakaoId ne null or naverId ne null or user ne null or googleId ne null }">
                 <li id="nav4" class="nav-item"><a href="mypage.do" class="nav-link"><i class="fas fa-user"></i>&nbsp;My</a></li>
                 <li class="nav-item cta"><a href="logout.do" class="nav-link"><span>Logout</span></a></li>
-             </c:otherwise>
-          </c:choose>
+             </c:if>
         </ul>
       </div>
     </div>

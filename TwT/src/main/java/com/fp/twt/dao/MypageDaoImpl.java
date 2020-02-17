@@ -1,9 +1,13 @@
 package com.fp.twt.dao;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.fp.twt.vo.AirplaneInfoVo;
 import com.fp.twt.vo.MemberVo;
 
 @Repository
@@ -44,16 +48,40 @@ public class MypageDaoImpl implements MypageDao {
 		return sqlSession.selectOne(namespace + "idChkM", m_Id);
 	}
 
-	// 유저 인증키 생성 메소드
+	// 네이버 로그인
 	@Override
-	public int GetKey(String m_Id, String key) {
-		return 0;
+	public MemberVo naverlogin(MemberVo vo) {
+		MemberVo res = null;
+
+		res = sqlSession.selectOne(namespace + "naverM", vo);
+
+		return res;
 	}
 
-	// 유저 인증키 Y로 바꿔주는 메소드
+	// 항공권 조회
 	@Override
-	public int alter_userKey(String m_Id, String key) {
-		return 0;
+	public List<AirplaneInfoVo> selectAirList(MemberVo m_Code) {
+		List<AirplaneInfoVo> list = new ArrayList<AirplaneInfoVo>();
+
+		try {
+			list = sqlSession.selectList(namespace + "selectAllAirM");
+		} catch (Exception e) {
+			System.out.println("전체 항공권 리스트 에러");
+			e.printStackTrace();
+		}
+		return list;
 	}
 
+	// 항공권 입력
+	@Override
+	public int insertAir(AirplaneInfoVo vo) {
+		int res = 0;
+
+		try {
+			res = sqlSession.insert(namespace + "insertAirM", vo);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return res;
+	}
 }
