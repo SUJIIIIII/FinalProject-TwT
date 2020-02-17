@@ -129,7 +129,7 @@
           <div class="col-md-8 ftco-animate">
           <p style="text-align: left; margin-left: 60px; margin-bottom: 30px; font-weight:bold;"><i class="fas fa-user"></i> (아이디)님의 여행일정</p>
           
-            <h2 class="mb-3" style="text-align: center; margin-top: 40px; font-weight: bold; ">제목</h2>
+            <h2 class="mb-3" style="text-align: center; margin-top: 40px; font-weight: bold; ">${detail.ts_Title }</h2>
             <div class="plan_info" style="float: right; margin-top: 20px; ">
 					<div class="plan_info_box" style="margin-top: -25px; margin-right: 50px; ">
 						<div class="cnt_spot">

@@ -69,17 +69,35 @@ public class CommunityController {
 	//----------------------------------------------------------------------------------------------
 	
 	// 도영
-	// 리스트 뿌려주는
+	// 여행 일정 리스트
 	@RequestMapping("/community.do")
-	public String community(Model model) {
+	public String newcommunity(Model model) {
 		
-		 logger.info("SELECT LIST"); 
-		 model.addAttribute("community", biz.TS_selectList());
-		 System.out.println(model);
+		logger.info("SELECT LIST"); 
+		model.addAttribute("community", biz.selectList_D());
+		System.out.println(model);
+		
+		return "TwTCommunity/community_list";
+	}
+
+	@RequestMapping("/popcommunity.do")
+	public String popcommunity(Model model) {
+		
+		logger.info("SELECT LIST"); 
+		model.addAttribute("community", biz.PselectList_D());
+		System.out.println(model);
 		
 		return "TwTCommunity/community_list";
 	}
 	
+	// 여행 일정 디테일
+	@RequestMapping("communityDetail.do")
+	public String communityDetail(Model model, String ts_code){
+		logger.info("SELECT ONE");
+		model.addAttribute("detail", biz.selectOne_D(ts_code));
+		System.out.println(biz.selectOne_D(ts_code));
+		return "TwTCommunity/community_detail"; 
+	}
 	
 	
 	

@@ -27,10 +27,18 @@ public class CommunityBizImpl implements CommunityBiz{
 	//도영
 
 	@Override
-	public List<TravelScheduleVo> TS_selectList() {
-		
-		
-		return dao.TS_selectList();
+	public List<TravelScheduleVo> selectList_D() {
+		return dao.selectList_D();
+	}
+
+	@Override
+	public List<TravelScheduleVo> PselectList_D() {
+		return dao.PselectList_D();
+	}
+
+	@Override
+	public TravelScheduleVo selectOne_D(String ts_code) {
+		return dao.selectOne_D(ts_code);
 	}
 	
 	

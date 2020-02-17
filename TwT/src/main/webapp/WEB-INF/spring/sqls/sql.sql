@@ -11,7 +11,8 @@ SELECT * FROM CITY;
 
 --------------------------------도영-----------------------------------------
 
-
+SELECT * FROM TRAVELSCHEDULE;
+SELECT * FROM TRAVELSCHEDULE LEFT JOIN TWTMEMBER USING(M_CODE) ORDER BY TS_CODE DESC;
 
 --------------------------------보미-----------------------------------------
 

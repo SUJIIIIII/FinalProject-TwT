@@ -42,6 +42,7 @@
 
 
 	<!-- ================================도영================================== -->
+	
 	<resultMap type="TravelSchedule" id="TravelScheduleMap">
 		<result property="ts_Code" column="TS_CODE" />
 		<result property="m_Code" column="M_CODE" />
@@ -52,9 +53,23 @@
 		<result property="ts_People" column="TS_PEOPLE" />
 		<result property="ts_Thum" column="TS_THUM" />
 		<result property="ts_Period" column="TS_PERIOD" />
+		<result property="m_Id" column="M_ID "/>
 	</resultMap>
-	<select id="TS_selectList" resultMap="TravelScheduleMap">
-		SELECT * FROM TRABLESCHEDULE ORDER BY TS_CODE
+	
+	<!-- 여행일정 게시판 리스트 최신 순-->
+	<select id="selectList_D" resultMap="TravelScheduleMap">
+		SELECT * FROM TRAVELSCHEDULE ORDER BY TS_CODE DESC
+	</select>
+	
+	<!-- 여행일정 게시판 리스트 조회수 순 -->
+	<select id="PselectList_D" resultMap="TravelScheduleMap">
+<!-- 		SELECT * FROM TRAVELSCHEDULE ORDER BY TS_CODE DESC -->
+		SELECT * FROM TRAVELSCHEDULE LEFT JOIN TWTMEMBER USING(M_CODE) ORDER BY TS_CODE DESC;
+	</select>
+	
+	<!-- 여행일정 디테일 페이지 -->
+	<select id="selectOne_D" >
+		SELECT * FROM TRAVELSCHEDULE WHERE TS_CODE = #{TS_CODE}
 	</select>
 
 

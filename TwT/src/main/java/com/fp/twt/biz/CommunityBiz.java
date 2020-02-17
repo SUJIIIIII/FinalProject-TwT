@@ -17,7 +17,10 @@ public interface CommunityBiz {
 	
 	//도영
 	
-	public List<TravelScheduleVo> TS_selectList();	
+	public List<TravelScheduleVo> selectList_D();
+	public List<TravelScheduleVo> PselectList_D();
+
+	public TravelScheduleVo selectOne_D(String ts_code);	
 	
 	
 	
