@@ -1,6 +1,7 @@
 package com.fp.twt.controller;
 
 import java.util.HashMap;
+
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -31,6 +32,7 @@ public class MypageController {
 
 	@Autowired
 	BCryptPasswordEncoder passwordEncoder;
+	
 
 
 	// 회원가입
@@ -104,6 +106,7 @@ public class MypageController {
 		System.out.println("들어오는 아이디 : " + m_Id);
 		int result = biz.idChk(m_Id);
 		System.out.println("확인 : " + result);
+
 		map.put("check", result);
 
 		return map;
