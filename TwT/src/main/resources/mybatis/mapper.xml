@@ -96,10 +96,20 @@
 
 
 	<!-- ================================수지================================== -->
+	<!-- 모든 city 정보 불러오기 -->
 	<select id="selectcityall_S" resultType="City">
 		SELECT * FROM CITY
 	</select>
-
+	
+	<!-- 선택된 city spot 모두 불러오기 -->
+	<select id="selectallspot_S" resultType="TravelPoint" parameterType="String">
+		SELECT * FROM TRAVELPOINT WHERE CITY_CODE = #{citycode}
+	</select>
+	
+	<!-- 선택된 city 정보 불러오기 -->
+	<select id="selectcityone_S" resultType="City" parameterType="String">
+		SELECT * FROM CITY WHERE CITY_CODE = #{citycode}
+	</select>
 
 	<!-- ================================철환================================== -->
 
