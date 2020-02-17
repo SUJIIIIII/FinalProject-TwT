@@ -67,13 +67,17 @@ public class HomeController {
 	}
 
 	/*
-	 * @RequestMapping("hotel.do") public String hotel() { return
-	 * "TwTHotel/hotel_list"; }
-	 */
+	@RequestMapping("hotel.do")
+	public String hotel() {
+		return "TwTHotel/hotel_list";
+	}
+	*/
+	/*
 	@RequestMapping("hotelDetail.do")
 	public String hotelDetail() {
 		return "TwTHotel/hotel_detail";
 	}
+	*/
 
 	/*
 	 * @RequestMapping("community.do") public String community() { return

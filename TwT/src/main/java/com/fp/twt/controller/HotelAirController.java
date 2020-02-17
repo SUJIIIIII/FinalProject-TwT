@@ -43,8 +43,17 @@ public class HotelAirController {
 		return "TwTHotel/hotel_list";
 	}
 	
-	
-	
+	// 호텔 객실
+	@RequestMapping("hotelDetail.do")
+	public String hotelDetail(Model model) {
+		
+		logger.info("SELECT LIST");
+		model.addAttribute("hotellist",biz.HselectList());
+		model.addAttribute("hotelroomllist",biz.HselectList());
+		
+		
+		return "TwTHotel/hotel_detail";
+	}
 	
 
 }

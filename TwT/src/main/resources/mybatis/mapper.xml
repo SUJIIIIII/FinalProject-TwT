@@ -35,8 +35,10 @@
 
 	</select>
 
-
-
+    <!-- 호텔룸 -->
+    <select id="selectall_B" resultType="Hotel">
+		SELECT * FROM HOTELROOM
+	</select>
 
 
 
@@ -58,6 +60,9 @@
 		SELECT * FROM
 		TRABLESCHEDULE ORDER BY TS_CODE
 	</select>
+	
+	
+
 
 
 	<!-- ================================보미================================== -->

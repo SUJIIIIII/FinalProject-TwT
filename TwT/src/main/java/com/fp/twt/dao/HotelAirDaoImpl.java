@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.fp.twt.vo.HotelVo;
+import com.fp.twt.vo.HotelroomVo;
 
 @Repository
 public class HotelAirDaoImpl implements HotelAirDao{
@@ -33,6 +34,7 @@ public class HotelAirDaoImpl implements HotelAirDao{
 		
 		try {
 		hotellist = sqlSession.selectList(NAMESPACE+"HselectList");
+		System.out.println("dao 의 hotellist : "+hotellist);
 		}catch(Exception e) {
 			System.out.println("[error] : HselectList");
 			e.printStackTrace();
@@ -40,6 +42,22 @@ public class HotelAirDaoImpl implements HotelAirDao{
 		
 		return hotellist;
 	}
+	
+	//호텔 방 
+	public List<HotelroomVo> selectall_B(){
+		List<HotelroomVo> hotelroomlist = new ArrayList<HotelroomVo>();
+		
+		try {
+		hotelroomlist = sqlSession.selectList(NAMESPACE+"selectall_B");
+		System.out.println("dao 의  hotelroomlist : "+hotelroomlist);
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		return hotelroomlist;
+	}
+	
+	
+	
 	
 	
 	
