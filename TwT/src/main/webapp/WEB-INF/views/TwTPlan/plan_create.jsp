@@ -1,6 +1,8 @@
 ﻿<%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -28,6 +30,8 @@
    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/plan/gnb.css">
    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/plan/date_picker.css">
    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/plan/plan_create_css.css">
+   <!-- // jQuery UI CSS파일 --> 
+   <link rel="stylesheet" href="http://code.jquery.com/ui/1.8.18/themes/base/jquery-ui.css" type="text/css" />  
    
    <script async="" src="//www.google-analytics.com/analytics.js"></script>
    <script>
@@ -40,8 +44,27 @@
          return '/ko';
       }
    </script>
-   <meta name="google-site-verification" content="MwgpAlNbsXRZEln-QQP8Jra-Aj8cTKcCtDd3L_StvTc">
+   <!-- <script type="text/javascript" src="/jslang?lang=ko&amp;lang_file=commonjs"></script> -->
+    <link rel="image_src" href="https://www.earthtory.com/res/img/earthtory_logo_to_sns.png">
 
+    <link rel="canonical" href="https://www.earthtory.com/ko/plan/create">
+         
+   <link rel="home" href="www.earthtory.com">
+
+   <link rel="alternate" href="https://www.earthtory.com/plan/create" hreflang="x-default" title="English">
+   <link rel="alternate" href="https://www.earthtory.com/ja/plan/create" hreflang="ja-jp" title="日本語">
+   <link rel="alternate" href="https://www.earthtory.com/ko/plan/create" hreflang="ko-kr" title="한국어">
+
+   <meta name="google-site-verification" content="MwgpAlNbsXRZEln-QQP8Jra-Aj8cTKcCtDd3L_StvTc">
+   <meta name="naver-site-verification" content="48a2af847268bfd79153f73690ad01b35cb1593a">
+   <!-- <script type="text/javascript" charset="UTF-8" src="https://maps.googleapis.com/maps-api-v3/api/js/39/9/intl/ko_ALL/common.js"></script>
+   <script type="text/javascript" charset="UTF-8" src="https://maps.googleapis.com/maps-api-v3/api/js/39/9/intl/ko_ALL/util.js"></script>
+   <script type="text/javascript" charset="UTF-8" src="https://maps.googleapis.com/maps-api-v3/api/js/39/9/intl/ko_ALL/marker.js"></script>
+   <script type="text/javascript" charset="UTF-8" src="https://maps.googleapis.com/maps-api-v3/api/js/39/9/intl/ko_ALL/map.js"></script>
+   <script type="text/javascript" charset="UTF-8" src="https://maps.googleapis.com/maps-api-v3/api/js/39/9/intl/ko_ALL/onion.js"></script>
+   <script type="text/javascript" charset="UTF-8" src="https://maps.googleapis.com/maps-api-v3/api/js/39/9/intl/ko_ALL/overlay.js"></script>
+   <script type="text/javascript" charset="UTF-8" src="https://maps.googleapis.com/maps-api-v3/api/js/39/9/intl/ko_ALL/controls.js"></script> -->
+   
 <style type="text/css">
 .labels{
   color:white;
@@ -49,50 +72,12 @@
   font-size:20px;
   text-align:center;width:80px;height:80px;line-height:80px;border-radius:100%;white-space:nowrap;
 }
-
-  /* The Modal (background) */
-   .createmodal {
-      display: none; /* Hidden by default */
-      position: fixed; /* Stay in place */
-      z-index: 1; /* Sit on top */
-      left: 0;
-      top: 0;
-      width: 100%; /* Full width */
-      height: 100%; /* Full height */
-      overflow: auto; /* Enable scroll if needed */
-      background-color: rgb(0,0,0); /* Fallback color */
-      background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
-      font-family: "nanum";
-   }
-
-   /* Modal Content/Box */
-   .modal-content {
-       font-family: "nanum";
-      background-color: #fefefe;
-      margin: 15% auto; /* 15% from the top and centered */
-      padding: 20px;
-      border: 1px solid #888;
-      width: 50%; /* Could be more or less, depending on screen size */
-   }
-   /* The Close Button */
-   .modal-close {
-      color: #aaa;
-      float: right;
-      font-size: 28px;
-      font-weight: bold;
-   }
-   .modal-close:hover,
-   .modal-close:focus {
-      color: black;
-      text-decoration: none;
-      cursor: pointer;
-   }   
 </style>
 
 <!-- google map -->
 <script src="https://maps.googleapis.com/maps/api/js?sensor=false&libraries=geometry,places&ext=.js"></script>
 <script src="https://cdn.rawgit.com/googlemaps/v3-utility-library/master/markerwithlabel/src/markerwithlabel.js"></script>
-<%-- <script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/plan/MarkerWithLabel.js"></script> --%>
+<script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/plan/MarkerWithLabel.js"></script>
 <script type="text/javascript" src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 <script>
 // 전역 변수 선언
@@ -318,82 +303,6 @@ src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCiDE5HBue4mflsdkcsGvSZrUe
                   <div class="pn_date_info fl">출발일</div>
                   <div class="pn_date_icon fr"><i class="fas fa-calendar-alt"></i></div>
                   <div class="clear"></div>
-                  <div id="date_pick" class="hasDatepicker">
-                     <div class="ui-datepicker-inline ui-datepicker ui-widget ui-widget-content ui-helper-clearfix ui-corner-all" style="display: block;">
-                        <div class="ui-datepicker-header ui-widget-header ui-helper-clearfix ui-corner-all">
-                           <a class="ui-datepicker-next ui-corner-all" data-handler="next" data-event="click" title="">
-                              <span class="ui-icon ui-icon-circle-triangle-e"></span>
-                           </a>
-                           <div class="ui-datepicker-title">
-                              <span class="ui-datepicker-month">1월</span>&nbsp;<span class="ui-datepicker-year">2020</span>
-                           </div>
-                        </div>
-                        <table class="ui-datepicker-calendar">
-                           <thead>
-                              <tr>
-                                 <th class="ui-datepicker-week-end"><span title="SUN">SUN</span></th>
-                                 <th><span title="MON">MON</span></th>
-                                 <th><span title="TUE">TUE</span></th>
-                                 <th><span title="WED">WED</span></th>
-                                 <th><span title="THU">THU</span></th>
-                                 <th><span title="FRI">FRI</span></th>
-                                 <th class="ui-datepicker-week-end"><span title="SAT">SAT</span></th>
-                              </tr>
-                           </thead>
-                           <tbody>
-                              <tr>
-                                 <td class=" ui-datepicker-week-end ui-datepicker-other-month ui-datepicker-unselectable ui-state-disabled">&nbsp;</td>
-                                 <td class=" ui-datepicker-other-month ui-datepicker-unselectable ui-state-disabled">&nbsp;</td>
-                                 <td class=" ui-datepicker-other-month ui-datepicker-unselectable ui-state-disabled">&nbsp;</td>
-                                 <td class=" ui-datepicker-unselectable ui-state-disabled "><span class="ui-state-default">1</span></td>
-                                 <td class=" ui-datepicker-unselectable ui-state-disabled "><span class="ui-state-default">2</span></td>
-                                 <td class=" ui-datepicker-unselectable ui-state-disabled "><span class="ui-state-default">3</span></td>
-                                 <td class=" ui-datepicker-week-end ui-datepicker-unselectable ui-state-disabled "><span class="ui-state-default">4</span></td>
-                              </tr>
-                              <tr>
-                                 <td class=" ui-datepicker-week-end ui-datepicker-unselectable ui-state-disabled "><span class="ui-state-default">5</span></td>
-                                 <td class=" ui-datepicker-unselectable ui-state-disabled "><span class="ui-state-default">6</span></td>
-                                 <td class=" ui-datepicker-unselectable ui-state-disabled "><span class="ui-state-default">7</span></td>
-                                 <td class=" ui-datepicker-unselectable ui-state-disabled "><span class="ui-state-default">8</span></td>
-                                 <td class=" ui-datepicker-unselectable ui-state-disabled "><span class="ui-state-default">9</span></td>
-                                 <td class=" ui-datepicker-unselectable ui-state-disabled "><span class="ui-state-default">10</span></td>
-                                 <td class=" ui-datepicker-week-end ui-datepicker-unselectable ui-state-disabled "><span class="ui-state-default">11</span></td>
-                              </tr>
-                              <tr>
-                                 <td class=" ui-datepicker-week-end ui-datepicker-unselectable ui-state-disabled "><span class="ui-state-default">12</span></td>
-                                 <td class=" ui-datepicker-unselectable ui-state-disabled "><span class="ui-state-default">13</span></td>
-                                 <td class=" ui-datepicker-unselectable ui-state-disabled "><span class="ui-state-default">14</span></td>
-                                 <td class=" ui-datepicker-unselectable ui-state-disabled "><span class="ui-state-default">15</span></td>
-                                 <td class=" ui-datepicker-unselectable ui-state-disabled "><span class="ui-state-default">16</span></td>
-                                 <td class=" ui-datepicker-unselectable ui-state-disabled "><span class="ui-state-default">17</span></td>
-                                 <td class=" ui-datepicker-week-end ui-datepicker-unselectable ui-state-disabled "><span class="ui-state-default">18</span></td>
-                              </tr>
-                              <tr>
-                                 <td class=" ui-datepicker-week-end ui-datepicker-unselectable ui-state-disabled "><span class="ui-state-default">19</span></td>
-                                 <td class=" ui-datepicker-unselectable ui-state-disabled "><span class="ui-state-default">20</span></td>
-                                 <td class=" ui-datepicker-unselectable ui-state-disabled "><span class="ui-state-default">21</span></td>
-                                 <td class=" ui-datepicker-unselectable ui-state-disabled "><span class="ui-state-default">22</span></td>
-                                 <td class=" ui-datepicker-unselectable ui-state-disabled "><span class="ui-state-default">23</span></td>
-                                 <td class=" ui-datepicker-unselectable ui-state-disabled "><span class="ui-state-default">24</span></td>
-                                 <td class=" ui-datepicker-week-end ui-datepicker-unselectable ui-state-disabled "><span class="ui-state-default">25</span></td>
-                              </tr>
-                              <tr>
-                                 <td class=" ui-datepicker-week-end ui-datepicker-unselectable ui-state-disabled "><span class="ui-state-default">26</span></td>
-                                 <td class=" ui-datepicker-unselectable ui-state-disabled "><span class="ui-state-default">27</span></td>
-                                 <td class=" ui-datepicker-unselectable ui-state-disabled "><span class="ui-state-default">28</span></td>
-                                 <td class=" ui-datepicker-unselectable ui-state-disabled "><span class="ui-state-default">29</span></td>
-                                 <td class=" ui-datepicker-days-cell-over  ui-datepicker-current-day ui-datepicker-today" data-handler="selectDay" data-event="click" data-month="0" data-year="2020">
-                                    <a class="ui-state-default ui-state-highlight ui-state-active ui-state-hover" href="#">30</a>
-                                 </td>
-                                 <td class=" " data-handler="selectDay" data-event="click" data-month="0" data-year="2020">
-                                    <a class="ui-state-default" href="#">31</a>
-                                 </td>
-                                 <td class=" ui-datepicker-week-end ui-datepicker-other-month ui-datepicker-unselectable ui-state-disabled">&nbsp;</td>
-                              </tr>
-                           </tbody>
-                        </table>
-                     </div>
-                  </div><!--datepick end -->
                   <form action="planDetail.do" method="get" id="createform">
                      <input type="hidden" id="schedule_date" name="schedule_date" value=""/> <!-- 날짜  -->
                      <input type="hidden" id="city_no" name="citycode" value=""/> <!-- 도시코드 -->
@@ -429,6 +338,7 @@ src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCiDE5HBue4mflsdkcsGvSZrUe
          <div class="modal-content">
             <div class="title_box">
                "출발일 선택"
+               <img src="">
             </div>
             <table class="create-table" width="100%" cellpadding="0" cellspacing="0">
                <colgroup><col width="85"><col></colgroup>
@@ -449,7 +359,7 @@ src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCiDE5HBue4mflsdkcsGvSZrUe
                   <tr>
                      <th>"여행출발일       "</th>
                      <td>
-                        <input type="text" id="start-day" class="hasDatepicker"/>
+                        <input type="text" id="testDatepicker"/>
                      </td>
                   </tr>
                   <tr>
@@ -464,7 +374,11 @@ src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCiDE5HBue4mflsdkcsGvSZrUe
          <div class="clear"></div>
       </div>
    </div>
-   
+
+<!-- // jQuery 기본 js파일-->
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>  
+<!-- // jQuery UI 라이브러리 js파일 -->
+<script src="http://code.jquery.com/ui/1.8.18/jquery-ui.min.js"></script>     
 <script src="${pageContext.request.contextPath}/resources/js/plan/plan_create.js"></script> 
 <div id="ui-datepicker-div" class="ui-datepicker ui-widget ui-widget-content ui-helper-clearfix ui-corner-all"></div>
 </body>
