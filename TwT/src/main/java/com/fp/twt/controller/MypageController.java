@@ -35,6 +35,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fp.twt.HomeController;
 import com.fp.twt.biz.MypageBiz;
+
 import com.fp.twt.common.social.KakaoAPI;
 import com.fp.twt.common.social.NaverLoginBO;
 import com.fp.twt.vo.AirplaneInfoVo;
@@ -86,6 +87,10 @@ public class MypageController {
 		vo.setm_Pass(passwordEncoder.encode(vo.getm_Pass()));
 		System.out.println("암호화 된 비밀번호 : " + vo.getm_Pass());
 
+		/*
+		 * // 인증메일 mailsender.mailSendWithUserKey(vo.getm_Email(), vo.getm_Id(),
+		 * request);
+		 */
 		if (biz.memberInsert(vo) > 0) {
 			System.out.println("회원가입 성공" + vo.toString());
 			return "TwTAccount/login";
@@ -93,6 +98,13 @@ public class MypageController {
 			System.out.println("회원가입 실패");
 			return "TwTAccount/login";
 		}
+	}
+
+	// 이메일 인증
+	@RequestMapping(value = "/key_alter", method = RequestMethod.GET)
+	public String key_alterConfirm(@RequestParam("m_Id") String m_Id, @RequestParam("m_mailcheck") String key) {
+		
+		return "";
 	}
 
 	// TODO : 회원조회

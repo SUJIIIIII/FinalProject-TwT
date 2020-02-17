@@ -82,7 +82,11 @@ public class HomeController {
 	/*
 	 * @RequestMapping("community.do") public String community() { return
 	 * "TwTCommunity/community_list"; }
+	 *
+	 * @RequestMapping("communityDetail.do") public String communityDetail(){ return
+	 * "TwTCommunity/community_detail"; }
 	 */
+
 	@RequestMapping("communityDetail.do")
 	public String communityDetail() {
 		return "TwTCommunity/community_detail";

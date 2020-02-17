@@ -118,9 +118,9 @@
 					<!-- fade 1 -->
 		              <div class="tab-pane fade show active" id="v-pills-whatwedo" role="tabpanel" aria-labelledby="v-pills-whatwedo-tab">
 							<div style="margin-bottom: 25px; padding-left: 1020px;">
-					    	<span class="sort" date-id="po" onclick="" style="cursor:pointer;"><i class="far fa-thumbs-up"></i>&nbsp;인기</span>
+					    	<span class="sort" date-id="regdate" onclick="" style="cursor:pointer;"><i class="far fa-calendar-alt"></i>&nbsp;<a href="community.do">최신</a></span>
 					    	<span class="sort">&nbsp;|&nbsp;</span>
-					    	<span class="sort" date-id="regdate" onclick="" style="cursor:pointer;"><i class="far fa-calendar-alt"></i>&nbsp;최신</span>
+					    	<span class="sort" date-id="po" onclick="" style="cursor:pointer;"><i class="far fa-thumbs-up"></i>&nbsp;<a href="popcommunity.do">인기</a></span>
 					      	</div>						
 						<div class="row d-flex">
 						
@@ -128,7 +128,7 @@
 							<c:forEach items="${community }" var="vo">
 							 	<div class="col-md-3 d-flex ftco-animate">
 							            <div class="blog-entry align-self-stretch" style="min-width: 250px;">
-							              <a href="communityDetail.do" class="block-20" style="background-image: url('${pageContext.request.contextPath}/resources/images/image_1.jpg');"></a>
+							              <a href="communityDetail.do?ts_code=${vo.ts_Code }" class="block-20" style="background-image: url('${pageContext.request.contextPath}/resources/images/image_1.jpg');"></a>
 							              <div class="text p-4 d-block" style="min-width: 250px;">
 							              	<span class="tag">${vo.ts_Sday }</span>
 							              	<span class="tag">| ${vo.ts_Period }DAYS</span>
@@ -137,12 +137,12 @@
 									            <i class="fas fa-eye"></i><span style="font-size:16px;">&nbsp;&nbsp;1</span>
 								            </span>
 								            <br>
-						              	    <h3 class="heading"><a href="communityDetail.do">${vo.ts_Title }</a></h3>
+						              	    <h3 class="heading"><a href="communityDetail.do?ts_code=${vo.ts_Code }">${vo.ts_Title }</a></h3>
 						                    <div class="tagcloud">
 							                <a href="#" class="tag-cloud-link">${vo.ts_Theme }</a>
 						               	 	</div>
 						           		 	<br>
-						                    <div style="margin-top: -10px;"><i class="fas fa-user"></i> 아이디</div>			              	    
+						                    <div style="margin-top: -10px;"><i class="fas fa-user"></i></div>			              	    
 							              </div>
 							            </div>
 							          </div>

@@ -14,13 +14,14 @@ public class TravelScheduleVo {
     private String ts_Thum; 		//일정 썸네일
     private int ts_Period; 		//일정 기간
     private String ts_View; 		//일정 조회수
+    private String m_Id;
 
     public TravelScheduleVo() {
 		super();
 	}
 
 	public TravelScheduleVo(String ts_Code, String m_Code, String tp_Code, String ts_Title, Date ts_Sday, String ts_Theme,
-			String ts_People, String ts_Thum, int ts_Period, String ts_View) {
+			String ts_People, String ts_Thum, int ts_Period, String ts_View, String m_Id) {
 		super();
 		this.ts_Code = ts_Code;
 		this.m_Code = m_Code;
@@ -32,8 +33,17 @@ public class TravelScheduleVo {
 		this.ts_Thum = ts_Thum;
 		this.ts_Period = ts_Period;
 		this.ts_View = ts_View;
+		this.m_Id = m_Id;
 	}
 	
+	public String getM_Id() {
+		return m_Id;
+	}
+
+	public void setM_Id(String m_Id) {
+		this.m_Id = m_Id;
+	}
+
 	// 조회수 사용
 	public TravelScheduleVo(String ts_Code, String ts_View) {
 		super();

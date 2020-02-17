@@ -55,14 +55,24 @@
 		<result property="ts_People" column="TS_PEOPLE" />
 		<result property="ts_Thum" column="TS_THUM" />
 		<result property="ts_Period" column="TS_PERIOD" />
+		<result property="m_Id" column="M_ID "/>
 	</resultMap>
-	<select id="TS_selectList" resultMap="TravelScheduleMap">
-		SELECT * FROM
-		TRABLESCHEDULE ORDER BY TS_CODE
+	
+	<!-- 여행일정 게시판 리스트 최신 순-->
+	<select id="selectList_D" resultMap="TravelScheduleMap">
+		SELECT * FROM TRAVELSCHEDULE ORDER BY TS_CODE DESC
 	</select>
 	
+	<!-- 여행일정 게시판 리스트 조회수 순 -->
+	<select id="PselectList_D" resultMap="TravelScheduleMap">
+<!-- 		SELECT * FROM TRAVELSCHEDULE ORDER BY TS_CODE DESC -->
+		SELECT * FROM TRAVELSCHEDULE LEFT JOIN TWTMEMBER USING(M_CODE) ORDER BY TS_CODE DESC;
+	</select>
 	
-
+	<!-- 여행일정 디테일 페이지 -->
+	<select id="selectOne_D" >
+		SELECT * FROM TRAVELSCHEDULE WHERE TS_CODE = #{TS_CODE}
+	</select>
 
 
 	<!-- ================================보미================================== -->
@@ -97,8 +107,15 @@
 		#{re_Loca2}, #{re_Date1}, #{re_Date2}, #{re_Time1}, #{re_Time2} )
 	</insert>
 
+
 	<!-- 항공권 정보 수정 -->
 	<update id="updateAirM" parameterType="AirplaneInfo">
+
+	<!-- 유저 인증키(난수) Y로 변경 -->
+	<update id="alter_userKey" parameterType="Member">
+		UPDATE TWTMEMBER SET
+		M_MAILCHECK = 'Y' WHERE M_ID = #{m_Id} AND M_MAILCHECK =
+		#{m_mailcheck}
 	</update>
 
 	<!-- 항공권 정보 삭제 -->
