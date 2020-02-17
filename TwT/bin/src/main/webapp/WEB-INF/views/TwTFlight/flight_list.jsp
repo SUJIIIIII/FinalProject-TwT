@@ -127,7 +127,8 @@
           </div>
           <div class="col-lg-9">
           <div>
-          	<h1>아이프레임 위치</h1>
+          	<h1>아이프레임 위치다</h1>
+          	
           </div>
           	</div>
           	</div>

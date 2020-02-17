@@ -191,7 +191,7 @@
 		    					<div class="text p-3">
 		    						<div class="d-flex">
 		    							<div class="one">
-				    						<h3><a href="hotelDetail.do">${HotelVo.h_Name}</a></h3>
+				    						<h3 style="width: 130px;"><a href="hotelDetail.do?${HotelVo.h_Code}" style="margin: -7px;">${HotelVo.h_Name}</a></h3>
 				    						<p class="rate">
 				    							<i class="icon-star"></i>
 				    							<i class="icon-star"></i>
@@ -202,10 +202,10 @@
 				    						</p>
 			    						</div>
 			    						<div class="two">
-			    							<span class="price per-price">$100<small>/ 1박</small></span>
+			    							<span class="price per-price" style="margin: -7px;">₩169,006<br><a style="font-size: 16px;">/ 1박</a></span>
 		    							</div>
 		    						</div>
-		    						<p style="width:140px; height:75px;">${HotelVo.h_Basiccontent}</p>
+		    						<p style="width:216px; height:85px;">${HotelVo.h_Basiccontent}</p>
 		    						<hr>
 		    						<p class="bottom-area d-flex">
 		    							<span><i class="icon-map-o"></i>&nbsp;&nbsp;${HotelVo.h_Basicaddr}</span> 
@@ -215,10 +215,10 @@
 		    				</div>
 		    			</div>
 			        </c:forEach>
-		    			
+			        
 		    
 		    			
-		    			
+		   	
 		    			<!-- ----------------------------------------------------------------------------------------------- -->
 		    			
 		    			

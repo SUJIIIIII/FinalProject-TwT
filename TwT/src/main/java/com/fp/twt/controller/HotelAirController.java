@@ -11,6 +11,12 @@ import com.fp.twt.biz.HotelAirBiz;
 
 @Controller
 public class HotelAirController {
+
+	private static final Logger logger = LoggerFactory.getLogger(HotelAirController.class);
+	
+	@Autowired
+	private HotelAirBiz biz;
+	
 	//찬우
 	
 	
@@ -27,12 +33,6 @@ public class HotelAirController {
 	
 	//범식
 	
-	private static final Logger logger = LoggerFactory.getLogger(HotelAirController.class);
-	
-	@Autowired
-	private HotelAirBiz biz;
-	
-	
 	// 호텔 리스트
 	@RequestMapping("/hotel.do")
 	public String hotel(Model model) {
@@ -43,8 +43,17 @@ public class HotelAirController {
 		return "TwTHotel/hotel_list";
 	}
 	
-	
-	
+	// 호텔 객실
+	@RequestMapping("hotelDetail.do")
+	public String hotelDetail(Model model) {
+		
+		logger.info("SELECT LIST");
+		model.addAttribute("hotellist",biz.HselectList());
+		model.addAttribute("hotelroomllist",biz.HselectList());
+		
+		
+		return "TwTHotel/hotel_detail";
+	}
 	
 
 }

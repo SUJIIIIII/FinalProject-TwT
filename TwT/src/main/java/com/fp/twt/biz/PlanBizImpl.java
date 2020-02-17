@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.fp.twt.dao.PlanDao;
 import com.fp.twt.vo.CityVo;
+import com.fp.twt.vo.TravelPointVo;
 
 @Service
 public class PlanBizImpl implements PlanBiz{
@@ -25,6 +26,16 @@ public class PlanBizImpl implements PlanBiz{
 	@Override
 	public List<CityVo> selectCityAll() {
 		return dao.selectCityAll();
+	}
+
+	@Override
+	public List<TravelPointVo> selectAllSpot(String city_Code) {
+		return dao.selectAllSpot(city_Code);
+	}
+
+	@Override
+	public CityVo selectCityOne(String citycode) {
+		return dao.selectCityOne(citycode);
 	}
 	
 	
