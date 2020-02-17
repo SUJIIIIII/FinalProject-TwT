@@ -4,16 +4,21 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.fp.twt.biz.PlanBiz;
 import com.fp.twt.vo.CityVo;
+import com.fp.twt.vo.TravelPointVo;
 
 // http://localhost:8090/twt/plan.do
 
@@ -34,23 +39,43 @@ public class PlanController {
 	//수지
 	@RequestMapping("/plan.do")
 	public String createSelect(Model model) {
-		
-		List<CityVo> res = biz.selectCityAll();
+		// city 모든 정보
+		List<CityVo> res = biz.selectCityAll(); 
 		model.addAttribute("res",res);
-		System.out.println("1번째 res의 위도 : " + res.get(0).getcity_Lati());
 		return "TwTPlan/plan_create";
 	}
 	
-	@RequestMapping("/cityJson.do")
-	@ResponseBody
-	public Map<String,List> cityJson(){
-		List<CityVo> res = biz.selectCityAll();
-		Map<String,List> map = new HashMap<String, List>();
+	@RequestMapping("planDetail.do")
+	public String planDetail(Model model, HttpServletRequest request) {
+		// city 모든 정보
+		List<CityVo> allCity = biz.selectCityAll();
 		
-		map.put("city", res);
+		// spot 모든 정보
+		String citycode = request.getParameter("citycode");
+		System.out.println("controller에서 citycode : " + citycode);
+		List<TravelPointVo> allSpot = biz.selectAllSpot(citycode);
 		
-		return map;
+		// 선택된 city 정보
+		CityVo cityvo = biz.selectCityOne(citycode);
+		
+		model.addAttribute("allCity",allCity);
+		model.addAttribute("allSpot",allSpot);
+		model.addAttribute("citycode",citycode);
+		model.addAttribute("cityvo",cityvo);
+		
+		return "TwTPlan/plan_detail";
 	}
+	
+//	@RequestMapping("/cityJson.do")
+//	@ResponseBody
+//	public Map<String,List> cityJson(){
+//		List<CityVo> res = biz.selectCityAll();
+//		Map<String,List> map = new HashMap<String, List>();
+//		
+//		map.put("city", res);
+//		
+//		return map;
+//	}
 	
 	
 	

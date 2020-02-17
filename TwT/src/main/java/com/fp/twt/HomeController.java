@@ -20,10 +20,10 @@ public class HomeController {
 //	public String plan() {
 //		return "TwTPlan/plan_create";
 //	}
-	@RequestMapping("planDetail.do")
-	public String planDetail() {
-		return "TwTPlan/plan_detail";
-	}
+//	@RequestMapping("planDetail.do")
+//	public String planDetail() {
+//		return "TwTPlan/plan_detail";
+//	}
 	@RequestMapping("flight.do")
 	public String flight() {
 		return "TwTFlight/flight_main";
