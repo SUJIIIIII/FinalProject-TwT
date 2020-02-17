@@ -38,10 +38,12 @@ public class HomeController {
 		return "TwTHotel/hotel_list";
 	}
 	*/
+	/*
 	@RequestMapping("hotelDetail.do")
 	public String hotelDetail() {
 		return "TwTHotel/hotel_detail";
 	}
+	*/
 	/*
 	 * @RequestMapping("community.do") public String community() { return
 	 * "TwTCommunity/community_list"; }
