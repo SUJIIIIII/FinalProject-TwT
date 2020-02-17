@@ -1,6 +1,7 @@
 package com.fp.twt.controller;
 
 import java.util.HashMap;
+
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -19,7 +20,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.fp.twt.HomeController;
 import com.fp.twt.biz.MypageBiz;
-import com.fp.twt.common.email.UserMailSendService;
 import com.fp.twt.vo.MemberVo;
 
 @Controller
@@ -32,8 +32,6 @@ public class MypageController {
 	@Autowired
 	BCryptPasswordEncoder passwordEncoder;
 	
-	@Autowired
-	private UserMailSendService mailsender;
 
 	// 회원가입
 	@RequestMapping("/createAccount.do")
@@ -43,9 +41,10 @@ public class MypageController {
 		vo.setm_Pass(passwordEncoder.encode(vo.getm_Pass()));
 		System.out.println("암호화 된 비밀번호 : " + vo.getm_Pass());
 		
-		// 인증메일 
-		mailsender.mailSendWithUserKey(vo.getm_Email(), vo.getm_Id(), request);
-
+		/*
+		 * // 인증메일 mailsender.mailSendWithUserKey(vo.getm_Email(), vo.getm_Id(),
+		 * request);
+		 */
 		if (biz.memberInsert(vo) > 0) {
 			System.out.println("회원가입 성공" + vo.toString());
 			return "TwTAccount/login";
