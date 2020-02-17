@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c"      uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <% request.setCharacterEncoding("UTF-8"); %>
 <% response.setContentType("text/html; charset=UTF-8");%>
@@ -152,32 +154,25 @@
           		</div>
           		<!-- 호텔 사진 끝 -->
           		
+          		<c:forEach items="${hotellist }" var="HotelVo">
           		<div class="col-md-12 hotel-single mt-4 mb-5 ftco-animate">
           			
           			<h2>호텔 부가설명</h2>
           			<p class="rate mb-5">
-          				<span class="loc"><a href="#"><i class="icon-map"></i> 호텔 주소입력 (별점 필요한지 확인필요)</a></span>
+          				<span class="loc"><a href="#"><i class="icon-map"></i>${HotelVo.h_Addr}</a></span>
           				<span class="star">
     							<i class="icon-star"></i>
     							<i class="icon-star"></i>
     							<i class="icon-star"></i>
     							<i class="icon-star"></i>
     							<i class="icon-star-o"></i>
-    							몇명이투표했는지 입력</span>
+    							</span>
     						</p>
     						<p>설명 내용</p>
     						<div class="d-md-flex mt-5 mb-5">
     							<ul>
-	    							<li>호텔짱</li>
-	    							<li>핵좋음</li>
-	    							<li>뷰가멋졍</li>
-	    							<li>수영장도있어</li>
-	    						</ul>
-	    						<ul class="ml-md-5">
-	    							<li>친절해</li>
-	    							<li>굿이야</li>
-	    							<li>진짜좋아?</li>
-	    							<li>진짜진짜좋아</li>
+	    							<li>${HotelVo.h_Content}</li>
+
 	    						</ul>
     						</div>
     						<p>추가 내용 내용</p>
@@ -187,9 +182,12 @@
 				                <a href="#" class="tag-cloud-link">WiFi</a>
 			              	</div>
           		</div>
+          		</c:forEach>
           		
           		
           		<!-- 보유객실 정보 시작 -->
+          		
+          		<c:forEach items="${hotelroomlist }" var="Room">
           		<div class="col-md-12 hotel-single ftco-animate mb-5 mt-4">
           			<h4 class="mb-4">객실 정보</h4>
           			<div class="row">
@@ -200,19 +198,19 @@
 				    					<div class="text p-3">
 				    						<div class="d-flex">
 				    							<div class="one">
-						    						<h3><a href="hotelDetail.do">스위트 룸</a></h3>
+						    						<h3><a href="hotelDetail.do">${Room.hr_Rank}</a></h3>
 						    						<p class="rate">
 						    							
 						    							<span>소개</span>
 						    						</p>
 					    						</div>
 					    						<div class="two">
-					    							<span class="price per-price">$1500<br></span>
+					    							<span class="price per-price"><a>₩</a>${Room.hr_Price}<br></span>
 				    							</div>
 				    						</div>
 				    						<div class="tagcloud">
 				    							<p>방에 대한 소개 &nbsp;
-								                <a href="#" class="tag-cloud-link"><i class="fas fa-bed"></i>&nbsp;침대개수</a>
+								                <a href="#" class="tag-cloud-link"><i class="fas fa-bed"></i>&nbsp;${Room.hr_bed}</a>
 								                </p>
 							              	</div>
 				    						<hr>
@@ -223,60 +221,10 @@
 				    					</div>
 				    				</div>
 				    			</div>
-				    			<!-- 객실 2 -->
-				    			<div class="col-md-4">
-				    				<div class="destination">
-				    					<a href="<%=request.getContextPath()%>/hotel-single.html" class="img img-2" style="background-image: url(${pageContext.request.contextPath}/resources/images/room-5.jpg);"></a>
-				    					<div class="text p-3">
-				    						<div class="d-flex">
-				    							<div class="one">
-						    						<h3><a href="<%=request.getContextPath()%>/hotel-single.html">패밀리 룸</a></h3>
-						    						<p class="rate">
-						    							
-						    							<span>소개</span>
-						    						</p>
-					    						</div>
-					    						<div class="two">
-					    							<span class="price per-price">$600<br></span>
-				    							</div>
-				    						</div>
-				    						<p>방에 대한 소개 </p>
-				    						<hr>
-				    						<p class="bottom-area d-flex">
-				    							<span><i class="icon-map-o"></i></span> 
-				    							<span class="ml-auto"><a href="#">Pick</a></span>
-				    						</p>
-				    					</div>
-				    				</div>
-				    			</div>
-				    			<!-- 객실 3 -->
-				    			<div class="col-md-4">
-				    				<div class="destination">
-				    					<a href="<%=request.getContextPath()%>/hotel-single.html" class="img img-2" style="background-image: url(${pageContext.request.contextPath}/resources/images/room-6.jpg);"></a>
-				    					<div class="text p-3">
-				    						<div class="d-flex">
-				    							<div class="one">
-						    						<h3><a href="<%=request.getContextPath()%>/hotel-single.html">디럭스 룸</a></h3>
-						    						<p class="rate">
-						    							
-						    							<span>소개</span>
-						    						</p>
-					    						</div>
-					    						<div class="two">
-					    							<span class="price per-price">$300<br></span>
-				    							</div>
-				    						</div>
-				    						<p>방에 대한 소개 </p>
-				    						<hr>
-				    						<p class="bottom-area d-flex">
-				    							<span><i class="icon-map-o"></i></span> 
-				    							<span class="ml-auto"><a href="#">Pick</a></span>
-				    						</p>
-				    					</div>
-				    				</div>
-				    			</div>
+				    			
           			</div>
           		</div>
+          		</c:forEach>
           		<!-- 보유객실 정보 끝 -->
           		
           		<!-- 위치 지도 시작 -->

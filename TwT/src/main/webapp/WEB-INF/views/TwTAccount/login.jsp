@@ -10,6 +10,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<script src="https://developers.kakao.com/sdk/js/kakao.min.js"></script>
 <script src="${pageContext.request.contextPath}/resources/js/jquery-3.2.1.min.js"></script>
 <script type="text/javascript">
 $(document).ready(function(){
@@ -473,13 +474,15 @@ a:hover {
 		
 		<%-- 로그인 시작 --%>
 		<div class="form-container sign-in-container">
-			<form action="enter.do" method="post">
+			<form action="enter.do" method="post" onsubmit="return login_chk()">
 				<img src="${pageContext.request.contextPath}/resources/images/account/lock.png" width="40">
 				<h1>LOGIN</h1>
 				<div class="social-container">
-					<a href="#" class="social"><img src="${pageContext.request.contextPath}/resources/images/account/kakao.png" style="border-radius: 50px;"></a>
-					<a href="#" class="social"><img src="${pageContext.request.contextPath}/resources/images/account/naver.png" style="border-radius: 50px;"></a>
-					<a href="#" class="social"><img src="${pageContext.request.contextPath}/resources/images/account/google.png" style="border-radius: 50px;"></a>
+					<a href="https://kauth.kakao.com/oauth/authorize?client_id=58faa2c546eff8d4a5bed528981dba5b&redirect_uri=http://localhost:8787/twt/kakaologin.do&response_type=code" class="social" >
+					<img src="${pageContext.request.contextPath}/resources/images/account/kakao.png" style="border-radius: 50px;">
+					</a>
+					<a href="${url}" class="social"><img src="${pageContext.request.contextPath}/resources/images/account/naver.png" style="border-radius: 50px;"></a>
+					<a href="${googleUrl}" class="social"><img src="${pageContext.request.contextPath}/resources/images/account/google.png" style="border-radius: 50px;"></a>
 				</div>
 				<input type="text" name="m_Id" placeholder="ID" style="border-left: 3px solid #fc3c3c;" />
 				<input type="password" name="m_Pass" placeholder="Password" style="border-left: 3px solid #fc3c3c;" />

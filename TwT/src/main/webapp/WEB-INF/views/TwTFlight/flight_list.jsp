@@ -62,8 +62,8 @@
    	</script>
 
     <section class="ftco-section ftco-degree-bg">
-      <div class="container">
-        <div class="row">
+      <!--  <div class="container">
+       <div class="row">
         	<div class="col-lg-3 sidebar">
         		<div class="sidebar-wrap bg-light ftco-animate">
         			<h3 class="heading mb-4">항공권 검색</h3>
@@ -126,13 +126,24 @@
         		</div>        		
           </div>
           <div class="col-lg-9">
-          <div>
+          
          	<h1>아이프레임 위치</h1>
-          	<iframe src="https://kr.trip.com/" scrolling="auto"></iframe>
-          </div>
-          	</div>
-          	</div>
-      </div>
+          	
+          </div> 
+          	
+          	
+          
+      </div>--> <!-- 외쪽매뉴바 --> 
+      
+      <iframe frameborder='0'
+        src="https://www.whypaymore.co.kr/d/flt/intl/sched-deals?appId=v2&tripType=2&searchSource=P&depLocCodes=SEL&depLocNames=%EC%84%9C%EC%9A%B8%28%EB%AA%A8%EB%93%A0%EA%B3%B5%ED%95%AD%29&arrLocCodes=BKK&arrLocNames=%EB%B0%A9%EC%BD%95%28%ED%83%9C%EA%B5%AD%29&dates=2020-02-21&dates=2020-03-18&cabinCls=Y&adtCnt=1&chdCnt=0&infCnt=0"
+        scrolling="yes" border="no" maginwidth="0" marginheight="0" frameborder="0"       
+        style="height: 1800px; width: 100%"></iframe>
+     
+      
+		
+        
+      
     </section> <!-- .section -->
 
 

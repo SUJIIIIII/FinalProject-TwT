@@ -1,5 +1,8 @@
 package com.fp.twt.dao;
 
+import java.util.List;
+
+import com.fp.twt.vo.AirplaneInfoVo;
 import com.fp.twt.vo.MemberVo;
 
 public interface MypageDao {
@@ -15,9 +18,13 @@ public interface MypageDao {
 	// 아이디 중복검사
 	public int idChk(String m_Id);
 
-	// 유저 인증키 생성 메소드
-	public int GetKey(String m_Id, String key);
-	
-	// 유저 인증키 Y로 바꿔주는 메소드
-	public int alter_userKey(String m_Id, String key);
+	// 네이버 로그인
+	public MemberVo naverlogin(MemberVo vo);
+
+	// 항공권 조회
+	public List<AirplaneInfoVo> selectAirList(MemberVo m_Code);
+
+	// 항공권 입력
+	public int insertAir(AirplaneInfoVo vo);
+
 }

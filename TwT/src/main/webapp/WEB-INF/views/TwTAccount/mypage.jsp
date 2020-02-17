@@ -1,11 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-	<!-- 아이콘 -->
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css" />
+<!-- 아이콘 -->
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css" />
 
 <%-- 부트스트랩 모달 core 파일 시작 --%>
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
@@ -20,12 +22,17 @@
 	integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
 	crossorigin="anonymous"></script>
 <%-- 부트스트랩 모달 core 파일 끝 --%>
-<link rel="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css">
-<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/style.css">
-<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/account/form.css">
-<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/scss/bootstrap/bootstrap.scss">
+<link
+	rel="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css">
+<link rel="stylesheet"
+	href="${pageContext.request.contextPath}/resources/css/style.css">
+<link rel="stylesheet"
+	href="${pageContext.request.contextPath}/resources/css/account/form.css">
+<link rel="stylesheet"
+	href="${pageContext.request.contextPath}/resources/scss/bootstrap/bootstrap.scss">
 
-<script type="text/javascript" src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<script type="text/javascript"
+	src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 <script type="text/javascript">
 	
 <%-- 오른쪽 사이드 리모콘 메뉴 --%>
@@ -57,9 +64,10 @@
 </script>
 <style type="text/css">
 body {
-	background-image: url("${pageContext.request.contextPath}/resources/images/account/mypage_bg.jpg");
+	background-image:
+		url("${pageContext.request.contextPath}/resources/images/account/mypage_bg.jpg");
 	background-repeat: no-repeat;
-	background-size:cover;
+	background-size: cover;
 }
 
 #container {
@@ -412,29 +420,35 @@ figure.snip1432:hover figcaption h3:nth-of-type(2), figure.snip1432.hover figcap
 
 #myroute:hover {
 	box-shadow: 0px 3px 20px rgba(252, 60, 60, 0.6);
-	cursor:pointer;
+	cursor: pointer;
 }
 
 .btn.btn-primary.btn-outline-primary:hover {
-    border: 1px solid #fc3c3c;
-    background: #fc3c3c;
-    color: #fff;
-}
-.btn.btn-primary.btn-outline-primary {
-    border: 1px solid #fc3c3c;
-    background: transparent;
-    color: #fc3c3c;
+	border: 1px solid #fc3c3c;
+	background: #fc3c3c;
+	color: #fff;
 }
 
-html{
-   	scroll-behavior:smooth;
+.btn.btn-primary.btn-outline-primary {
+	border: 1px solid #fc3c3c;
+	background: transparent;
+	color: #fc3c3c;
 }
+
+html {
+	scroll-behavior: smooth;
+}
+
+#air_container{ width:100%;
+                height:450px;
+               }
 </style>
 <title>TWT - 마이페이지</title>
 </head>
 <body id="body">
 	<%-- 오른쪽 네비게이션 메뉴 DIV 시작 --%>
-	<div id="sidebar"><%@ include file="/WEB-INF/views/TwTAccount/common/sidebar.jsp" %></div>
+	<div id="sidebar"><%@ include
+			file="/WEB-INF/views/TwTAccount/common/sidebar.jsp"%></div>
 	<%-- 오른쪽 네비게이션 메뉴 DIV 끝 -%>
 	
 	<%-- NAV시작 --%>
@@ -442,7 +456,8 @@ html{
 		class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light"
 		id="ftco-navbar">
 		<div class="container">
-			<a class="navbar-brand" href="${pageContext.request.contextPath}/index.jsp">TwT</a>
+			<a class="navbar-brand"
+				href="${pageContext.request.contextPath}/index.jsp">TwT</a>
 			<button class="navbar-toggler" type="button" data-toggle="collapse"
 				data-target="#ftco-nav" aria-controls="ftco-nav"
 				aria-expanded="false" aria-label="Toggle navigation">
@@ -451,13 +466,26 @@ html{
 
 			<div class="collapse navbar-collapse" id="ftco-nav">
 				<ul class="navbar-nav ml-auto">
-					<li class="nav-item active"><a href="${pageContext.request.contextPath}/index.jsp" class="nav-link">Home</a></li>
-		          	<li class="nav-item"><a href="plan.do" class="nav-link">Plan</a></li>
-		          	<li id="nav1" class="nav-item"><a href="flight.do" class="nav-link">Flight</a></li>
-		          	<li id="nav2" class="nav-item"><a href="hotel.do" class="nav-link">Hotels</a></li>
-		          	<li id="nav3" class="nav-item"><a href="community.do" class="nav-link">Community</a></li>
-		          	<li id="nav4" class="nav-item"><a href="mypage.do" class="nav-link"><i class="fas fa-user"></i>&nbsp;My</a></li>
-		          	<li class="nav-item cta"><a href="login.do" class="nav-link"><span>Logout</span></a></li>
+					<li class="nav-item active"><a
+						href="${pageContext.request.contextPath}/index.jsp"
+						class="nav-link">Home</a></li>
+					<li class="nav-item"><a href="plan.do" class="nav-link">Plan</a></li>
+					<li id="nav1" class="nav-item"><a href="flight.do"
+						class="nav-link">Flight</a></li>
+					<li id="nav2" class="nav-item"><a href="hotel.do"
+						class="nav-link">Hotels</a></li>
+					<li id="nav3" class="nav-item"><a href="community.do"
+						class="nav-link">Community</a></li>
+					<li id="nav4" class="nav-item"><a href="mypage.do"
+						class="nav-link"><i class="fas fa-user"></i>&nbsp;My</a></li>
+					<c:if
+						test="${kakaoId eq null and naverId eq null and user eq null and googleId eq null}">
+						<li class="nav-item cta"><a href="login.do" class="nav-link"><span>Login</span></a></li>
+					</c:if>
+					<c:if
+						test="${kakaoId ne null or naverId ne null or user ne null or googleId ne null}">
+						<li class="nav-item cta"><a href="logout.do" class="nav-link"><span>Logout</span></a></li>
+					</c:if>
 				</ul>
 			</div>
 		</div>
@@ -472,7 +500,8 @@ html{
 			</div>
 
 			<div class="col-sm-9" id="profile">
-				<img src="${pageContext.request.contextPath}/resources/images/account/profile.png">
+				<img
+					src="${pageContext.request.contextPath}/resources/images/account/profile.png">
 			</div>
 		</div>
 
@@ -481,17 +510,17 @@ html{
 			<div id="form_wrap">
 				<form action="#" method="post">
 					<div class="form-group">
-						<input type="text" value="${login.mId}" /> <label for="input"
+						<input type="text" value="${user.m_Id}" /> <label for="input"
 							class="control-label">ID</label><i class="bar"></i>
 					</div>
 
 					<div class="form-group">
-						<input type="text" value="${login.mEmail}" /> <label
-							for="input" class="control-label">E-MAIL</label><i class="bar"></i>
+						<input type="text" value="${user.m_Email}" /> <label for="input"
+							class="control-label">E-MAIL</label><i class="bar"></i>
 					</div>
 
 					<div class="form-group">
-						<input type="password" required="required" value="${login.mPass}"
+						<input type="password" required="required" value="${user.m_Pass}"
 							id="password" /> <label for="input" class="control-label">PWD</label><i
 							class="bar"> <span style="float: right; margin-top: -30px;"
 							id="eye"> <i class="fas fa-eye"></i>
@@ -506,9 +535,39 @@ html{
 			</div>
 		</div>
 		<%-- 개인정보조회 DIV 끝 --%>
-		
-		<%-- 호텔예약조회 DIV 시작 --%>
-		<div class="col-sm-12" style="float: left; margin-top: 35px;">
+
+		<%-- 항공예약조회 DIV 시작 --%>
+		<c:choose>
+			<c:when test="${empty airlist}">
+				<div class="col-sm-12" style="float: left; margin-top: 35px;">
+					<div class="title">
+						<p>항공권 예약 정보</p>
+					</div>
+
+					<div class="col-sm-12" style="width:100%; text-align:center;">${user.m_Name}님의 예약된 항공권 정보가 존재하지 않습니다.</div>
+
+					<div class="col-sm-10" style="margin-left:425px; margin-top:25px;">
+						<button type="button" class="btn btn-primary btn-outline-primary" data-toggle="modal" data-target="#airplaneInfo">
+						   GO WRITE<i class="fas fa-pencil-alt" style="margin-left:5px;"></i>
+					    </button>
+					</div>
+				</div>
+			</c:when>
+			<c:otherwise>
+			<c:forEach items="${airlist}" var="air">
+	           <div>
+	               <p>${air.m_code}</p>
+	               <p>${air.dep_Loca1}</p>
+	               <p>${air.dep_Loca2}</p>
+	               <p>${air.dep_Date1}</p>
+	               <p>${air.dep_Date2}</p>
+	               <p>${air.dep_Time1}</p>
+	               <p>${air.dep_Time2}</p>
+	           </div>		
+			</c:forEach>
+			</c:otherwise>
+		</c:choose>
+		<!-- <div class="col-sm-12" style="float: left; margin-top: 35px;">
 			<div class="title">
 				<p>항공권 예약 정보</p>
 			</div>
@@ -548,8 +607,8 @@ html{
 					</div>
 				</div>
 			</div>
-		</div>
-		<%-- 호텔예약조회 DIV 끝 --%>
+		</div> -->
+		<%-- 항공예약조회 DIV 끝 --%>
 
 		<%-- 호텔예약조회 DIV 시작 --%>
 		<div class="col-sm-12" style="float: left; margin-top: 35px;">
@@ -604,7 +663,9 @@ html{
 			<div class="col-sm-6">
 				<a href="#" data-toggle="modal" data-target="#exampleModalCenter">
 					<figure class="snip1432">
-						<img src="${pageContext.request.contextPath}/resources/images/account/route1.jpg" width="150">
+						<img
+							src="${pageContext.request.contextPath}/resources/images/account/route1.jpg"
+							width="150">
 						<figcaption>
 							<div>
 								<h3>Thailand</h3>
@@ -630,7 +691,9 @@ html{
 			<div class="row row-cols-1 row-cols-md-3">
 				<div class="col mb-4">
 					<div class="card h-100">
-						<img src="${pageContext.request.contextPath}/resources/images/image_1.jpg" class="card-img-top" alt="...">
+						<img
+							src="${pageContext.request.contextPath}/resources/images/image_1.jpg"
+							class="card-img-top" alt="...">
 						<div class="card-body">
 							<h5 class="card-title">Card title</h5>
 							<p class="card-text">This is a longer card with supporting
@@ -641,7 +704,9 @@ html{
 				</div>
 				<div class="col mb-4">
 					<div class="card h-100">
-						<img src="${pageContext.request.contextPath}/resources/images/image_6.jpg" class="card-img-top" alt="...">
+						<img
+							src="${pageContext.request.contextPath}/resources/images/image_6.jpg"
+							class="card-img-top" alt="...">
 						<div class="card-body">
 							<h5 class="card-title">Card title</h5>
 							<p class="card-text">This is a short card.</p>
@@ -650,7 +715,9 @@ html{
 				</div>
 				<div class="col mb-4">
 					<div class="card h-100">
-						<img src="${pageContext.request.contextPath}/resources/images/image_3.jpg" class="card-img-top" alt="...">
+						<img
+							src="${pageContext.request.contextPath}/resources/images/image_3.jpg"
+							class="card-img-top" alt="...">
 						<div class="card-body">
 							<h5 class="card-title">Card title</h5>
 							<p class="card-text">This is a longer card with supporting
@@ -660,7 +727,9 @@ html{
 				</div>
 				<div class="col mb-4">
 					<div class="card h-100">
-						<img src="${pageContext.request.contextPath}/resources/images/image_4.jpg" class="card-img-top" alt="...">
+						<img
+							src="${pageContext.request.contextPath}/resources/images/image_4.jpg"
+							class="card-img-top" alt="...">
 						<div class="card-body">
 							<h5 class="card-title">Card title</h5>
 							<p class="card-text">This is a longer card with supporting
@@ -684,7 +753,9 @@ html{
 			<div class="row row-cols-1 row-cols-md-3">
 				<div class="col mb-4">
 					<div class="card h-100">
-						<img src="${pageContext.request.contextPath}/resources/images/image_1.jpg" class="card-img-top" alt="...">
+						<img
+							src="${pageContext.request.contextPath}/resources/images/image_1.jpg"
+							class="card-img-top" alt="...">
 						<div class="card-body">
 							<h5 class="card-title">Card title</h5>
 							<p class="card-text">This is a longer card with supporting
@@ -695,7 +766,9 @@ html{
 				</div>
 				<div class="col mb-4">
 					<div class="card h-100">
-						<img src="${pageContext.request.contextPath}/resources/images/image_6.jpg" class="card-img-top" alt="...">
+						<img
+							src="${pageContext.request.contextPath}/resources/images/image_6.jpg"
+							class="card-img-top" alt="...">
 						<div class="card-body">
 							<h5 class="card-title">Card title</h5>
 							<p class="card-text">This is a short card.</p>
@@ -704,7 +777,9 @@ html{
 				</div>
 				<div class="col mb-4">
 					<div class="card h-100">
-						<img src="${pageContext.request.contextPath}/resources/images/image_3.jpg" class="card-img-top" alt="...">
+						<img
+							src="${pageContext.request.contextPath}/resources/images/image_3.jpg"
+							class="card-img-top" alt="...">
 						<div class="card-body">
 							<h5 class="card-title">Card title</h5>
 							<p class="card-text">This is a longer card with supporting
@@ -714,7 +789,9 @@ html{
 				</div>
 				<div class="col mb-4">
 					<div class="card h-100">
-						<img src="${pageContext.request.contextPath}/resources/images/image_4.jpg" class="card-img-top" alt="...">
+						<img
+							src="${pageContext.request.contextPath}/resources/images/image_4.jpg"
+							class="card-img-top" alt="...">
 						<div class="card-body">
 							<h5 class="card-title">Card title</h5>
 							<p class="card-text">This is a longer card with supporting
@@ -766,26 +843,67 @@ html{
 				<div class="modal-body">
 					<div class="my_route" id="myroute">
 						<div style="float: left; margin-top: -3px; display: inline;">
-							<img src="${pageContext.request.contextPath}/resources/images/account/Ticket-icon.png" width="65">
+							<img
+								src="${pageContext.request.contextPath}/resources/images/account/Ticket-icon.png"
+								width="65">
 						</div>
 
-						<div style="float: left; display: inline; font-size: 20px; margin-left: 15px;">
-						   <b>일정제목들어갈부분</b>
+						<div
+							style="float: left; display: inline; font-size: 20px; margin-left: 15px;">
+							<b>일정제목들어갈부분</b>
 						</div>
-						
-						<div style="float:left; display:inline; font-size:11px; margin-left:40px;">
-						   <b>2020/02/02 - 2020/02/06</b>
+
+						<div
+							style="float: left; display: inline; font-size: 11px; margin-left: 40px;">
+							<b>2020/02/02 - 2020/02/06</b>
 						</div>
 					</div>
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-primary btn-outline-primary"
-						data-dismiss="modal">확  인</button>
+						data-dismiss="modal">확 인</button>
 				</div>
 			</div>
 		</div>
 	</div>
 	<%-- 일정 모달 DIV 끝 --%>
-	<div id="footer"></div>
+	
+<%-- 항공권 모달 DIV 시작 --%>
+<form action="air_insert.do" method="post">
+<div class="modal fade" id="airplaneInfo" tabindex="-1" role="dialog" aria-labelledby="airplaneInfoTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="airplaneInfoTitle">내 항공권 작성하기</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <input type="hidden" name="m_code" value="${user.m_Code}">
+        <input type="hidden" name="m_id" value="${user.m_Id}">
+	                   출국지 : <input type="text" name="dep_Loca1"><br>
+	                   출국 도착지 : <input type="text" name="dep_Loca2"><br>
+	                   출국날짜 : <input type="text" name="dep_Date1"><br>
+	                   출국 도착날짜 : <input type="text" name="dep_Date2"><br>
+		          출국 출발시간 : <input type="text" name="dep_Time1"><br>
+		          출국 도착시간 : <input type="text" name="dep_Time2"><br>
+		          귀국출발지 : <input type="text" name="re_Loca1"><br>
+		          귀국도착지 : <input type="text" name="re_Loca2"><br>
+		          귀국출발날짜 : <input type="text" name="re_Date1"><br>
+		          귀국도착날짜 : <input type="text" name="re_Date2"><br>
+		          귀국출발시간 : <input type="text" name="re_Time1"><br>
+		          귀국도착시간 : <input type="text" name="re_Time2">
+      </div>
+      <div class="modal-footer">
+        <button type="submit" class="btn btn-primary btn-outline-primary">완 료</button>
+      </div>
+    </div>
+  </div>
+</div>
+</form>
+<%-- 항공권 모달 DIV 끝--%>
+
+<%@ include file="/WEB-INF/views/footer.jsp" %>
 </body>
 </html>
