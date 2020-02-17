@@ -92,10 +92,10 @@ public class HomeController {
 		return "TwTCommunity/community_detail";
 	}
 
-	@RequestMapping("communityInsert.do")
-	public String communityInsert() {
-		return "TwTCommunity/community_insert";
-	}
+	/*
+	 * @RequestMapping("communityInsert.do") public String communityInsert(){ return
+	 * "TwTCommunity/community_insert"; }
+	 */
 
 	@RequestMapping("mypage.do")
 	public String mypage(Model model, HttpSession session, MemberVo m_Code) {

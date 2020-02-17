@@ -18,16 +18,25 @@ public class Interceptor implements HandlerInterceptor{
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {
 		
+		boolean tf = true;
 		HttpSession session = request.getSession(false);
 		
-		if(session == null) {
-			response.sendRedirect(request.getContextPath()+"login.jsp");
-			return false;
-		} 
-		
-		MemberVo vo  = (MemberVo)session.getAttribute("member");
+		//세션에 저장된 로그인정보 (인터셉터 실행 시 세션에 로그인정보가 없으면 member = null)
+		MemberVo member = (MemberVo)session.getAttribute("login");
 
-		return false;
+		//인터셉터 조건 추가
+		/*
+		if(request.getRequestURI().contains("/communityInsertForm.do")) {
+			//member가 null인지 확인
+			if(member == null) {
+				//리턴값 false로 변경하여 컨트롤러 접근 막고 login.do로 이동
+				tf = false;
+				response.sendRedirect("login.do");
+			}
+		}
+		*/
+		//기본 true 리턴하여 컨트롤러 접근
+		return tf;
 	}
 	
 	//view로 forward되기전에 실행

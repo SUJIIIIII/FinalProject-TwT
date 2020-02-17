@@ -7,6 +7,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.fp.twt.vo.ScheduleReviewVo;
 import com.fp.twt.vo.TravelScheduleVo;
 
 @Repository
@@ -17,7 +18,30 @@ public class CommunityDaoImpl implements CommunityDao{
 	
 	//용훈
 	
+	@Override
+	public int insertForm() {
+		int res = 0;
+		try {
+			res = sqlSession.insert(NAMESPACE+"insertForm_Y");
+		} catch(Exception e) {
+			System.out.println("[error] : insertForm_Y");
+			e.printStackTrace();
+		}
+		return res;
+	}
 	
+	@Override
+	public ScheduleReviewVo selectNo() {
+		ScheduleReviewVo vo = null;
+		try {
+			vo = sqlSession.selectOne(NAMESPACE+"selectNo");
+		} catch(Exception e) {
+			System.out.println("[error] : selectNo_Y");
+			e.printStackTrace();
+		}
+		
+		return vo;
+	}
 	
 	
 	

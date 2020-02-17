@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.fp.twt.biz.CommunityBiz;
+import com.fp.twt.vo.ScheduleReviewVo;
 
 
 @Controller
@@ -63,7 +64,21 @@ public class CommunityController {
 		return map;
 	}
 	
-	
+	//포토북 insertForm
+	@RequestMapping("communityInsertForm.do")
+	public String communityInsert(Model model){
+		int res = biz.insertForm();
+		if(res > 0) {
+			System.out.println("insert 성공");
+			
+			ScheduleReviewVo vo = biz.selectNo();
+			String boardNo = vo.getSr_Code();
+			System.out.println("boardNo : "+boardNo);
+			model.addAttribute("boardNo", boardNo);
+		}
+		
+		return "TwTCommunity/community_insert";
+	}
 	
 	
 	//----------------------------------------------------------------------------------------------
