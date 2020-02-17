@@ -4,6 +4,7 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="twt">
+
 	<!-- ================================용훈================================== -->
 	<resultMap type="ScheduleReview" id="ScheduleReviewMap">
 		<result property="sr_Code" column="SR_CODE"/>
@@ -122,6 +123,7 @@
 		#{dep_Date2}, #{dep_Time1}, #{dep_Time2}, #{re_Loca1},
 		#{re_Loca2}, #{re_Date1}, #{re_Date2}, #{re_Time1}, #{re_Time2} )
 	</insert>
+
 
 	<!-- 항공권 정보 수정 -->
 	<update id="updateAirM" parameterType="AirplaneInfo">
