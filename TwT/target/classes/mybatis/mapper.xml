@@ -5,10 +5,27 @@
 
 <mapper namespace="twt">
 	<!-- ================================용훈================================== -->
+	<resultMap type="ScheduleReview" id="ScheduleReviewMap">
+		<result property="sr_Code" column="SR_CODE"/>
+		<result property="m_Code" column="M_CODE"/>
+		<result property="ts_Code" column="TS_CODE"/>
+		<result property="sr_Title" column="SR_TITLE"/>
+		<result property="sr_Content" column="SR_CONTENT"/>
+		<result property="sr_View" column="SR_VIEW"/>
+		<result property="sr_Date" column="SR_DATE"/>
+	</resultMap>
+	
+	<insert id="insertForm_Y">
+		INSERT INTO SCHEDULEREVIEW VALUES('SR'||SR_SEQ.NEXTVAL, NULL, NULL, NULL, NULL, 0, SYSDATE)
+	</insert>
+ 
+	<select id="selectNo" resultMap="ScheduleReviewMap">
+		SELECT MAX(SR_CODE) FROM SCHEDULEREVIEW
+	</select>
+	
 
-
-
-	<!-- ================================범식================================== -->
+ 
+ 	<!-- ================================범식================================== -->
 
 
 	<resultMap type="Hotel" id="hotelMap">
@@ -59,7 +76,6 @@
 
 
 	<!-- ================================보미================================== -->
-
 	<!-- 회원가입 -->
 	<insert id="insertM" parameterType="Member">
 		INSERT INTO TWTMEMBER VALUES

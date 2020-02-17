@@ -50,10 +50,11 @@ public class HomeController {
 	public String communityDetail(){
 		return "TwTCommunity/community_detail";
 	}
-	@RequestMapping("communityInsert.do")
-	public String communityInsert(){
-		return "TwTCommunity/community_insert";
-	}
+
+	/*
+	 * @RequestMapping("communityInsert.do") public String communityInsert(){ return
+	 * "TwTCommunity/community_insert"; }
+	 */
 	@RequestMapping("mypage.do")
 	public String mypage() {
 		return "TwTAccount/mypage";
