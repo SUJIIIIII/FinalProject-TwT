@@ -67,7 +67,6 @@ public class CommunityDaoImpl implements CommunityDao{
 		
 		try {
 			list = sqlSession.selectList(NAMESPACE+"selectList_D");
-			System.out.println(list);
 			
 		} catch(Exception e) {
 			System.out.println("[error] : selectList_D");
@@ -84,7 +83,6 @@ public class CommunityDaoImpl implements CommunityDao{
 		
 		try {
 			list = sqlSession.selectList(NAMESPACE+"PselectList_D");
-			System.out.println(list);
 			
 		} catch(Exception e) {
 			System.out.println("[error] : PselectList_D");

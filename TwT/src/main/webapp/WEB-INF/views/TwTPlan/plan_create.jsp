@@ -57,7 +57,7 @@
 
    <meta name="google-site-verification" content="MwgpAlNbsXRZEln-QQP8Jra-Aj8cTKcCtDd3L_StvTc">
    <meta name="naver-site-verification" content="48a2af847268bfd79153f73690ad01b35cb1593a">
-   
+
 <style type="text/css">
 .labels{
   color:white;
@@ -252,8 +252,8 @@ src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCiDE5HBue4mflsdkcsGvSZrUe
               <div class="city_title">
                <div class="ci_title_name fl">여행도시</div>
                <div class="pn_date_box fr" id="date_pick_btn" data="0">
-                  <div class="pn_date_info fl">출발일</div>
-                  <div class="pn_date_icon fr"><i class="fas fa-calendar-alt"></i></div>
+                  <!-- <div class="pn_date_info fl">출발일</div>
+                  <div class="pn_date_icon fr"><i class="fas fa-calendar-alt"></i></div> -->
                   <div class="clear"></div>
                   <form action="planDetail.do" method="get" id="createform">
                      <input type="hidden" id="schedule_date" name="schedule_date" value=""/> <!-- 날짜  -->

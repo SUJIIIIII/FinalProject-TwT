@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+﻿<?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
@@ -72,7 +72,8 @@
 
 
 	<!-- ================================도영================================== -->
-	<resultMap type="TravelSchedule" id="TravelScheduleMap">
+
+	<resultMap type="TravelSchedule" id="TravelScheduleMap_D">
 		<result property="ts_Code" column="TS_CODE" />
 		<result property="m_Code" column="M_CODE" />
 		<result property="tp_Code" column="TP_CODE" />
@@ -82,27 +83,41 @@
 		<result property="ts_People" column="TS_PEOPLE" />
 		<result property="ts_Thum" column="TS_THUM" />
 		<result property="ts_Period" column="TS_PERIOD" />
-		<result property="m_Id" column="M_ID " />
+		<result property="ts_Date" column="TS_DATE" />
+		<result property="ts_View" column="TS_VIEW" />
+		<result property="m_Id" column="M_ID" />
 	</resultMap>
-
-	<!-- 여행일정 게시판 리스트 최신 순 -->
-	<select id="selectList_D" resultMap="TravelScheduleMap">
-		SELECT * FROM TRAVELSCHEDULE
-		ORDER BY TS_CODE DESC
+	
+	<!-- 여행일정 게시판 리스트 최신 순-->
+	<select id="selectList_D" resultMap="TravelScheduleMap_D">
+		SELECT * FROM TRAVELSCHEDULE LEFT JOIN TWTMEMBER USING(M_CODE) ORDER BY TS_DATE DESC
 	</select>
 
 	<!-- 여행일정 게시판 리스트 조회수 순 -->
-	<select id="PselectList_D" resultMap="TravelScheduleMap">
-		<!-- SELECT * FROM TRAVELSCHEDULE ORDER BY TS_CODE DESC -->
-		SELECT * FROM TRAVELSCHEDULE LEFT JOIN TWTMEMBER USING(M_CODE) ORDER
-		BY TS_CODE DESC;
+	<select id="PselectList_D" resultMap="TravelScheduleMap_D">
+<!-- 		SELECT * FROM TRAVELSCHEDULE ORDER BY TS_CODE DESC -->
+		SELECT * FROM TRAVELSCHEDULE LEFT JOIN TWTMEMBER USING(M_CODE) ORDER BY SR_VIEW DESC
 	</select>
 
 	<!-- 여행일정 디테일 페이지 -->
-	<select id="selectOne_D">
-		SELECT * FROM TRAVELSCHEDULE WHERE
-		TS_CODE = #{TS_CODE}
+	<resultMap type="TravelSchedule" id="DetailMap_D">
+		<result property="ts_Code" column="TS_CODE" />
+		<result property="m_Code" column="M_CODE" />
+		<result property="tp_Code" column="TP_CODE" />
+		<result property="ts_Title" column="TS_TITLE" />
+		<result property="ts_Sday" column="TS_SDAY" />
+		<result property="ts_Theme" column="TS_THEME" />
+		<result property="ts_People" column="TS_PEOPLE" />
+		<result property="ts_Thum" column="TS_THUM" />
+		<result property="ts_Period" column="TS_PERIOD" />
+		<result property="ts_Date" column="TS_DATE" />
+		<result property="ts_View" column="TS_VIEW" />
+	</resultMap>
+	
+	<select id="selectOne_D" parameterType="String" resultMap="DetailMap_D">
+		SELECT * FROM TRAVELSCHEDULE LEFT JOIN TWTMEMBER USING(M_CODE) WHERE TS_CODE = #{TS_CODE}
 	</select>
+
 
 
 	<!-- ================================보미================================== -->

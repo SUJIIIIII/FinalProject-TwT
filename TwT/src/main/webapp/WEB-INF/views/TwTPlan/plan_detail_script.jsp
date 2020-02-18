@@ -149,16 +149,6 @@ function getCookie(cName) {
 
 <!-- in_modal_full_frame end 뒤, ui-datepicker-div 전 -->
 <script type="text/javascript">
-	function optimize_route_req(){
-		if (confirm("경로최적화를 하시면 입력하셨던\n메모와 예산이 초기화되며 복구할수 없습니다. \n\n계속 하시겠습니까?") == true){    //확인
-			optimize_route_confirm();
-		}else{   //취소
-			return;
-		}
-		
-	}
-
-
 	$('#date_pick_btn').click(function(){
 		$('#date_pick').show();
 	});
