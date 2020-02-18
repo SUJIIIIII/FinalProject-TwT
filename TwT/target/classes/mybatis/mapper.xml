@@ -6,25 +6,34 @@
 <mapper namespace="twt">
 
 	<!-- ================================용훈================================== -->
-	<resultMap type="ScheduleReview" id="ScheduleReviewMap">
-		<result property="sr_Code" column="SR_CODE" />
-		<result property="m_Code" column="M_CODE" />
-		<result property="ts_Code" column="TS_CODE" />
-		<result property="sr_Title" column="SR_TITLE" />
-		<result property="sr_Content" column="SR_CONTENT" />
-		<result property="sr_View" column="SR_VIEW" />
-		<result property="sr_Date" column="SR_DATE" />
+ 	<resultMap type="ScheduleReview" id="ScheduleReviewMap">
+		<result property="sr_Code" column="SR_CODE"/>
+		<result property="m_Code" column="M_CODE"/>
+		<result property="ts_Code" column="TS_CODE"/>
+		<result property="sr_Title" column="SR_TITLE"/>
+		<result property="sr_Content" column="SR_CONTENT"/>
+		<result property="sr_View" column="SR_VIEW"/>
+		<result property="sr_Date" column="SR_DATE"/>
 	</resultMap>
 
 	<insert id="insertForm_Y">
 		INSERT INTO SCHEDULEREVIEW
 		VALUES('SR'||SR_SEQ.NEXTVAL, NULL, NULL, NULL, NULL, 0, SYSDATE)
 	</insert>
-
-	<select id="selectNo" resultMap="ScheduleReviewMap">
-		SELECT MAX(SR_CODE) FROM
-		SCHEDULEREVIEW
+ 
+	<select id="selectSrCode_Y" resultType="String">
+		SELECT MAX(TO_NUMBER(LTRIM(SR_CODE,'SR'))) FROM SCHEDULEREVIEW
 	</select>
+	
+	<update id="updatePotoBook_Y" parameterType="ScheduleReview">
+		UPDATE SCHEDULEREVIEW
+		SET 
+		M_CODE = #{m_Code},
+		SR_TITLE = #{sr_Title},
+		SR_CONTENT = #{sr_Content}
+		WHERE SR_CODE = #{sr_Code}
+	</update>
+
 
 
 
@@ -110,6 +119,18 @@
 		SELECT * FROM TRAVELSCHEDULE LEFT JOIN TWTMEMBER USING(M_CODE) WHERE TS_CODE = #{TS_CODE}
 	</select>
 
+	<!-- 여행일정 게시판 리스트 조회수 순 -->
+	<select id="PselectList_D" resultMap="TravelScheduleMap">
+		<!-- SELECT * FROM TRAVELSCHEDULE ORDER BY TS_CODE DESC -->
+		SELECT * FROM TRAVELSCHEDULE LEFT JOIN TWTMEMBER USING(M_CODE) ORDER
+		BY TS_CODE DESC;
+	</select>
+
+	<!-- 여행일정 디테일 페이지 -->
+	<select id="selectOne_D">
+		SELECT * FROM TRAVELSCHEDULE WHERE
+		TS_CODE = #{TS_CODE}
+	</select>
 
 
 	<!-- ================================보미================================== -->

@@ -28,10 +28,10 @@
 	
 	<context:component-scan base-package="com.fp.twt" />
 	
-	<!-- <interceptors>
+	<interceptors>
 		<interceptor>
-			<mapping path="/*"/> interceptor적용할 url
+			<mapping path="/*"/>
 			<beans:bean class="com.fp.twt.common.interceptor.Interceptor"></beans:bean>
 		</interceptor>
-	</interceptors> -->
+	</interceptors>
 </beans:beans>

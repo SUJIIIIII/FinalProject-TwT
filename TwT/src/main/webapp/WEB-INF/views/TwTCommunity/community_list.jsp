@@ -208,18 +208,12 @@
 				        <div class="container">
 				        <div class="row justify-content-start mb-5 pb-3">
 				          <div class="col-md-5 heading-section ftco-animate">
-				            <h2 class="mb-1 pb-1"><strong>여행 제목1</strong></h2>          
+				            <a href="potoBookDetail.do"><h2 class="mb-1 pb-1"><strong>여행 제목1</strong></h2></a>          
 				          	<div class="row ftco-animate">
 						          <div class="col-md-12">
 						            <div class="carousel-testimony owl-carousel">
 						              <div class="item">
-										<img src="${pageContext.request.contextPath}/resources/images/image_1.jpg"/>
-						              </div>
-						              <div class="item">
-										<img src="${pageContext.request.contextPath}/resources/images/image_1.jpg"/>
-						              </div>
-						              <div class="item">
-										<img src="${pageContext.request.contextPath}/resources/images/image_1.jpg"/>
+										<a href="potoBookDetail.do"><img src="/potoBook/573bc44c-110c-4fa9-b774-fa4ae267a4bf.jfif"/></a>
 						              </div>
 						            </div>
 						          </div>
