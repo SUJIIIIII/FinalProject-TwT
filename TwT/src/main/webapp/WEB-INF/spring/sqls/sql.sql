@@ -34,6 +34,7 @@ SELECT * FROM TRAVELPOINT;
 SELECT * FROM TRAVELPOINT;
 SELECT * FROM CITY;
 SELECT * FROM TwTMEMBER;
+SELECT * FROM SCHEDULEREVIEW;
 --------------------------------철환-----------------------------------------
 
 

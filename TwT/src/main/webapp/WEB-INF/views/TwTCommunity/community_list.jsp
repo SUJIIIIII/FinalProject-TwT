@@ -203,7 +203,7 @@
 				    <!-- fade 2 -->
 		              <div class="tab-pane fade" id="v-pills-mission" role="tabpanel" aria-labelledby="v-pills-mission-tab">
 				        <div style="float: top; margin-left:985px;">
-				        	<a href="communityInsert.do" class="btn btn-primary btn-outline-primary mt-4 px-4 py-3 mb-4"><span>Create Book</span></a>
+				        	<a href="communityInsertForm.do" class="btn btn-primary btn-outline-primary mt-4 px-4 py-3 mb-4"><span>Create Book</span></a>
 				        </div>
 				        <div class="container">
 				        <div class="row justify-content-start mb-5 pb-3">
