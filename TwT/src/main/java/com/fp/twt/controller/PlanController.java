@@ -61,6 +61,10 @@ public class PlanController {
 		// 선택된 city 정보
 		CityVo cityvo = biz.selectCityOne(citycode);
 		
+		System.out.println("allspot : " + allSpot);
+		System.out.println("위도 : " + allSpot.get(0).gettp_Lati());
+		System.out.println("경도 : " + allSpot.get(0).gettp_Long());
+		
 		model.addAttribute("allCity",allCity);
 		model.addAttribute("allSpot",allSpot);
 		model.addAttribute("citycode",citycode);

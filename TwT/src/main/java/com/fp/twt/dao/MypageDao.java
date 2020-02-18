@@ -22,9 +22,11 @@ public interface MypageDao {
 	public MemberVo naverlogin(MemberVo vo);
 
 	// 항공권 조회
-	public List<AirplaneInfoVo> selectAirList(MemberVo m_Code);
+	public List<AirplaneInfoVo> selectAirList(String m_Code);
 
 	// 항공권 입력
 	public int insertAir(AirplaneInfoVo vo);
 
+	// 유저 인증키 메소드
+	public int GetKey(String m_Id, String key);
 }
