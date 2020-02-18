@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -127,7 +128,7 @@
       <div class="container">
         <div class="row">
           <div class="col-md-8 ftco-animate">
-          <p style="text-align: left; margin-left: 60px; margin-bottom: 30px; font-weight:bold;"><i class="fas fa-user"></i> (아이디)님의 여행일정</p>
+          <p style="text-align: left; margin-left: 60px; margin-bottom: 30px; font-weight:bold;"><i class="fas fa-user"></i> ${detail.m_Id }님의 여행일정</p>
           
             <h2 class="mb-3" style="text-align: center; margin-top: 40px; font-weight: bold; ">${detail.ts_Title }</h2>
             <div class="plan_info" style="float: right; margin-top: 20px; ">
@@ -146,7 +147,7 @@
 				
  <main id="home" class="contents">
   <div class="container">
-    <h3 class="page-title text-center" style="margin-top: 120px; margin-left: 62px; color: silver; font-size: 17px;"><i class="fas fa-calendar-alt"></i>&nbsp; 2020.02.03 ~ 2020.02.06&nbsp;(여행기간)</h3>
+    <h3 class="page-title text-center" style="margin-top: 120px; margin-left: 62px; color: silver; font-size: 17px;"><i class="fas fa-calendar-alt"></i>&nbsp; 2020.02.03 ~ 2020.02.06&nbsp;${ts_Period }DAYS</h3>
     <ul class="timeline">
       <li class="timeline-line"></li>
       <li class="timeline-group">
@@ -177,7 +178,7 @@
       <li class="timeline-item">
         <div class="timeline-badge"><a href="#"></a></div>
         <div class="timeline-panel">
-          <div class="timeline-heading">지역 이름
+          <div class="timeline-heading"> 
           <div class="timeline-date"><i class="fas fa-tag"></i> 지역 설명 태그</div>	
           </div>
           <div class="timeline-content">
@@ -389,7 +390,7 @@
                   </div>
                 </div>
               </div>
-              <div class="block-21 mb-4 d-flex">
+<%--               <div class="block-21 mb-4 d-flex">
                 <a class="blog-img mr-4" style="background-image: url(${pageContext.request.contextPath}/resources/images/image_2.jpg);"></a>
                 <div class="text">
                   <h3 class="heading"><a href="#">Even the all-powerful Pointing</a></h3>
@@ -411,19 +412,12 @@
                   </div>
                 </div>
               </div>
-            </div>
+            </div> --%>
 
             <div class="sidebar-box ftco-animate">
               <h3><i class="fas fa-hashtag"></i> Tag</h3>
               <div class="tagcloud">
-                <a href="#" class="tag-cloud-link">dish</a>
-                <a href="#" class="tag-cloud-link">menu</a>
-                <a href="#" class="tag-cloud-link">food</a>
-                <a href="#" class="tag-cloud-link">sweet</a>
-                <a href="#" class="tag-cloud-link">tasty</a>
-                <a href="#" class="tag-cloud-link">delicious</a>
-                <a href="#" class="tag-cloud-link">desserts</a>
-                <a href="#" class="tag-cloud-link">drinks</a>
+                <a href="#" class="tag-cloud-link">${detail.ts_Theme }</a>
               </div>
             </div>
 
