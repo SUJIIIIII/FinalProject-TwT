@@ -2,16 +2,11 @@ package com.fp.twt.controller;
 
 import java.io.IOException;
 import java.util.HashMap;
-
 import java.util.Map;
-import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.apache.ibatis.annotations.Param;
-import org.codehaus.jackson.JsonParser;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
@@ -20,7 +15,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.social.google.connect.GoogleConnectionFactory;
-import org.springframework.social.google.connect.GoogleOAuth2Template;
 import org.springframework.social.oauth2.AccessGrant;
 import org.springframework.social.oauth2.OAuth2Operations;
 import org.springframework.social.oauth2.OAuth2Parameters;
@@ -30,12 +24,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.fasterxml.jackson.databind.JsonNode;
 import com.fp.twt.HomeController;
 import com.fp.twt.biz.MypageBiz;
-
+import com.fp.twt.common.email.UserMailSendService;
 import com.fp.twt.common.social.KakaoAPI;
 import com.fp.twt.common.social.NaverLoginBO;
 import com.fp.twt.vo.AirplaneInfoVo;
@@ -50,8 +43,10 @@ public class MypageController {
 	private MypageBiz biz;
 
 	@Autowired
+	private UserMailSendService mailsender;
+
+	@Autowired
 	BCryptPasswordEncoder passwordEncoder;
-	
 
 	@Autowired
 	private NaverLoginBO naverLoginBO;
@@ -80,17 +75,16 @@ public class MypageController {
 	}
 
 	// 회원가입
-	@RequestMapping("/createAccount.do")
+	@RequestMapping(value = "/createAccount.do", method = RequestMethod.POST)
 	public String memberInsert(MemberVo vo, HttpServletRequest request) {
-
+		System.out.println("회원가입 시작");
 		// 비밀번호 암호화
 		vo.setm_Pass(passwordEncoder.encode(vo.getm_Pass()));
 		System.out.println("암호화 된 비밀번호 : " + vo.getm_Pass());
 
-		/*
-		 * // 인증메일 mailsender.mailSendWithUserKey(vo.getm_Email(), vo.getm_Id(),
-		 * request);
-		 */
+		// 인증 메일 보내기 메소드
+		mailsender.mailSendWithUserKey(vo.getm_Email(), vo.getm_Id(), request);
+
 		if (biz.memberInsert(vo) > 0) {
 			System.out.println("회원가입 성공" + vo.toString());
 			return "TwTAccount/login";
@@ -100,29 +94,23 @@ public class MypageController {
 		}
 	}
 
-	// 이메일 인증
-	@RequestMapping(value = "/key_alter", method = RequestMethod.GET)
-	public String key_alterConfirm(@RequestParam("m_Id") String m_Id, @RequestParam("m_mailcheck") String key) {
-		
-		return "";
-	}
-
 	// TODO : 회원조회
 
-	// TODO : 회원수정
+	// TODO : 회원수정(비밀번호 수정)
 
 	// TODO : 회원탈퇴
 
 	// 로그인
 	@RequestMapping("/enter.do")
 	public String login(MemberVo vo, HttpSession session, Model model) {
-		
+
 		MemberVo res = biz.login(vo);
 
 		boolean check = false;
 
 		// 비밀번호 해독
 		if (passwordEncoder.matches(vo.getm_Pass(), res.getm_Pass())) {
+			System.out.println("로그인 정보" + res.toString());
 			session.setAttribute("user", res);
 			check = true;
 		}
@@ -140,7 +128,7 @@ public class MypageController {
 
 		// 네이버 로그아웃
 		session.removeAttribute("naverId");
-		
+
 		// 구글 로그아웃
 		session.removeAttribute("googleId");
 
@@ -239,12 +227,12 @@ public class MypageController {
 			accessToken = accessGrant.getRefreshToken();
 			System.out.printf("accessToken is expired. refresh token = {}", accessToken);
 		}
-      
+
 		session.setAttribute("googleId", accessToken);
-		
+
 		return "redirect:/index.jsp";
 	}
-	
+
 	// 항공권 예약 정보 입력
 	@RequestMapping("/air_insert.do")
 	public String insertAir(Model model, AirplaneInfoVo vo) {

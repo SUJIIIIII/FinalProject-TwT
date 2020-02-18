@@ -1,6 +1,8 @@
+<%@page import="com.fp.twt.vo.MemberVo"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ page import="com.fp.twt.vo.MemberVo" %>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -94,6 +96,11 @@
     </style>
 </head>
 <body id="body">
+<% MemberVo user = (MemberVo)session.getAttribute("user");
+	if(user != null){
+		System.out.println(user.toString());		
+	}
+%>
   	<!-- 오른쪽 네비게이션 메뉴 DIV 시작 -->
 	<div id="sidebar"><%@ include file="/WEB-INF/views/TwTAccount/common/sidebar.jsp" %></div>
 	<!-- sidebar end -->
