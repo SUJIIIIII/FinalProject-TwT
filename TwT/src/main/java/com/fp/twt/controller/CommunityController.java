@@ -28,8 +28,9 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.fp.twt.biz.CommunityBiz;
 import com.fp.twt.vo.MemberVo;
-import com.fp.twt.vo.TravelScheduleVo;
 import com.fp.twt.vo.ScheduleReviewVo;
+import com.fp.twt.vo.TravelScheduleVo;
+
 
 
 @Controller
@@ -91,7 +92,7 @@ public class CommunityController {
 	public String communityUpdate(Model model, ScheduleReviewVo vo, HttpServletRequest request) throws IOException {
 		
 		String[] imgs = request.getParameterValues("potoImg"); //업로드된 사진 경로들
-		String content = vo.getSr_Content();
+		String content = vo.getSr_Code();
 		
 		List<String> existimgs = new ArrayList<String>();
 		
