@@ -11,7 +11,8 @@ SELECT * FROM HOTEL;
 
 --------------------------------도영-----------------------------------------
 
-
+SELECT * FROM TRAVELSCHEDULE;
+SELECT * FROM TRAVELSCHEDULE LEFT JOIN TWTMEMBER USING(M_CODE) ORDER BY TS_CODE DESC;
 
 --------------------------------보미-----------------------------------------
 
@@ -24,6 +25,7 @@ SELECT * FROM HOTEL;
 SELECT * FROM TRAVELPOINT;
 SELECT * FROM CITY;
 SELECT * FROM TwTMEMBER;
+SELECT * FROM SCHEDULEREVIEW;
 --------------------------------철환-----------------------------------------
 
 
