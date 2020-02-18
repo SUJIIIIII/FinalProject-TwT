@@ -2,27 +2,27 @@ package com.fp.twt.vo;
 
 public class TravelPointVo {
 
-    private String tp_Code; 		//여행지 번호
+    private String tp_Code; 	//여행지 번호
     private String city_Code; 	//도시 번호
-    private String tp_Name; 		//여행지 이름
-    private int tp_Lati; 		//여행지 위도
-    private int tp_Long; 		//여행지 경도
-    private String tp_Type; 		//여행지 타입
+    private String tp_Name; 	//여행지 이름
+    private Double tp_Lati; 	//여행지 위도
+    private Double tp_Long; 	//여행지 경도
+    private String tp_Type; 	//여행지 타입
     private String tp_Content; 	//여행지 설명
     private String tp_Img; 		//여행지 이미지
-    private String tp_Addr; 		//여행지 주소
+    private String tp_Addr; 	//여행지 주소
     private String city_Name; 	//도시 이름
-    private int city_Lati; 		//도시 위도
-    private int city_Long; 		//도시 경도
+    private Double city_Lati; 	//도시 위도
+    private Double city_Long; 	//도시 경도
     private String city_Img; 	//도시 이미지
-    private String city_Eng;		//도시 영문명
+    private String city_Eng;	//도시 영문명
     
     public TravelPointVo() {
 		super();
 	}
     
-	public TravelPointVo(String tp_Code, String city_Code, String tp_Name, int tp_Lati, int tp_Long, String tp_Type,
-			String tp_Content, String tp_Img, String tp_Addr, String city_Name, int city_Lati, int city_Long, String city_Img,
+	public TravelPointVo(String tp_Code, String city_Code, String tp_Name, Double tp_Lati, Double tp_Long, String tp_Type,
+			String tp_Content, String tp_Img, String tp_Addr, String city_Name, Double city_Lati, Double city_Long, String city_Img,
 			String city_Eng) {
 		super();
 		this.tp_Code = tp_Code;
@@ -65,19 +65,19 @@ public class TravelPointVo {
         this.tp_Name = tp_Name;
     }
 
-    public int gettp_Lati() {
+    public Double gettp_Lati() {
         return tp_Lati;
     }
 
-    public void settp_Lati(int tp_Lati) {
+    public void settp_Lati(Double tp_Lati) {
         this.tp_Lati = tp_Lati;
     }
 
-    public int gettp_Long() {
+    public Double gettp_Long() {
         return tp_Long;
     }
 
-    public void settp_Long(int tp_Long) {
+    public void settp_Long(Double tp_Long) {
         this.tp_Long = tp_Long;
     }
 
@@ -121,19 +121,19 @@ public class TravelPointVo {
 		this.city_Name = city_Name;
 	}
 
-	public int getcity_Lati() {
+	public Double getcity_Lati() {
 		return city_Lati;
 	}
 
-	public void setcity_Lati(int city_Lati) {
+	public void setcity_Lati(Double city_Lati) {
 		this.city_Lati = city_Lati;
 	}
 
-	public int getcity_Long() {
+	public Double getcity_Long() {
 		return city_Long;
 	}
 
-	public void setcity_Long(int city_Long) {
+	public void setcity_Long(Double city_Long) {
 		this.city_Long = city_Long;
 	}
 
@@ -153,4 +153,12 @@ public class TravelPointVo {
 		this.city_Eng = city_Eng;
 	}
 
+	@Override
+	public String toString() {
+		return "TravelPointVo [tp_Code=" + tp_Code + ", city_Code=" + city_Code + ", tp_Name=" + tp_Name + ", tp_Lati="
+				+ tp_Lati + ", tp_Long=" + tp_Long + ", tp_Type=" + tp_Type + ", tp_Content=" + tp_Content + ", tp_Img="
+				+ tp_Img + ", tp_Addr=" + tp_Addr + ", city_Name=" + city_Name + ", city_Lati=" + city_Lati
+				+ ", city_Long=" + city_Long + ", city_Img=" + city_Img + ", city_Eng=" + city_Eng + "]";
+	}
+	
 }

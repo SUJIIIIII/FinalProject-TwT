@@ -124,9 +124,9 @@
 		#{re_Loca2}, #{re_Date1}, #{re_Date2}, #{re_Time1}, #{re_Time2} )
 	</insert>
 
+
 	<!-- 항공권 정보 수정 -->
 	<update id="updateAirM" parameterType="AirplaneInfo"></update>
-
 
 	<!-- 유저 인증키(난수) Y로 변경 -->
 	<update id="alter_userKey" parameterType="Member">

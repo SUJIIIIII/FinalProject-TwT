@@ -20,7 +20,6 @@
 	<meta name="google-site-verification" content="ipMgUnVX-SfjeuEkrb4h9kVsm7aKqjCDyEaCwb3EtlU">
 	<title>TwT - 일정만들기</title>
 			
-	<link rel="shortcut icon" href="/res/earthtory.ico">
 	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/plan/default_ko.css" type="text/css">
 	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/plan/reset.css">
 	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/plan/default.css">
@@ -28,33 +27,28 @@
 	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/plan/tipsy.css" type="text/css">
 	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/plan/workspace.css">
 	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/plan/date_picker.css">
-	<script async="" src="//www.google-analytics.com/analytics.js"></script>
-
-	<script src="http://code.jquery.com/jquery-3.4.1.min.js"></script>
-	<meta name="google-site-verification" content="MwgpAlNbsXRZEln-QQP8Jra-Aj8cTKcCtDd3L_StvTc">
-	<meta name="naver-site-verification" content="48a2af847268bfd79153f73690ad01b35cb1593a">
-<!-- 	<script type="text/javascript" charset="UTF-8" src="https://maps.googleapis.com/maps-api-v3/api/js/39/9/intl/ko_ALL/common.js"></script>
-	<script type="text/javascript" charset="UTF-8" src="https://maps.googleapis.com/maps-api-v3/api/js/39/9/intl/ko_ALL/util.js"></script>
-	<script type="text/javascript" charset="UTF-8" src="https://maps.googleapis.com/maps-api-v3/api/js/39/9/intl/ko_ALL/marker.js"></script>
-	<script type="text/javascript" charset="UTF-8" src="https://maps.googleapis.com/maps-api-v3/api/js/39/9/intl/ko_ALL/map.js"></script>
-	<script type="text/javascript" charset="UTF-8" src="https://maps.googleapis.com/maps-api-v3/api/js/39/9/intl/ko_ALL/stats.js"></script>
-	<script type="text/javascript" charset="UTF-8" src="https://maps.googleapis.com/maps-api-v3/api/js/39/9/intl/ko_ALL/onion.js"></script>
-	<script type="text/javascript" charset="UTF-8" src="https://maps.googleapis.com/maps-api-v3/api/js/39/9/intl/ko_ALL/geometry.js"></script>
-	<script type="text/javascript" charset="UTF-8" src="https://maps.googleapis.com/maps-api-v3/api/js/39/9/intl/ko_ALL/poly.js"></script>
-	<script type="text/javascript" charset="UTF-8" src="https://maps.googleapis.com/maps-api-v3/api/js/39/9/intl/ko_ALL/controls.js"></script> -->
 
 
+<!-- map script -->
 <script type="text/javascript" src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 <script type="text/javascript">
-/* map script */
 
 //전역 변수 선언
-var marker; // 마커
+var marker = new Array(); // 마커
 var myIcon; // 마커 아이콘
 var content = new Array(); // 도시명
 var locations = new Array(); // 도시 위도/경도
 var markers = new Array(); // 마커 배열
+var marker_td = new Array(); // 랜드마크 마커 배열
+var marker_rs = new Array(); // 식당 마커 배열
+var marker_sp = new Array(); // 쇼핑 마커 배열
 var citycodes = new Array(); //도시 코드
+var B_TD; // 랜드마크 마커 아이콘(Before)
+var B_RS; // 식당 마커 아이콘(Before)
+var B_SP; // 쇼핑 마커 아이콘(Before)
+var A_TD; // 랜드마크 마커 아이콘(After)
+var A_RS; // 식당 마커 아이콘(After)
+var A_SP; // 쇼핑 마커 아이콘(After)
 
 	// map 추가
 	function initMap() {
@@ -69,28 +63,125 @@ var citycodes = new Array(); //도시 코드
 		var map = new google.maps.Map( //지도 객체 생성
 			document.getElementById('map'), {zoom: 12, center: cen}); //기본 줌,시작 센터 설정
 		
-       	// DB 불러와서 위치 위도/경도, 도시코드 담기
-       	/* for(var i=0;i<4;i++){
-			locations[i] = {"position" : new google.maps.LatLng($("#city_"+i).attr("data-lat"), $("#city_"+i).attr("data-lng"))};
-			citycodes[i] = $("#city_"+i).attr("data-no");
-       	} */
-       	
-		// 마커 아이콘 생성
-		myIcon = new google.maps.MarkerImage("${pageContext.request.contextPath}/resources/images/marker.png",null,null,null,new google.maps.Size(50,45));
+		// list 개수 가져오기
+		var count = $(".aa").attr("data-count");
 		
-		// 도시 마커찍기
+       	// DB 불러와서 위치 위도/경도, 도시코드 담기
+       	for(var i=0;i<count;i++){
+			locations[i] = {"position" : new google.maps.LatLng($("#spot_"+i).attr("data-lat"),$("#spot_"+i).attr("data-lng"))};
+			content[i] = $("#spot_"+i).attr("data-name");
+       	}
+       	
+       	// 마커 이미지 
+		B_TD = new google.maps.MarkerImage("${pageContext.request.contextPath}/resources/images/plan/B_TD.png",null,null,null,new google.maps.Size(40,42));
+		B_RS = new google.maps.MarkerImage("${pageContext.request.contextPath}/resources/images/plan/B_RS.png",null,null,null,new google.maps.Size(40,42));
+		B_SP = new google.maps.MarkerImage("${pageContext.request.contextPath}/resources/images/plan/B_SP.png",null,null,null,new google.maps.Size(40,42));
+		A_TD = new google.maps.MarkerImage("${pageContext.request.contextPath}/resources/images/plan/A_TD.png",null,null,null,new google.maps.Size(40,42));
+		A_RS = new google.maps.MarkerImage("${pageContext.request.contextPath}/resources/images/plan/A_RS.png",null,null,null,new google.maps.Size(40,42));
+		A_SP = new google.maps.MarkerImage("${pageContext.request.contextPath}/resources/images/plan/A_SP.png",null,null,null,new google.maps.Size(40,42));
+		
+		
+		// 스팟 마커찍기
 		/* for (var i=0;i<locations.length;i++) {
-        	marker = new google.maps.Marker({
-            	position: locations[i].position,
-            	map: map,
-            	icon: myIcon,
-            	title: content[i]
-       		});
+			if($("#spot_"+i).attr("data-type") == "랜드마크"){
+				// 랜드마크 마커 생성
+	        	marker = new google.maps.Marker({
+	            	position: locations[i].position,
+	            	map: map,
+	            	icon: B_TD,
+	            	title: content[i]
+	       		});
+				marker_td.push(marker);
+				markerListener(marker_td[i],i,$("#spot_"+i).attr("data-type"));
+				
+			}else if($("#spot_"+i).attr("data-type") == "식당가"){
+				// 식당 마커 생성
+	        	marker = new google.maps.Marker({
+	            	position: locations[i].position,
+	            	map: map,
+	            	icon: B_RS,
+	            	title: content[i]
+	       		});
+				marker_rs.push(marker);
+				markerListener(marker_rs[i],i,$("#spot_"+i).attr("data-type"));
+				
+			}else if($("#spot_"+i).attr("data-type") == "쇼핑"){
+				// 쇼핑 마커 생성
+	        	marker = new google.maps.Marker({
+	            	position: locations[i].position,
+	            	map: map,
+	            	icon: B_SP,
+	            	title: content[i]
+	       		});
+				marker_sp.push(marker);
+				markerListener(marker_sp[i],i,$("#spot_"+i).attr("data-type"));
+			}
         	
         	//생성된 마커를 마커배열에 추가
-        	markers.push(marker);
+        	markers.push(marker_td);
+        	markers.push(marker_rs);
+        	markers.push(marker_sp);
 		} */
-    	
+		
+		for (var i=0;i<locations.length;i++) {
+			if($("#spot_"+i).attr("data-type") == "랜드마크"){
+				// 랜드마크 마커 생성
+	        	marker[i] = new google.maps.Marker({
+	            	position: locations[i].position,
+	            	map: map,
+	            	icon: B_TD,
+	            	title: content[i]
+	       		});
+				markerListener(marker[i],i,$("#spot_"+i).attr("data-type"));
+				
+			}else if($("#spot_"+i).attr("data-type") == "식당가"){
+				// 식당 마커 생성
+	        	marker[i] = new google.maps.Marker({
+	            	position: locations[i].position,
+	            	map: map,
+	            	icon: B_RS,
+	            	title: content[i]
+	       		});
+				markerListener(marker[i],i,$("#spot_"+i).attr("data-type"));
+				
+			}else if($("#spot_"+i).attr("data-type") == "쇼핑"){
+				// 쇼핑 마커 생성
+	        	marker[i] = new google.maps.Marker({
+	            	position: locations[i].position,
+	            	map: map,
+	            	icon: B_SP,
+	            	title: content[i]
+	       		});
+				markerListener(marker[i],i,$("#spot_"+i).attr("data-type"));
+			}
+        	
+		}
+		
+		/* console.log("랜드마크 : " + marker_td[0]);
+		console.log("식당 : " + marker_rs[0]);
+		console.log("쇼핑 : " + marker_sp[0]);
+		console.log("총 : " + markers[0]); */
+		
+		
+		function markerListener(mark, index, type){
+			// 매개변수 마커에 클릭이벤트 적용
+			google.maps.event.addListener(mark, 'click', function() {
+				// 클릭시 타입에 맞게 마커 이미지 변경
+				if(type == "랜드마크"){
+					mark.setIcon(A_TD);
+				}else if(type == "식당가"){
+					mark.setIcon(A_RS);
+				}else if(type == "쇼핑"){
+					mark.setIcon(A_SP);
+				}
+				
+			});
+		}
+		
+		/* google.maps.event.addListener(marker_td[0], "click", function(){
+			marker_td[0].setIcon(A_TD);
+		}); */
+		
 		// 마커를 클릭했을 때의 말풍선 이벤트
 		/*  infoWindow.setOptions({
 		   	content: contentString,
@@ -517,7 +608,7 @@ src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCiDE5HBue4mflsdkcsGvSZrUe
                   		<c:forEach items="${allCity}" var="city">
                   			<c:if test="${city.city_Code ne citycode}">
 		                  		<div class="clear"></div>
-		                  		<div class="city_item" data="${city.city_Code}" data-ci_name="${city.city_Name}" data-lat="${city.city_Lati}" data-lng="${city.city_Long}" data-ss_id="null">
+		                  		<div class="city_item" data="" data-ci_name="${city.city_Name}" data-lat="${city.city_Lati}" data-lng="${city.city_Long}" data-ss_id="null">
 			                  		<div class="fl ci_img"><img src="${pageContext.request.contextPath}/resources/images/plan/city/${city.city_Img}"></div>
 			                  		<div class="fl">${city.city_Name},&nbsp;<span>태국</span></div>
 			                  		<div class="clear"></div>
@@ -551,8 +642,9 @@ src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCiDE5HBue4mflsdkcsGvSZrUe
                 <div class="list_box_overlay"></div>
                 <!-- 스팟 리스트 -->
                 <div class="list_box connectedSortable" style="height: 441px;">
-                <c:forEach items="${allSpot}" var="spot">
-                	<div class="day_spot_item ui-draggable" data="" data-set_day="0" data-rel_srl="4740" data-pl_type="0" data-no="${spot.tp_Code}" data-pl_cat="301" data-ci="87">
+                <c:set var="count" value="0"></c:set>
+                <c:forEach items="${allSpot}" var="spot" varStatus="status">
+                	<div class="day_spot_item ui-draggable" id="spot_${status.index}" data="${spot.city_Code}" data-type="${spot.tp_Type}" data-name="${spot.tp_Name}" data-set_day="0" data-rel_srl="4740" data-pl_type="0" data-no="${spot.tp_Code}" data-lat="${spot.tp_Lati}" data-lng="${spot.tp_Long}" data-pl_cat="301" data-ci="87">
                 		<div class="img_box fl"><img src="${pageContext.request.contextPath}/resources/images/plan/${spot.city_Code}/${spot.tp_Img}"></div>
                 		<div class="fl info_box">
                 			<div class="title">${spot.tp_Name}</div>
@@ -567,39 +659,31 @@ src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCiDE5HBue4mflsdkcsGvSZrUe
                 		<div class="spot_to_inspot"><img src="${pageContext.request.contextPath}/resources/images/plan/spot_to_inspot_a.png"></div>
                 		<div class="clear"></div>
                 	</div>
+                	<c:set var="count" value="${count+1}"></c:set>
                 </c:forEach>
+                <div class="aa" style="display:none;" data-count="${count}"></div>
 			</div>
 	    </div><!-- 스팟 리스트 end -->
 		
 			<!-- @@수정@@@ 맵에서 스팟 선택시 보여지는 상세 박스@@ -->
-			<!-- <div class=" _ibani_256" style="position: absolute; z-index: 100; top: -158.095px; left: -243.2px;">
-				<div style="position: relative; padding-right: 1px; padding-left: 1px; top: 1px; width: 0px;"></div>
-				<button class="iinfo_close" style="right: 3px; top: 3px;">close</button>
-				<div style="overflow: hidden; cursor: default; clear: both; position: relative; padding: 0px; background: rgb(255, 255, 255); border-radius: 0px; border-width: 1px; border-color: rgb(221, 221, 221); border-style: solid; width: 345px; height: 155px;">
-				<div><div class="tooltip_full_box">
-					<div class="tooltip_img fl"><img src="http://img.earthtory.com/img/place_img/86/419_0_et.jpg"></div>
-					<div class="tooltip_info fl">
-						<div class="tooltip_title">리키 커피숍</div>
-						<div class="tooltip_tag">서양식/미국식, 카페/디저트...</div>
-						<div class="tooltip_cnt_info_box">
-							<div class="tooltip_clip_cnt fl">94</div>
-							<div class="clear"></div>
-						</div>
-					</div>
-					<div class="clear"></div>
-					<div class="tooltip_detail_bottom_box">
-						<div class="fl tooltip_detail_btn" onclick="detail_view_spot('419', '200','87','0','n','0','0','0')">자세히 보기</div>
-						<div class="fr tooltip_add_inspot_btn" onclick="marker_to_inspot(419,86,0)">+ 일정에 추가</div>
+			<div class="tooltip_full_box" id="spot_" style="display:none;">
+				<div class="tooltip_img fl"><img src="http://img.earthtory.com/img/place_img/86/419_0_et.jpg"></div>
+				<div class="tooltip_info fl">
+					<div class="tooltip_title">리키 커피숍</div>
+					<div class="tooltip_tag">서양식/미국식, 카페/디저트...</div>
+					<div class="tooltip_cnt_info_box">
+						<div class="tooltip_clip_cnt fl">94</div>
 						<div class="clear"></div>
 					</div>
+				</div>
+				<div class="clear"></div>
+				<div class="tooltip_detail_bottom_box">
+					<div class="fl tooltip_detail_btn" onclick="detail_view_spot('419', '200','87','0','n','0','0','0')">자세히 보기</div>
+					<div class="fr tooltip_add_inspot_btn" onclick="marker_to_inspot(419,86,0)">+ 일정에 추가</div>
 					<div class="clear"></div>
-				</div></div>
 				</div>
-				<div style="position: relative; margin-top: -1px;">
-				<div style="position: absolute; left: 50%; height: 0px; width: 0px; margin-left: -10px; border-width: 10px 10px 0px; border-color: rgb(221, 221, 221) transparent transparent; border-style: solid;"></div>
-				<div style="position: absolute; left: 50%; height: 0px; width: 0px; border-color: rgb(255, 255, 255) transparent transparent; border-top-width: 9px; border-left-width: 9px; border-right-width: 9px; margin-left: -9px; border-style: solid;"></div>
-				</div>
-			</div> -->
+				<div class="clear"></div>
+			</div>
 			
 			
 			<!-- map -->
