@@ -1,4 +1,4 @@
-/**
+﻿/**
  * 
  */
 
@@ -58,9 +58,14 @@ $(document).ready(function() {
          $("#createform").submit();
       }
    });
-   
+      
    $(function() {
        $( "#testDatepicker" ).datepicker({
        });
    });
+   
+   $(function() {
+	$("#datepickBtn").datepicker({
+	});
+})
 });

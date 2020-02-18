@@ -4,11 +4,14 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.apache.commons.io.FileUtils;
 import org.slf4j.Logger;
@@ -16,6 +19,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -23,7 +27,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.fp.twt.biz.CommunityBiz;
+import com.fp.twt.vo.MemberVo;
 import com.fp.twt.vo.ScheduleReviewVo;
+import com.fp.twt.vo.TravelScheduleVo;
+
 
 
 @Controller
@@ -46,7 +53,7 @@ public class CommunityController {
 		
 		String originalFileName = multipartFile.getOriginalFilename();	//오리지날 파일명
 		String extension = originalFileName.substring(originalFileName.lastIndexOf("."));	//파일 확장자
-				
+		
 		String savedFileName = UUID.randomUUID() + extension;	//저장될 파일 명
 		
 		File targetFile = new File(fileRoot + savedFileName);
@@ -66,21 +73,61 @@ public class CommunityController {
 	
 	//포토북 insertForm
 	@RequestMapping("communityInsertForm.do")
-	public String communityInsert(Model model){
+	public String communityInsert(Model model, HttpServletRequest request){
 		int res = biz.insertForm();
+		
+		HttpSession session = request.getSession(false);
+		MemberVo member = (MemberVo)session.getAttribute("user");
+		
 		if(res > 0) {
-			System.out.println("insert 성공");
-			
-			ScheduleReviewVo vo = biz.selectNo();
-			String boardNo = vo.getSr_Code();
-			System.out.println("boardNo : "+boardNo);
-			model.addAttribute("boardNo", boardNo);
+			String srCode = "SR"+biz.selectSrCode();
+			model.addAttribute("sr_Code", srCode);
+			model.addAttribute("m_Code", member.getm_Code());
 		}
 		
 		return "TwTCommunity/community_insert";
 	}
 	
+	@RequestMapping("potoBookinsert.do")
+	public String communityUpdate(Model model, ScheduleReviewVo vo, HttpServletRequest request) throws IOException {
+		
+		String[] imgs = request.getParameterValues("potoImg"); //업로드된 사진 경로들
+		String content = vo.getSr_Content();
+		
+		List<String> existimgs = new ArrayList<String>();
+		
+		for(String src : imgs) {
+			if(content.contains(src)) {
+				existimgs.add(src);
+			}
+		}
+		
+		for(String src : existimgs) {
+			String fileRoot = "C:\\potoBook_image\\"+vo.getSr_Code()+"\\";	
+			String extension = src.substring(src.lastIndexOf("."));
+			String savedFileName = UUID.randomUUID() + extension;
+			
+			File newFile = new File(fileRoot + savedFileName);
+			
+			byte[] bytes = FileCopyUtils.copyToByteArray(newFile);
+			
+			
+			
+		}
+		
+		
+		
+		
+		int res = biz.potoBookUpdate(vo);
+		
+		return "TwTCommunity/community_list";
+	}
 	
+	@RequestMapping("potoBookDetail.do")
+	public String potoBookDetail(Model model) {
+		
+		return "TwTCommunity/potoBook_detail";
+	}
 	//----------------------------------------------------------------------------------------------
 	
 	// 도영
@@ -89,6 +136,11 @@ public class CommunityController {
 	public String newcommunity(Model model) {
 		
 		logger.info("SELECT LIST"); 
+
+		List res = biz.selectList_D();
+		TravelScheduleVo vo = (TravelScheduleVo)res.get(0);
+		System.out.println("컨트롤러 id " + vo.getM_Id());
+		
 		model.addAttribute("community", biz.selectList_D());
 		System.out.println(model);
 		
@@ -109,8 +161,9 @@ public class CommunityController {
 	@RequestMapping("communityDetail.do")
 	public String communityDetail(Model model, String ts_code){
 		logger.info("SELECT ONE");
+		
+		model.addAttribute("community", biz.selectList_D());
 		model.addAttribute("detail", biz.selectOne_D(ts_code));
-		System.out.println(biz.selectOne_D(ts_code));
 		return "TwTCommunity/community_detail"; 
 	}
 	

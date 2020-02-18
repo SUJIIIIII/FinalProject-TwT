@@ -11,14 +11,14 @@ import com.fp.twt.vo.MemberVo;
 
 @Service
 public class MypageBizImpl implements MypageBiz {
-	
+
 	@Autowired
-	private MypageDao dao; 
+	private MypageDao dao;
 
 	// 회원가입
 	@Override
 	public int memberInsert(MemberVo vo) {
-		return dao.memberInsert(vo); 
+		return dao.memberInsert(vo);
 	}
 
 	// 로그인
@@ -42,7 +42,7 @@ public class MypageBizImpl implements MypageBiz {
 
 	// 내 항공권 전체 조회
 	@Override
-	public List<AirplaneInfoVo> selectAirList(MemberVo m_Code) {
+	public List<AirplaneInfoVo> selectAirList(String m_Code) {
 		// TODO Auto-generated method stub
 		return dao.selectAirList(m_Code);
 	}
@@ -52,5 +52,12 @@ public class MypageBizImpl implements MypageBiz {
 	public int insertAir(AirplaneInfoVo vo) {
 		// TODO Auto-generated method stub
 		return dao.insertAir(vo);
+	}
+
+	// 유저 메일 인증 메소드
+	@Override
+	public int GetKey(String m_Id, String key) {
+		// TODO Auto-generated method stub
+		return dao.GetKey(m_Id, key);
 	}
 }

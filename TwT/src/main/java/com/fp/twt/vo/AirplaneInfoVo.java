@@ -2,29 +2,29 @@ package com.fp.twt.vo;
 
 public class AirplaneInfoVo {
 
-	private String m_code; // 회원 번호
+	private String m_Code; // 회원 번호
 	private String dep_Loca1; // 출국_출발지명
 	private String dep_Loca2; // 출국_도착지명
 	private String dep_Date1; // 출국_출국날짜
 	private String dep_Date2; // 출국_도착날짜
-	private String dep_Time1; // 출국_출발시간
-	private String dep_Time2; // 출국_도착시간
+	private String dep_Time1; // 출국_출발시간(임시로 일단 냅두기)
+	private String dep_Time2; // 출국_도착시간(임시로 일단 냅두기)
 	private String re_Loca1; // 귀국_출발지명
 	private String re_Loca2; // 귀국_도착지명
 	private String re_Date1; // 귀국_출발날짜
 	private String re_Date2; // 귀국_도착날짜
-	private String re_Time1; // 귀국_출발시간
-	private String re_Time2; // 귀국_도착시간
+	private String re_Time1; // 귀국_출발시간(임시로 일단 냅두기)
+	private String re_Time2; // 귀국_도착시간(임시로 일단 냅두기)
 
 	public AirplaneInfoVo() {
 		super();
 	}
 
-	public AirplaneInfoVo(String m_code, String dep_Loca1, String dep_Loca2, String dep_Date1, String dep_Date2,
+	public AirplaneInfoVo(String m_Code, String dep_Loca1, String dep_Loca2, String dep_Date1, String dep_Date2,
 			String dep_Time1, String dep_Time2, String re_Loca1, String re_Loca2, String re_Date1, String re_Date2,
 			String re_Time1, String re_Time2) {
 		super();
-		this.m_code = m_code;
+		this.m_Code = m_Code;
 		this.dep_Loca1 = dep_Loca1;
 		this.dep_Loca2 = dep_Loca2;
 		this.dep_Date1 = dep_Date1;
@@ -39,12 +39,12 @@ public class AirplaneInfoVo {
 		this.re_Time2 = re_Time2;
 	}
 
-	public String getM_code() {
-		return m_code;
+	public String getM_Code() {
+		return m_Code;
 	}
 
-	public void setM_code(String m_code) {
-		this.m_code = m_code;
+	public void setM_Code(String m_Code) {
+		this.m_Code = m_Code;
 	}
 
 	public String getDep_Loca1() {

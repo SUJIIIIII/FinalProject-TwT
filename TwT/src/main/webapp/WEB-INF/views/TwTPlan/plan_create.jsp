@@ -57,14 +57,7 @@
 
    <meta name="google-site-verification" content="MwgpAlNbsXRZEln-QQP8Jra-Aj8cTKcCtDd3L_StvTc">
    <meta name="naver-site-verification" content="48a2af847268bfd79153f73690ad01b35cb1593a">
-   <!-- <script type="text/javascript" charset="UTF-8" src="https://maps.googleapis.com/maps-api-v3/api/js/39/9/intl/ko_ALL/common.js"></script>
-   <script type="text/javascript" charset="UTF-8" src="https://maps.googleapis.com/maps-api-v3/api/js/39/9/intl/ko_ALL/util.js"></script>
-   <script type="text/javascript" charset="UTF-8" src="https://maps.googleapis.com/maps-api-v3/api/js/39/9/intl/ko_ALL/marker.js"></script>
-   <script type="text/javascript" charset="UTF-8" src="https://maps.googleapis.com/maps-api-v3/api/js/39/9/intl/ko_ALL/map.js"></script>
-   <script type="text/javascript" charset="UTF-8" src="https://maps.googleapis.com/maps-api-v3/api/js/39/9/intl/ko_ALL/onion.js"></script>
-   <script type="text/javascript" charset="UTF-8" src="https://maps.googleapis.com/maps-api-v3/api/js/39/9/intl/ko_ALL/overlay.js"></script>
-   <script type="text/javascript" charset="UTF-8" src="https://maps.googleapis.com/maps-api-v3/api/js/39/9/intl/ko_ALL/controls.js"></script> -->
-   
+
 <style type="text/css">
 .labels{
   color:white;
@@ -122,6 +115,8 @@ var citycodes = new Array(); //도시 코드
            
            //생성된 마커를 마커배열에 추가
            markers.push(marker);
+           //marker별 이벤트 적용
+           markerListener(markers[i],i);
       }
       
       // 마커와 함께 라벨찍기 (안됨)
@@ -141,68 +136,37 @@ var citycodes = new Array(); //도시 코드
       } */
         
       console.log(markers);
-
-      // 마커 클릭 이벤트 실행 / select detail box 띄우기  
-       google.maps.event.addListener(markers[0], 'click', function() {
-         if (markers[0].getAnimation() != null) {
-             markers[0].setAnimation(null);
-            $('#select_detail_view_city').hide();
-           } else {
-             markers[0].setAnimation(google.maps.Animation.BOUNCE);
-             markers[1].setAnimation(null);
-             markers[2].setAnimation(null);
-             markers[3].setAnimation(null);
-            $('#select_detail_view_city').show(); //show("slide", {direction:"left"}, 200);
-            $(".cityname").html(content[0]);
-            $("input[name=citycode]").val(citycodes[0]);
-           }
-         });
-       google.maps.event.addListener(markers[1], 'click', function() {
-         if (markers[1].getAnimation() != null) {
-             markers[1].setAnimation(null);
-            $('#select_detail_view_city').hide();
-           } else {
-             markers[1].setAnimation(google.maps.Animation.BOUNCE);
-             markers[0].setAnimation(null);
-             markers[2].setAnimation(null);
-             markers[3].setAnimation(null);
-            $('#select_detail_view_city').show();
-            $(".cityname").html(content[1]);
-            $("input[name=citycode]").val(citycodes[1]);
-           }
-         });
-       google.maps.event.addListener(markers[2], 'click', function() {
-         if (markers[2].getAnimation() != null) {
-             markers[2].setAnimation(null);
-            $('#select_detail_view_city').hide();
-           } else {
-             markers[2].setAnimation(google.maps.Animation.BOUNCE);
-             markers[0].setAnimation(null);
-             markers[1].setAnimation(null);
-             markers[3].setAnimation(null);
-            $('#select_detail_view_city').show();
-            $(".cityname").html(content[2]);
-            $("input[name=citycode]").val(citycodes[2]);
-           }
-         });
-       google.maps.event.addListener(markers[3], 'click', function() {
-         if (markers[3].getAnimation() != null) {
-             markers[3].setAnimation(null);
-            $('#select_detail_view_city').hide();
-           } else {
-             markers[3].setAnimation(google.maps.Animation.BOUNCE);
-             markers[0].setAnimation(null);
-             markers[1].setAnimation(null);
-             markers[2].setAnimation(null);
-            $('#select_detail_view_city').show();
-            $(".cityname").html(content[3]);
-            $("input[name=citycode]").val(citycodes[3]);
-           }
-         });
        
    } /* init end */
    
+	// 마커 클릭 이벤트 실행 / select detail box 띄우기  
+	function markerListener(mark, index){
+		// 매개변수 마커에 클릭이벤트 적용
+		google.maps.event.addListener(mark, 'click', function() {
+			
+			// 클릭시 마커에 animation이 있으면
+			if (mark.getAnimation() != null) {
+				mark.setAnimation(null);
+				$('#select_detail_view_city').hide();
+			} else {
+			// 클릭시 마커에 animation이 없으면
+				mark.setAnimation(google.maps.Animation.BOUNCE);
+				
+				// 클릭외 나머지 마커들 animation 삭제
+				for(var i=0;i<3;i++){ 
+					if(i != index){
+						markers[i].setAnimation(null);
+					}
+				}
+				$('#select_detail_view_city').show();
+				$(".cityname").html(content[index]);
+				$("input[name=citycode]").val(citycodes[index]);
+			}
+		});
+	}
+   
    $(document).ready(function(){
+	   // 선택된 도시 삭제 & 마커 animation 삭제
       $(".fa-times-circle").click(function(){ // x표시 누르면 select detail box 사라짐, bounce 이벤트 삭제
          $('#select_detail_view_city').hide();
          for(var i=0;i<locations.length;i++){
@@ -259,20 +223,19 @@ src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCiDE5HBue4mflsdkcsGvSZrUe
                       <div class="clear"></div>
                    </div>
               </div>
-            <!-- <div id="search_box" style="width:100%;height:51px;border-bottom:solid #d6d6d6 1px;"></div> -->
             
             <!-- 지역 선택 -->
               <div id="city_list_box" style="height: 100vh;">
                  <c:forEach items="${res}" var="city" varStatus="status">
-                 <div class="item" id="city_${status.index}" data-no="${city.city_Code}" data="86" data-ci_name="${city.city_Name}" data-lat="${city.city_Lati}" data-lng="${city.city_Long}">
-                    <div class="img_box fl"><img src="${pageContext.request.contextPath}/resources/images/plan/city/${city.city_Img}"></div>
-                    <div class="info_box fl">
-                       <div class="info_title">${city.city_Name}</div>
-                       <div class="info_sub_title">${city.city_Eng}</div>
-                      </div>
-                      <div class="spot_to_inspot"><img src="${pageContext.request.contextPath}/resources/images/plan/spot_to_inspot_a.png"></div>
-                      <div class="clear"></div>
-                  </div>
+	                 <div class="item" id="city_${status.index}" data-no="${city.city_Code}" data="86" data-ci_name="${city.city_Name}" data-lat="${city.city_Lati}" data-lng="${city.city_Long}">
+	                    <div class="img_box fl"><img src="${pageContext.request.contextPath}/resources/images/plan/city/${city.city_Img}"></div>
+	                    <div class="info_box fl">
+	                       <div class="info_title">${city.city_Name}</div>
+	                       <div class="info_sub_title">${city.city_Eng}</div>
+	                      </div>
+	                      <div class="spot_to_inspot"><img src="${pageContext.request.contextPath}/resources/images/plan/spot_to_inspot_a.png"></div>
+	                      <div class="clear"></div>
+	                  </div>
                   </c:forEach>
             </div>
           </div>
@@ -280,28 +243,17 @@ src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCiDE5HBue4mflsdkcsGvSZrUe
       </div>
    
       <div id="right_full_box" class="fl" style="position:absolute;left:336px;top:62px;">
-           <!-- <div id="clip_list" data="0">
-                  <div class="list_title"><span></span> 클립보드<div class="list_title_option_menu" data-is_open="off">도시 변경</div></div>
-                <div id="detail_close_btn"></div>
-                <div class="clear"></div>
-                <div class="clipboard_change_box"></div>
-                
-                <div class="list_box_overlay"></div>
-                
-                <div class="list_box"></div>
-              </div> -->
               
-              <!-- 지도 설정 @@ -->
+         <!-- 지도 설정 @@ -->
          <div id="map" class="fl" style="height: 659px; position: relative; width: 1200px; overflow: hidden; left:0px"></div>
-         
            
            <!-- 일정 정보 설정 -->
               <div id="select_detail_view_city" data="0">
               <div class="city_title">
                <div class="ci_title_name fl">여행도시</div>
                <div class="pn_date_box fr" id="date_pick_btn" data="0">
-                  <div class="pn_date_info fl">출발일</div>
-                  <div class="pn_date_icon fr"><i class="fas fa-calendar-alt"></i></div>
+                  <!-- <div class="pn_date_info fl">출발일</div>
+                  <div class="pn_date_icon fr"><i class="fas fa-calendar-alt"></i></div> -->
                   <div class="clear"></div>
                   <form action="planDetail.do" method="get" id="createform">
                      <input type="hidden" id="schedule_date" name="schedule_date" value=""/> <!-- 날짜  -->
@@ -329,7 +281,7 @@ src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCiDE5HBue4mflsdkcsGvSZrUe
                 </div><!-- 일정 정보 end -->
          </div><!-- right box end -->
          
-               <!-- 모달 정보 설정 -->
+      <!-- 모달 정보 설정 -->
       <div id="createmodal" class="createmodal">
          <div class="modal-title">
             출발일과 여행제목을 입력해주세요<span class="modal-close">&times;</span>
@@ -369,7 +321,7 @@ src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCiDE5HBue4mflsdkcsGvSZrUe
                </tbody>
             </table>
          </div>
-      </div>
+      </div> <!-- 모달 end -->
    
          <div class="clear"></div>
       </div>

@@ -60,11 +60,13 @@ public class MypageDaoImpl implements MypageDao {
 
 	// 항공권 조회
 	@Override
-	public List<AirplaneInfoVo> selectAirList(MemberVo m_Code) {
+	public List<AirplaneInfoVo> selectAirList(String m_Code) {
 		List<AirplaneInfoVo> list = new ArrayList<AirplaneInfoVo>();
 
+		System.out.println("마이페이지 다오 임플 : " + m_Code);
+
 		try {
-			list = sqlSession.selectList(namespace + "selectAllAirM");
+			list = sqlSession.selectList(namespace + "selectAllAirM", m_Code);
 		} catch (Exception e) {
 			System.out.println("전체 항공권 리스트 에러");
 			e.printStackTrace();
@@ -83,5 +85,13 @@ public class MypageDaoImpl implements MypageDao {
 			e.printStackTrace();
 		}
 		return res;
+	}
+
+	// 유저 인증키 생성
+	@Override
+	public int GetKey(String m_Id, String key) {
+		System.out.println("다오 임플에 들어오는 아이디:" + m_Id);
+		System.out.println("다오 임플에 들어오는 키 : " + key);
+		return sqlSession.update(namespace+"GetKey", key);
 	}
 }
