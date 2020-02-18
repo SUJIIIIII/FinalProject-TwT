@@ -31,19 +31,30 @@ public class CommunityDaoImpl implements CommunityDao{
 	}
 	
 	@Override
-	public ScheduleReviewVo selectNo() {
-		ScheduleReviewVo vo = null;
+	public String selectSrCode() {
+		String srCode = null;
 		try {
-			vo = sqlSession.selectOne(NAMESPACE+"selectNo");
+			srCode = sqlSession.selectOne(NAMESPACE+"selectSrCode_Y");
 		} catch(Exception e) {
-			System.out.println("[error] : selectNo_Y");
+			System.out.println("[error] : selectSr_Code_Y");
 			e.printStackTrace();
 		}
 		
-		return vo;
+		return srCode;
 	}
 	
-	
+	@Override
+	public int potoBookUpdate(ScheduleReviewVo vo) {
+		int res = 0;
+		
+		try {
+			res = sqlSession.update(NAMESPACE+"updatePotoBook_Y", vo);
+		} catch(Exception e) {
+			System.out.println("[error] : updatePotoBook_Y");
+			e.printStackTrace();
+		}
+		return res;
+	}
 	
 	
 	//--------------------------------------------------------------------------------------------------//
@@ -63,6 +74,8 @@ public class CommunityDaoImpl implements CommunityDao{
 		}
 		return list;
 	}
+
+
 	
 	
 	

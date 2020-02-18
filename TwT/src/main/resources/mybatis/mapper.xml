@@ -6,7 +6,7 @@
 <mapper namespace="twt">
 
 	<!-- ================================용훈================================== -->
-	<resultMap type="ScheduleReview" id="ScheduleReviewMap">
+ 	<resultMap type="ScheduleReview" id="ScheduleReviewMap">
 		<result property="sr_Code" column="SR_CODE"/>
 		<result property="m_Code" column="M_CODE"/>
 		<result property="ts_Code" column="TS_CODE"/>
@@ -20,10 +20,18 @@
 		INSERT INTO SCHEDULEREVIEW VALUES('SR'||SR_SEQ.NEXTVAL, NULL, NULL, NULL, NULL, 0, SYSDATE)
 	</insert>
  
-	<select id="selectNo" resultMap="ScheduleReviewMap">
-		SELECT MAX(SR_CODE) FROM SCHEDULEREVIEW
+	<select id="selectSrCode_Y" resultType="String">
+		SELECT MAX(TO_NUMBER(LTRIM(SR_CODE,'SR'))) FROM SCHEDULEREVIEW
 	</select>
 	
+	<update id="updatePotoBook_Y" parameterType="ScheduleReview">
+		UPDATE SCHEDULEREVIEW
+		SET 
+		M_CODE = #{m_Code},
+		SR_TITLE = #{sr_Title},
+		SR_CONTENT = #{sr_Content}
+		WHERE SR_CODE = #{sr_Code}
+	</update>
 
  
  	<!-- ================================범식================================== -->
