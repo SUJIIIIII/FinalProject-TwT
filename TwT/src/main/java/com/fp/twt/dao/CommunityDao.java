@@ -10,8 +10,8 @@ public interface CommunityDao {
 	//용훈
 	
 	public int insertForm();
-	public ScheduleReviewVo selectNo();
-	
+	public String selectSrCode();
+	public int potoBookUpdate(ScheduleReviewVo vo);	
 	
 	
 	
@@ -19,11 +19,11 @@ public interface CommunityDao {
 	//--------------------------------------------------------------------------------------------------//
 	
 	//도영
-	
+
 	public List<TravelScheduleVo> selectList_D();
 	public List<TravelScheduleVo> PselectList_D();
 	public TravelScheduleVo selectOne_D(String ts_code);
-	
+
 	
 	
 	

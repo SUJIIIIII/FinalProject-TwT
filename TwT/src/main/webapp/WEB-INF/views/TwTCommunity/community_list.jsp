@@ -3,6 +3,7 @@
     <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 	<%@ page import="com.fp.twt.vo.MemberVo" %>
 	<%@ page import="com.fp.twt.vo.TravelScheduleVo" %>
+	<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -130,19 +131,19 @@
 							            <div class="blog-entry align-self-stretch" style="min-width: 250px;">
 							              <a href="communityDetail.do?ts_code=${vo.ts_Code }" class="block-20" style="background-image: url('${pageContext.request.contextPath}/resources/images/image_1.jpg');"></a>
 							              <div class="text p-4 d-block" style="min-width: 250px;">
-							              	<span class="tag">${vo.ts_Sday }</span>
+							              	<span class="tag">${fn:substring(vo.ts_Sday,0,8)}</span>
 							              	<span class="tag">| ${vo.ts_Period }DAYS</span>
-							              	<span style="padding: 0 0 0 18px;">
-								              	<i class="far fa-heart"></i>&nbsp;&nbsp;
-									            <i class="fas fa-eye"></i><span style="font-size:16px;">&nbsp;&nbsp;1</span>
+							              	<span style="padding: 0 0 0 18px; float: right;">
+								              	<a href=""><i class="far fa-heart"></i>&nbsp;&nbsp;</a>
+									            <i class="fas fa-eye"></i><span style="font-size:16px;">&nbsp;&nbsp;${vo.ts_View }</span>
 								            </span>
 								            <br>
-						              	    <h3 class="heading"><a href="communityDetail.do?ts_code=${vo.ts_Code }">${vo.ts_Title }</a></h3>
+						              	    <h3 class="heading" style="margin-top: 8px;"><a href="communityDetail.do?ts_code=${vo.ts_Code }">${vo.ts_Title }</a></h3>
 						                    <div class="tagcloud">
 							                <a href="#" class="tag-cloud-link">${vo.ts_Theme }</a>
 						               	 	</div>
 						           		 	<br>
-						                    <div style="margin-top: -10px;"><i class="fas fa-user"></i></div>			              	    
+						                    <div style="margin-top: -10px;"><i class="fas fa-user"></i>&nbsp;${vo.m_Id }</div>			              	    
 							              </div>
 							            </div>
 							          </div>
@@ -207,18 +208,12 @@
 				        <div class="container">
 				        <div class="row justify-content-start mb-5 pb-3">
 				          <div class="col-md-5 heading-section ftco-animate">
-				            <h2 class="mb-1 pb-1"><strong>여행 제목1</strong></h2>          
+				            <a href="potoBookDetail.do"><h2 class="mb-1 pb-1"><strong>여행 제목1</strong></h2></a>          
 				          	<div class="row ftco-animate">
 						          <div class="col-md-12">
 						            <div class="carousel-testimony owl-carousel">
 						              <div class="item">
-										<img src="${pageContext.request.contextPath}/resources/images/image_1.jpg"/>
-						              </div>
-						              <div class="item">
-										<img src="${pageContext.request.contextPath}/resources/images/image_1.jpg"/>
-						              </div>
-						              <div class="item">
-										<img src="${pageContext.request.contextPath}/resources/images/image_1.jpg"/>
+										<a href="potoBookDetail.do"><img src="/potoBook/573bc44c-110c-4fa9-b774-fa4ae267a4bf.jfif"/></a>
 						              </div>
 						            </div>
 						          </div>

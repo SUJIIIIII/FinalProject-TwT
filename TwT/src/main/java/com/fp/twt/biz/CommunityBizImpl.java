@@ -23,13 +23,14 @@ public class CommunityBizImpl implements CommunityBiz{
 	}
 	
 	@Override
-	public ScheduleReviewVo selectNo() {
-		return dao.selectNo();
+	public String selectSrCode() {
+		return dao.selectSrCode();
 	}
 	
-	
-	
-	
+	@Override
+	public int potoBookUpdate(ScheduleReviewVo vo) {
+		return dao.potoBookUpdate(vo);
+	}
 	
 	//--------------------------------------------------------------------------------------------------//
 	
@@ -49,6 +50,9 @@ public class CommunityBizImpl implements CommunityBiz{
 	public TravelScheduleVo selectOne_D(String ts_code) {
 		return dao.selectOne_D(ts_code);
 	}
+
+
+
 	
 	
 	
