@@ -20,6 +20,7 @@
 		INSERT INTO SCHEDULEREVIEW
 		VALUES('SR'||SR_SEQ.NEXTVAL, NULL, NULL, NULL, NULL, 0, SYSDATE)
 	</insert>
+
  
 	<select id="selectSrCode_Y" resultType="String">
 		SELECT MAX(TO_NUMBER(LTRIM(SR_CODE,'SR'))) FROM SCHEDULEREVIEW
@@ -33,6 +34,7 @@
 		SR_CONTENT = #{sr_Content}
 		WHERE SR_CODE = #{sr_Code}
 	</update>
+
 
 
 

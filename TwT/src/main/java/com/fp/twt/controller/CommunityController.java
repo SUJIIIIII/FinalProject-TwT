@@ -135,6 +135,7 @@ public class CommunityController {
 	public String newcommunity(Model model) {
 		
 		logger.info("SELECT LIST"); 
+
 		List res = biz.selectList_D();
 		TravelScheduleVo vo = (TravelScheduleVo)res.get(0);
 		System.out.println("컨트롤러 id " + vo.getM_Id());

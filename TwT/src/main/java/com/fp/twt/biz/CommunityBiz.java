@@ -22,6 +22,7 @@ public interface CommunityBiz {
 
 	public TravelScheduleVo selectOne_D(String ts_code);	
 
+	public TravelScheduleVo selectOne_D(String ts_code);	
 	
 	
 	
