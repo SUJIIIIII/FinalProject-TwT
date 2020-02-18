@@ -63,4 +63,9 @@ $(document).ready(function() {
        $( "#testDatepicker" ).datepicker({
        });
    });
+   
+   $(function() {
+	$("#datepickBtn").datepicker({
+	});
+})
 });
