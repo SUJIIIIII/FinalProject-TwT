@@ -83,6 +83,7 @@ public class HomeController {
 	 * "TwTCommunity/community_detail"; }
 	 */
 
+
 	/*
 	 * @RequestMapping("communityInsert.do") public String communityInsert(){ return
 	 * "TwTCommunity/community_insert"; }
