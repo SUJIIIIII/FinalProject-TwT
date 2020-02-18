@@ -28,6 +28,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.fp.twt.biz.CommunityBiz;
 import com.fp.twt.vo.MemberVo;
+import com.fp.twt.vo.TravelScheduleVo;
 import com.fp.twt.vo.ScheduleReviewVo;
 
 
@@ -134,6 +135,11 @@ public class CommunityController {
 	public String newcommunity(Model model) {
 		
 		logger.info("SELECT LIST"); 
+
+		List res = biz.selectList_D();
+		TravelScheduleVo vo = (TravelScheduleVo)res.get(0);
+		System.out.println("컨트롤러 id " + vo.getM_Id());
+		
 		model.addAttribute("community", biz.selectList_D());
 		System.out.println(model);
 		
@@ -154,8 +160,9 @@ public class CommunityController {
 	@RequestMapping("communityDetail.do")
 	public String communityDetail(Model model, String ts_code){
 		logger.info("SELECT ONE");
+		
+		model.addAttribute("community", biz.selectList_D());
 		model.addAttribute("detail", biz.selectOne_D(ts_code));
-		System.out.println(biz.selectOne_D(ts_code));
 		return "TwTCommunity/community_detail"; 
 	}
 	
