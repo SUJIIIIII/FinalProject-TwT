@@ -28,8 +28,9 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.fp.twt.biz.CommunityBiz;
 import com.fp.twt.vo.MemberVo;
-import com.fp.twt.vo.TravelScheduleVo;
 import com.fp.twt.vo.ScheduleReviewVo;
+import com.fp.twt.vo.TravelScheduleVo;
+
 
 
 @Controller
