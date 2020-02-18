@@ -92,7 +92,7 @@ public class CommunityController {
 	public String communityUpdate(Model model, ScheduleReviewVo vo, HttpServletRequest request) throws IOException {
 		
 		String[] imgs = request.getParameterValues("potoImg"); //업로드된 사진 경로들
-		String content = vo.getSr_Code();
+		String content = vo.getSr_Content();
 		
 		List<String> existimgs = new ArrayList<String>();
 		
