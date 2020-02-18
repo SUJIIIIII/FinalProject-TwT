@@ -278,8 +278,8 @@ src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCiDE5HBue4mflsdkcsGvSZrUe
 			</h1>
 			<div class="fl" style="width:363px;border-right:solid #ebebeb 1px;height:62px">
 				<!-- 제목부분 호버 style걸어서 수정할수있게@@ -->
-				<div class="fl" id="plan_title" data-url="http://www.earthtory.com/mypage/et_0630673001418979048?type=plan_sub&amp;gdb_srl=304061" style="background-color: rgb(255, 255, 255);">
-				제목 부분@@<%=request.getParameter("title") %>
+				<div class="fl" id="plan_title" style="background-color: rgb(255, 255, 255);">
+				<%=request.getParameter("title") %>
 				</div>
 				<div class="clear"></div>
 			</div>
@@ -304,114 +304,13 @@ src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCiDE5HBue4mflsdkcsGvSZrUe
 	<div id="overlay_day_edit">
 		<div class="ov_day_edit_full">
 			<div style="width:100%;height:50px;border:solid #374854 1px;padding-top:7px;">
-				<!--//<div class="fl" style="width:45px;height:30px;background:#555555;border:solid #3b3b3b 1px;color:#fff;font-size:12px;line-height:30px;text-align:center;margin-left:10px;cursor:pointer;" onclick="day_edit_cancel()">취소</div>
-				<div class="fr" style="width:45px;height:30px;background:#ff9320;border:solid #f7870f 1px;color:#fff;font-size:12px;line-height:30px;text-align:center;margin-right:10px;cursor:pointer;" onclick="day_edit_confirm()">저장</div>-->
 				<div class="fr" style="width:45px;height:30px;background:#ff9320;border:solid #f7870f 1px;color:#fff;font-size:12px;line-height:30px;text-align:center;margin-right:10px;cursor:pointer;" onclick="day_edit_com()">완료</div>
 				<div class="clear"></div>
 			</div>
 			<div style="width:100%;height:50px;border:solid #374854 1px;font-size:13px;color:#fff;line-height:50px;text-align:center;cursor:pointer;" id="date_pick_btn">
-				<span class="start_date">2020-01-31</span>
-				<img src="/res/img/workspace/new/pn_cal_edit_btn2.png" style="vertical-align:middle;margin-left:10px;">
+				<span class="start_date"><%=request.getParameter("schedule_date") %></span>
+				<img src="${pageContext.request.contextPath}/resources/images/plan/plan_detail/pn_cal_edit_btn2.png" style="vertical-align:middle;margin-left:10px;">
 				<div id="date_pick" class="hasDatepicker">
-					<div class="ui-datepicker-inline ui-datepicker ui-widget ui-widget-content ui-helper-clearfix ui-corner-all" style="display: block;">
-						<div class="ui-datepicker-header ui-widget-header ui-helper-clearfix ui-corner-all">
-							<a class="ui-datepicker-prev ui-corner-all" data-handler="prev" data-event="click" title="">
-								<span class="ui-icon ui-icon-circle-triangle-w"></span>
-							</a>
-							<a class="ui-datepicker-next ui-corner-all" data-handler="next" data-event="click" title="">
-								<span class="ui-icon ui-icon-circle-triangle-e"></span>
-							</a>
-							<div class="ui-datepicker-title">
-								<span class="ui-datepicker-month">2월</span>&nbsp;<span class="ui-datepicker-year">2020</span>
-							</div>
-						</div>
-						<table class="ui-datepicker-calendar">
-							<thead>
-								<tr>
-									<th class="ui-datepicker-week-end"><span title="SUN">SUN</span></th>
-									<th><span title="MON">MON</span></th><th><span title="TUE">TUE</span></th>
-									<th><span title="WED">WED</span></th><th><span title="THU">THU</span></th>
-									<th><span title="FRI">FRI</span></th><th class="ui-datepicker-week-end"><span title="SAT">SAT</span></th>
-								</tr>
-							</thead>
-							<tbody>
-								<tr>
-									<td class=" ui-datepicker-week-end ui-datepicker-other-month ui-datepicker-unselectable ui-state-disabled">&nbsp;</td>
-									<td class=" ui-datepicker-other-month ui-datepicker-unselectable ui-state-disabled">&nbsp;</td>
-									<td class=" ui-datepicker-other-month ui-datepicker-unselectable ui-state-disabled">&nbsp;</td>
-									<td class=" ui-datepicker-other-month ui-datepicker-unselectable ui-state-disabled">&nbsp;</td>
-									<td class=" ui-datepicker-other-month ui-datepicker-unselectable ui-state-disabled">&nbsp;</td>
-									<td class=" ui-datepicker-other-month ui-datepicker-unselectable ui-state-disabled">&nbsp;</td>
-									<td class=" ui-datepicker-week-end ui-datepicker-days-cell-over  ui-datepicker-current-day ui-datepicker-today" data-handler="selectDay" data-event="click" data-month="1" data-year="2020">
-										<a class="ui-state-default ui-state-highlight ui-state-active ui-state-hover" href="#">1</a></td>
-								</tr>
-								<tr>
-									<td class=" ui-datepicker-week-end " data-handler="selectDay" data-event="click" data-month="1" data-year="2020">
-										<a class="ui-state-default" href="#">2</a></td>
-									<td class=" " data-handler="selectDay" data-event="click" data-month="1" data-year="2020">
-										<a class="ui-state-default" href="#">3</a></td>
-									<td class=" " data-handler="selectDay" data-event="click" data-month="1" data-year="2020">
-										<a class="ui-state-default" href="#">4</a></td>
-									<td class=" " data-handler="selectDay" data-event="click" data-month="1" data-year="2020">
-										<a class="ui-state-default" href="#">5</a></td>
-									<td class=" " data-handler="selectDay" data-event="click" data-month="1" data-year="2020">
-										<a class="ui-state-default" href="#">6</a></td>
-									<td class=" " data-handler="selectDay" data-event="click" data-month="1" data-year="2020">
-										<a class="ui-state-default" href="#">7</a></td>
-									<td class=" ui-datepicker-week-end " data-handler="selectDay" data-event="click" data-month="1" data-year="2020">
-										<a class="ui-state-default" href="#">8</a></td>
-								</tr>
-								<tr>
-									<td class=" ui-datepicker-week-end " data-handler="selectDay" data-event="click" data-month="1" data-year="2020">
-										<a class="ui-state-default" href="#">9</a></td>
-									<td class=" " data-handler="selectDay" data-event="click" data-month="1" data-year="2020">
-										<a class="ui-state-default" href="#">10</a></td>
-									<td class=" " data-handler="selectDay" data-event="click" data-month="1" data-year="2020">
-										<a class="ui-state-default" href="#">11</a></td>
-									<td class=" " data-handler="selectDay" data-event="click" data-month="1" data-year="2020">
-										<a class="ui-state-default" href="#">12</a></td>
-									<td class=" " data-handler="selectDay" data-event="click" data-month="1" data-year="2020">
-										<a class="ui-state-default" href="#">13</a></td>
-									<td class=" " data-handler="selectDay" data-event="click" data-month="1" data-year="2020">
-										<a class="ui-state-default" href="#">14</a></td>
-									<td class=" ui-datepicker-week-end " data-handler="selectDay" data-event="click" data-month="1" data-year="2020">
-										<a class="ui-state-default" href="#">15</a></td>
-								</tr>
-								<tr>
-									<td class=" ui-datepicker-week-end " data-handler="selectDay" data-event="click" data-month="1" data-year="2020">
-										<a class="ui-state-default" href="#">16</a></td>
-									<td class=" " data-handler="selectDay" data-event="click" data-month="1" data-year="2020">
-										<a class="ui-state-default" href="#">17</a></td>
-									<td class=" " data-handler="selectDay" data-event="click" data-month="1" data-year="2020">
-										<a class="ui-state-default" href="#">18</a></td>
-									<td class=" " data-handler="selectDay" data-event="click" data-month="1" data-year="2020">
-										<a class="ui-state-default" href="#">19</a></td>
-									<td class=" " data-handler="selectDay" data-event="click" data-month="1" data-year="2020">
-										<a class="ui-state-default" href="#">20</a></td>
-									<td class=" " data-handler="selectDay" data-event="click" data-month="1" data-year="2020">
-										<a class="ui-state-default" href="#">21</a></td>
-									<td class=" ui-datepicker-week-end " data-handler="selectDay" data-event="click" data-month="1" data-year="2020">
-										<a class="ui-state-default" href="#">22</a></td>
-								</tr>
-								<tr>
-									<td class=" ui-datepicker-week-end " data-handler="selectDay" data-event="click" data-month="1" data-year="2020">
-										<a class="ui-state-default" href="#">23</a></td>
-									<td class=" " data-handler="selectDay" data-event="click" data-month="1" data-year="2020">
-										<a class="ui-state-default" href="#">24</a></td>
-									<td class=" " data-handler="selectDay" data-event="click" data-month="1" data-year="2020">
-										<a class="ui-state-default" href="#">25</a></td>
-									<td class=" " data-handler="selectDay" data-event="click" data-month="1" data-year="2020">
-										<a class="ui-state-default" href="#">26</a></td>
-									<td class=" " data-handler="selectDay" data-event="click" data-month="1" data-year="2020">
-										<a class="ui-state-default" href="#">27</a></td>
-									<td class=" " data-handler="selectDay" data-event="click" data-month="1" data-year="2020">
-										<a class="ui-state-default" href="#">28</a></td>
-									<td class=" ui-datepicker-week-end " data-handler="selectDay" data-event="click" data-month="1" data-year="2020">
-										<a class="ui-state-default" href="#">29</a></td>
-								</tr>
-							</tbody>
-						</table>
-					</div>
 				</div>
 			</div> <!-- datePicker end -->
 			
@@ -429,21 +328,8 @@ src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCiDE5HBue4mflsdkcsGvSZrUe
 					<div class="fr cat_edit_del" onclick="del_plan_day(1)"></div>
 					<div class="clear"></div>
 				</li>
-				<li data="2" data-date="02.01" data-day_week="6">
-					<div class="cat_edit_move fl"></div>
-					<div class="fl cat_date_left_box">
-						<div class="cat_left_day">DAY2</div>
-						<div class="cat_left_date">02.01</div>
-					</div>
-					<div class="fl cat_date_right_box">
-						<div class="cat_right_weekday">토요일</div>
-						<div class="cat_right_city">치앙마이</div>
-					</div>
-					<div class="fr cat_edit_del" onclick="del_plan_day(2)"></div>
-					<div class="clear"></div>
-				</li>
 			</ul>
-		</div>
+		</div>	
 	</div> <!-- 날짜 수정 모달 end -->
 
 
@@ -453,7 +339,7 @@ src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCiDE5HBue4mflsdkcsGvSZrUe
 	<div id="full_wrap" style="width: 100%; height: 648px;">
 		<div class="fl left_full_box">
 			<div class="fl">
-				<ul id="pn_title_box" data="304061" data-member_srl="1213145">
+				<ul id="pn_title_box" data-member_srl="1213145">
 					<li data="pn_date">
 						<div class="full_date_info fl">02.2~02.3</div>
 						<div class="fl day_edit_start_btn" style="padding-left:8px;" onclick="day_edit_start()"><i class="fas fa-cog"></i>&nbsp;EDIT</div>
@@ -751,8 +637,8 @@ src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCiDE5HBue4mflsdkcsGvSZrUe
            	</div> -->
 	        
 		</div><!-- right_full_box end@@@@ -->
-	
 </div>
+<script src="${pageContext.request.contextPath}/resources/js/plan/plan_detail.js"></script>
 
 </body>
 </html>

@@ -1,4 +1,4 @@
-package com.fp.twt;
+﻿package com.fp.twt;
 
 import javax.servlet.http.HttpSession;
 
@@ -82,6 +82,7 @@ public class HomeController {
 	 * @RequestMapping("communityDetail.do") public String communityDetail(){ return
 	 * "TwTCommunity/community_detail"; }
 	 */
+
 
 	/*
 	 * @RequestMapping("communityInsert.do") public String communityInsert(){ return

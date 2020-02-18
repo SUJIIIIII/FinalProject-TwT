@@ -47,6 +47,9 @@ public class PlanController {
 	
 	@RequestMapping("planDetail.do")
 	public String planDetail(Model model, HttpServletRequest request) {
+		// Day1 추가해서 만들기
+		
+		
 		// city 모든 정보
 		List<CityVo> allCity = biz.selectCityAll();
 		

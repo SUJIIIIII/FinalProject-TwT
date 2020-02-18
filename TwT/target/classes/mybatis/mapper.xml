@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+﻿<?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
@@ -135,6 +135,7 @@
 	<!-- 항공권 정보 수정 -->
 	<update id="updateAirM" parameterType="AirplaneInfo">
 	</update>
+
 
 	<!-- 유저 인증키(난수) Y로 변경 -->
 	<update id="alter_userKey" parameterType="Member">
