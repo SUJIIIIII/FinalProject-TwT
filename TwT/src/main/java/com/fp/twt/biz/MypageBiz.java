@@ -19,8 +19,11 @@ public interface MypageBiz {
 	public MemberVo naverlogin(MemberVo vo);
 
 	// 내 항공권 전체 조회
-	public List<AirplaneInfoVo> selectAirList(MemberVo m_Code);
+	public List<AirplaneInfoVo> selectAirList(String m_Code);
 
 	// 항공권 정보 입력
 	public int insertAir(AirplaneInfoVo vo);
+
+	// 유저 인증키 생성 메소드
+	public int GetKey(String m_Id, String key);
 }
