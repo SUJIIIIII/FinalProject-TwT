@@ -107,7 +107,13 @@
 					alert("성공");
   					 					
 					$.each(data.potoList, function(key, val){
-/* 						
+						$("#potoList").prepend(
+							"<div class='col-md-5 heading-section ftco-animate'>" +
+							"<h1>" + test + "</h1>"
+							"</div>"
+						);
+						
+/*  						
 						$("#potoList").prepend(
 								"<div class='col-md-5 heading-section ftco-animate'>" +
 								"<a href='potoBookDetail.do'><h2 class='mb-1 pb-1'><strong>123</strong></h2></a>" +
@@ -123,7 +129,7 @@
 								"</div>" +								
 								"<div class='col-md-2'></div>"									
 							);
-						 */
+						  */
 					});
 					   
 				},
@@ -191,22 +197,8 @@
 				        <div class="container">
 				        <div class="row justify-content-start mb-5 pb-3" id="potoList">
 				        
-<!-- 				        
-				          <div class="col-md-5 heading-section ftco-animate">
-				            <a href="potoBookDetail.do"><h2 class="mb-1 pb-1"><strong>123</strong></h2></a>          
-				          	<div class="row ftco-animate">
-						          <div class="col-md-12">
-						            <div class="carousel-testimony owl-carousel">
-						              <div class="item">
-										<a href="potoBookDetail.do"><img src=""/></a>
-						              </div>
-						            </div>
-						          </div>
-						        </div>
-				          </div>
-						  <div class="col-md-2"></div>
+
 						  
- -->						  
 				<!--  -->          
 				        </div>
 						</div>

@@ -139,7 +139,11 @@ public class CommunityController {
 	public Map<String, Object> potoBookList(){
 		List<ScheduleReviewVo> list = biz.potoBookList();
 		
-		System.out.println(list.get(0).getSr_Title());
+		System.out.println(list.size());
+		for(ScheduleReviewVo vo : list) {
+			System.out.println(vo.getSr_Title());
+		}
+		
 		
 		Map<String, Object> map = new HashMap<String, Object>();
 		
