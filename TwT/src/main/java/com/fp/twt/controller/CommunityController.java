@@ -88,7 +88,7 @@ public class CommunityController {
 	}
 	
 	@RequestMapping("potoBookinsert.do")
-	public String communityUpdate(Model model, ScheduleReviewVo vo, HttpServletRequest request) throws IOException {
+	public String communityUpdate(Model model, ScheduleReviewVo vo, HttpServletRequest request) {
 		
 		String[] imgs = request.getParameterValues("potoImg"); //업로드된 사진 경로들
 		String content = vo.getSr_Content();
@@ -108,7 +108,12 @@ public class CommunityController {
 			
 			File newFile = new File(fileRoot + savedFileName);
 			
-			byte[] bytes = FileCopyUtils.copyToByteArray(newFile);
+			try {
+				byte[] bytes = FileCopyUtils.copyToByteArray(newFile);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			
 			
 			
