@@ -12,6 +12,7 @@ public interface CommunityDao {
 	public int insertForm();
 	public String selectSrCode();
 	public int potoBookUpdate(ScheduleReviewVo vo);	
+	public List<ScheduleReviewVo> potoBookList();
 	
 	
 	

@@ -97,6 +97,42 @@
 	      $(".hero-wrap").attr('style',"background-image: url('${pageContext.request.contextPath}/resources/images/bg_7.jpg');");
 	      $(".bread").text('Community');
 	   	});
+	    
+	    function potoBookList(){
+	    	$.ajax({
+				dataType : "JSON",
+				type : "POST",
+				url : "potoBookList.do",
+				success : function(data) {
+					alert("성공");
+  					 					
+					$.each(data.potoList, function(key, val){
+/* 						
+						$("#potoList").prepend(
+								"<div class='col-md-5 heading-section ftco-animate'>" +
+								"<a href='potoBookDetail.do'><h2 class='mb-1 pb-1'><strong>123</strong></h2></a>" +
+					          	"<div class='row ftco-animate'>" +
+								"<div class='col-md-12'>" +
+								"<div class='carousel-testimony owl-carousel'>" +
+								"<div class='item'>" +								
+								"<a href='potoBookDetail.do'><img src=""/></a>" +								
+								"</div>" +								
+								"</div>" +								
+								"</div>" +								
+								"</div>" +								
+								"</div>" +								
+								"<div class='col-md-2'></div>"									
+							);
+						 */
+					});
+					   
+				},
+				error : function(){
+					alert("실패");
+				}
+			});
+
+	    };
    	</script>
 
     <section class="ftco-section testimony-section bg-light">
@@ -107,9 +143,7 @@
 		          <div class="col-md-12 nav-link-wrap mb-4">
 		            <div class="nav ftco-animate nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
 		              <a class="nav-link active" id="v-pills-whatwedo-tab" data-toggle="pill" href="#v-pills-whatwedo" role="tab" aria-controls="v-pills-whatwedo" aria-selected="true">Travel Plans</a>
-
-		              <a class="nav-link" id="v-pills-mission-tab" data-toggle="pill" href="#v-pills-mission" role="tab" aria-controls="v-pills-mission" aria-selected="false">Photo Book</a>
-			          
+		              <a onclick="potoBookList();" class="nav-link" id="v-pills-mission-tab" data-toggle="pill" href="#v-pills-mission" role="tab" aria-controls="v-pills-mission" aria-selected="false">Photo Book</a>
 		            </div>
 		          </div>
 		          <div class="col-md-12 d-flex align-items-center">
@@ -124,8 +158,6 @@
 					    	<span class="sort" date-id="po" onclick="" style="cursor:pointer;"><i class="far fa-thumbs-up"></i>&nbsp;<a href="popcommunity.do">인기</a></span>
 					      	</div>						
 						<div class="row d-flex">
-						
-						
 							<c:forEach items="${community }" var="vo">
 							 	<div class="col-md-3 d-flex ftco-animate">
 							            <div class="blog-entry align-self-stretch" style="min-width: 250px;">
@@ -148,90 +180,33 @@
 							            </div>
 							          </div>
 						 </c:forEach>
-
 						</div>
 		              </div>
 
 				    <!-- fade 2 -->
 		              <div class="tab-pane fade" id="v-pills-mission" role="tabpanel" aria-labelledby="v-pills-mission-tab">
 				        <div style="float: top; margin-left:985px;">
-				        	<a href="communityInsertForm.do" class="btn btn-primary btn-outline-primary mt-4 px-4 py-3 mb-4"><span>Create Book</span></a>
+				        <a href="communityInsertForm.do" class="btn btn-primary btn-outline-primary mt-4 px-4 py-3 mb-4"><span>Create Book</span></a>
 				        </div>
 				        <div class="container">
-				        <div class="row justify-content-start mb-5 pb-3">
+				        <div class="row justify-content-start mb-5 pb-3" id="potoList">
+				        
+<!-- 				        
 				          <div class="col-md-5 heading-section ftco-animate">
-				            <a href="potoBookDetail.do"><h2 class="mb-1 pb-1"><strong>여행 제목1</strong></h2></a>          
+				            <a href="potoBookDetail.do"><h2 class="mb-1 pb-1"><strong>123</strong></h2></a>          
 				          	<div class="row ftco-animate">
 						          <div class="col-md-12">
 						            <div class="carousel-testimony owl-carousel">
 						              <div class="item">
-										<a href="potoBookDetail.do"><img src="/potoBook/573bc44c-110c-4fa9-b774-fa4ae267a4bf.jfif"/></a>
+										<a href="potoBookDetail.do"><img src=""/></a>
 						              </div>
 						            </div>
 						          </div>
 						        </div>
 				          </div>
-				          
-						<div class="col-md-2"></div>
-						
-				          <div class="col-md-5 heading-section ftco-animate">
-				            <h2 class="mb-1 pb-1"><strong>여행 제목2</strong></h2>          
-				          	<div class="row ftco-animate">
-						          <div class="col-md-12">
-						            <div class="carousel-testimony owl-carousel">
-						              <div class="item">
-										<img src="${pageContext.request.contextPath}/resources/images/image_1.jpg"/>
-						              </div>
-						              <div class="item">
-										<img src="${pageContext.request.contextPath}/resources/images/image_1.jpg"/>
-						              </div>
-						              <div class="item">
-										<img src="${pageContext.request.contextPath}/resources/images/image_1.jpg"/>
-						              </div>
-						            </div>
-						          </div>
-						        </div>
-				          </div>
-				          
-				          <div class="col-md-5 heading-section ftco-animate">
-				            <h2 class="mb-1 pb-1"><strong>여행 제목3</strong></h2>          
-				          	<div class="row ftco-animate">
-						          <div class="col-md-12">
-						            <div class="carousel-testimony owl-carousel">
-						              <div class="item">
-										<img src="${pageContext.request.contextPath}/resources/images/image_1.jpg"/>
-						              </div>
-						              <div class="item">
-										<img src="${pageContext.request.contextPath}/resources/images/image_1.jpg"/>
-						              </div>
-						              <div class="item">
-										<img src="${pageContext.request.contextPath}/resources/images/image_1.jpg"/>
-						              </div>
-						            </div>
-						          </div>
-						        </div>
-				          </div>
-				          
-						<div class="col-md-2"></div>
-						
-				          <div class="col-md-5 heading-section ftco-animate">
-				            <h2 class="mb-1 pb-1"><strong>여행 제목4</strong></h2>          
-				          	<div class="row ftco-animate">
-						          <div class="col-md-12">
-						            <div class="carousel-testimony owl-carousel">
-						              <div class="item">
-										<img src="${pageContext.request.contextPath}/resources/images/image_1.jpg"/>
-						              </div>
-						              <div class="item">
-										<img src="${pageContext.request.contextPath}/resources/images/image_1.jpg"/>
-						              </div>
-						              <div class="item">
-										<img src="${pageContext.request.contextPath}/resources/images/image_1.jpg"/>
-						              </div>
-						            </div>
-						          </div>
-						        </div>
-				          </div>
+						  <div class="col-md-2"></div>
+						  
+ -->						  
 				<!--  -->          
 				        </div>
 						</div>

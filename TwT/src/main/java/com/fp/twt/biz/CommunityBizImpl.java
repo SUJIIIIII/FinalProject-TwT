@@ -32,6 +32,10 @@ public class CommunityBizImpl implements CommunityBiz{
 		return dao.potoBookUpdate(vo);
 	}
 	
+	@Override
+	public List<ScheduleReviewVo> potoBookList() {
+		return dao.potoBookList();
+	}
 	//--------------------------------------------------------------------------------------------------//
 	
 	//도영
@@ -55,6 +59,7 @@ public class CommunityBizImpl implements CommunityBiz{
 	public List<TravelScheduleVo> relList_D() {
 		return dao.relList_D();
 	}
+
 
 
 

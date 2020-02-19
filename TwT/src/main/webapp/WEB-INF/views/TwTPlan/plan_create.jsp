@@ -23,7 +23,6 @@
    <title>TwT - 일정만들기</title>
    
    <!-- css -->
-   <link rel="shortcut icon" href="/res/earthtory.ico">
    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/plan/default_ko.css">
    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/plan/reset.css">
    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/plan/default.css">
@@ -47,17 +46,6 @@
    <!-- <script type="text/javascript" src="/jslang?lang=ko&amp;lang_file=commonjs"></script> -->
     <link rel="image_src" href="https://www.earthtory.com/res/img/earthtory_logo_to_sns.png">
 
-    <link rel="canonical" href="https://www.earthtory.com/ko/plan/create">
-         
-   <link rel="home" href="www.earthtory.com">
-
-   <link rel="alternate" href="https://www.earthtory.com/plan/create" hreflang="x-default" title="English">
-   <link rel="alternate" href="https://www.earthtory.com/ja/plan/create" hreflang="ja-jp" title="日本語">
-   <link rel="alternate" href="https://www.earthtory.com/ko/plan/create" hreflang="ko-kr" title="한국어">
-
-   <meta name="google-site-verification" content="MwgpAlNbsXRZEln-QQP8Jra-Aj8cTKcCtDd3L_StvTc">
-   <meta name="naver-site-verification" content="48a2af847268bfd79153f73690ad01b35cb1593a">
-
 <style type="text/css">
 .labels{
   color:white;
@@ -67,7 +55,7 @@
 }
 </style>
 
-<!-- google map -->
+<!-- google map script -->
 <script src="https://maps.googleapis.com/maps/api/js?sensor=false&libraries=geometry,places&ext=.js"></script>
 <script src="https://cdn.rawgit.com/googlemaps/v3-utility-library/master/markerwithlabel/src/markerwithlabel.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/plan/MarkerWithLabel.js"></script>
@@ -90,14 +78,14 @@ var citycodes = new Array(); //도시 코드
       var map = new google.maps.Map( //지도 객체 생성
          document.getElementById('map'), {zoom: 6, center: bangkok}); //기본 줌,시작 센터 설정
       
-          // DB 불러와서 위치 위도/경도, 도시코드 담기
-          for(var i=0;i<4;i++){
-         locations[i] = {"position" : new google.maps.LatLng($("#city_"+i).attr("data-lat"), $("#city_"+i).attr("data-lng"))};
-         citycodes[i] = $("#city_"+i).attr("data-no");
-          }
+      // DB 불러와서 위치 위도/경도, 도시코드 담기
+      for(var i=0;i<4;i++){
+    	  locations[i] = {"position" : new google.maps.LatLng($("#city_"+i).attr("data-lat"), $("#city_"+i).attr("data-lng"))};
+		  citycodes[i] = $("#city_"+i).attr("data-no");
+      }
           
       // 마커 아이콘 생성
-      myIcon = new google.maps.MarkerImage("${pageContext.request.contextPath}/resources/images/marker.png",null,null,null,new google.maps.Size(50,45));
+      myIcon = new google.maps.MarkerImage("${pageContext.request.contextPath}/resources/images/plan/marker/marker.png",null,null,null,new google.maps.Size(50,45));
       
       // 마커 정보(도시명)담기
       for(var i=0;i<locations.length;i++){
@@ -118,6 +106,8 @@ var citycodes = new Array(); //도시 코드
            //marker별 이벤트 적용
            markerListener(markers[i],i);
       }
+      
+      console.log("마커 배열 : " + markers);
       
       // 마커와 함께 라벨찍기 (안됨)
       /* for(var i=0;i<locations.length;i++){
@@ -153,7 +143,7 @@ var citycodes = new Array(); //도시 코드
 				mark.setAnimation(google.maps.Animation.BOUNCE);
 				
 				// 클릭외 나머지 마커들 animation 삭제
-				for(var i=0;i<3;i++){ 
+				for(var i=0;i<4;i++){ 
 					if(i != index){
 						markers[i].setAnimation(null);
 					}
@@ -173,6 +163,14 @@ var citycodes = new Array(); //도시 코드
             markers[i].setAnimation(null);
          }
       });
+	   
+	  // 왼쪽 도시 box에서 선택시 마커 움직임(안됨)
+      /* $(".item").on("click", function() {
+    	  var index = $(this).attr("data-index");
+    	  alert("index?" + index);
+    	  console.log("선택 마커?" + markers[0].title);
+          markerListener(markers[index],index);
+      }); */
    });
    
    google.maps.event.addDomListener(window, 'load', initialize);
@@ -227,7 +225,7 @@ src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCiDE5HBue4mflsdkcsGvSZrUe
             <!-- 지역 선택 -->
               <div id="city_list_box" style="height: 100vh;">
                  <c:forEach items="${res}" var="city" varStatus="status">
-	                 <div class="item" id="city_${status.index}" data-no="${city.city_Code}" data="86" data-ci_name="${city.city_Name}" data-lat="${city.city_Lati}" data-lng="${city.city_Long}">
+	                 <div class="item" id="city_${status.index}" data-index="${status.index}" data-no="${city.city_Code}" data="86" data-ci_name="${city.city_Name}" data-lat="${city.city_Lati}" data-lng="${city.city_Long}">
 	                    <div class="img_box fl"><img src="${pageContext.request.contextPath}/resources/images/plan/city/${city.city_Img}"></div>
 	                    <div class="info_box fl">
 	                       <div class="info_title">${city.city_Name}</div>

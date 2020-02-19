@@ -87,4 +87,5 @@ public class MemberVo {
 		return "MemberVo [m_Code=" + m_Code + ", m_Id=" + m_Id + ", m_Pass=" + m_Pass + ", m_Name=" + m_Name
 				+ ", m_Email=" + m_Email + ", m_Api=" + m_Api + ", m_Mailcheck=" + m_Mailcheck + "]";
 	}
+
 }
