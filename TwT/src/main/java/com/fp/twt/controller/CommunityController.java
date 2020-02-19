@@ -31,6 +31,7 @@ import com.fp.twt.vo.MemberVo;
 import com.fp.twt.vo.ScheduleReviewVo;
 import com.fp.twt.vo.TravelScheduleVo;
 
+
 @Controller
 public class CommunityController {
 	private static final Logger logger = LoggerFactory.getLogger(CommunityController.class);
