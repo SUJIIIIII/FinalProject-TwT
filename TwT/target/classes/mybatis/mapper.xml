@@ -21,6 +21,7 @@
 		VALUES('SR'||SR_SEQ.NEXTVAL, NULL, NULL, NULL, NULL, 0, SYSDATE)
 	</insert>
 
+
 	<select id="selectSrCode_Y" resultType="String">
 		SELECT
 		MAX(TO_NUMBER(LTRIM(SR_CODE,'SR'))) FROM SCHEDULEREVIEW
@@ -117,7 +118,6 @@
 		SELECT * FROM TRAVELSCHEDULE LEFT JOIN TWTMEMBER USING(M_CODE) LEFT JOIN TRAVELSCHEDULE_DAY USING(TS_CODE) LEFT JOIN TRAVELPOINT USING(TP_CODE) WHERE TS_CODE = #{TS_CODE}
 	</select>
 	
-
 
 	<!-- ================================보미================================== -->
 	<!-- 회원가입 -->
