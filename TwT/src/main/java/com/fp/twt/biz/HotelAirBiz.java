@@ -2,13 +2,14 @@ package com.fp.twt.biz;
 
 import java.util.List;
 
+import com.fp.twt.vo.AirSearchVo;
 import com.fp.twt.vo.HotelVo;
 import com.fp.twt.vo.HotelroomVo;
 
 public interface HotelAirBiz {
 	//찬우
 	
-	
+	public String airSearch(AirSearchVo vo);
 	
 	
 	
@@ -20,7 +21,7 @@ public interface HotelAirBiz {
 	
 	public List<HotelVo> HselectList();
 	public List<HotelroomVo> selectall_B();
-	
+	public HotelVo selectOne_B(String h_code);
 	
 	
 	

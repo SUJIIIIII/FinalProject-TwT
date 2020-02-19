@@ -24,6 +24,7 @@ public interface CommunityDao {
 	public List<TravelScheduleVo> selectList_D();
 	public List<TravelScheduleVo> PselectList_D();
 	public TravelScheduleVo selectOne_D(String ts_code);
+	public List<TravelScheduleVo> relList_D();
 
 	
 	

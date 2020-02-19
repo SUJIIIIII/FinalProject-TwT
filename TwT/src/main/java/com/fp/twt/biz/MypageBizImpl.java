@@ -60,4 +60,32 @@ public class MypageBizImpl implements MypageBiz {
 		// TODO Auto-generated method stub
 		return dao.GetKey(m_Id, key);
 	}
+
+	// 이메일 인증 확인 메소드
+	@Override
+	public int alterUserkey(String m_Id, String key) {
+		// TODO Auto-generated method stub
+		return dao.alterUserKey(m_Id, key);
+	}
+
+	// 항공권 정보 삭제 메소드
+	@Override
+	public Object deleteAir(String air_Code) {
+		// TODO Auto-generated method stub
+		return dao.deleteAir(air_Code);
+	}
+
+	// 회원탈퇴
+	@Override
+	public Object deleteAccount(String m_Code) {
+		// TODO Auto-generated method stub
+		return dao.deleteAccount(m_Code);
+	}
+
+	// 항공권 정보 수정
+	@Override
+	public Object selectOne(AirplaneInfoVo vo, String air_Code) {
+		// TODO Auto-generated method stub
+		return dao.updateAir(vo, air_Code);
+	}
 }

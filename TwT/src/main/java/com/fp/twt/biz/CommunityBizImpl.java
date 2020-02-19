@@ -55,6 +55,11 @@ public class CommunityBizImpl implements CommunityBiz{
 		return dao.selectOne_D(ts_code);
 	}
 
+	@Override
+	public List<TravelScheduleVo> relList_D() {
+		return dao.relList_D();
+	}
+
 
 
 
