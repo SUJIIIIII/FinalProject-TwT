@@ -136,7 +136,7 @@
       </div>--> <!-- 외쪽매뉴바 --> 
       <div style="height: 1800px; width: 100%; position: relative;">
       	
-      		<div style="position:absolute;height: 80px; width: 100%; background-color: white;"></div>
+      		<div style="position:absolute;height: 90px; width: 100%; background-color: white;"></div>
 	      <iframe frameborder='0'
 	        src="${url}"
 	        scrolling="yes" border="no" maginwidth="0" marginheight="0" frameborder="0"       
