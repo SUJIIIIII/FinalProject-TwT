@@ -64,11 +64,30 @@
 
 	</select>
 
-	<!-- 호텔룸 -->
-	<select id="selectall_B" resultType="Hotel">
-		SELECT * FROM HOTELROOM
+	<select id="selectOne_B" parameterType="int" resultType="HotelVo">
+	
+	SELECT * FROM HOTEL
+	WHERE H_CODE = #{h_code}
+	
 	</select>
-
+	
+	
+	<!-- 호텔룸 -->
+		<resultMap type="Hotelroom" id="hotelroomMap">
+		<result property="h_Code" column="H_CODE" />
+		<result property="hr_Max;  " column="HR_MAX" />
+		<result property="h_Name" column="H_NAME" />
+		<result property="hr_Price; " column="HR_PRICE" />
+		<result property="hr_Valid; " column="HR_VALID" />
+		<result property="hr_Rank; " column="HR_RANK" />
+		<result property="hr_Img; " column="HR_IMG" />
+		<result property="hr_Wifi;  " column="HR_WIFI" />
+		<result property="hr_Smoking; " column="HR_SMOKING" />
+		<result property="hr_Breakfast; " column="HR_BREAKFAST" />
+		<result property="hr_bed; " column="HR_BED" />
+	</resultMap>
+	
+	
 
 
 

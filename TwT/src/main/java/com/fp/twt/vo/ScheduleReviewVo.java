@@ -83,5 +83,5 @@ public class ScheduleReviewVo {
 	public void setSr_Date(Date sr_Date) {
 		this.sr_Date = sr_Date;
 	}
-    
+
 }
