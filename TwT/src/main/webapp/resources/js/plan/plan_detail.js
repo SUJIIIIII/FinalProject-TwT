@@ -49,20 +49,14 @@ $(document).ready(function(){
 		}); // DatePicker End
 */	
 	// 일정에 MouseHover 했을때 동작
-	$(".day_spot_item").on("mouseenter", function() {
+	$(document).on("mouseenter",".day_spot_item",function(){
 		$(this).children(".item_ctrl_box").css("display", "block" );
 	});
-	$(".day_spot_item").on("mouseleave", function() {
+	
+	$(document).on("mouseleave",".day_spot_item",function(){
 		$(this).children(".item_ctrl_box").css("display", "none" );
 	});
-/*	$(".day_spot_item").on({
-		mouseenter : function() {
-			$(this).children(".item_ctrl_box").css("display", "block" );
-		},
-		mouseleave : function() {
-			$(this).children(".item_ctrl_box").css("display", "none" );
-		}
-	});*/
+
 
 
 // 일정에 여행지 추가하기
@@ -76,7 +70,7 @@ $(".spot_to_inspot").on("click", function() {
 	var spot_img = $(this).parent().data("img"); // 사진
 	
 		$("#schedule_detail_box").append("" +  
-		"<div class='day_spot_item' data='1' data-set_day='1' data-rel_srl='4740' data-pl_type='0' data-no='" + spot_no + "' data-pl_cat='301' data-lat='" + spot_lat+ "' data-lng='" + spot_lng +"' data-ci='87'>"
+		"<div class='day_spot_item on' data='1' data-set_day='1' data-rel_srl='4740' data-pl_type='0' data-no='" + spot_no + "' data-pl_cat='301' data-lat='" + spot_lat+ "' data-lng='" + spot_lng +"' data-ci='87'>"
 		        	+	"<div class='item_ctrl_box' style='display: none'>"
 		        	+		"<div class='fl item_copy_plan' title='장소복사'><img src='/twt/resources/images/plan/item_more_icon_a.png'></div>"
 		        	+ 		"<div class='fl item_set_plan' title='메모&amp;예산'><img src='/twt/resources/images/plan/item_set_icon_a.png'></div>"
@@ -100,12 +94,6 @@ $(".spot_to_inspot").on("click", function() {
 		        	+ "</div>" +  
 		"");
 	});
-
-	
-	
-	
-	
-	
 });
 
 
