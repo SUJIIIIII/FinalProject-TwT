@@ -579,7 +579,7 @@ src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCiDE5HBue4mflsdkcsGvSZrUe
                 <div class="list_box connectedSortable" style="height: 441px;">
                 <c:set var="count" value="0"></c:set>
                 <c:forEach items="${allSpot}" var="spot" varStatus="status">
-                	<div class="day_spot_item ui-draggable" id="spot_${status.index}" data-city="${spot.city_Code}" data-type="${spot.tp_Type}" data-name="${spot.tp_Name}" data-set_day="0" data-rel_srl="4740" data-pl_type="0" data-no="${spot.tp_Code}" data-lat="${spot.tp_Lati}" data-lng="${spot.tp_Long}" data-pl_cat="301" data-ci="87"
+                	<div class="day_spot_item ui-draggable" id="spot_${status.index}" data-city="${spot.city_Code}" data-type="${spot.tp_Type}" data-name="${spot.tp_Name}" data-img="${spot.tp_Img}" data-addr="${spot.tp_Addr}" data-con="${spot.tp_Content}" data-set_day="0" data-rel_srl="4740" data-pl_type="0" data-no="${spot.tp_Code}" data-lat="${spot.tp_Lati}" data-lng="${spot.tp_Long}" data-pl_cat="301" data-ci="87"
                 	data-img="${spot.tp_Img}">
                 		<div class="img_box fl"><img src="${pageContext.request.contextPath}/resources/images/plan/${spot.city_Code}/${spot.tp_Img}"></div>
                 		<div class="fl info_box">
