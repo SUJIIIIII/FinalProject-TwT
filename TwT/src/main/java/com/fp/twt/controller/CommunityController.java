@@ -1,9 +1,12 @@
 package com.fp.twt.controller;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -71,7 +74,7 @@ public class CommunityController {
 		return map;
 	}
 	
-	//포토북 insertForm
+	//포토북 인설트폼
 	@RequestMapping("communityInsertForm.do")
 	public String communityInsert(Model model, HttpServletRequest request){
 		int res = biz.insertForm();
@@ -88,6 +91,7 @@ public class CommunityController {
 		return "TwTCommunity/community_insert";
 	}
 	
+	//포토북 인설트
 	@RequestMapping("potoBookinsert.do")
 	public String communityUpdate(Model model, ScheduleReviewVo vo, HttpServletRequest request) throws IOException {
 		
@@ -107,22 +111,43 @@ public class CommunityController {
 			String extension = src.substring(src.lastIndexOf("."));
 			String savedFileName = UUID.randomUUID() + extension;
 			
-			File newFile = new File(fileRoot + savedFileName);
+			String path = src.substring(10);
 			
-			byte[] bytes = FileCopyUtils.copyToByteArray(newFile);
+			File file = new File("C:\\potoBook_image\\"+path); //임시저장된 파일
+			File newFile = new File(fileRoot + savedFileName); //새로저장할 파일
 			
+			FileInputStream fis = null;
+
+			try {
+			fis = new FileInputStream(file); // 원본파일
 			
-			
+			FileUtils.copyInputStreamToFile(fis, newFile);
+
+			} catch(Exception e) {
+			e.printStackTrace();
+			} finally {
+			fis.close();
+			}
 		}
-		
-		
-		
-		
 		int res = biz.potoBookUpdate(vo);
 		
 		return "TwTCommunity/community_list";
 	}
 	
+	@RequestMapping("potoBookList.do")
+	@ResponseBody
+	public Map<String, Object> potoBookList(){
+		List<ScheduleReviewVo> list = biz.potoBookList();
+		
+		System.out.println(list.get(0).getSr_Title());
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		
+		map.put("potoList", list);
+		
+		return map;
+	}
+
 	@RequestMapping("potoBookDetail.do")
 	public String potoBookDetail(Model model) {
 		

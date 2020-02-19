@@ -56,6 +56,18 @@ public class CommunityDaoImpl implements CommunityDao{
 		return res;
 	}
 	
+	@Override
+	public List<ScheduleReviewVo> potoBookList() {
+		List<ScheduleReviewVo> list = new ArrayList<ScheduleReviewVo>();
+		
+		try {
+			list = sqlSession.selectList(NAMESPACE+"selectList_Y");
+		} catch(Exception e) {
+			System.out.println("[error] : selectList_Y");
+			e.printStackTrace();
+		}
+		return list;
+	}
 	
 	//--------------------------------------------------------------------------------------------------//
 	
@@ -105,5 +117,6 @@ public class CommunityDaoImpl implements CommunityDao{
 		
 		return vo;
 	}
+
 
 }

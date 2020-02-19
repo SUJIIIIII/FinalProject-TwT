@@ -12,6 +12,7 @@ public interface CommunityBiz {
 	public int insertForm();
 	public String selectSrCode();
 	public int potoBookUpdate(ScheduleReviewVo vo);	
+	public List<ScheduleReviewVo> potoBookList();	
 	
 	//--------------------------------------------------------------------------------------------------//
 	
@@ -20,7 +21,7 @@ public interface CommunityBiz {
 	public List<TravelScheduleVo> selectList_D();
 	public List<TravelScheduleVo> PselectList_D();
 
-	public TravelScheduleVo selectOne_D(String ts_code);	
+	public TravelScheduleVo selectOne_D(String ts_code);
 
 	
 	
