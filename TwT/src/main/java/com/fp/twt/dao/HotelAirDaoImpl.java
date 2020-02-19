@@ -55,6 +55,20 @@ public class HotelAirDaoImpl implements HotelAirDao{
 		}
 		return hotelroomlist;
 	}
+
+	@Override
+	public HotelVo selectOne_B(String h_code) {
+		HotelVo vo = null;
+		
+		try {
+			vo = sqlSession.selectOne(NAMESPACE+"selectOne_B", h_code);
+		} catch(Exception e) {
+			System.out.println("[error] : selectOne_B");
+			e.printStackTrace();
+		}
+		
+		return vo;
+	}
 	
 	
 	

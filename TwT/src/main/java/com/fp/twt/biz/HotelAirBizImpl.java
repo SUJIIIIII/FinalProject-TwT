@@ -28,11 +28,17 @@ public class HotelAirBizImpl implements HotelAirBiz{
 	private HotelAirDao dao;
 	
 	//호텔리스트
+	@Override
 	public List<HotelVo> HselectList(){
 		return dao.HselectList();
 	}
+	@Override
 	public List<HotelroomVo> selectall_B(){
 		return dao.selectall_B();
+	}
+	@Override
+	public HotelVo selectOne_B(String h_code) {
+		return dao.selectOne_B(h_code);
 	}
 	
 	
