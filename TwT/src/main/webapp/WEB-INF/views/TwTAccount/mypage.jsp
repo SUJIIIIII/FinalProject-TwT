@@ -29,7 +29,7 @@
 	href="${pageContext.request.contextPath}/resources/css/account/form.css">
 <link rel="stylesheet"
 	href="${pageContext.request.contextPath}/resources/scss/bootstrap/bootstrap.scss">
-
+<script type="text/javascript" src="js/component.js"></script>
 <script type="text/javascript"
 	src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 <script type="text/javascript">
@@ -60,7 +60,6 @@
 					}
 				});
 	});
-	
 </script>
 <style type="text/css">
 body {
@@ -601,10 +600,10 @@ html {
 		</div>
 		<c:choose>
 			<c:when test="${empty airlist}">
-				<div class="col-sm-12" style="width: 100%; text-align: center;">${user.m_Name}님의
-					예약된 항공권 정보가 존재하지 않습니다.</div>
+				<div class="col-sm-12" style="width: 100%; text-align: center; margin-top:400px;">
+				${user.m_Name}님의 예약된 항공권 정보가 존재하지 않습니다.</div>
 
-				<div class="col-sm-10" style="margin-left: 425px; margin-top: 25px;">
+				<div class="col-sm-6" style="margin-left: 430px; margin-top: 25px;">
 					<button type="button" class="btn btn-primary btn-outline-primary"
 						data-toggle="modal" data-target="#airplaneInfo">
 						GO WRITE<i class="fas fa-pencil-alt" style="margin-left: 5px;"></i>
@@ -613,20 +612,17 @@ html {
 			</c:when>
 			<c:otherwise>
 				<c:forEach items="${airlist}" var="air">
-					<%--<div>
-	               <p>${air.m_Code}</p>
-	               <p>${air.dep_Loca1}</p>
-	               <p>${air.dep_Loca2}</p>
-	               <p>${air.dep_Date1}</p>
-	               <p>${air.dep_Date2}</p>
-	               <p>${air.dep_Time1}</p>
-	               <p>${air.dep_Time2}</p>
-	               </div>--%>
 					<div class="col-sm-12">
 						<div id="airplane_Info">
 							<div id="airInfo_title">
-								<span style="color: #fc3c3c; font-weight: bold;">${user.m_Name}님의
-									항공권 예약</span>정보입니다.
+								<span style="color: #fc3c3c; font-weight: bold;">
+								${user.m_Name}님의 항공권 예약</span>정보입니다.
+								<span style="margin-left:500px; cursor:pointer;">
+								<button type="button" data-toggle="modal" data-target="#airplaneModify" style="border:0; outline:0; background-color:white; cursor:pointer;">
+								<i class="far fa-edit"></i>
+								</button>
+								</span>
+								<span style="margin-left:10px; cursor:pointer;"><i class="fas fa-times" onclick="location.href='air_delete.do?air_Code=${air.air_Code}'"></i></span>
 							</div>
 
 							<div class="col-sm-12" id="airInfo1">
@@ -747,9 +743,7 @@ html {
 			<div class="col-sm-6">
 				<a href="#" data-toggle="modal" data-target="#exampleModalCenter">
 					<figure class="snip1432">
-						<img
-							src="${pageContext.request.contextPath}/resources/images/account/route1.jpg"
-							width="150">
+						<img src="${pageContext.request.contextPath}/resources/images/account/route1.jpg" width="150">
 						<figcaption>
 							<div>
 								<h3>Thailand</h3>
@@ -902,8 +896,7 @@ html {
 
 		<%-- 회원탈퇴 버튼 시작--%>
 		<div style="margin-left: 880px;">
-			<a href="#"
-				class="btn btn-primary btn-outline-primary mt-4 px-4 py-3">회원탈퇴</a>
+			<a href="deleteAccount.do?m_Code=${user.m_Code }" class="btn btn-primary btn-outline-primary mt-4 px-4 py-3">회원탈퇴</a>
 		</div>
 		<%-- 회원탈퇴 버튼 끝 --%>
 	</div>
@@ -967,30 +960,66 @@ html {
 						</button>
 					</div>
 					<div class="modal-body">
-						<input type="hidden" name="m_code" value="${user.m_Code}">
-						<input type="hidden" name="m_id" value="${user.m_Id}"> 출국지
-						: <input type="text" name="dep_Loca1"><br> 출국 도착지 : <input
-							type="text" name="dep_Loca2"><br> 출국날짜 : <input
-							type="text" name="dep_Date1"><br> 출국 도착날짜 : <input
-							type="text" name="dep_Date2"><br> 출국 출발시간 : <input
-							type="text" name="dep_Time1"><br> 출국 도착시간 : <input
-							type="text" name="dep_Time2"><br> 귀국출발지 : <input
-							type="text" name="re_Loca1"><br> 귀국도착지 : <input
-							type="text" name="re_Loca2"><br> 귀국출발날짜 : <input
-							type="text" name="re_Date1"><br> 귀국도착날짜 : <input
-							type="text" name="re_Date2"><br> 귀국출발시간 : <input
-							type="text" name="re_Time1"><br> 귀국도착시간 : <input
-							type="text" name="re_Time2">
+						<input type="hidden" name="m_Code" value="${user.m_Code}">
+						       출국지: <input type="text" name="dep_Loca1"><br>
+						       출국 도착지 : <input type="text" name="dep_Loca2"><br>
+						       출국날짜 : <input type="text" name="dep_Date1"><br>
+						       출국 도착날짜 : <input type="text" name="dep_Date2"><br>
+						       출국 출발시간 : <input type="text" name="dep_Time1"><br>
+						       출국 도착시간 : <input type="text" name="dep_Time2"><br>
+						       귀국출발지 : <input type="text" name="re_Loca1"><br>
+						       귀국도착지 : <input type="text" name="re_Loca2"><br>
+						       귀국출발날짜 : <input type="text" name="re_Date1"><br>
+						       귀국도착날짜 : <input type="text" name="re_Date2"><br>
+						       귀국출발시간 : <input type="text" name="re_Time1"><br>
+						       귀국도착시간 : <input type="text" name="re_Time2">
 					</div>
 					<div class="modal-footer">
-						<button type="submit" class="btn btn-primary btn-outline-primary">완
-							료</button>
+						<button type="submit" class="btn btn-primary btn-outline-primary">완 료</button>
 					</div>
 				</div>
 			</div>
 		</div>
 	</form>
 	<%-- 항공권 모달 DIV 끝--%>
+	
+	<%-- 항공권 수정 모달 DIV 시작 --%>
+	<form action="air_update.do" method="post">
+		<div class="modal fade" id="airplaneModify" tabindex="-1" role="dialog"
+			aria-labelledby="airplaneInfoTitle" aria-hidden="true">
+			<div class="modal-dialog modal-dialog-centered modal-lg"
+				role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="airplaneInfoTitle">내 항공권 수정하기</h5>
+						<button type="button" class="close" data-dismiss="modal"
+							aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+					<div class="modal-body">
+						<input type="hidden" name="m_Code" value="${user.m_Code}">
+						       출국지: <input type="text" name="dep_Loca1"><br>
+						       출국 도착지 : <input type="text" name="dep_Loca2"><br>
+						       출국날짜 : <input type="text" name="dep_Date1"><br>
+						       출국 도착날짜 : <input type="text" name="dep_Date2"><br>
+						       출국 출발시간 : <input type="text" name="dep_Time1"><br>
+						       출국 도착시간 : <input type="text" name="dep_Time2"><br>
+						       귀국출발지 : <input type="text" name="re_Loca1"><br>
+						       귀국도착지 : <input type="text" name="re_Loca2"><br>
+						       귀국출발날짜 : <input type="text" name="re_Date1"><br>
+						       귀국도착날짜 : <input type="text" name="re_Date2"><br>
+						       귀국출발시간 : <input type="text" name="re_Time1"><br>
+						       귀국도착시간 : <input type="text" name="re_Time2">
+					</div>
+					<div class="modal-footer">
+						<button type="submit" class="btn btn-primary btn-outline-primary">완 료</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</form>
+	<%-- 항공권 수정 모달 DIV 끝--%>
 
 	<%@ include file="/WEB-INF/views/footer.jsp"%>
 </body>

@@ -1,10 +1,12 @@
 package com.fp.twt.controller;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.json.simple.JSONObject;
@@ -24,7 +26,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.fp.twt.HomeController;
 import com.fp.twt.biz.MypageBiz;
@@ -39,7 +40,6 @@ import com.github.scribejava.core.model.OAuth2AccessToken;
 @Controller
 public class MypageController {
 	private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
-
 	@Autowired
 	private MypageBiz biz;
 
@@ -95,15 +95,28 @@ public class MypageController {
 		}
 	}
 
-	// TODO : 회원조회
+	// 이메일 인증 컨트롤
+	@RequestMapping(value = "/keyAlter.do", method = { RequestMethod.GET, RequestMethod.POST })
+	public String keyAlter(@RequestParam("m_Id") String m_Id, @RequestParam("m_Mailcheck") String key) {
+		mailsender.alterUserkey(m_Id, key);
+		return "TwTAccount/login";
+	}
 
 	// TODO : 회원수정(비밀번호 수정)
 
 	// TODO : 회원탈퇴
+	@RequestMapping("/deleteAccount.do")
+	public String deleteAccount(Model model, String m_Code, HttpSession session) {
+		System.out.println("회원탙퇴버튼 누름");
+		model.addAttribute("user", biz.deleteAccount(m_Code));
+		session.invalidate();
+		return "login.do";
+	}
 
 	// 로그인
 	@RequestMapping("/enter.do")
-	public String login(MemberVo vo, HttpSession session, Model model) {
+	public String login(MemberVo vo, HttpSession session, Model model, HttpServletResponse response)
+			throws IOException {
 
 		MemberVo res = biz.login(vo);
 
@@ -237,8 +250,27 @@ public class MypageController {
 	// 항공권 예약 정보 입력
 	@RequestMapping("/air_insert.do")
 	public String insertAir(Model model, AirplaneInfoVo vo) {
-		logger.info("항공권 정보 입력버튼 누름");
+		System.out.println("항공권 입력 버튼 누름");
 		model.addAttribute("airVo", biz.insertAir(vo));
-		return "TwTAccount/mypage";
+		System.out.println("항공권 투스트링 : " + vo.toString());
+		return "redirect:/TwtAccount/mypage.jsp";
+	}
+
+	// 항공권 예약 정보 수정
+	@RequestMapping("/air_update.do")
+	public String updateAir(Model model, AirplaneInfoVo vo, String air_Code) {
+		System.out.println("항공권 수정 버튼 누름");
+		System.out.println("수정할 항공권 정보의 번호 : " + air_Code);
+		model.addAttribute("airVo", biz.selectOne(vo, air_Code));
+		return "";
+	}
+
+	// 항공권 예약 정보 삭제
+	@RequestMapping("/air_delete.do")
+	public String deleteAir(Model model, String air_Code) {
+		System.out.println("항공권 삭제 버튼 누름");
+		System.out.println("여기까지 항공번호 들어오나요..." + air_Code);
+		model.addAttribute("airVo", biz.deleteAir(air_Code));
+		return "redirect:mypage.do";
 	}
 }

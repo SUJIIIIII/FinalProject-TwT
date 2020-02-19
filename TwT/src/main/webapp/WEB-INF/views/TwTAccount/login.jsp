@@ -155,6 +155,27 @@ function form_chk() {
 		return true;
 	}
 }
+
+// 로그인 유효성 검사
+function login_chk() {
+	var id = $("#login_ID").val();
+	var pwd = $("#login_Pass").val();
+	
+	if(id == null || id == "") {
+		alert("아이디를 입력해주세요");
+		return false;
+	} else if(pwd == null || pwd == "") {
+		alert("비밀번호를 입력해주세요");
+		return false;
+	} else {
+		return true;
+	}
+}
+
+// 유효한 아이디와 비밀번호인지 체크
+function login_ID() {
+	
+}
 </script>
 <style type="text/css">
 * {
@@ -484,10 +505,10 @@ a:hover {
 					<a href="${url}" class="social"><img src="${pageContext.request.contextPath}/resources/images/account/naver.png" style="border-radius: 50px;"></a>
 					<a href="${googleUrl}" class="social"><img src="${pageContext.request.contextPath}/resources/images/account/google.png" style="border-radius: 50px;"></a>
 				</div>
-				<input type="text" name="m_Id" placeholder="ID" style="border-left: 3px solid #fc3c3c;" />
-				<input type="password" name="m_Pass" placeholder="Password" style="border-left: 3px solid #fc3c3c;" />
+				<input type="text" name="m_Id" id="login_ID" oninput="login_ID()" placeholder="ID" style="border-left: 3px solid #fc3c3c;" />
+				<input type="password" name="m_Pass" id="login_Pass" oninput="login_Pass()" placeholder="Password" style="border-left: 3px solid #fc3c3c;" />
 				<a href="#" style="font-size: 12px; margin-right: -280px;" class="find">Forgot your password?</a>
-				<button type="submit">Sign In</button>
+				<button type="submit" id="loginbtn">Sign In</button>
 			</form>
 		</div>
 		<%-- 로그인 끝 --%>
