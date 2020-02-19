@@ -137,6 +137,7 @@
       <div style="height: 1800px; width: 100%; position: relative;">
       	
       		<div style="position:absolute;height: 90px; width: 100%; background-color: white;"></div>
+      		<div style="position:absolute;height: 100%; width: 33px; background-color: white; left: 98%;"></div>
 	      <iframe frameborder='0'
 	        src="${url}"
 	        scrolling="yes" border="no" maginwidth="0" marginheight="0" frameborder="0"       

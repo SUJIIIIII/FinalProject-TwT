@@ -111,7 +111,7 @@
 	
 	<select id="relList_D" resultMap="TravelScheduleMap_D">
 		SELECT * FROM TRAVELSCHEDULE LEFT JOIN TWTMEMBER USING(M_CODE) WHERE TS_CODE = #{TS_CODE}
-	</select> -->
+	</select>
 
 	<!-- 여행 일정 디테일 -->	
 	<select id="selectOne_D" parameterType="String" resultType="TravelSchedule">
