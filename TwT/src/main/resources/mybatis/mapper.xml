@@ -69,11 +69,13 @@
 		FROM HOTEL
 
 	</select>
-
-	<!-- 호텔룸 -->
-	<select id="selectall_B" resultType="Hotel">
-		SELECT * FROM HOTELROOM
+	
+	<select id="selectOne_B" resultType="Hotel"
+		parameterType="String">
+		SELECT * FROM HOTEL WHERE H_CODE = #{h_code}
 	</select>
+
+
 
 
 

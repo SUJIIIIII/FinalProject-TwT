@@ -55,11 +55,11 @@ public class HotelAirController {
 	
 	// 호텔 객실
 	@RequestMapping("hotelDetail.do")
-	public String hotelDetail(Model model) {
+	public String hotelDetail(Model model,String h_code) {
 		
-		logger.info("SELECT LIST");
-		model.addAttribute("hotellist",biz.HselectList());
-		model.addAttribute("hotelroomllist",biz.HselectList());
+		logger.info("SELECT ONE");
+		
+		model.addAttribute("hvo",biz.selectOne_B(h_code));
 		
 		
 		return "TwTHotel/hotel_detail";
