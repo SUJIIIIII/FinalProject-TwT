@@ -39,7 +39,9 @@
 		SR_CODE = #{sr_Code}
 	</update>
 
-
+	<select id="selectList_Y" resultMap="ScheduleReviewMap">
+		SELECT * FROM SCHEDULEREVIEW
+	</select>
 
 
 	<!-- ================================범식================================== -->
