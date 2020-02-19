@@ -61,6 +61,7 @@ var infowindow; // 마커 클릭시 infobox
 var spotaddr = new Array(); // 스팟 주소
 var spotcontent = new Array(); // 스팟 설명
 var spotlatlng = new Array(); // 스팟(일정 목록에 추가한) 위도, 경도 배열
+var fathpoly; // 폴리라인 위도,경도 생성
 
 
 	// map 추가
@@ -140,6 +141,9 @@ var spotlatlng = new Array(); // 스팟(일정 목록에 추가한) 위도, 경�
 			}
         	
 		}
+		
+		// 폴리 라인
+		for(var i=0;)
 		
 	} /* init end */
 	
