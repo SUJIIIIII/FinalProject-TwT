@@ -68,8 +68,7 @@ public class HotelAirDaoImpl implements HotelAirDao{
 					+ "sched-deals?appId=v2&tripType=1"
 					+ "&searchSource=P&depLocCodes=SEL&depLocNames=서울%28모든공항%29"
 					+ "&arrLocCodes=BKK&arrLocNames=방콕%28모든공항%29"
-					+ "&dates="+vo.getDeparture_day()
-					+ "&cabinCls=Y&adtCnt="+vo.getPersonnel()+"&chdCnt=0&infCnt=0\r\n";;
+					+ "&dates="+vo.getDeparture_day()+"&cabinCls=Y&adtCnt="+vo.getPersonnel()+"&chdCnt=0&infCnt=0";
 			//편도일때
 		}
 		
