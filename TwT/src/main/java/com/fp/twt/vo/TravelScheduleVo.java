@@ -16,13 +16,16 @@ public class TravelScheduleVo {
     private String ts_View; 		//일정 조회수
     private Date ts_Date;		// 게시글 작성 시간
     private String m_Id;		// 유저 아이디
+    private String ts_Day;		//일정 날짜
+    private String tp_Type;		//여행지타입
+    private String tp_Content;	//여행지설명
 
     public TravelScheduleVo() {
 		super();
 	}
 
 	public TravelScheduleVo(String ts_Code, String m_Code, String tp_Code, String ts_Title, Date ts_Sday, String ts_Theme,
-			String ts_People, String ts_Thum, int ts_Period, String ts_View, Date ts_Date, String m_Id, String tp_Name) {
+			String ts_People, String ts_Thum, int ts_Period, String ts_View, Date ts_Date, String m_Id, String ts_Day, String tp_Type, String tp_Content) {
 		super();
 		this.ts_Code = ts_Code;
 		this.m_Code = m_Code;
@@ -36,9 +39,36 @@ public class TravelScheduleVo {
 		this.ts_View = ts_View;
 		this.ts_Date = ts_Date;
 		this.m_Id = m_Id;
+		this.ts_Day = ts_Day;
+		this.tp_Type = tp_Type;
+		this.tp_Content = tp_Content;
 	}
 	
 	
+	public String getTp_Type() {
+		return tp_Type;
+	}
+
+	public void setTp_Type(String tp_Type) {
+		this.tp_Type = tp_Type;
+	}
+
+	public String getTp_Content() {
+		return tp_Content;
+	}
+
+	public void setTp_Content(String tp_Content) {
+		this.tp_Content = tp_Content;
+	}
+
+	public String getTs_Day() {
+		return ts_Day;
+	}
+
+	public void setTs_Day(String ts_Day) {
+		this.ts_Day = ts_Day;
+	}
+
 	public Date getTs_Date() {
 		return ts_Date;
 	}

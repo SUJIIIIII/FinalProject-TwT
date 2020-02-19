@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.fp.twt.biz.MypageBiz;
 import com.fp.twt.common.social.NaverLoginBO;
+import com.fp.twt.vo.AirplaneInfoVo;
 import com.fp.twt.vo.MemberVo;
 import com.github.scribejava.core.model.OAuth2AccessToken;
 
