@@ -117,16 +117,31 @@ public class MypageController {
 	@RequestMapping("/enter.do")
 	public String login(MemberVo vo, HttpSession session, Model model, HttpServletResponse response)
 			throws IOException {
+		
+		PrintWriter out = response.getWriter();
 
 		MemberVo res = biz.login(vo);
-
-		boolean check = false;
+		boolean checkPw = false;
+		boolean checkId = false;
+		if (res != null) {
+			checkId = true;
+		}
 
 		// 비밀번호 해독
 		if (passwordEncoder.matches(vo.getm_Pass(), res.getm_Pass())) {
 			System.out.println("로그인 정보" + res.toString());
 			session.setAttribute("user", res);
-			check = true;
+			checkPw = true;
+		}
+
+		if (!checkPw || !checkId) {
+			if (!checkId) {
+				out.println("<script>");
+				out.println("alert('아이디가 잘못되었습니다.');");
+				out.println("</script>");
+			}else {
+				
+			}
 		}
 
 		return "redirect:/index.jsp";
