@@ -93,30 +93,30 @@
                 <div class="fields d-block d-flex" style="width:140%; height:80px;">
                 <div class="select-wrap one-third">
                     <div class="icon"><span class="ion-ios-arrow-down"></span></div>
-                    <select name="" id="" class="form-control">
-                      <option value="">왕복</option>
-                      <option value="">편도</option>
+                    <select name="airtype" class="form-control">
+                      <option value="v2&tripType=2">왕복</option>
+                      <option value="v2&tripType=1">편도</option>
                     </select>
                  </div>
                  
                   <div class="textfield-search one-third">                  
-                  	<input type="text" class="form-control" placeholder="출발지">
+                  	<input type="text" name="starting_point" class="form-control" placeholder="출발지">
                   </div>  
                                   
                   <div class="textfield-search one-third">                  
-                  	<input type="text" class="form-control" placeholder="도착지">
+                  	<input type="text" name="destination" class="form-control" placeholder="도착지">
                   </div>    
                   
                   <div class="form-group">
-		             <input type="text" id="checkin_date" class="form-control" placeholder="가는날" style=" padding-right: 0px; padding-left: 0px; width:100px;">
+		             <input type="text" name="departure_day" id="checkin_date"  class="form-control" placeholder="가는날" style=" padding-right: 0px; padding-left: 0px; width:100px;">
 		          </div>
 		          <div class="form-group">
-		             <input type="text" id="checkin_date" class="form-control" placeholder="오는날" style=" padding-right: 0px; padding-left: 0px; width:100px;">
+		             <input type="text" name="coming_day" id="checkout_date"  class="form-control" placeholder="오는날" style=" padding-right: 0px; padding-left: 0px; width:100px;">
 		          </div>		               
 		               
 		          <div class="select-wrap one-third">
                     <div class="icon"><span class="ion-ios-arrow-down"></span></div>
-                    <select name="" id="" class="form-control">
+                    <select name="personnel" class="form-control">
                       <option value="1">1명</option>
                       <option value="2">2명</option>
                       <option value="3">3명</option>
