@@ -137,7 +137,7 @@
 						<i class="fas fa-map-marker-alt"></i>
 						</div>
 						<div class="cnt_view">
-						<i class="far fa-eye"></i>
+						<i class="far fa-eye"></i>&nbsp; ${detail.ts_View }
 						</div>
 						<div class="cnt_copy">
 						<i class="fas fa-heart" style="color:#fc3c3c;"></i>
@@ -147,15 +147,18 @@
 				
  <main id="home" class="contents">
   <div class="container">
-    <h3 class="page-title text-center" style="margin-top: 120px; margin-left: 62px; color: silver; font-size: 17px;"><i class="fas fa-calendar-alt"></i>&nbsp; 2020.02.03 ~ 2020.02.06&nbsp;${ts_Period }DAYS</h3>
+    <h3 class="page-title text-center" style="margin-top: 120px; color: silver; font-size: 17px;"><i class="fas fa-calendar-alt"></i>&nbsp; 2020.02.03 ~ 2020.02.06 <br/> ${detail.ts_Period }DAYS</h3>
+    
     <ul class="timeline">
       <li class="timeline-line"></li>
       <li class="timeline-group">
-        <a href="#" class="btn btn-primary">2020.02.03 <br>DAY1</a>
+        <a href="#" class="btn btn-primary">2020.02.03 <br>${detail.ts_Day }</a>
       </li>
     </ul>
     <ul class="timeline">
       <li class="timeline-line"></li>
+      
+      
       <li class="timeline-item">
         <div class="timeline-badge"><a href="#"></a></div>
         <div class="timeline-panel">
@@ -175,6 +178,8 @@
           </div>
         </div>
       </li>
+      
+      
       <li class="timeline-item">
         <div class="timeline-badge"><a href="#"></a></div>
         <div class="timeline-panel">
@@ -186,6 +191,7 @@
           </div>
         </div>
       </li>
+      
       <li class="timeline-item">
         <div class="timeline-badge"><a href="#"></a></div>
         <div class="timeline-panel">
@@ -197,6 +203,7 @@
           </div>
         </div>
       </li>
+      
       <li class="timeline-item">
         <div class="timeline-badge"><a href="#"></a></div>
         <div class="timeline-panel">
@@ -211,6 +218,7 @@
           </div>
         </div>
       </li>
+      
       <li class="timeline-item">
         <div class="timeline-badge"><a href="#"></a></div>
         <div class="timeline-panel">
@@ -225,6 +233,7 @@
           </div>
         </div>
       </li>
+      
       <li class="timeline-item">
         <div class="timeline-badge"><a href="#"></a></div>
         <div class="timeline-panel">
@@ -239,13 +248,17 @@
           </div>
         </div>
       </li>
+      
     </ul>
+    
     <ul class="timeline">
       <li class="timeline-line"></li>
       <li class="timeline-group">
         <a href="#" class="btn btn-primary">2020.02.04 <br>DAY2</a>
       </li>
     </ul>
+    
+    
     <ul class="timeline">
       <li class="timeline-line"></li><!-- /.timeline-line -->
        <li class="timeline-item">
@@ -379,17 +392,18 @@
 
             <div class="sidebar-box ftco-animate">
               <h3><i class="fas fa-clipboard-list"></i> Recent Blog</h3>
+              
               <div class="block-21 mb-4 d-flex">
                 <a class="blog-img mr-4" style="background-image: url(${pageContext.request.contextPath}/resources/images/image_1.jpg);"></a>
                 <div class="text">
                   <h3 class="heading"><a href="#">Even the all-powerful Pointing</a></h3>
                   <div class="meta">
                     <div><a href="#"><i class="fa fa-calendar"></i> 날짜</a></div>
-                    <div><a href="#"><i class="fas fa-user"></i> 아이디</a></div>
+                    <div><a href="#"><i class="fas fa-user"></i>아이디</a></div>
                     <div><a href="#"><i class="far fa-eye far-2x"></i> 조회수</a></div>
                   </div>
                 </div>
-              </div>
+             </div>
 <%--               <div class="block-21 mb-4 d-flex">
                 <a class="blog-img mr-4" style="background-image: url(${pageContext.request.contextPath}/resources/images/image_2.jpg);"></a>
                 <div class="text">
