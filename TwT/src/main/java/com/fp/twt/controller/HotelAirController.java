@@ -8,6 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.fp.twt.biz.HotelAirBiz;
+import com.fp.twt.vo.AirSearchVo;
 
 @Controller
 public class HotelAirController {
@@ -20,9 +21,18 @@ public class HotelAirController {
 	//찬우
 	
 	
-	@RequestMapping("/airsearch.do")//항공권 검색 
-	public String airSearch() {
+	@RequestMapping(value = "/airsearch.do")//항공권 검색 
+	public String airSearch(Model model, AirSearchVo vo) {
 		
+		logger.info("SELECT AIR");
+		
+		model.addAttribute("url", biz.airSearch(vo));
+		System.out.println(vo.getAirtype());
+		System.out.println(vo.getComing_day());
+		System.out.println(vo.getDeparture_day());
+		System.out.println(vo.getDestination());
+		System.out.println(vo.getPersonnel());
+		System.out.println(vo.getStarting_point());
 		
 		return "TwTFlight/flight_list";
 	}
