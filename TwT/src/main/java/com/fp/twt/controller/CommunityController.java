@@ -141,17 +141,15 @@ public class CommunityController {
 		System.out.println("컨트롤러 id " + vo.getM_Id());
 		
 		model.addAttribute("community", biz.selectList_D());
-		System.out.println(model);
 		
 		return "TwTCommunity/community_list";
 	}
 
 	@RequestMapping("/popcommunity.do")
 	public String popcommunity(Model model) {
-		
 		logger.info("SELECT LIST"); 
+		
 		model.addAttribute("community", biz.PselectList_D());
-		System.out.println(model);
 		
 		return "TwTCommunity/community_list";
 	}
@@ -161,12 +159,13 @@ public class CommunityController {
 	public String communityDetail(Model model, String ts_code){
 		logger.info("SELECT ONE");
 		
-		model.addAttribute("community", biz.selectList_D());
+		TravelScheduleVo vo = biz.selectOne_D(ts_code);
+		System.out.println(vo.getTs_Day());
+		
 		model.addAttribute("detail", biz.selectOne_D(ts_code));
+		
 		return "TwTCommunity/community_detail"; 
 	}
-	
-	
 	
 
 }
