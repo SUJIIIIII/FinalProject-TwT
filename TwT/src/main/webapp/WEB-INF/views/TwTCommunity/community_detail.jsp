@@ -164,14 +164,12 @@
         <div class="timeline-panel">
           <div class="timeline-heading">
             	지역 이름
-            <div class="timeline-date"><i class="fas fa-tag"></i> 지역 설명 태그</div>
+            <div class="timeline-date"><i class="fas fa-tag"></i> ${detail.tp_Type }</div>
           </div>
           <div class="timeline-content">
-            <ul>
-              <li><code>CSS</code> added line 205 to 207 for <i>timeline date</i></li>
-              <li><code>CSS</code> changed line @ 269 from <i>1199px to 991px</i></li>
-              <li><code>HTML</code> + <code>CSS</code> and many more ... </li>
-            </ul>
+            
+              ${detail.tp_Content }
+           	
           </div>
           <div class="timeline-footer">
             <small class="text-muted"><i class="far fa-file-alt fas-2x"></i> 메모?</small>
