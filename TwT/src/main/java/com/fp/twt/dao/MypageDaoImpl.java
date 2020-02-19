@@ -92,6 +92,36 @@ public class MypageDaoImpl implements MypageDao {
 	public int GetKey(String m_Id, String key) {
 		System.out.println("다오 임플에 들어오는 아이디:" + m_Id);
 		System.out.println("다오 임플에 들어오는 키 : " + key);
-		return sqlSession.update(namespace+"GetKey", key);
+		return sqlSession.update(namespace + "GetKey", m_Id);
+	}
+
+	// 유저 인증키 Y 변경
+	@Override
+	public int alterUserKey(String m_Id, String key) {
+		System.out.println("다오 임플에 들어오는 아이디:" + m_Id);
+		System.out.println("다오 임플에 들어오는 키 : " + key);
+		return sqlSession.update(namespace + "alterUserKey", m_Id);
+	}
+
+	// 항공권 정보 삭제
+	@Override
+	public Object deleteAir(String air_Code) {
+		System.out.println("삭제버튼 누른 항공권 정보의 에어코드 : " + air_Code);
+		return sqlSession.delete(namespace + "deleteAirM", air_Code);
+	}
+
+	// 회원탈퇴
+	@Override
+	public Object deleteAccount(String m_Code) {
+		System.out.println("탈퇴버튼 누른 회원 코드 : " + m_Code);
+		return sqlSession.delete(namespace + "deleteUserM", m_Code);
+	}
+
+	// 항공권 정보 수정
+	@Override
+	public Object updateAir(AirplaneInfoVo vo, String air_Code) {
+		System.out.println("수정버튼 눌렀을때 들어오는 항공권 번호 : " + air_Code);
+		System.out.println("수정할 항공권 vo : " + vo.toString());
+		return sqlSession.update(namespace + "updateAirM", air_Code);
 	}
 }

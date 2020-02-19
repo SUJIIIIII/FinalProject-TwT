@@ -154,12 +154,11 @@
           		</div>
           		<!-- 호텔 사진 끝 -->
           		
-          		<c:forEach items="${hotellist }" var="HotelVo">
           		<div class="col-md-12 hotel-single mt-4 mb-5 ftco-animate">
           			
           			<h2>호텔 부가설명</h2>
           			<p class="rate mb-5">
-          				<span class="loc"><a href="#"><i class="icon-map"></i>${HotelVo.h_Addr}</a></span>
+          				<span class="loc"><a href="#"><i class="icon-map"></i>${hvo.h_Addr}</a></span>
           				<span class="star">
     							<i class="icon-star"></i>
     							<i class="icon-star"></i>
@@ -171,7 +170,7 @@
     						<p>설명 내용</p>
     						<div class="d-md-flex mt-5 mb-5">
     							<ul>
-	    							<li>${HotelVo.h_Content}</li>
+	    							<li>${hvo.h_Content}</li>
 
 	    						</ul>
     						</div>
@@ -182,12 +181,10 @@
 				                <a href="#" class="tag-cloud-link">WiFi</a>
 			              	</div>
           		</div>
-          		</c:forEach>
           		
           		
           		<!-- 보유객실 정보 시작 -->
           		
-          		<c:forEach items="${hotelroomlist }" var="Room">
           		<div class="col-md-12 hotel-single ftco-animate mb-5 mt-4">
           			<h4 class="mb-4">객실 정보</h4>
           			<div class="row">
@@ -224,7 +221,6 @@
 				    			
           			</div>
           		</div>
-          		</c:forEach>
           		<!-- 보유객실 정보 끝 -->
           		
           		<!-- 위치 지도 시작 -->

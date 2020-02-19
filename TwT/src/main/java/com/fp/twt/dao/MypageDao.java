@@ -29,4 +29,17 @@ public interface MypageDao {
 
 	// 유저 인증키 메소드
 	public int GetKey(String m_Id, String key);
+
+	// 인증확인메소드
+	public int alterUserKey(String m_Id, String key);
+
+	// 항공권 정보 삭제
+	public Object deleteAir(String air_Code);
+
+	// 회원탈퇴
+	public Object deleteAccount(String m_Code);
+
+	// 항공권 정보 수정
+	public Object updateAir(AirplaneInfoVo vo, String air_Code);
+
 }
