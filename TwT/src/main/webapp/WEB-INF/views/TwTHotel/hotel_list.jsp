@@ -182,7 +182,7 @@
               <c:forEach items="${hotellist }" var="HotelVo">
           		<div class="col-md-4 ftco-animate">
 		    				<div class="destination">
-		    					<a href="hotelDetail.do" class="img img-2 d-flex justify-content-center align-items-center" 
+		    					<a href="hotelDetail.do?h_Code=${hotelvo.h_Code }" class="img img-2 d-flex justify-content-center align-items-center" 
 		    					        style="background-image: url(${pageContext.request.contextPath}/resources/images/hotel-1.jpg);">
 		    						<div class="icon d-flex justify-content-center align-items-center">
     							<span class="icon-search2"></span>
@@ -191,7 +191,7 @@
 		    					<div class="text p-3">
 		    						<div class="d-flex">
 		    							<div class="one">
-				    						<h3 style="width: 130px;"><a href="hotelDetail.do?${HotelVo.h_Code}" style="margin: -7px;">${HotelVo.h_Name}</a></h3>
+				    						<h3 style="width: 130px;"><a href="hotelDetail.do?h_Code=${hotelvo.h_Code }" style="margin: -7px;">${HotelVo.h_Name}</a></h3>
 				    						<p class="rate">
 				    							<i class="icon-star"></i>
 				    							<i class="icon-star"></i>
@@ -209,7 +209,7 @@
 		    						<hr>
 		    						<p class="bottom-area d-flex">
 		    							<span><i class="icon-map-o"></i>&nbsp;&nbsp;${HotelVo.h_Basicaddr}</span> 
-		    							<span class="ml-auto"><a href="hotelDetail.do">상세정보</a></span>
+		    							<span class="ml-auto"><a href="hotelDetail.do?h_Code=${hotelvo.h_Code }">상세정보</a></span>
 		    						</p>
 		    					</div>
 		    				</div>

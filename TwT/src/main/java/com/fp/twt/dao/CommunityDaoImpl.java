@@ -56,6 +56,18 @@ public class CommunityDaoImpl implements CommunityDao{
 		return res;
 	}
 	
+	@Override
+	public List<ScheduleReviewVo> potoBookList() {
+		List<ScheduleReviewVo> list = new ArrayList<ScheduleReviewVo>();
+		
+		try {
+			list = sqlSession.selectList(NAMESPACE+"selectList_Y");
+		} catch(Exception e) {
+			System.out.println("[error] : selectList_Y");
+			e.printStackTrace();
+		}
+		return list;
+	}
 	
 	//--------------------------------------------------------------------------------------------------//
 	
@@ -67,16 +79,12 @@ public class CommunityDaoImpl implements CommunityDao{
 		
 		try {
 			list = sqlSession.selectList(NAMESPACE+"selectList_D");
-			System.out.println(list);
-			
 		} catch(Exception e) {
 			System.out.println("[error] : selectList_D");
 			e.printStackTrace();
 		}
 		return list;
 	}
-
-
 	
 	@Override
 	public List<TravelScheduleVo> PselectList_D() {
@@ -84,7 +92,6 @@ public class CommunityDaoImpl implements CommunityDao{
 		
 		try {
 			list = sqlSession.selectList(NAMESPACE+"PselectList_D");
-			
 		} catch(Exception e) {
 			System.out.println("[error] : PselectList_D");
 			e.printStackTrace();
@@ -105,5 +112,18 @@ public class CommunityDaoImpl implements CommunityDao{
 		
 		return vo;
 	}
+	@Override
+	public List<TravelScheduleVo> relList_D() {
+		List<TravelScheduleVo> list = new ArrayList<TravelScheduleVo>();
+		try {
+			list = sqlSession.selectList(NAMESPACE+"relList_D");
+			
+		} catch(Exception e) {
+			System.out.println("[error] : selectList_D");
+			e.printStackTrace();
+		}
+		return list;
+	}
+
 
 }

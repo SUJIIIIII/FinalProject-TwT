@@ -34,21 +34,34 @@
 <script type="text/javascript">
 
 //전역 변수 선언
+var map; // 맵
 var marker = new Array(); // 마커
 var myIcon; // 마커 아이콘
-var content = new Array(); // 도시명
+var content = new Array(); // 스팟 이름
 var locations = new Array(); // 도시 위도/경도
 var markers = new Array(); // 마커 배열
-var marker_td = new Array(); // 랜드마크 마커 배열
+var citycode = new Array(); // 도시 코드
+var imgname = new Array(); // 이미지 이름
+var spottype = new Array(); // 스팟 타입
+/* var marker_td = new Array(); // 랜드마크 마커 배열
 var marker_rs = new Array(); // 식당 마커 배열
-var marker_sp = new Array(); // 쇼핑 마커 배열
+var marker_sp = new Array(); // 쇼핑 마커 배열 */
 var citycodes = new Array(); //도시 코드
 var B_TD; // 랜드마크 마커 아이콘(Before)
 var B_RS; // 식당 마커 아이콘(Before)
 var B_SP; // 쇼핑 마커 아이콘(Before)
+var B_TD_H; // 랜드마크 마커 아이콘(Before hover)
+var B_RS_H; // 식당 마커 아이콘(Before hover)
+var B_SP_H; // 쇼핑 마커 아이콘(Before hover)
 var A_TD; // 랜드마크 마커 아이콘(After)
 var A_RS; // 식당 마커 아이콘(After)
 var A_SP; // 쇼핑 마커 아이콘(After)
+var tooltipcontent; // infobox content
+var infowindow; // 마커 클릭시 infobox
+var spotaddr = new Array(); // 스팟 주소
+var spotcontent = new Array(); // 스팟 설명
+var spotlatlng = new Array(); // 스팟(일정 목록에 추가한) 위도, 경도 배열
+
 
 	// map 추가
 	function initMap() {
@@ -60,70 +73,38 @@ var A_SP; // 쇼핑 마커 아이콘(After)
 		var cen = {lat: lati, lng: lon}; 
 		
 		// 선택된 도시의 센터를 중심으로 맵 생성
-		var map = new google.maps.Map( //지도 객체 생성
+		map = new google.maps.Map( //지도 객체 생성
 			document.getElementById('map'), {zoom: 12, center: cen}); //기본 줌,시작 센터 설정
 		
 		// list 개수 가져오기
 		var count = $(".aa").attr("data-count");
 		
-       	// DB 불러와서 위치 위도/경도, 도시코드 담기
+       	// 위치 위도/경도, 스팟 이름, 도시 코드, 이미지 명, 스팟 타입 담기
        	for(var i=0;i<count;i++){
 			locations[i] = {"position" : new google.maps.LatLng($("#spot_"+i).attr("data-lat"),$("#spot_"+i).attr("data-lng"))};
 			content[i] = $("#spot_"+i).attr("data-name");
+			citycode[i] = $("#spot_"+i).attr("data-city");
+			imgname[i] = $("#spot_"+i).attr("data-img");
+			spottype[i] = $("#spot_"+i).attr("data-type");
+			spotaddr[i] = $("#spot_"+i).attr("data-addr");
+			spotcontent[i] = $("#spot_"+i).attr("data-con");
        	}
        	
        	// 마커 이미지 
-		B_TD = new google.maps.MarkerImage("${pageContext.request.contextPath}/resources/images/plan/B_TD.png",null,null,null,new google.maps.Size(40,42));
-		B_RS = new google.maps.MarkerImage("${pageContext.request.contextPath}/resources/images/plan/B_RS.png",null,null,null,new google.maps.Size(40,42));
-		B_SP = new google.maps.MarkerImage("${pageContext.request.contextPath}/resources/images/plan/B_SP.png",null,null,null,new google.maps.Size(40,42));
-		A_TD = new google.maps.MarkerImage("${pageContext.request.contextPath}/resources/images/plan/A_TD.png",null,null,null,new google.maps.Size(40,42));
-		A_RS = new google.maps.MarkerImage("${pageContext.request.contextPath}/resources/images/plan/A_RS.png",null,null,null,new google.maps.Size(40,42));
-		A_SP = new google.maps.MarkerImage("${pageContext.request.contextPath}/resources/images/plan/A_SP.png",null,null,null,new google.maps.Size(40,42));
+		B_TD = new google.maps.MarkerImage("${pageContext.request.contextPath}/resources/images/plan/marker/B_TD.png",null,null,null,new google.maps.Size(40,42));
+		B_RS = new google.maps.MarkerImage("${pageContext.request.contextPath}/resources/images/plan/marker/B_RS.png",null,null,null,new google.maps.Size(40,42));
+		B_SP = new google.maps.MarkerImage("${pageContext.request.contextPath}/resources/images/plan/marker/B_SP.png",null,null,null,new google.maps.Size(40,42));
+		B_TD_H = new google.maps.MarkerImage("${pageContext.request.contextPath}/resources/images/plan/marker/B_TD_H.png",null,null,null,new google.maps.Size(40,42));
+		B_RS_H = new google.maps.MarkerImage("${pageContext.request.contextPath}/resources/images/plan/marker/B_RS_H.png",null,null,null,new google.maps.Size(40,42));
+		B_SP_H = new google.maps.MarkerImage("${pageContext.request.contextPath}/resources/images/plan/marker/B_SP_H.png",null,null,null,new google.maps.Size(40,42));
+		A_TD = new google.maps.MarkerImage("${pageContext.request.contextPath}/resources/images/plan/marker/A_TD.png",null,null,null,new google.maps.Size(40,42));
+		A_RS = new google.maps.MarkerImage("${pageContext.request.contextPath}/resources/images/plan/marker/A_RS.png",null,null,null,new google.maps.Size(40,42));
+		A_SP = new google.maps.MarkerImage("${pageContext.request.contextPath}/resources/images/plan/marker/A_SP.png",null,null,null,new google.maps.Size(40,42));
 		
 		
 		// 스팟 마커찍기
-		/* for (var i=0;i<locations.length;i++) {
-			if($("#spot_"+i).attr("data-type") == "랜드마크"){
-				// 랜드마크 마커 생성
-	        	marker = new google.maps.Marker({
-	            	position: locations[i].position,
-	            	map: map,
-	            	icon: B_TD,
-	            	title: content[i]
-	       		});
-				marker_td.push(marker);
-				markerListener(marker_td[i],i,$("#spot_"+i).attr("data-type"));
-				
-			}else if($("#spot_"+i).attr("data-type") == "식당가"){
-				// 식당 마커 생성
-	        	marker = new google.maps.Marker({
-	            	position: locations[i].position,
-	            	map: map,
-	            	icon: B_RS,
-	            	title: content[i]
-	       		});
-				marker_rs.push(marker);
-				markerListener(marker_rs[i],i,$("#spot_"+i).attr("data-type"));
-				
-			}else if($("#spot_"+i).attr("data-type") == "쇼핑"){
-				// 쇼핑 마커 생성
-	        	marker = new google.maps.Marker({
-	            	position: locations[i].position,
-	            	map: map,
-	            	icon: B_SP,
-	            	title: content[i]
-	       		});
-				marker_sp.push(marker);
-				markerListener(marker_sp[i],i,$("#spot_"+i).attr("data-type"));
-			}
-        	
-        	//생성된 마커를 마커배열에 추가
-        	markers.push(marker_td);
-        	markers.push(marker_rs);
-        	markers.push(marker_sp);
-		} */
-		
 		for (var i=0;i<locations.length;i++) {
+			
 			if($("#spot_"+i).attr("data-type") == "랜드마크"){
 				// 랜드마크 마커 생성
 	        	marker[i] = new google.maps.Marker({
@@ -133,6 +114,7 @@ var A_SP; // 쇼핑 마커 아이콘(After)
 	            	title: content[i]
 	       		});
 				markerListener(marker[i],i,$("#spot_"+i).attr("data-type"));
+				markerOver(marker[i],i,$("#spot_"+i).attr("data-type"));
 				
 			}else if($("#spot_"+i).attr("data-type") == "식당가"){
 				// 식당 마커 생성
@@ -143,6 +125,7 @@ var A_SP; // 쇼핑 마커 아이콘(After)
 	            	title: content[i]
 	       		});
 				markerListener(marker[i],i,$("#spot_"+i).attr("data-type"));
+				markerOver(marker[i],i,$("#spot_"+i).attr("data-type"));
 				
 			}else if($("#spot_"+i).attr("data-type") == "쇼핑"){
 				// 쇼핑 마커 생성
@@ -153,67 +136,123 @@ var A_SP; // 쇼핑 마커 아이콘(After)
 	            	title: content[i]
 	       		});
 				markerListener(marker[i],i,$("#spot_"+i).attr("data-type"));
+				markerOver(marker[i],i,$("#spot_"+i).attr("data-type"));
 			}
         	
 		}
-		
-		/* console.log("랜드마크 : " + marker_td[0]);
-		console.log("식당 : " + marker_rs[0]);
-		console.log("쇼핑 : " + marker_sp[0]);
-		console.log("총 : " + markers[0]); */
-		
-		
-		function markerListener(mark, index, type){
-			// 매개변수 마커에 클릭이벤트 적용
-			google.maps.event.addListener(mark, 'click', function() {
-				// 클릭시 타입에 맞게 마커 이미지 변경
-				if(type == "랜드마크"){
-					mark.setIcon(A_TD);
-				}else if(type == "식당가"){
-					mark.setIcon(A_RS);
-				}else if(type == "쇼핑"){
-					mark.setIcon(A_SP);
-				}
-				
-			});
-		}
-		
-		/* google.maps.event.addListener(marker_td[0], "click", function(){
-			marker_td[0].setIcon(A_TD);
-		}); */
-		
-		// 마커를 클릭했을 때의 말풍선 이벤트
-		/*  infoWindow.setOptions({
-		   	content: contentString,
-		     position: locations[i].position
-		 }); */
-          	
-       	/* 클릭시 줌되는 것 */
-		/* var infowindow = new google.maps.InfoWindow();
-       	google.maps.event.addListener(marker, 'click', (function(marker, i) {
-           	return function() {
-           		infowindow.setContent(locations[i][0]);
-               	infowindow.open(map, marker);
-            }
-       	})(marker, i));
-           
-       	if(marker){
-           	marker.addListener('click', function() {
-          		map.setZoom(15);
-           		map.setCenter(this.getPosition());
-        	});
-        } */
-
-        
-       /* var infowindow = new google.maps.InfoWindow({content: content[count]});
-       	google.maps.event.addListener(marker, "click", function() {
-			infowindow.open(map,marker);
-        	count++;
-       	}); */
 		
 	} /* init end */
 	
+	// 마커 이벤트
+	function markerListener(mark, index, type){
+		// 매개변수 마커에 클릭이벤트 적용
+		google.maps.event.addListener(mark, 'click', function() {
+			
+			// info 정보 담아주기
+			tooltipcontent = "<div class='tooltip_full_box' style='display:block;'>"+
+			"<div class='tooltip_img fl'><img src='${pageContext.request.contextPath}/resources/images/plan/"+citycode[index]+"/"+imgname[index]+"'></div>"+
+			"<div class='tooltip_info fl'>"+
+			"<div class='tooltip_title'>"+content[index]+"</div>"+
+			"<div class='tooltip_tag'>"+spottype[index]+"</div></div>"+
+			"<div class='tooltip_detail_bottom_box'>"+
+			"<div class='fl tooltip_detail_btn' onclick='detail_view_spot(&quot;"+content[index]+"&quot;,&quot;"+imgname[index]+"&quot;,&quot;"+spotcontent[index]+"&quot;,&quot;"+spotaddr[index]+"&quot;,&quot;"+citycode[index]+"&quot;,&quot;"+spottype[index]+"&quot;)'>자세히 보기</div>"+
+			"<div class='fr tooltip_add_inspot_btn' onclick='marker_to_inspot()'>+ 일정에 추가</div></div></div>";
+			
+			// 클릭시 타입에 맞게 마커 이미지 변경 & infobox 나타내기
+			if(type == "랜드마크"){
+				mark.setIcon(A_TD);
+
+				// 클릭시 마커를 중심으로 확대
+				map.setZoom(15);
+           		map.setCenter(this.getPosition());
+				
+           		// infobox show
+				if(infowindow == null){
+					infowindow = new google.maps.InfoWindow();
+					infowindow.setContent(tooltipcontent);
+					infowindow.open(map, mark);
+				}else{
+					infowindow.close();
+					infowindow = new google.maps.InfoWindow();
+					infowindow.setContent(tooltipcontent);
+					infowindow.open(map, mark);
+				}
+			}else if(type == "식당가"){
+				mark.setIcon(A_RS);
+
+				map.setZoom(15);
+           		map.setCenter(this.getPosition());
+				
+				if(infowindow == null){
+					infowindow = new google.maps.InfoWindow();
+					infowindow.setContent(tooltipcontent);
+					infowindow.open(map, mark);
+				}else{
+					infowindow.close();
+					infowindow = new google.maps.InfoWindow();
+					infowindow.setContent(tooltipcontent);
+					infowindow.open(map, mark);
+				}
+				
+			}else if(type == "쇼핑"){
+				mark.setIcon(A_SP);
+
+				map.setZoom(15);
+           		map.setCenter(this.getPosition());
+				
+				if(infowindow == null){
+					infowindow = new google.maps.InfoWindow();
+					infowindow.setContent(tooltipcontent);
+					infowindow.open(map, mark);
+				}else{
+					infowindow.close();
+					infowindow = new google.maps.InfoWindow();
+					infowindow.setContent(tooltipcontent);
+					infowindow.open(map, mark);
+				}
+			}
+			
+		});
+		
+	} /* markerListener end */
 	
+	// mouseover시 마커 아이콘 변경
+	function markerOver(mark,index,type){
+		// 마커에 mouseover시
+		google.maps.event.addListener(mark, "mouseover", function() {
+			if(type == "랜드마크"){
+				mark.setIcon(B_TD_H);
+			}else if(type == "식당가"){
+				mark.setIcon(B_RS_H);
+			}else if(type == "쇼핑"){
+				mark.setIcon(B_SP_H);
+			}
+		});
+		
+		// 마커에 mouseout시
+		google.maps.event.addListener(mark, "mouseout", function() {
+			if(type == "랜드마크"){
+				mark.setIcon(B_TD);
+			}else if(type == "식당가"){
+				mark.setIcon(B_RS);
+			}else if(type == "쇼핑"){
+				mark.setIcon(B_SP);
+			}
+		});
+		
+	}
+	
+	// 스팟 상세 box 뿌리기
+	function detail_view_spot(name,img,con,add,citycd,type){
+		$("#select_detail_view_spot").css("display","block");
+		$(".spot_title").html(name);
+		$("#spot_img").attr("src","${pageContext.request.contextPath}/resources/images/plan/"+citycd+"/"+img);
+		$("#spot_con").html(con);
+		$("#sub_addr").html("<i class='fas fa-map'></i>         " + add);
+		$("#sub_info").html(type);
+		
+	}
+
 	/* script */
 	$(document).ready(function(){
 		// 로딩 시 map의 크기
@@ -243,9 +282,16 @@ var A_SP; // 쇼핑 마커 아이콘(After)
 				$(".list_title_option_menu").html("&nbsp;도시 변경<i class='fas fa-caret-down'></i>");
 			}
 		});
+		
+		// 스팟 상세 box close
+		$("#detail_close_btn").click(function(){
+ 			$("#select_detail_view_spot").css("display","none");
+		});
+		
 	});
 	
 	google.maps.event.addDomListener(window, 'load', initialize);
+
 
 </script>
 <!-- 구글맵 API KEY -->
@@ -266,6 +312,35 @@ src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCiDE5HBue4mflsdkcsGvSZrUe
     padding-top: 5px;
     height: 70px !important;
 }
+.tooltip_info {
+    width: 170px;
+}
+.tooltip_detail_bottom_box {
+    margin-top: 90px;
+}
+.tooltip_detail_btn {
+    width: 120px;
+    background: #fc3c3c;
+    border: solid 1px #fc3c3c;
+}
+.tooltip_add_inspot_btn {
+    width: 120px;
+    background: #ffba00;
+    border: solid 1px #ffba00;
+}
+.gm-style .gm-style-iw-c {
+    border-radius: 0px;
+}
+#select_detail_view_spot .spot_img img {
+    width: 365px;
+}
+.detail_view_full_box {
+    width: 365px;
+}
+.detail_view_full_box {
+    width: 365px;
+}
+#detail_close_btn{background:url('${pageContext.request.contextPath}/resources/images/plan/info_close_btn.png');}
 </style>
 </head>
 <body style="">
@@ -410,7 +485,7 @@ src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCiDE5HBue4mflsdkcsGvSZrUe
 		        <!-- @@@수정 호버 시 아이콘 나오게@@@ -->
 		        <div id="schedule_detail_box" class="connectedSortable ui-sortable" style="height: 548px; display: block;">
 		        	<div class="day_spot_item" data="1" data-set_day="1" data-rel_srl="4740" data-pl_type="0" data-no="0" data-pl_cat="301" data-latlng="18.80455200,98.92134900" data-ci="87">
-		        		<div class="item_ctrl_box">
+		        		<div class="item_ctrl_box" style="display: none">
 		        			<div class="fl item_copy_plan" title="장소복사"><img src="${pageContext.request.contextPath}/resources/images/plan/item_more_icon_a.png"></div>
 		        			<div class="fl item_set_plan" title="메모&amp;예산"><img src="${pageContext.request.contextPath}/resources/images/plan/item_set_icon_a.png"></div>
 		        			<div class="fl btn_del" title="삭제"><img src="${pageContext.request.contextPath}/resources/images/plan/item_del_icon_a.png"></div>
@@ -431,28 +506,6 @@ src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCiDE5HBue4mflsdkcsGvSZrUe
 		        		</div>
 		        		<div class="clear"></div>
 		        	</div>
-		        	<div class="day_spot_item" data="2" data-set_day="1" data-rel_srl="117" data-pl_type="0" data-no="1" data-pl_cat="301" data-latlng="13.74998400,100.49200400" data-ci="86">
-		        		<div class="item_ctrl_box" style="display: none;">
-		        			<div class="fl item_copy_plan" title="장소복사"><img src="/res/img/workspace/new/item_more_icon_a.png"></div>
-		        			<div class="fl item_set_plan" title="메모&amp;예산"><img src="/res/img/workspace/new/item_set_icon_a.png"></div>
-		        			<div class="fl btn_del" title="삭제"><img src="/res/img/workspace/new/item_del_icon_a.png"></div>
-		        			<div class="clear"></div>
-		        		</div>
-		        		<div class="spot_distance_box" onclick="et_modal('620px','700px','1','0','/ko/modal/directions?from_latlng=13.70485500,100.50295300&amp;from_name=아시아티크&amp;to_latlng=13.74998400,100.49200400&amp;to_name=왕궁','2','1')">5.15Km 추천경로</div>
-						<div class="img_box fl">
-							<div class="spot_order_box">2</div>
-							<img src="http://img.earthtory.com/img/place_img/86/117_0_et.jpg">
-							<div style="position:absolute;top:35px;left:40px;width:22px;height:20px;">
-								<img src="${pageContext.request.contextPath}/resources/images/plan/list_memo_btn_off.png" class="memo_indi" style="width:22px;height:20px;">
-							</div>
-						</div>
-						<div class="fl info_box">
-							<div class="title">왕궁</div>
-							<div class="sub">랜드마크, 성/궁궐</div>
-							<div class="sub inspot_day_info_box" style="color:#1a7ad9"></div>
-						</div>
-						<div class="clear"></div>
-		        	</div>
 		        </div>
 		        <!--//(e)스케쥴 디테일 리스트-->
 				<div class="inspot_add_box" style="height:100vh;">
@@ -472,7 +525,7 @@ src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCiDE5HBue4mflsdkcsGvSZrUe
            	
            	<!-- 스팟 리스트 box-->
            	<div id="city_list" data="87" style="display: block; bottom:2px;">
-            	<div class="list_title" style="background: #fc3c3c;"><span>치앙마이</span>
+            	<div class="list_title" style="background: #fc3c3c;"><span>${cityvo.city_Name}</span>
             		<div class="list_title_option_menu" data-is_open="off">&nbsp;도시 변경<i class="fas fa-caret-down"></i></div>
             	</div>
                 <div id="on_city_close_btn" style="background:url('${pageContext.request.contextPath}/resources/images/plan/city_close_btn.png');"></div>
@@ -482,10 +535,9 @@ src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCiDE5HBue4mflsdkcsGvSZrUe
 				  	<div class="city_search" style="display: none;"></div> -->
 				  	<!-- 도시 변경  -->
                   	<div class="city_items" data="87" style="height:100%;">
-                  		<!-- @@ 넘어오는 값 받아서 수정 @@ -->
-                  		<div class="city_item" data="87" data-ci_name="치앙마이" data-lat="18.79906428" data-lng="98.99514161" data-ss_id="undefined">
-                  			<div class="fl ci_img"><img src="http://img.earthtory.com/img/city_images/87/chiang-mai_1425528980.jpg"></div>
-                  			<div class="fl">치앙마이,&nbsp;<span>태국</span></div>
+                  		<div class="city_item" data="87" data-ci_name="${cityvo.city_Name}" data-lat="18.79906428" data-lng="98.99514161" data-ss_id="undefined">
+                  			<div class="fl ci_img"><img src="${pageContext.request.contextPath}/resources/images/plan/city/${cityvo.city_Img}"></div>
+                  			<div class="fl">${cityvo.city_Name},&nbsp;<span>태국</span></div>
                   			<div class="clear"></div>
                   		</div>
                   		<div class="clear"></div>
@@ -530,7 +582,8 @@ src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCiDE5HBue4mflsdkcsGvSZrUe
                 <div class="list_box connectedSortable" style="height: 441px;">
                 <c:set var="count" value="0"></c:set>
                 <c:forEach items="${allSpot}" var="spot" varStatus="status">
-                	<div class="day_spot_item ui-draggable" id="spot_${status.index}" data="${spot.city_Code}" data-type="${spot.tp_Type}" data-name="${spot.tp_Name}" data-set_day="0" data-rel_srl="4740" data-pl_type="0" data-no="${spot.tp_Code}" data-lat="${spot.tp_Lati}" data-lng="${spot.tp_Long}" data-pl_cat="301" data-ci="87">
+                	<div class="day_spot_item ui-draggable" id="spot_${status.index}" data-city="${spot.city_Code}" data-type="${spot.tp_Type}" data-name="${spot.tp_Name}" data-img="${spot.tp_Img}" data-addr="${spot.tp_Addr}" data-con="${spot.tp_Content}" data-set_day="0" data-rel_srl="4740" data-pl_type="0" data-no="${spot.tp_Code}" data-lat="${spot.tp_Lati}" data-lng="${spot.tp_Long}" data-pl_cat="301" data-ci="87"
+                	data-img="${spot.tp_Img}">
                 		<div class="img_box fl"><img src="${pageContext.request.contextPath}/resources/images/plan/${spot.city_Code}/${spot.tp_Img}"></div>
                 		<div class="fl info_box">
                 			<div class="title">${spot.tp_Name}</div>
@@ -551,40 +604,21 @@ src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCiDE5HBue4mflsdkcsGvSZrUe
 			</div>
 	    </div><!-- 스팟 리스트 end -->
 		
-			<!-- @@수정@@@ 맵에서 스팟 선택시 보여지는 상세 박스@@ -->
-			<div class="tooltip_full_box" id="spot_" style="display:none;">
-				<div class="tooltip_img fl"><img src="http://img.earthtory.com/img/place_img/86/419_0_et.jpg"></div>
-				<div class="tooltip_info fl">
-					<div class="tooltip_title">리키 커피숍</div>
-					<div class="tooltip_tag">서양식/미국식, 카페/디저트...</div>
-					<div class="tooltip_cnt_info_box">
-						<div class="tooltip_clip_cnt fl">94</div>
-						<div class="clear"></div>
-					</div>
-				</div>
-				<div class="clear"></div>
-				<div class="tooltip_detail_bottom_box">
-					<div class="fl tooltip_detail_btn" onclick="detail_view_spot('419', '200','87','0','n','0','0','0')">자세히 보기</div>
-					<div class="fr tooltip_add_inspot_btn" onclick="marker_to_inspot(419,86,0)">+ 일정에 추가</div>
-					<div class="clear"></div>
-				</div>
-				<div class="clear"></div>
-			</div>
-			
-			
+
+
 			<!-- map -->
 			<div id="map" class="fr" style="height: 657px; position: relative; width: 1111px; overflow: hidden; bottom:2px;"></div>
 			
 			
            	<!-- @@@수정@@@스팟 상세정보@@@@@ -->
-           	<!-- <div id="select_detail_view_spot" data="4740" data-no="0" data-cat="301" data-only_clip="0" data-clip_yn="n" class="visible" style="left: 0px; display: block;">
+           	<div id="select_detail_view_spot" data="4740" data-no="0" data-cat="301" data-only_clip="0" data-clip_yn="n" class="visible" style="left: 0px; display: none;">
            		<div class="detail_view_full_box">
            			<div id="detail_spot_to_inspot" data-ci="87" data-rel_srl="4740" data-pl_type="0" style="background: #ffba00;border: solid 1px #ffba00">+일정에 추가</div>
            			<div id="detail_close_btn"></div>
-           			<a class="spot_title" href="/ko/city/chiang-mai_87/attraction/wat-phra-that-doi-suthep_4740" target="_blank">왓 프라탓 도이 쑤텝...</a>
+           			<a class="spot_title" href="" target="_blank">스팟명</a>
            			<div class="spot_img">
            				<div class="detail_img_overlay"></div>
-           				<img src="http://img.earthtory.com/img/place_img/87/4740_0_et.jpg">
+           				<img id="spot_img" src="">
            				<div class="spot_cnt_box"></div>
            			</div>
            			<div id="detail_content" style="height: 416px;">
@@ -607,16 +641,14 @@ src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCiDE5HBue4mflsdkcsGvSZrUe
            						</div>
            					</div>
            					<div class="in_full_box">
-           					<div style="line-height:22px;font-size:11px;color:#808080;padding-bottom:20px;font-size:13px;">
-           						<img src="/res/img/workspace/new/tip_desc_icon.png" style="vertical-align:top;"> 해발 1,056m의 산 꼭대기에 자리잡은 왓 프라탓 도이수텝은 '부처의 사리를 모신 사원' 이라는 의미를 가진 사원이다. 사원에 오르기 위해서는 용 두 마리가 지키는 306개의 계단을 올라가거나, 계단 매표소에서 추가요금을 내고 엘리베이터를 타고 올라갈 수 있다. 사원에 올라서면 온통 금빛으로 도색된 높이 20m의 거대한 사리탑과 사원 내 곳곳의 황금불상들은 극락의 화려함 그 자체이다. </div>
+           					<div id="spot_con" style="line-height:22px;font-size:11px;color:#808080;padding-bottom:20px;font-size:13px;">설명</div>
            						<div class="information">
            							<div style="width:100%;padding:15px;border:solid #d4d4d4 1px;">
-           								<div style="color:#808080;font-size:13px;padding-left:20px;background:url('/res/img/workspace/new/addr_desc_icon.png') no-repeat 2px 2px;line-height:16px;padding-bottom:10px;">Sriwichai Alley, Su Thep, Mueang Chiang Mai District, Chiang Mai 50200, Thailand</div>
+           								<!-- <i class="fas fa-map"></i> -->
+           								<div id="sub_addr" style="color:#808080;font-size:13px;padding-left:20px;line-height:16px;padding-bottom:10px;">주소</div>
            								<div class="sub_title fl">카테고리</div>
-           								<div class="sub_info fl">랜드마크, 절/신사/사원</div>
+           								<div id="sub_info" class="sub_info fl">카테고리 상세</div>
            								<div class="clear"></div>
-           								<div class="sub_title fl">전화번호</div>
-           								<div class="sub_info fl">66 53 210 244</div>
            								<div class="clear"></div>
            								<div id="fq_attr_box"></div>
            								<div id="fq_open_box"></div>
@@ -634,11 +666,11 @@ src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCiDE5HBue4mflsdkcsGvSZrUe
            			<div class="clear"></div>
            		</div>
            		<div class="detail_view_bottom"></div>
-           	</div> -->
+           	</div>
 	        
 		</div><!-- right_full_box end@@@@ -->
 </div>
-<script src="${pageContext.request.contextPath}/resources/js/plan/plan_detail.js"></script>
+<script src="${pageContext.request.contextPath}/resources/js/plan/plan_detail.js?version=1.0"></script>
 
 </body>
 </html>
