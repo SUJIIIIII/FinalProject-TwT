@@ -64,7 +64,7 @@ public class UserMailSendService {
 		MimeMessage mail = mailSender.createMimeMessage();
 		String htmlStr = "<h2>안녕하세요 MS :p 민수르~ 입니다!</h2><br><br>" + "<h3>" + m_Id + "님</h3>"
 				+ "<p>인증하기 버튼을 누르시면 로그인을 하실 수 있습니다 : " + "<a href='http://localhost:8787" + request.getContextPath()
-				+ "/key_alter?m_Id=" + m_Id + "&m_Mailcheck=" + key + "'>인증하기</a></p>"
+				+ "/keyAlter?m_Id=" + m_Id + "&m_Mailcheck=" + key + "'>인증하기</a></p>"
 				+ "(혹시 잘못 전달된 메일이라면 이 이메일을 무시하셔도 됩니다)";
 		try {
 			mail.setSubject("[본인인증] MS :p 민수르님의 인증메일입니다", "utf-8");
@@ -74,5 +74,9 @@ public class UserMailSendService {
 		} catch (MessagingException e) {
 			e.printStackTrace();
 		}
+	}
+
+	public int alterUserkey(String m_Id, String key) {
+		return size;
 	}
 }

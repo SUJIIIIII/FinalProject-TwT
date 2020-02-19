@@ -24,7 +24,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.fp.twt.HomeController;
 import com.fp.twt.biz.MypageBiz;
@@ -93,6 +92,13 @@ public class MypageController {
 			System.out.println("회원가입 실패");
 			return "TwTAccount/login";
 		}
+	}
+	
+	// 이메일 인증 컨트롤
+	@RequestMapping(value="/keyAlter", method=RequestMethod.POST)
+	public String keyAlter(@RequestParam("m_Id") String m_Id, @RequestParam("m_Mailcheck") String key) {
+		mailsender.alterUserkey(m_Id, key);
+		return "TwTAccount/login";
 	}
 
 	// TODO : 회원조회
