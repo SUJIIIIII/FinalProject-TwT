@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -55,6 +56,7 @@
 				success : function(data) {
 	            	//항상 업로드된 파일의 url이 있어야 한다.
 					$(editor).summernote("insertImage", data.url);
+	            	$("#potoForm").append("<input type='hidden' name='potoImg' value='"+data.url+"'/>");
 				},
 				error : function(){
 					alert("실패");
@@ -82,18 +84,20 @@ body {
 </style>
 </head>
 <body>
-	<form id="" method="post" action="" enctype="multipart/form-data">
+	<form id="potoForm" method="post" action="potoBookinsert.do" enctype="multipart/form-data">
+	<input type="hidden" name="sr_Code" value="${sr_Code }"/>
+	<input type="hidden" name="m_Code" value="${m_Code }"/>
 	<div class="col-sm-9" id="container">
 		<div class="col-sm-12" style="float: left; margin-top: 30px;">
 			<div class="title">
-				<input type="text" placeholder="제목"/>
+				<input type="text" name="sr_Title" placeholder="제목"/>
 			</div>
 			<br> <br> <br> <br>
 
 			<div class="row row-cols-1 row-cols-md-3">
 				<div class="col mb-4">
 					<div class="card h-100">
-						<textarea id="summernote" name="content" class="card-img-top" alt="..."></textarea>
+						<textarea id="summernote" name="sr_Content" class="card-img-top" alt="..."></textarea>
 					</div>
 				</div>
 			</div>

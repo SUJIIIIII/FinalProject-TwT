@@ -1,6 +1,8 @@
 ﻿<%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -21,13 +23,14 @@
    <title>TwT - 일정만들기</title>
    
    <!-- css -->
-   <link rel="shortcut icon" href="/res/earthtory.ico">
    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/plan/default_ko.css">
    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/plan/reset.css">
    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/plan/default.css">
    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/plan/gnb.css">
    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/plan/date_picker.css">
    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/plan/plan_create_css.css">
+   <!-- // jQuery UI CSS파일 --> 
+   <link rel="stylesheet" href="http://code.jquery.com/ui/1.8.18/themes/base/jquery-ui.css" type="text/css" />  
    
    <script async="" src="//www.google-analytics.com/analytics.js"></script>
    <script>
@@ -40,7 +43,8 @@
          return '/ko';
       }
    </script>
-   <meta name="google-site-verification" content="MwgpAlNbsXRZEln-QQP8Jra-Aj8cTKcCtDd3L_StvTc">
+   <!-- <script type="text/javascript" src="/jslang?lang=ko&amp;lang_file=commonjs"></script> -->
+    <link rel="image_src" href="https://www.earthtory.com/res/img/earthtory_logo_to_sns.png">
 
 <style type="text/css">
 .labels{
@@ -49,50 +53,12 @@
   font-size:20px;
   text-align:center;width:80px;height:80px;line-height:80px;border-radius:100%;white-space:nowrap;
 }
-
-  /* The Modal (background) */
-   .createmodal {
-      display: none; /* Hidden by default */
-      position: fixed; /* Stay in place */
-      z-index: 1; /* Sit on top */
-      left: 0;
-      top: 0;
-      width: 100%; /* Full width */
-      height: 100%; /* Full height */
-      overflow: auto; /* Enable scroll if needed */
-      background-color: rgb(0,0,0); /* Fallback color */
-      background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
-      font-family: "nanum";
-   }
-
-   /* Modal Content/Box */
-   .modal-content {
-       font-family: "nanum";
-      background-color: #fefefe;
-      margin: 15% auto; /* 15% from the top and centered */
-      padding: 20px;
-      border: 1px solid #888;
-      width: 50%; /* Could be more or less, depending on screen size */
-   }
-   /* The Close Button */
-   .modal-close {
-      color: #aaa;
-      float: right;
-      font-size: 28px;
-      font-weight: bold;
-   }
-   .modal-close:hover,
-   .modal-close:focus {
-      color: black;
-      text-decoration: none;
-      cursor: pointer;
-   }   
 </style>
 
-<!-- google map -->
+<!-- google map script -->
 <script src="https://maps.googleapis.com/maps/api/js?sensor=false&libraries=geometry,places&ext=.js"></script>
 <script src="https://cdn.rawgit.com/googlemaps/v3-utility-library/master/markerwithlabel/src/markerwithlabel.js"></script>
-<%-- <script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/plan/MarkerWithLabel.js"></script> --%>
+<script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/plan/MarkerWithLabel.js"></script>
 <script type="text/javascript" src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 <script>
 // 전역 변수 선언
@@ -112,14 +78,14 @@ var citycodes = new Array(); //도시 코드
       var map = new google.maps.Map( //지도 객체 생성
          document.getElementById('map'), {zoom: 6, center: bangkok}); //기본 줌,시작 센터 설정
       
-          // DB 불러와서 위치 위도/경도, 도시코드 담기
-          for(var i=0;i<4;i++){
-         locations[i] = {"position" : new google.maps.LatLng($("#city_"+i).attr("data-lat"), $("#city_"+i).attr("data-lng"))};
-         citycodes[i] = $("#city_"+i).attr("data-no");
-          }
+      // DB 불러와서 위치 위도/경도, 도시코드 담기
+      for(var i=0;i<4;i++){
+    	  locations[i] = {"position" : new google.maps.LatLng($("#city_"+i).attr("data-lat"), $("#city_"+i).attr("data-lng"))};
+		  citycodes[i] = $("#city_"+i).attr("data-no");
+      }
           
       // 마커 아이콘 생성
-      myIcon = new google.maps.MarkerImage("${pageContext.request.contextPath}/resources/images/marker.png",null,null,null,new google.maps.Size(50,45));
+      myIcon = new google.maps.MarkerImage("${pageContext.request.contextPath}/resources/images/plan/marker/marker.png",null,null,null,new google.maps.Size(50,45));
       
       // 마커 정보(도시명)담기
       for(var i=0;i<locations.length;i++){
@@ -137,7 +103,11 @@ var citycodes = new Array(); //도시 코드
            
            //생성된 마커를 마커배열에 추가
            markers.push(marker);
+           //marker별 이벤트 적용
+           markerListener(markers[i],i);
       }
+      
+      console.log("마커 배열 : " + markers);
       
       // 마커와 함께 라벨찍기 (안됨)
       /* for(var i=0;i<locations.length;i++){
@@ -156,74 +126,51 @@ var citycodes = new Array(); //도시 코드
       } */
         
       console.log(markers);
-
-      // 마커 클릭 이벤트 실행 / select detail box 띄우기  
-       google.maps.event.addListener(markers[0], 'click', function() {
-         if (markers[0].getAnimation() != null) {
-             markers[0].setAnimation(null);
-            $('#select_detail_view_city').hide();
-           } else {
-             markers[0].setAnimation(google.maps.Animation.BOUNCE);
-             markers[1].setAnimation(null);
-             markers[2].setAnimation(null);
-             markers[3].setAnimation(null);
-            $('#select_detail_view_city').show(); //show("slide", {direction:"left"}, 200);
-            $(".cityname").html(content[0]);
-            $("input[name=citycode]").val(citycodes[0]);
-           }
-         });
-       google.maps.event.addListener(markers[1], 'click', function() {
-         if (markers[1].getAnimation() != null) {
-             markers[1].setAnimation(null);
-            $('#select_detail_view_city').hide();
-           } else {
-             markers[1].setAnimation(google.maps.Animation.BOUNCE);
-             markers[0].setAnimation(null);
-             markers[2].setAnimation(null);
-             markers[3].setAnimation(null);
-            $('#select_detail_view_city').show();
-            $(".cityname").html(content[1]);
-            $("input[name=citycode]").val(citycodes[1]);
-           }
-         });
-       google.maps.event.addListener(markers[2], 'click', function() {
-         if (markers[2].getAnimation() != null) {
-             markers[2].setAnimation(null);
-            $('#select_detail_view_city').hide();
-           } else {
-             markers[2].setAnimation(google.maps.Animation.BOUNCE);
-             markers[0].setAnimation(null);
-             markers[1].setAnimation(null);
-             markers[3].setAnimation(null);
-            $('#select_detail_view_city').show();
-            $(".cityname").html(content[2]);
-            $("input[name=citycode]").val(citycodes[2]);
-           }
-         });
-       google.maps.event.addListener(markers[3], 'click', function() {
-         if (markers[3].getAnimation() != null) {
-             markers[3].setAnimation(null);
-            $('#select_detail_view_city').hide();
-           } else {
-             markers[3].setAnimation(google.maps.Animation.BOUNCE);
-             markers[0].setAnimation(null);
-             markers[1].setAnimation(null);
-             markers[2].setAnimation(null);
-            $('#select_detail_view_city').show();
-            $(".cityname").html(content[3]);
-            $("input[name=citycode]").val(citycodes[3]);
-           }
-         });
        
    } /* init end */
    
+	// 마커 클릭 이벤트 실행 / select detail box 띄우기  
+	function markerListener(mark, index){
+		// 매개변수 마커에 클릭이벤트 적용
+		google.maps.event.addListener(mark, 'click', function() {
+			
+			// 클릭시 마커에 animation이 있으면
+			if (mark.getAnimation() != null) {
+				mark.setAnimation(null);
+				$('#select_detail_view_city').hide();
+			} else {
+			// 클릭시 마커에 animation이 없으면
+				mark.setAnimation(google.maps.Animation.BOUNCE);
+				
+				// 클릭외 나머지 마커들 animation 삭제
+				for(var i=0;i<4;i++){ 
+					if(i != index){
+						markers[i].setAnimation(null);
+					}
+				}
+				$('#select_detail_view_city').show();
+				$(".cityname").html(content[index]);
+				$("input[name=citycode]").val(citycodes[index]);
+			}
+		});
+	}
+   
    $(document).ready(function(){
+	   // 선택된 도시 삭제 & 마커 animation 삭제
       $(".fa-times-circle").click(function(){ // x표시 누르면 select detail box 사라짐, bounce 이벤트 삭제
          $('#select_detail_view_city').hide();
          for(var i=0;i<locations.length;i++){
             markers[i].setAnimation(null);
          }
       });
+	   
+	  // 왼쪽 도시 box에서 선택시 마커 움직임(안됨)
+      /* $(".item").on("click", function() {
+    	  var index = $(this).attr("data-index");
+    	  alert("index?" + index);
+    	  console.log("선택 마커?" + markers[0].title);
+          markerListener(markers[index],index);
+      }); */
    });
    
    google.maps.event.addDomListener(window, 'load', initialize);
@@ -274,20 +221,19 @@ src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCiDE5HBue4mflsdkcsGvSZrUe
                       <div class="clear"></div>
                    </div>
               </div>
-            <!-- <div id="search_box" style="width:100%;height:51px;border-bottom:solid #d6d6d6 1px;"></div> -->
             
             <!-- 지역 선택 -->
               <div id="city_list_box" style="height: 100vh;">
                  <c:forEach items="${res}" var="city" varStatus="status">
-                 <div class="item" id="city_${status.index}" data-no="${city.city_Code}" data="86" data-ci_name="${city.city_Name}" data-lat="${city.city_Lati}" data-lng="${city.city_Long}">
-                    <div class="img_box fl"><img src="${pageContext.request.contextPath}/resources/images/plan/city/${city.city_Img}"></div>
-                    <div class="info_box fl">
-                       <div class="info_title">${city.city_Name}</div>
-                       <div class="info_sub_title">${city.city_Eng}</div>
-                      </div>
-                      <div class="spot_to_inspot"><img src="${pageContext.request.contextPath}/resources/images/plan/spot_to_inspot_a.png"></div>
-                      <div class="clear"></div>
-                  </div>
+	                 <div class="item" id="city_${status.index}" data-index="${status.index}" data-no="${city.city_Code}" data="86" data-ci_name="${city.city_Name}" data-lat="${city.city_Lati}" data-lng="${city.city_Long}">
+	                    <div class="img_box fl"><img src="${pageContext.request.contextPath}/resources/images/plan/city/${city.city_Img}"></div>
+	                    <div class="info_box fl">
+	                       <div class="info_title">${city.city_Name}</div>
+	                       <div class="info_sub_title">${city.city_Eng}</div>
+	                      </div>
+	                      <div class="spot_to_inspot"><img src="${pageContext.request.contextPath}/resources/images/plan/spot_to_inspot_a.png"></div>
+	                      <div class="clear"></div>
+	                  </div>
                   </c:forEach>
             </div>
           </div>
@@ -295,105 +241,18 @@ src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCiDE5HBue4mflsdkcsGvSZrUe
       </div>
    
       <div id="right_full_box" class="fl" style="position:absolute;left:336px;top:62px;">
-           <!-- <div id="clip_list" data="0">
-                  <div class="list_title"><span></span> 클립보드<div class="list_title_option_menu" data-is_open="off">도시 변경</div></div>
-                <div id="detail_close_btn"></div>
-                <div class="clear"></div>
-                <div class="clipboard_change_box"></div>
-                
-                <div class="list_box_overlay"></div>
-                
-                <div class="list_box"></div>
-              </div> -->
               
-              <!-- 지도 설정 @@ -->
+         <!-- 지도 설정 @@ -->
          <div id="map" class="fl" style="height: 659px; position: relative; width: 1200px; overflow: hidden; left:0px"></div>
-         
            
            <!-- 일정 정보 설정 -->
               <div id="select_detail_view_city" data="0">
               <div class="city_title">
                <div class="ci_title_name fl">여행도시</div>
                <div class="pn_date_box fr" id="date_pick_btn" data="0">
-                  <div class="pn_date_info fl">출발일</div>
-                  <div class="pn_date_icon fr"><i class="fas fa-calendar-alt"></i></div>
+                  <!-- <div class="pn_date_info fl">출발일</div>
+                  <div class="pn_date_icon fr"><i class="fas fa-calendar-alt"></i></div> -->
                   <div class="clear"></div>
-                  <div id="date_pick" class="hasDatepicker">
-                     <div class="ui-datepicker-inline ui-datepicker ui-widget ui-widget-content ui-helper-clearfix ui-corner-all" style="display: block;">
-                        <div class="ui-datepicker-header ui-widget-header ui-helper-clearfix ui-corner-all">
-                           <a class="ui-datepicker-next ui-corner-all" data-handler="next" data-event="click" title="">
-                              <span class="ui-icon ui-icon-circle-triangle-e"></span>
-                           </a>
-                           <div class="ui-datepicker-title">
-                              <span class="ui-datepicker-month">1월</span>&nbsp;<span class="ui-datepicker-year">2020</span>
-                           </div>
-                        </div>
-                        <table class="ui-datepicker-calendar">
-                           <thead>
-                              <tr>
-                                 <th class="ui-datepicker-week-end"><span title="SUN">SUN</span></th>
-                                 <th><span title="MON">MON</span></th>
-                                 <th><span title="TUE">TUE</span></th>
-                                 <th><span title="WED">WED</span></th>
-                                 <th><span title="THU">THU</span></th>
-                                 <th><span title="FRI">FRI</span></th>
-                                 <th class="ui-datepicker-week-end"><span title="SAT">SAT</span></th>
-                              </tr>
-                           </thead>
-                           <tbody>
-                              <tr>
-                                 <td class=" ui-datepicker-week-end ui-datepicker-other-month ui-datepicker-unselectable ui-state-disabled">&nbsp;</td>
-                                 <td class=" ui-datepicker-other-month ui-datepicker-unselectable ui-state-disabled">&nbsp;</td>
-                                 <td class=" ui-datepicker-other-month ui-datepicker-unselectable ui-state-disabled">&nbsp;</td>
-                                 <td class=" ui-datepicker-unselectable ui-state-disabled "><span class="ui-state-default">1</span></td>
-                                 <td class=" ui-datepicker-unselectable ui-state-disabled "><span class="ui-state-default">2</span></td>
-                                 <td class=" ui-datepicker-unselectable ui-state-disabled "><span class="ui-state-default">3</span></td>
-                                 <td class=" ui-datepicker-week-end ui-datepicker-unselectable ui-state-disabled "><span class="ui-state-default">4</span></td>
-                              </tr>
-                              <tr>
-                                 <td class=" ui-datepicker-week-end ui-datepicker-unselectable ui-state-disabled "><span class="ui-state-default">5</span></td>
-                                 <td class=" ui-datepicker-unselectable ui-state-disabled "><span class="ui-state-default">6</span></td>
-                                 <td class=" ui-datepicker-unselectable ui-state-disabled "><span class="ui-state-default">7</span></td>
-                                 <td class=" ui-datepicker-unselectable ui-state-disabled "><span class="ui-state-default">8</span></td>
-                                 <td class=" ui-datepicker-unselectable ui-state-disabled "><span class="ui-state-default">9</span></td>
-                                 <td class=" ui-datepicker-unselectable ui-state-disabled "><span class="ui-state-default">10</span></td>
-                                 <td class=" ui-datepicker-week-end ui-datepicker-unselectable ui-state-disabled "><span class="ui-state-default">11</span></td>
-                              </tr>
-                              <tr>
-                                 <td class=" ui-datepicker-week-end ui-datepicker-unselectable ui-state-disabled "><span class="ui-state-default">12</span></td>
-                                 <td class=" ui-datepicker-unselectable ui-state-disabled "><span class="ui-state-default">13</span></td>
-                                 <td class=" ui-datepicker-unselectable ui-state-disabled "><span class="ui-state-default">14</span></td>
-                                 <td class=" ui-datepicker-unselectable ui-state-disabled "><span class="ui-state-default">15</span></td>
-                                 <td class=" ui-datepicker-unselectable ui-state-disabled "><span class="ui-state-default">16</span></td>
-                                 <td class=" ui-datepicker-unselectable ui-state-disabled "><span class="ui-state-default">17</span></td>
-                                 <td class=" ui-datepicker-week-end ui-datepicker-unselectable ui-state-disabled "><span class="ui-state-default">18</span></td>
-                              </tr>
-                              <tr>
-                                 <td class=" ui-datepicker-week-end ui-datepicker-unselectable ui-state-disabled "><span class="ui-state-default">19</span></td>
-                                 <td class=" ui-datepicker-unselectable ui-state-disabled "><span class="ui-state-default">20</span></td>
-                                 <td class=" ui-datepicker-unselectable ui-state-disabled "><span class="ui-state-default">21</span></td>
-                                 <td class=" ui-datepicker-unselectable ui-state-disabled "><span class="ui-state-default">22</span></td>
-                                 <td class=" ui-datepicker-unselectable ui-state-disabled "><span class="ui-state-default">23</span></td>
-                                 <td class=" ui-datepicker-unselectable ui-state-disabled "><span class="ui-state-default">24</span></td>
-                                 <td class=" ui-datepicker-week-end ui-datepicker-unselectable ui-state-disabled "><span class="ui-state-default">25</span></td>
-                              </tr>
-                              <tr>
-                                 <td class=" ui-datepicker-week-end ui-datepicker-unselectable ui-state-disabled "><span class="ui-state-default">26</span></td>
-                                 <td class=" ui-datepicker-unselectable ui-state-disabled "><span class="ui-state-default">27</span></td>
-                                 <td class=" ui-datepicker-unselectable ui-state-disabled "><span class="ui-state-default">28</span></td>
-                                 <td class=" ui-datepicker-unselectable ui-state-disabled "><span class="ui-state-default">29</span></td>
-                                 <td class=" ui-datepicker-days-cell-over  ui-datepicker-current-day ui-datepicker-today" data-handler="selectDay" data-event="click" data-month="0" data-year="2020">
-                                    <a class="ui-state-default ui-state-highlight ui-state-active ui-state-hover" href="#">30</a>
-                                 </td>
-                                 <td class=" " data-handler="selectDay" data-event="click" data-month="0" data-year="2020">
-                                    <a class="ui-state-default" href="#">31</a>
-                                 </td>
-                                 <td class=" ui-datepicker-week-end ui-datepicker-other-month ui-datepicker-unselectable ui-state-disabled">&nbsp;</td>
-                              </tr>
-                           </tbody>
-                        </table>
-                     </div>
-                  </div><!--datepick end -->
                   <form action="planDetail.do" method="get" id="createform">
                      <input type="hidden" id="schedule_date" name="schedule_date" value=""/> <!-- 날짜  -->
                      <input type="hidden" id="city_no" name="citycode" value=""/> <!-- 도시코드 -->
@@ -420,7 +279,7 @@ src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCiDE5HBue4mflsdkcsGvSZrUe
                 </div><!-- 일정 정보 end -->
          </div><!-- right box end -->
          
-               <!-- 모달 정보 설정 -->
+      <!-- 모달 정보 설정 -->
       <div id="createmodal" class="createmodal">
          <div class="modal-title">
             출발일과 여행제목을 입력해주세요<span class="modal-close">&times;</span>
@@ -429,6 +288,7 @@ src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCiDE5HBue4mflsdkcsGvSZrUe
          <div class="modal-content">
             <div class="title_box">
                "출발일 선택"
+               <img src="">
             </div>
             <table class="create-table" width="100%" cellpadding="0" cellspacing="0">
                <colgroup><col width="85"><col></colgroup>
@@ -449,7 +309,7 @@ src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCiDE5HBue4mflsdkcsGvSZrUe
                   <tr>
                      <th>"여행출발일       "</th>
                      <td>
-                        <input type="text" id="start-day" class="hasDatepicker"/>
+                        <input type="text" id="testDatepicker"/>
                      </td>
                   </tr>
                   <tr>
@@ -459,12 +319,16 @@ src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCiDE5HBue4mflsdkcsGvSZrUe
                </tbody>
             </table>
          </div>
-      </div>
+      </div> <!-- 모달 end -->
    
          <div class="clear"></div>
       </div>
    </div>
-   
+
+<!-- // jQuery 기본 js파일-->
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>  
+<!-- // jQuery UI 라이브러리 js파일 -->
+<script src="http://code.jquery.com/ui/1.8.18/jquery-ui.min.js"></script>     
 <script src="${pageContext.request.contextPath}/resources/js/plan/plan_create.js"></script> 
 <div id="ui-datepicker-div" class="ui-datepicker ui-widget ui-widget-content ui-helper-clearfix ui-corner-all"></div>
 </body>

@@ -8,7 +8,6 @@
 <!-- 아이콘 -->
 <link rel="stylesheet"
 	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css" />
-
 <%-- 부트스트랩 모달 core 파일 시작 --%>
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
 	integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
@@ -61,6 +60,7 @@
 					}
 				});
 	});
+	
 </script>
 <style type="text/css">
 body {
@@ -439,9 +439,63 @@ html {
 	scroll-behavior: smooth;
 }
 
-#air_container{ width:100%;
-                height:450px;
-               }
+#air_container {
+	width: 100%;
+	height: 450px;
+}
+
+#airplane_Info {
+	width: 100%;
+	height: 290px;
+	border-radius: 5px;
+	border-top: 4px solid #fc3c3c;
+	border-right: 3px solid #eee;
+	border-bottom: 3px solid #eee;
+	border-left: 3px solid #eee;
+	margin-top: 390px;
+	padding: 15px 15px;
+}
+
+#airInfo_title {
+	width: 100%;
+	height: 50px;
+	font-size: 22px;
+	line-height: 50px;
+	padding-left: 25px;
+}
+
+#airInfo1 {
+	width: 100%;
+	height: 130px;
+	overflow: hidden;
+	margin-top: 10px;
+}
+
+#airInfo2 {
+	width: 30%;
+	height: 80px;
+	margin-top: 20px;
+	margin-left: 850px;
+}
+
+#info {
+	width: 100%;
+	height: 130px;
+	float: left;
+}
+
+#info_title {
+	width: 100%;
+	font-size: 11px;
+	color: black;
+}
+
+#info_location {
+	width: 100%;
+	margin-top: -10px;
+	font-size: 22px;
+	font-weight: bold;
+}
 </style>
 <title>TWT - 마이페이지</title>
 </head>
@@ -508,28 +562,31 @@ html {
 		<%-- 개인정보조회 DIV 시작 --%>
 		<div class="col-sm-9" style="float: left;">
 			<div id="form_wrap">
-				<form action="#" method="post">
+				<%-- FIXME : 폼 액션 pwd_modify.do로 변경 --%>
+				<form action="#" id="user_form" method="post">
 					<div class="form-group">
-						<input type="text" value="${user.m_Id}" /> <label for="input"
-							class="control-label">ID</label><i class="bar"></i>
+						<input type="text" name="m_Id" value="${user.m_Id}" /> <label
+							for="input" class="control-label">ID</label><i class="bar"></i>
 					</div>
 
 					<div class="form-group">
-						<input type="text" value="${user.m_Email}" /> <label for="input"
-							class="control-label">E-MAIL</label><i class="bar"></i>
+						<input type="text" name="m_Email" value="${user.m_Email}" /> <label
+							for="input" class="control-label">E-MAIL</label><i class="bar"></i>
 					</div>
 
 					<div class="form-group">
 						<input type="password" required="required" value="${user.m_Pass}"
-							id="password" /> <label for="input" class="control-label">PWD</label><i
-							class="bar"> <span style="float: right; margin-top: -30px;"
-							id="eye"> <i class="fas fa-eye"></i>
+							id="password" name="m_Pass" /> <label for="input"
+							class="control-label">PWD</label><i class="bar"> <span
+							style="float: right; margin-top: -30px;" id="eye"> <i
+								class="fas fa-eye"></i>
 						</span>
 						</i>
 					</div>
 
 					<div style="margin-left: 585px;">
-						<a href="#" class="btn btn-primary btn-outline-primary">수 정</a>
+						<button type="submit" id="pwd_modify"
+							class="btn btn-primary btn-outline-primary">수 정</button>
 					</div>
 				</form>
 			</div>
@@ -537,77 +594,104 @@ html {
 		<%-- 개인정보조회 DIV 끝 --%>
 
 		<%-- 항공예약조회 DIV 시작 --%>
+		<div class="col-sm-12" style="float: left; margin-top: 35px;">
+			<div class="title">
+				<p>항공권 예약 정보</p>
+			</div>
+		</div>
 		<c:choose>
 			<c:when test="${empty airlist}">
-				<div class="col-sm-12" style="float: left; margin-top: 35px;">
-					<div class="title">
-						<p>항공권 예약 정보</p>
-					</div>
+				<div class="col-sm-12" style="width: 100%; text-align: center;">${user.m_Name}님의
+					예약된 항공권 정보가 존재하지 않습니다.</div>
 
-					<div class="col-sm-12" style="width:100%; text-align:center;">${user.m_Name}님의 예약된 항공권 정보가 존재하지 않습니다.</div>
-
-					<div class="col-sm-10" style="margin-left:425px; margin-top:25px;">
-						<button type="button" class="btn btn-primary btn-outline-primary" data-toggle="modal" data-target="#airplaneInfo">
-						   GO WRITE<i class="fas fa-pencil-alt" style="margin-left:5px;"></i>
-					    </button>
-					</div>
+				<div class="col-sm-10" style="margin-left: 425px; margin-top: 25px;">
+					<button type="button" class="btn btn-primary btn-outline-primary"
+						data-toggle="modal" data-target="#airplaneInfo">
+						GO WRITE<i class="fas fa-pencil-alt" style="margin-left: 5px;"></i>
+					</button>
 				</div>
 			</c:when>
 			<c:otherwise>
-			<c:forEach items="${airlist}" var="air">
-	           <div>
-	               <p>${air.m_code}</p>
+				<c:forEach items="${airlist}" var="air">
+					<%--<div>
+	               <p>${air.m_Code}</p>
 	               <p>${air.dep_Loca1}</p>
 	               <p>${air.dep_Loca2}</p>
 	               <p>${air.dep_Date1}</p>
 	               <p>${air.dep_Date2}</p>
 	               <p>${air.dep_Time1}</p>
 	               <p>${air.dep_Time2}</p>
-	           </div>		
-			</c:forEach>
-			</c:otherwise>
-		</c:choose>
-		<!-- <div class="col-sm-12" style="float: left; margin-top: 35px;">
-			<div class="title">
-				<p>항공권 예약 정보</p>
-			</div>
-
-			<div class="col-sm-12 page_left">
-				<div class="day-box" id="day_box">
-					<div class="day_info_box">
-						<div class="day_txt">DAY1</div>
-
-						<div class="day_info">
-							<div class="day_info_left">
-								<div class="date">2015.08.01 (토)</div>
-								<div class="day_title">로스엔젤레스</div>
+	               </div>--%>
+					<div class="col-sm-12">
+						<div id="airplane_Info">
+							<div id="airInfo_title">
+								<span style="color: #fc3c3c; font-weight: bold;">${user.m_Name}님의
+									항공권 예약</span>정보입니다.
 							</div>
-							<div class="day_info_right" style="display: none;"></div>
-							<div class="clear"></div>
-						</div>
-					</div>
 
-					<div class="day_sch_box" id="day_sch_box">
-						<div class="day_sch_num">
-							<div class="sch_num">1</div>
-						</div>
+							<div class="col-sm-12" id="airInfo1">
+								<div class="col-sm-2" id="info">
+									<div id="info_title">
+										<p>출발지</p>
+									</div>
 
-						<div class="day_sch_content">
-							<img
-								src="http://img.earthtory.com/img/place_img/10019/64982_0_et.jpg"
-								class="spot_img" style="cursor: pointer;">
+									<div id="info_location">${air.dep_Loca1}</div>
 
-							<div class="spot_content_box">
-								<div class="spot_name">베니스 비치</div>
-								<div class="spot_info">
-									<div class="tag">해변/항구</div>
+									<div id="info_title">
+										<p>도착지</p>
+									</div>
+
+									<div id="info_location">${air.dep_Loca2}</div>
+								</div>
+								<div class="col-sm-4" id="info">
+									<div id="info_title">
+										<p>출국일</p>
+									</div>
+
+									<div id="info_location">${air.dep_Date1}</div>
+
+									<div id="info_title">
+										<p>도착일</p>
+									</div>
+
+									<div id="info_location">${air.dep_Date2}</div>
+								</div>
+								<div class="col-sm-2" id="info">
+									<div id="info_title">
+										<p>출발지</p>
+									</div>
+
+									<div id="info_location">${air.re_Loca1}</div>
+
+									<div id="info_title">
+										<p>도착지</p>
+									</div>
+
+									<div id="info_location">${air.re_Loca2}</div>
+								</div>
+								<div class="col-sm-4" id="info">
+									<div id="info_title">
+										<p>출국일</p>
+									</div>
+
+									<div id="info_location">${air.re_Date1}</div>
+
+									<div id="info_title">
+										<p>도착일</p>
+									</div>
+
+									<div id="info_location">${air.re_Date2}</div>
 								</div>
 							</div>
+
+							<div class="col-sm-12" id="airInfo2">
+								<i class="fas fa-barcode" style="font-size: 70px;"></i>
+							</div>
 						</div>
 					</div>
-				</div>
-			</div>
-		</div> -->
+				</c:forEach>
+			</c:otherwise>
+		</c:choose>
 		<%-- 항공예약조회 DIV 끝 --%>
 
 		<%-- 호텔예약조회 DIV 시작 --%>
@@ -867,43 +951,47 @@ html {
 		</div>
 	</div>
 	<%-- 일정 모달 DIV 끝 --%>
-	
-<%-- 항공권 모달 DIV 시작 --%>
-<form action="air_insert.do" method="post">
-<div class="modal fade" id="airplaneInfo" tabindex="-1" role="dialog" aria-labelledby="airplaneInfoTitle" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="airplaneInfoTitle">내 항공권 작성하기</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <input type="hidden" name="m_code" value="${user.m_Code}">
-        <input type="hidden" name="m_id" value="${user.m_Id}">
-	                   출국지 : <input type="text" name="dep_Loca1"><br>
-	                   출국 도착지 : <input type="text" name="dep_Loca2"><br>
-	                   출국날짜 : <input type="text" name="dep_Date1"><br>
-	                   출국 도착날짜 : <input type="text" name="dep_Date2"><br>
-		          출국 출발시간 : <input type="text" name="dep_Time1"><br>
-		          출국 도착시간 : <input type="text" name="dep_Time2"><br>
-		          귀국출발지 : <input type="text" name="re_Loca1"><br>
-		          귀국도착지 : <input type="text" name="re_Loca2"><br>
-		          귀국출발날짜 : <input type="text" name="re_Date1"><br>
-		          귀국도착날짜 : <input type="text" name="re_Date2"><br>
-		          귀국출발시간 : <input type="text" name="re_Time1"><br>
-		          귀국도착시간 : <input type="text" name="re_Time2">
-      </div>
-      <div class="modal-footer">
-        <button type="submit" class="btn btn-primary btn-outline-primary">완 료</button>
-      </div>
-    </div>
-  </div>
-</div>
-</form>
-<%-- 항공권 모달 DIV 끝--%>
 
-<%@ include file="/WEB-INF/views/footer.jsp" %>
+	<%-- 항공권 모달 DIV 시작 --%>
+	<form action="air_insert.do" method="post">
+		<div class="modal fade" id="airplaneInfo" tabindex="-1" role="dialog"
+			aria-labelledby="airplaneInfoTitle" aria-hidden="true">
+			<div class="modal-dialog modal-dialog-centered modal-lg"
+				role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="airplaneInfoTitle">내 항공권 작성하기</h5>
+						<button type="button" class="close" data-dismiss="modal"
+							aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+					<div class="modal-body">
+						<input type="hidden" name="m_code" value="${user.m_Code}">
+						<input type="hidden" name="m_id" value="${user.m_Id}"> 출국지
+						: <input type="text" name="dep_Loca1"><br> 출국 도착지 : <input
+							type="text" name="dep_Loca2"><br> 출국날짜 : <input
+							type="text" name="dep_Date1"><br> 출국 도착날짜 : <input
+							type="text" name="dep_Date2"><br> 출국 출발시간 : <input
+							type="text" name="dep_Time1"><br> 출국 도착시간 : <input
+							type="text" name="dep_Time2"><br> 귀국출발지 : <input
+							type="text" name="re_Loca1"><br> 귀국도착지 : <input
+							type="text" name="re_Loca2"><br> 귀국출발날짜 : <input
+							type="text" name="re_Date1"><br> 귀국도착날짜 : <input
+							type="text" name="re_Date2"><br> 귀국출발시간 : <input
+							type="text" name="re_Time1"><br> 귀국도착시간 : <input
+							type="text" name="re_Time2">
+					</div>
+					<div class="modal-footer">
+						<button type="submit" class="btn btn-primary btn-outline-primary">완
+							료</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</form>
+	<%-- 항공권 모달 DIV 끝--%>
+
+	<%@ include file="/WEB-INF/views/footer.jsp"%>
 </body>
 </html>

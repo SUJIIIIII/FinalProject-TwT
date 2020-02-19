@@ -47,6 +47,9 @@ public class PlanController {
 	
 	@RequestMapping("planDetail.do")
 	public String planDetail(Model model, HttpServletRequest request) {
+		// Day1 추가해서 만들기
+		
+		
 		// city 모든 정보
 		List<CityVo> allCity = biz.selectCityAll();
 		
@@ -57,6 +60,10 @@ public class PlanController {
 		
 		// 선택된 city 정보
 		CityVo cityvo = biz.selectCityOne(citycode);
+		
+		System.out.println("allspot : " + allSpot);
+		System.out.println("위도 : " + allSpot.get(0).gettp_Lati());
+		System.out.println("경도 : " + allSpot.get(0).gettp_Long());
 		
 		model.addAttribute("allCity",allCity);
 		model.addAttribute("allSpot",allSpot);

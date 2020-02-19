@@ -22,10 +22,10 @@ public class Interceptor implements HandlerInterceptor{
 		HttpSession session = request.getSession(false);
 		
 		//세션에 저장된 로그인정보 (인터셉터 실행 시 세션에 로그인정보가 없으면 member = null)
-		MemberVo member = (MemberVo)session.getAttribute("login");
+		MemberVo member = (MemberVo)session.getAttribute("user");
 
+		
 		//인터셉터 조건 추가
-		/*
 		if(request.getRequestURI().contains("/communityInsertForm.do")) {
 			//member가 null인지 확인
 			if(member == null) {
@@ -34,7 +34,7 @@ public class Interceptor implements HandlerInterceptor{
 				response.sendRedirect("login.do");
 			}
 		}
-		*/
+		
 		//기본 true 리턴하여 컨트롤러 접근
 		return tf;
 	}

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+﻿<?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
@@ -6,7 +6,7 @@
 <mapper namespace="twt">
 
 	<!-- ================================용훈================================== -->
-	<resultMap type="ScheduleReview" id="ScheduleReviewMap">
+ 	<resultMap type="ScheduleReview" id="ScheduleReviewMap">
 		<result property="sr_Code" column="SR_CODE"/>
 		<result property="m_Code" column="M_CODE"/>
 		<result property="ts_Code" column="TS_CODE"/>
@@ -15,18 +15,30 @@
 		<result property="sr_View" column="SR_VIEW"/>
 		<result property="sr_Date" column="SR_DATE"/>
 	</resultMap>
-	
+
 	<insert id="insertForm_Y">
-		INSERT INTO SCHEDULEREVIEW VALUES('SR'||SR_SEQ.NEXTVAL, NULL, NULL, NULL, NULL, 0, SYSDATE)
+		INSERT INTO SCHEDULEREVIEW
+		VALUES('SR'||SR_SEQ.NEXTVAL, NULL, NULL, NULL, NULL, 0, SYSDATE)
 	</insert>
- 
-	<select id="selectNo" resultMap="ScheduleReviewMap">
-		SELECT MAX(SR_CODE) FROM SCHEDULEREVIEW
-	</select>
-	
 
  
- 	<!-- ================================범식================================== -->
+	<select id="selectSrCode_Y" resultType="String">
+		SELECT MAX(TO_NUMBER(LTRIM(SR_CODE,'SR'))) FROM SCHEDULEREVIEW
+	</select>
+	
+	<update id="updatePotoBook_Y" parameterType="ScheduleReview">
+		UPDATE SCHEDULEREVIEW
+		SET 
+		M_CODE = #{m_Code},
+		SR_TITLE = #{sr_Title},
+		SR_CONTENT = #{sr_Content}
+		WHERE SR_CODE = #{sr_Code}
+	</update>
+
+
+
+
+	<!-- ================================범식================================== -->
 
 
 	<resultMap type="Hotel" id="hotelMap">
@@ -52,8 +64,8 @@
 
 	</select>
 
-    <!-- 호텔룸 -->
-    <select id="selectall_B" resultType="Hotel">
+	<!-- 호텔룸 -->
+	<select id="selectall_B" resultType="Hotel">
 		SELECT * FROM HOTELROOM
 	</select>
 
@@ -62,7 +74,8 @@
 
 
 	<!-- ================================도영================================== -->
-	<resultMap type="TravelSchedule" id="TravelScheduleMap">
+
+	<resultMap type="TravelSchedule" id="TravelScheduleMap_D">
 		<result property="ts_Code" column="TS_CODE" />
 		<result property="m_Code" column="M_CODE" />
 		<result property="tp_Code" column="TP_CODE" />
@@ -72,31 +85,47 @@
 		<result property="ts_People" column="TS_PEOPLE" />
 		<result property="ts_Thum" column="TS_THUM" />
 		<result property="ts_Period" column="TS_PERIOD" />
-		<result property="m_Id" column="M_ID "/>
+		<result property="ts_Date" column="TS_DATE" />
+		<result property="ts_View" column="TS_VIEW" />
+		<result property="m_Id" column="M_ID" />
 	</resultMap>
 	
 	<!-- 여행일정 게시판 리스트 최신 순-->
-	<select id="selectList_D" resultMap="TravelScheduleMap">
-		SELECT * FROM TRAVELSCHEDULE ORDER BY TS_CODE DESC
+	<select id="selectList_D" resultMap="TravelScheduleMap_D">
+		SELECT * FROM TRAVELSCHEDULE LEFT JOIN TWTMEMBER USING(M_CODE) ORDER BY TS_DATE DESC
 	</select>
-	
+
 	<!-- 여행일정 게시판 리스트 조회수 순 -->
-	<select id="PselectList_D" resultMap="TravelScheduleMap">
+	<select id="PselectList_D" resultMap="TravelScheduleMap_D">
 <!-- 		SELECT * FROM TRAVELSCHEDULE ORDER BY TS_CODE DESC -->
-		SELECT * FROM TRAVELSCHEDULE LEFT JOIN TWTMEMBER USING(M_CODE) ORDER BY TS_CODE DESC;
+		SELECT * FROM TRAVELSCHEDULE LEFT JOIN TWTMEMBER USING(M_CODE) ORDER BY SR_VIEW DESC
 	</select>
-	
+
 	<!-- 여행일정 디테일 페이지 -->
-	<select id="selectOne_D" >
-		SELECT * FROM TRAVELSCHEDULE WHERE TS_CODE = #{TS_CODE}
-	</select>
+	<resultMap type="TravelSchedule" id="DetailMap_D">
+		<result property="ts_Code" column="TS_CODE" />
+		<result property="m_Code" column="M_CODE" />
+		<result property="tp_Code" column="TP_CODE" />
+		<result property="ts_Title" column="TS_TITLE" />
+		<result property="ts_Sday" column="TS_SDAY" />
+		<result property="ts_Theme" column="TS_THEME" />
+		<result property="ts_People" column="TS_PEOPLE" />
+		<result property="ts_Thum" column="TS_THUM" />
+		<result property="ts_Period" column="TS_PERIOD" />
+		<result property="ts_Date" column="TS_DATE" />
+		<result property="ts_View" column="TS_VIEW" />
+	</resultMap>
+	
+	<!-- <select id="selectOne_D" parameterType="String" resultMap="DetailMap_D">
+		SELECT * FROM TRAVELSCHEDULE LEFT JOIN TWTMEMBER USING(M_CODE) WHERE TS_CODE = #{TS_CODE}
+	</select> -->
 
 
 	<!-- ================================보미================================== -->
 	<!-- 회원가입 -->
 	<insert id="insertM" parameterType="Member">
 		INSERT INTO TWTMEMBER VALUES
-		('M3',#{m_Id},#{m_Pass},#{m_Name},#{m_Email},#{m_Api,jdbcType=VARCHAR},'N')
+		('M4',#{m_Id},#{m_Pass},#{m_Name},#{m_Email},#{m_Api,jdbcType=VARCHAR}, 'N')
 	</insert>
 
 	<!-- 로그인 -->
@@ -113,7 +142,8 @@
 
 	<!-- 항공권 전체 조회 -->
 	<select id="selectAllAirM" resultType="AirplaneInfo">
-		SELECT * FROM AIRPLANEINFO WHERE M_CODE = #{m_code} 
+		SELECT * FROM AIRPLANEINFO
+		WHERE M_CODE = #{m_Code}
 	</select>
 
 	<!-- 항공권 정보 입력 -->
@@ -121,23 +151,30 @@
 		INSERT INTO AIRPLANEINFO
 		VALUES (#{m_code}, #{dep_Loca1}, #{dep_Loca2}, #{dep_Date1},
 		#{dep_Date2}, #{dep_Time1}, #{dep_Time2}, #{re_Loca1},
-		#{re_Loca2}, #{re_Date1}, #{re_Date2}, #{re_Time1}, #{re_Time2} )
+		#{re_Loca2},
+		#{re_Date1}, #{re_Date2}, #{re_Time1}, #{re_Time2} )
 	</insert>
 
 
 	<!-- 항공권 정보 수정 -->
-	<update id="updateAirM" parameterType="AirplaneInfo"></update>
+	<update id="updateAirM" parameterType="AirplaneInfo">
+	</update>
 
 	<!-- 유저 인증키(난수) Y로 변경 -->
 	<update id="alter_userKey" parameterType="Member">
 		UPDATE TWTMEMBER SET
 		M_MAILCHECK = 'Y' WHERE M_ID = #{m_Id} AND M_MAILCHECK =
-		#{m_mailcheck}
+		#{m_Mailcheck}
 	</update>
 
 	<!-- 항공권 정보 삭제 -->
 	<delete id="deleteAirM" parameterType="int">
 	</delete>
+
+	<!-- 유저 인증키 생성 -->
+	<update id="GetKey" parameterType="Member">
+		UPDATE TWTMEMBER SET M_MAILCHECK = #{m_Mailcheck} WHERE M_ID = #{m_Id}
+	</update>
 
 	<!-- ================================찬우================================== -->
 
@@ -148,14 +185,16 @@
 	<select id="selectcityall_S" resultType="City">
 		SELECT * FROM CITY
 	</select>
-	
+
 	<!-- 선택된 city spot 모두 불러오기 -->
-	<select id="selectallspot_S" resultType="TravelPoint" parameterType="String">
+	<select id="selectallspot_S" resultType="TravelPoint"
+		parameterType="String">
 		SELECT * FROM TRAVELPOINT WHERE CITY_CODE = #{citycode}
 	</select>
-	
+
 	<!-- 선택된 city 정보 불러오기 -->
-	<select id="selectcityone_S" resultType="City" parameterType="String">
+	<select id="selectcityone_S" resultType="City"
+		parameterType="String">
 		SELECT * FROM CITY WHERE CITY_CODE = #{citycode}
 	</select>
 
