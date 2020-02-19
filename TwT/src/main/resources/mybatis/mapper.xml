@@ -116,9 +116,9 @@
 		<result property="ts_View" column="TS_VIEW" />
 	</resultMap>
 	
-	<select id="selectOne_D" parameterType="String" resultMap="DetailMap_D">
+<!-- 	<select id="selectOne_D" parameterType="String" resultMap="DetailMap_D">
 		SELECT * FROM TRAVELSCHEDULE LEFT JOIN TWTMEMBER USING(M_CODE) WHERE TS_CODE = #{TS_CODE}
-	</select>
+	</select> -->
 
 
 	<!-- ================================보미================================== -->

@@ -410,7 +410,7 @@ src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCiDE5HBue4mflsdkcsGvSZrUe
 		        <!-- @@@수정 호버 시 아이콘 나오게@@@ -->
 		        <div id="schedule_detail_box" class="connectedSortable ui-sortable" style="height: 548px; display: block;">
 		        	<div class="day_spot_item" data="1" data-set_day="1" data-rel_srl="4740" data-pl_type="0" data-no="0" data-pl_cat="301" data-latlng="18.80455200,98.92134900" data-ci="87">
-		        		<div class="item_ctrl_box">
+		        		<div class="item_ctrl_box" style="display: none">
 		        			<div class="fl item_copy_plan" title="장소복사"><img src="${pageContext.request.contextPath}/resources/images/plan/item_more_icon_a.png"></div>
 		        			<div class="fl item_set_plan" title="메모&amp;예산"><img src="${pageContext.request.contextPath}/resources/images/plan/item_set_icon_a.png"></div>
 		        			<div class="fl btn_del" title="삭제"><img src="${pageContext.request.contextPath}/resources/images/plan/item_del_icon_a.png"></div>
@@ -430,28 +430,6 @@ src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCiDE5HBue4mflsdkcsGvSZrUe
 		        			<div class="sub inspot_day_info_box" style="color:#1a7ad9"></div>
 		        		</div>
 		        		<div class="clear"></div>
-		        	</div>
-		        	<div class="day_spot_item" data="2" data-set_day="1" data-rel_srl="117" data-pl_type="0" data-no="1" data-pl_cat="301" data-latlng="13.74998400,100.49200400" data-ci="86">
-		        		<div class="item_ctrl_box" style="display: none;">
-		        			<div class="fl item_copy_plan" title="장소복사"><img src="/res/img/workspace/new/item_more_icon_a.png"></div>
-		        			<div class="fl item_set_plan" title="메모&amp;예산"><img src="/res/img/workspace/new/item_set_icon_a.png"></div>
-		        			<div class="fl btn_del" title="삭제"><img src="/res/img/workspace/new/item_del_icon_a.png"></div>
-		        			<div class="clear"></div>
-		        		</div>
-		        		<div class="spot_distance_box" onclick="et_modal('620px','700px','1','0','/ko/modal/directions?from_latlng=13.70485500,100.50295300&amp;from_name=아시아티크&amp;to_latlng=13.74998400,100.49200400&amp;to_name=왕궁','2','1')">5.15Km 추천경로</div>
-						<div class="img_box fl">
-							<div class="spot_order_box">2</div>
-							<img src="http://img.earthtory.com/img/place_img/86/117_0_et.jpg">
-							<div style="position:absolute;top:35px;left:40px;width:22px;height:20px;">
-								<img src="${pageContext.request.contextPath}/resources/images/plan/list_memo_btn_off.png" class="memo_indi" style="width:22px;height:20px;">
-							</div>
-						</div>
-						<div class="fl info_box">
-							<div class="title">왕궁</div>
-							<div class="sub">랜드마크, 성/궁궐</div>
-							<div class="sub inspot_day_info_box" style="color:#1a7ad9"></div>
-						</div>
-						<div class="clear"></div>
 		        	</div>
 		        </div>
 		        <!--//(e)스케쥴 디테일 리스트-->
@@ -530,7 +508,8 @@ src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCiDE5HBue4mflsdkcsGvSZrUe
                 <div class="list_box connectedSortable" style="height: 441px;">
                 <c:set var="count" value="0"></c:set>
                 <c:forEach items="${allSpot}" var="spot" varStatus="status">
-                	<div class="day_spot_item ui-draggable" id="spot_${status.index}" data="${spot.city_Code}" data-type="${spot.tp_Type}" data-name="${spot.tp_Name}" data-set_day="0" data-rel_srl="4740" data-pl_type="0" data-no="${spot.tp_Code}" data-lat="${spot.tp_Lati}" data-lng="${spot.tp_Long}" data-pl_cat="301" data-ci="87">
+                	<div class="day_spot_item ui-draggable" id="spot_${status.index}" data-city="${spot.city_Code}" data-type="${spot.tp_Type}" data-name="${spot.tp_Name}" data-set_day="0" data-rel_srl="4740" data-pl_type="0" data-no="${spot.tp_Code}" data-lat="${spot.tp_Lati}" data-lng="${spot.tp_Long}" data-pl_cat="301" data-ci="87"
+                	data-img="${spot.tp_Img}">
                 		<div class="img_box fl"><img src="${pageContext.request.contextPath}/resources/images/plan/${spot.city_Code}/${spot.tp_Img}"></div>
                 		<div class="fl info_box">
                 			<div class="title">${spot.tp_Name}</div>
@@ -638,7 +617,7 @@ src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCiDE5HBue4mflsdkcsGvSZrUe
 	        
 		</div><!-- right_full_box end@@@@ -->
 </div>
-<script src="${pageContext.request.contextPath}/resources/js/plan/plan_detail.js"></script>
+<script src="${pageContext.request.contextPath}/resources/js/plan/plan_detail.js?version=1.0"></script>
 
 </body>
 </html>
