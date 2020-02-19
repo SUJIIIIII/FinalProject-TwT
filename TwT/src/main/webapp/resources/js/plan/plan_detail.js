@@ -64,12 +64,12 @@ $(document).ready(function(){
 $(".spot_to_inspot").on("click", function() {
 	var spot_name = $(this).parent().data("name"); // 여행지명
 	var spot_type = $(this).parent().data("type"); // 여행지 타입
-	var spot_no = $(this).parent().data("no"); // 순서
+	var spot_no = $(this).parent().data("no"); // 여행지 번호
 	var spot_lat = $(this).parent().data("lat"); // 위도
 	var spot_lng = $(this).parent().data("lng"); // 경도
 	var spot_city = $(this).parent().data("city"); // 도시 번호
 	var spot_img = $(this).parent().data("img"); // 사진
-	
+	var spot_seq = $("#schedule_detail_box").children().length + 1;
 	
 		$("#schedule_detail_box").append("" +  
 		"<div class='day_spot_item' data='1' data-set_day='1 data-pl_type='0' data-no='" + spot_no + "' data-pl_cat='301' data-latlng='" + spot_lat + "," + spot_lng + "' data-lat='" + spot_lat+ "' data-lng='" + spot_lng +"' data-ci='87'>"
@@ -80,7 +80,7 @@ $(".spot_to_inspot").on("click", function() {
 		        	+		"<div class='clear'></div>" 
 		        	+	"</div>"
 		        	+	"<div class='img_box fl'>"
-		        	+		"<div class='spot_order_box'>2</div>"
+		        	+		"<div class='spot_order_box'>" + spot_seq + "</div>"
 		        	+		"<img src='/twt/resources/images/plan/" + spot_city+ "/" + spot_img +"'>"
 		        	+		"<div style='position:absolute;top:35px;left:40px;width:22px;height:20px;>"
 		        	+			"<img src='/twt/resources/images/plan/list_memo_btn_off.png' class='memo_indi' style='width:22px;height:20px;'>"
@@ -100,7 +100,21 @@ $(".spot_to_inspot").on("click", function() {
 		spotlatlng.push(latlng);
 		console.log("spot : " + spotlatlng);
 	});
+
+	// 추가한 스팟 삭제
+	$(document).on("click",".btn_del",function(){		
+		var spot_index = $(this).parent().parent().attr("class");
+		alert(spot_index);
+		$(this).parent().parent().remove();
+	});
+	
+	
+
 });
+
+
+
+
 
 
 // Day 수정 버튼 클릭
