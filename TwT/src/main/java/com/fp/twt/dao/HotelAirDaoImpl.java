@@ -7,15 +7,75 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.fp.twt.vo.AirSearchVo;
 import com.fp.twt.vo.HotelVo;
 import com.fp.twt.vo.HotelroomVo;
 
 @Repository
 public class HotelAirDaoImpl implements HotelAirDao{
+	
+	@Autowired
+	private SqlSessionTemplate sqlSession;
+	
 	//찬우
 	
+	public String dateChange(String day) {
+		
+		 // 특정 문자가 반복될 경우 : '-' 가 반복된다.
+        String change = day;
+        
+        // split()을 이용해 '-'를 기준으로 문자열을 자른다.
+        // split()은 지정한 문자를 기준으로 문자열을 잘라 배열로 반환한다.
+        String date[] = change.split("/");
+        
+        System.out.println(date[0]);
+        System.out.println(date[1]);
+        System.out.println(date[2]);
+        
+        change = date[2]+"-"+date[0]+"-"+date[1];
+
+		
+		return change;
+	}
 	
 	
+	@Override
+	public String airSearch(AirSearchVo vo) {
+		
+		String departure_day = vo.getDeparture_day();
+		String coming_day = vo.getComing_day();
+		
+		vo.setDeparture_day(dateChange(departure_day)); //출발일 변환
+		vo.setComing_day(dateChange(coming_day));	//도착일 변환
+		
+		String url = "";
+		
+		if(vo.getAirtype().equals("v2&tripType=2")) {
+			System.out.println("왕복접근");
+			
+			url= "https://www.whypaymore.co.kr/d/flt/intl/"
+					+ "sched-deals?appId=v2&tripType=2"
+					+ "&searchSource=P&depLocCodes=SEL&depLocNames=서울%28모든공항%29"
+					+ "&arrLocCodes=BKK&arrLocNames=방콕%28모든공항%29"
+					+ "&dates="+vo.getDeparture_day()+"&dates="+vo.getComing_day()
+					+ "&cabinCls=Y&adtCnt="+vo.getPersonnel()+"&chdCnt=0&infCnt=0\r\n";
+			
+			//왕복일때
+		}else if (vo.getAirtype().equals("v2&tripType=1")) {
+			System.out.println("편도접근");
+			
+			url= "https://www.whypaymore.co.kr/d/flt/intl/"
+					+ "sched-deals?appId=v2&tripType=1"
+					+ "&searchSource=P&depLocCodes=SEL&depLocNames=서울%28모든공항%29"
+					+ "&arrLocCodes=BKK&arrLocNames=방콕%28모든공항%29"
+					+ "&dates="+vo.getDeparture_day()
+					+ "&cabinCls=Y&adtCnt="+vo.getPersonnel()+"&chdCnt=0&infCnt=0\r\n";;
+			//편도일때
+		}
+		
+		System.out.println(url);
+		return url;
+	}
 	
 	
 	
@@ -23,8 +83,7 @@ public class HotelAirDaoImpl implements HotelAirDao{
 	
 	//범식
 	
-	@Autowired
-	private SqlSessionTemplate sqlSession;
+	
 	
 	
 	//호텔 리스트
@@ -55,6 +114,8 @@ public class HotelAirDaoImpl implements HotelAirDao{
 		}
 		return hotelroomlist;
 	}
+
+	
 	
 	
 	

@@ -134,12 +134,15 @@
           	
           
       </div>--> <!-- 외쪽매뉴바 --> 
-      
-      <iframe frameborder='0'
-        src="https://www.whypaymore.co.kr/d/flt/intl/sched-deals?appId=v2&tripType=2&searchSource=P&depLocCodes=SEL&depLocNames=%EC%84%9C%EC%9A%B8%28%EB%AA%A8%EB%93%A0%EA%B3%B5%ED%95%AD%29&arrLocCodes=BKK&arrLocNames=%EB%B0%A9%EC%BD%95%28%ED%83%9C%EA%B5%AD%29&dates=2020-02-21&dates=2020-03-18&cabinCls=Y&adtCnt=1&chdCnt=0&infCnt=0"
-        scrolling="yes" border="no" maginwidth="0" marginheight="0" frameborder="0"       
-        style="height: 1800px; width: 100%"></iframe>
-     
+      <div style="height: 1800px; width: 100%; position: relative;">
+      	
+      		<div style="position:absolute;height: 90px; width: 100%; background-color: white;"></div>
+	      <iframe frameborder='0'
+	        src="${url}"
+	        scrolling="yes" border="no" maginwidth="0" marginheight="0" frameborder="0"       
+	        style="height: 1800px; width: 100%"></iframe>
+	     <div></div>
+     </div>
       
 		
         
