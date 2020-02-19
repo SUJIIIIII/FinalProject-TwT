@@ -60,6 +60,8 @@ var tooltipcontent; // infobox content
 var infowindow; // 마커 클릭시 infobox
 var spotaddr = new Array(); // 스팟 주소
 var spotcontent = new Array(); // 스팟 설명
+var spotlatlng = new Array(); // 스팟(일정 목록에 추가한) 위도, 경도 배열
+
 
 	// map 추가
 	function initMap() {
@@ -289,6 +291,7 @@ var spotcontent = new Array(); // 스팟 설명
 	});
 	
 	google.maps.event.addDomListener(window, 'load', initialize);
+
 
 </script>
 <!-- 구글맵 API KEY -->
