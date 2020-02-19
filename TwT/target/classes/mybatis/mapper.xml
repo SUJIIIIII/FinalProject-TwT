@@ -20,6 +20,7 @@
 		INSERT INTO SCHEDULEREVIEW
 		VALUES('SR'||SR_SEQ.NEXTVAL, NULL, NULL, NULL, NULL, 0, SYSDATE)
 	</insert>
+
  
 	<select id="selectSrCode_Y" resultType="String">
 		SELECT MAX(TO_NUMBER(LTRIM(SR_CODE,'SR'))) FROM SCHEDULEREVIEW
@@ -115,22 +116,9 @@
 		<result property="ts_View" column="TS_VIEW" />
 	</resultMap>
 	
-	<select id="selectOne_D" parameterType="String" resultMap="DetailMap_D">
+<!-- 	<select id="selectOne_D" parameterType="String" resultMap="DetailMap_D">
 		SELECT * FROM TRAVELSCHEDULE LEFT JOIN TWTMEMBER USING(M_CODE) WHERE TS_CODE = #{TS_CODE}
-	</select>
-
-	<!-- 여행일정 게시판 리스트 조회수 순 -->
-	<select id="PselectList_D" resultMap="TravelScheduleMap">
-		<!-- SELECT * FROM TRAVELSCHEDULE ORDER BY TS_CODE DESC -->
-		SELECT * FROM TRAVELSCHEDULE LEFT JOIN TWTMEMBER USING(M_CODE) ORDER
-		BY TS_CODE DESC;
-	</select>
-
-	<!-- 여행일정 디테일 페이지 -->
-	<select id="selectOne_D">
-		SELECT * FROM TRAVELSCHEDULE WHERE
-		TS_CODE = #{TS_CODE}
-	</select>
+	</select> -->
 
 
 	<!-- ================================보미================================== -->
