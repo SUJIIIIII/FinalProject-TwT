@@ -4,73 +4,74 @@ import java.util.Date;
 
 public class AnswerVo {
 
-    private String sra_Code; 	//댓글 번호
-    private String sr_Code; 		//일정리뷰 번호
-    private String sba_code; 	//일정일정 번호
-    private String m_Name; 		//댓글 작성자
-    private String sra_Content; 	//댓글 내용
-    private Date sra_Date; 		//댓글 작성일
+    private String ans_Code; 	//댓글 번호
+    private String m_Code; 		//댓글 작성자
+    private String board_Code; 	//보드 번호
+    private String reple_Code; //답글코드
+    private String ans_Content; //댓글 내용
+    private Date ans_Date; 		//댓글 작성일
 
     public AnswerVo() {
 		super();
 	}
-    
-	public AnswerVo(String sra_Code, String sr_Code, String sba_code, String m_Name, String sra_Content, Date sra_Date) {
+
+	public AnswerVo(String ans_Code, String m_Code, String board_Code, String reple_Code, String ans_Content,
+			Date ans_Date) {
 		super();
-		this.sra_Code = sra_Code;
-		this.sr_Code = sr_Code;
-		this.sba_code = sba_code;
-		this.m_Name = m_Name;
-		this.sra_Content = sra_Content;
-		this.sra_Date = sra_Date;
+		this.ans_Code = ans_Code;
+		this.m_Code = m_Code;
+		this.board_Code = board_Code;
+		this.reple_Code = reple_Code;
+		this.ans_Content = ans_Content;
+		this.ans_Date = ans_Date;
 	}
 
-	public String getsra_Code() {
-        return sra_Code;
-    }
-
-    public void setsra_Code(String sra_Code) {
-        this.sra_Code = sra_Code;
-    }
-
-    public String getsr_Code() {
-        return sr_Code;
-    }
-
-    public void setsr_Code(String sr_Code) {
-        this.sr_Code = sr_Code;
-    }
-
-    public String getm_Name() {
-        return m_Name;
-    }
-
-    public void setm_Name(String m_Name) {
-        this.m_Name = m_Name;
-    }
-
-    public String getsra_Content() {
-        return sra_Content;
-    }
-
-    public void setsra_Content(String sra_Content) {
-        this.sra_Content = sra_Content;
-    }
-
-    public Date getsra_Date() {
-        return sra_Date;
-    }
-
-    public void setsra_Date(Date sra_Date) {
-        this.sra_Date = sra_Date;
-    }
-
-	public String getSba_code() {
-		return sba_code;
+	public String getAns_Code() {
+		return ans_Code;
 	}
 
-	public void setSba_code(String sba_code) {
-		this.sba_code = sba_code;
+	public void setAns_Code(String ans_Code) {
+		this.ans_Code = ans_Code;
+	}
+
+	public String getM_Code() {
+		return m_Code;
+	}
+
+	public void setM_Code(String m_Code) {
+		this.m_Code = m_Code;
+	}
+
+	public String getBoard_Code() {
+		return board_Code;
+	}
+
+	public void setBoard_Code(String board_Code) {
+		this.board_Code = board_Code;
+	}
+
+	public String getReple_Code() {
+		return reple_Code;
+	}
+
+	public void setReple_Code(String reple_Code) {
+		this.reple_Code = reple_Code;
+	}
+
+	public String getAns_Content() {
+		return ans_Content;
+	}
+
+	public void setAns_Content(String ans_Content) {
+		this.ans_Content = ans_Content;
+	}
+
+	public Date getAns_Date() {
+		return ans_Date;
+	}
+
+	public void setAns_Date(Date ans_Date) {
+		this.ans_Date = ans_Date;
 	}
     
 }
