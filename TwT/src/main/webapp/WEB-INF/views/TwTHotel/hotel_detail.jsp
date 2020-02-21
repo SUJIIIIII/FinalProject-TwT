@@ -137,15 +137,14 @@
         	</div>
            <!-- 호텔 사진 -->
           <div class="col-lg-9">
-          <h2>객실 사진</h2>
           	<div class="row">
           		<div class="col-md-12 ftco-animate">
           			<div class="single-slider owl-carousel">
           				<div class="item">
-          					<div class="hotel-img" style="background-image: url(${pageContext.request.contextPath}/resources/images/hotel-2.jpg);"></div>
+          					<div class="hotel-img" style="background-image: url(${pageContext.request.contextPath}/resources/images/hotel/${hvo.h_Img});"></div>
           				</div>
           				<div class="item">
-          					<div class="hotel-img" style="background-image: url(${pageContext.request.contextPath}/resources/images/hotel-3.jpg);"></div>
+          					<div class="hotel-img" style="background-image: url(${pageContext.request.contextPath}/resources/images/hotel-2.jpg);"></div>
           				</div>
           				<div class="item">
           					<div class="hotel-img" style="background-image: url(${pageContext.request.contextPath}/resources/images/hotel-4.jpg);"></div>
@@ -155,10 +154,12 @@
           		<!-- 호텔 사진 끝 -->
           		
           		<div class="col-md-12 hotel-single mt-4 mb-5 ftco-animate">
-          			
-          			<h2>호텔 부가설명</h2>
+          			<!-- 호텔 이름 -->
+          			<h2>${hvo.h_Name}</h2>
           			<p class="rate mb-5">
-          				<span class="loc"><a href="#"><i class="icon-map"></i>${hvo.h_Addr}</a></span>
+          			    <!-- 호텔주소 -->
+          				<span class="loc"><i class="icon-map"></i>${hvo.h_Addr}</a></span><br><br>
+          				<!-- 별점 -->
           				<span class="star">
     							<i class="icon-star"></i>
     							<i class="icon-star"></i>
@@ -167,60 +168,64 @@
     							<i class="icon-star-o"></i>
     							</span>
     						</p>
-    						<p>설명 내용</p>
+    						<!-- 호텔소개 -->
     						<div class="d-md-flex mt-5 mb-5">
     							<ul>
 	    							<li>${hvo.h_Content}</li>
 
 	    						</ul>
     						</div>
-    						<p>추가 내용 내용</p>
-    						<div class="tagcloud">
-				                <a href="#" class="tag-cloud-link">금연객실</a>
-				                <a href="#" class="tag-cloud-link">조식</a>
-				                <a href="#" class="tag-cloud-link">WiFi</a>
-			              	</div>
+  
           		</div>
           		
           		
           		<!-- 보유객실 정보 시작 -->
-          		
           		<div class="col-md-12 hotel-single ftco-animate mb-5 mt-4">
           			<h4 class="mb-4">객실 정보</h4>
           			<div class="row">
           				<!-- 객실 1 -->
+          	  <c:forEach items="${detailList_B}" var="dList">
           				<div class="col-md-4">
 				    				<div class="destination">
-				    					<a href="hotelDetail.do" class="img img-2" style="background-image: url(${pageContext.request.contextPath}/resources/images/room-4.jpg);"></a>
+				    					<a href="hotelDetail.do" class="img img-2" style="background-image: url(${pageContext.request.contextPath}/resources/images/hotel/hotelroom/${dList.hr_Img });"></a>
 				    					<div class="text p-3">
 				    						<div class="d-flex">
 				    							<div class="one">
-						    						<h3><a href="hotelDetail.do">${Room.hr_Rank}</a></h3>
-						    						<p class="rate">
-						    							
-						    							<span>소개</span>
-						    						</p>
+						    						<h3><a href="hotelDetail.do">${dList.hr_Rank }</a></h3><br>
 					    						</div>
 					    						<div class="two">
-					    							<span class="price per-price"><a>₩</a>${Room.hr_Price}<br></span>
+					    							<span class="price per-price" style="margin: -13px;"><a>₩&nbsp;</a>${dList.hr_Price }<br></span>
 				    							</div>
 				    						</div>
 				    						<div class="tagcloud">
-				    							<p>방에 대한 소개 &nbsp;
-								                <a href="#" class="tag-cloud-link"><i class="fas fa-bed"></i>&nbsp;${Room.hr_bed}</a>
-								                </p>
+				    							<a href="#" class="tag-cloud-link">금연객실</a>
+				                                <a href="#" class="tag-cloud-link">조식</a>
+				                                <a href="#" class="tag-cloud-link">WiFi</a>
+								                <a href="#" class="tag-cloud-link"><i class="fas fa-bed"></i>&nbsp;${dList.hr_bed }</a>
+								                
 							              	</div>
 				    						<hr>
+				    						<div class="tagcloud">
+				    						<a href="#" class="tag-cloud-link" style="margin-bottom: -22px; font-size: 13px;">
+				    						<i class="fas fa-user-alt">&nbsp;&nbsp;${dList.hr_Standard } 명</i>
+				    						</a>
+				    						<a href="#" class="tag-cloud-link" style="margin-bottom: -22px; font-size: 13px;">
+				    						<i class="fas fa-users">&nbsp;&nbsp;${dList.hr_Max } 명</i>
+				    						</a>
+				    						</div>
 				    						<p class="bottom-area d-flex">
-				    							<span><i class="icon-map-o"></i></span> 
 				    							<span class="ml-auto"><a href="#">Pick</a></span>
 				    						</p>
 				    					</div>
 				    				</div>
 				    			</div>
-				    			
+          		</c:forEach>
           			</div>
           		</div>
+          		
+          		
+          		
+          		
           		<!-- 보유객실 정보 끝 -->
           		
           		<!-- 위치 지도 시작 -->

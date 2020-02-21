@@ -614,6 +614,7 @@ var arryn = new Array(); // 모든 스팟 추가 여부
           addPath();
   		  // spot추가시 마커 이미지 변경
           addMarkerIcon(spot_num,spot_type);
+
           
          alert("자식 길이? : " + $("#schedule_detail_box").children().length);
          if($("#schedule_detail_box").children().length > 0){
