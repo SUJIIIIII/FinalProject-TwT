@@ -38,4 +38,20 @@ public interface MypageBiz {
 
 	// 항공권 정보 수정
 	public Object selectOne(AirplaneInfoVo vo, String air_Code);
+
+	// 로그인 시 아이디가 존재하는지
+	public int loginIdChk(String m_Id);
+
+	// 로그인 시 비밀번호가 존재하는지
+	public int loginPwdChk(String m_Pass);
+
+	// 로그인시 디비 저장된 정보 조회
+	public MemberVo selectOneLogin(MemberVo vo);
+
+	// 비번 변경
+	public void memberUpdate(MemberVo vo);
+
+	// 임시 비밀번호 변경
+	public void searchPassword(MemberVo vo);
+
 }

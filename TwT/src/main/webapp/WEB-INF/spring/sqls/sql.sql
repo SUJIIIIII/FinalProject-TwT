@@ -6,6 +6,8 @@ SELECT * FROM CITY;
 
 --------------------------------범식-----------------------------------------
 SELECT * FROM HOTEL;
+SELECT * FROM HOTEL LEFT JOIN HOTELROOM USING(H_CODE)
+WHERE H_CODE = 'H1';
 
 
 

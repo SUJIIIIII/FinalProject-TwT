@@ -88,4 +88,38 @@ public class MypageBizImpl implements MypageBiz {
 		// TODO Auto-generated method stub
 		return dao.updateAir(vo, air_Code);
 	}
+
+	// 디비에 저장된 아이디 확인
+	@Override
+	public int loginIdChk(String m_Id) {
+		// TODO Auto-generated method stub
+		return dao.loginIdChk(m_Id);
+	}
+
+	// 디비에 저장된 비밀번호 확인
+	@Override
+	public int loginPwdChk(String m_Pass) {
+		// TODO Auto-generated method stub
+		return dao.loginPwdChk(m_Pass);
+	}
+
+	// 디비에 저장된 회원의 모든 정보 검토
+	@Override
+	public MemberVo selectOneLogin(MemberVo vo) {
+		return dao.selectOneLogin(vo);
+	}
+
+	// 비밀번호 변경
+	@Override
+	public void memberUpdate(MemberVo vo) {
+		// TODO Auto-generated method stub
+		dao.memberUpdate(vo);
+	}
+
+	// 비밀번호 찾기
+	@Override
+	public void searchPassword(MemberVo vo) {
+		// TODO Auto-generated method stub
+		dao.searchPassword(vo);
+	}
 }

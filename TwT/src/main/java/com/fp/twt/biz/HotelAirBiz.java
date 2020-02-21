@@ -20,9 +20,8 @@ public interface HotelAirBiz {
 	
 	
 	public List<HotelVo> HselectList();
-	public List<HotelroomVo> selectall_B();
 	public HotelVo selectOne_B(String h_code);
-	
+	public List<HotelVo> detailList_B(String h_code);
 	
 	
 	

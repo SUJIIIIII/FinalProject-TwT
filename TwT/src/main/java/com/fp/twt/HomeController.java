@@ -84,7 +84,6 @@ public class HomeController {
 	 * "TwTCommunity/community_detail"; }
 	 */
 
-
 	/*
 	 * @RequestMapping("communityInsert.do") public String communityInsert(){ return
 	 * "TwTCommunity/community_insert"; }
@@ -92,9 +91,9 @@ public class HomeController {
 
 	@RequestMapping("mypage.do")
 	public String mypage(Model model, HttpSession session) {
-		MemberVo user = (MemberVo)session.getAttribute("user");
-	    session.setAttribute("m_Code", user.getm_Code());
-	    String m_Code = user.getm_Code();
+		MemberVo user = (MemberVo) session.getAttribute("user");
+		String m_Code = user.getm_Code();
+		System.out.println("Mcode : "+m_Code);
 		model.addAttribute("airlist", biz.selectAirList(m_Code));
 		return "TwTAccount/mypage";
 	}
