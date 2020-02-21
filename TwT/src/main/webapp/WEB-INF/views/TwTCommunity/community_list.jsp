@@ -161,7 +161,7 @@
 							<c:forEach items="${community }" var="vo">
 							 	<div class="col-md-3 d-flex ftco-animate">
 							            <div class="blog-entry align-self-stretch" style="min-width: 250px;">
-							              <a href="communityDetail.do?ts_code=${vo.ts_Code }" class="block-20" style="background-image: url('${pageContext.request.contextPath}/resources/images/image_1.jpg');"></a>
+							              <a href="communityDetail.do?ts_code=${vo.ts_Code }" class="block-20" style="background-image: url(${pageContext.request.contextPath}/resources/images/plan/${vo.city_Code }/${vo.tp_Img });"></a>
 							              <div class="text p-4 d-block" style="min-width: 250px;">
 							              	<span class="tag">${fn:substring(vo.ts_Sday,0,8)}</span>
 							              	<span class="tag">| ${vo.ts_Period }DAYS</span>
@@ -175,7 +175,7 @@
 							                <a href="#" class="tag-cloud-link">${vo.ts_Theme }</a>
 						               	 	</div>
 						           		 	<br>
-						                    <div style="margin-top: -10px;"><i class="fas fa-user"></i>&nbsp;${vo.m_Id }</div>			              	    
+						                    <div style="margin-top: -10px;"><i class="fas fa-user"></i>&nbsp;${vo.m_Name }</div>			              	    
 							              </div>
 							            </div>
 							          </div>

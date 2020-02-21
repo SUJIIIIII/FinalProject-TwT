@@ -160,16 +160,19 @@ public class CommunityController {
 	// 도영
 	// 여행 일정 리스트
 	@RequestMapping("/community.do")
-	public String newcommunity(Model model) {
-
+	public String newcommunity(Model model, String ts_theme) {
 		logger.info("SELECT LIST");
 
+		if(ts_theme != null) {
+			model.addAttribute("community", biz.themeList(ts_theme));
+		}else {
+			model.addAttribute("community", biz.selectList_D());
+		}
+		
 		List res = biz.selectList_D();
 		TravelScheduleVo vo = (TravelScheduleVo) res.get(0);
-		System.out.println("컨트롤러 id " + vo.getM_Id());
-
-		model.addAttribute("community", biz.selectList_D());
-
+		System.out.println("컨트롤러 이름 " + vo.getM_Name());
+		
 		return "TwTCommunity/community_list";
 	}
 
@@ -189,8 +192,17 @@ public class CommunityController {
 		
 		TravelScheduleVo vo = biz.selectOne_D(ts_code);
 		System.out.println(vo.getTs_Day());
+		System.out.println(vo.getTs_Memo());
+		
 		
 		model.addAttribute("detail", biz.selectOne_D(ts_code));
+		
+		model.addAttribute("detailList", biz.detailList_D(ts_code));
+
+		System.out.println(vo.getts_Theme());
+		
+		 model.addAttribute("themeList", biz.themeList(vo.getts_Theme()));
+		 		 
 		
 		return "TwTCommunity/community_detail"; 
 	}
