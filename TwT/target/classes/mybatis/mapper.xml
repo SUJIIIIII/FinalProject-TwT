@@ -12,38 +12,58 @@
 		<result property="ts_Code" column="TS_CODE" />
 		<result property="sr_Title" column="SR_TITLE" />
 		<result property="sr_Content" column="SR_CONTENT" />
+		<result property="sr_ImgSrc" column="SR_IMGSRC"/>
 		<result property="sr_View" column="SR_VIEW" />
 		<result property="sr_Date" column="SR_DATE" />
 	</resultMap>
-
-	<insert id="insertForm_Y">
+	<resultMap type="Answer" id="AnswerMap">
+		<result property="ans_Code" column="ANS_CODE"/>
+		<result property="m_Code" column="M_CODE"/>
+		<result property="board_Code" column="BOARD_CODE"/>
+		<result property="reple_Code" column="REPLE_CODE"/>
+		<result property="ans_Content" column="ANS_CONTENT"/>
+		<result property="ans_Date" column="ANS_DATE"/>
+	</resultMap>
+	
+	<insert id="ansInsert_Y" parameterType="Answer">
+		INSERT INTO ANS
+		VALUES('AS'||AS_SEQ.NEXTVAL, #{m_Code}, #{board_Code}, #{reple_Code}, #{ans_Content}, SYSDATE)
+	</insert>
+	
+	<select id="ansList_Y" resultMap="AnswerMap" parameterType="String">
+		SELECT * FROM ANS
+		WHERE BOARD_CODE = #{sr_Code}
+		ORDER BY ANS_DATE
+	</select>
+	
+	<insert id="insertPotoBook_Y" parameterType="ScheduleReview">
 		INSERT INTO SCHEDULEREVIEW
-		VALUES('SR'||SR_SEQ.NEXTVAL, NULL, NULL, NULL, NULL, 0, SYSDATE)
+		VALUES('SR'||SR_SEQ.NEXTVAL, #{m_Code}, NULL, #{sr_Title}, #{sr_Content}, #{sr_ImgSrc}, 0, SYSDATE)
 	</insert>
 
-
-	<select id="selectSrCode_Y" resultType="String">
-		SELECT
-		MAX(TO_NUMBER(LTRIM(SR_CODE,'SR'))) FROM SCHEDULEREVIEW
-	</select>
-
-	<update id="updatePotoBook_Y" parameterType="ScheduleReview">
-		UPDATE
-		SCHEDULEREVIEW
-		SET
-		M_CODE = #{m_Code},
-		SR_TITLE = #{sr_Title},
-		SR_CONTENT
-		= #{sr_Content}
-		WHERE
-		SR_CODE = #{sr_Code}
-	</update>
-
 	<select id="selectList_Y" resultMap="ScheduleReviewMap">
-		SELECT * FROM SCHEDULEREVIEW
+		SELECT * FROM SCHEDULEREVIEW ORDER BY SR_DATE DESC
 	</select>
 
-
+	<select id="potoOne_Y" parameterType="String" resultType="ScheduleReview">
+		SELECT * FROM SCHEDULEREVIEW
+		WHERE SR_CODE = #{sr_Code}
+	</select>
+	
+	<update id="updatePotoBook_Y" parameterType="ScheduleReview">
+		UPDATE SCHEDULEREVIEW
+		SET
+		SR_TITLE = #{sr_Title},
+		SR_CONTENT = #{sr_Content},
+		SR_IMGSRC = #{sr_ImgSrc},
+		SR_DATE = SYSDATE
+		WHERE SR_CODE = #{sr_Code}
+	</update>
+	
+	<delete id="deletePotoBook_Y" parameterType="String">
+		DELETE FROM SCHEDULEREVIEW
+		WHERE SR_CODE = #{sr_Code}
+	</delete>
 	<!-- ================================범식================================== -->
 
 
@@ -64,11 +84,12 @@
 
 	<!-- 호텔리스트 -->
 	<select id="HselectList" resultMap="hotelMap">
-		SELECT
-		H_CODE,CITY_CODE,H_NAME,H_LATI,H_LONG,H_PHONE,H_BASICADDR,H_ADDR,H_IMG,H_CONTENT,H_STARN,H_BASICCONTENT
-		FROM HOTEL
+		SELECT * FROM HOTEL 
+		ORDER BY H_CODE DESC
+		
 
 	</select>
+
 
 	<select id="selectOne_B" resultType="Hotel"
 		parameterType="String">
@@ -81,30 +102,17 @@
 
 
 
+
 	<!-- ================================도영================================== -->
 
-	<resultMap type="TravelSchedule" id="TravelScheduleMap_D">
-		<result property="ts_Code" column="TS_CODE" />
-		<result property="m_Code" column="M_CODE" />
-		<result property="tp_Code" column="TP_CODE" />
-		<result property="ts_Title" column="TS_TITLE" />
-		<result property="ts_Sday" column="TS_SDAY" />
-		<result property="ts_Theme" column="TS_THEME" />
-		<result property="ts_People" column="TS_PEOPLE" />
-		<result property="ts_Thum" column="TS_THUM" />
-		<result property="ts_Period" column="TS_PERIOD" />
-		<result property="ts_Date" column="TS_DATE" />
-		<result property="ts_View" column="SR_VIEW" />
-		<result property="m_Id" column="M_ID" />
-	</resultMap>
-
 	<!-- 여행일정 게시판 리스트 최신 순 -->
-	<select id="selectList_D" resultMap="TravelScheduleMap_D">
-		SELECT * FROM TRAVELSCHEDULE
-		LEFT JOIN TWTMEMBER USING(M_CODE) ORDER BY TS_DATE DESC
+	<select id="selectList_D" resultType="TravelSchedule">
+<!-- 		SELECT * FROM TRAVELSCHEDULE TS LEFT JOIN TWTMEMBER M ON (TS.M_CODE = M.M_CODE) LEFT JOIN TRAVELSCHEDULE_DAY TD ON (TS.TS_CODE = TD.TS_CODE) LEFT JOIN TRAVELPOINT TP ON(TS.TP_CODE = TP.TP_CODE) ORDER BY TS_DATE DESC -->
+		SELECT TS.TS_CODE, TS.M_CODE, TS.TP_CODE, TS.TS_TITLE, TS.TS_SDAY, TS.TS_THEME, TS.TS_PEOPLE, TS.TS_THUM, TS.TS_PERIOD, TS.TS_DATE, TS.TS_VIEW, M.M_NAME, TP.CITY_CODE, TP.TP_IMG FROM TRAVELSCHEDULE TS LEFT JOIN TWTMEMBER M ON (TS.M_CODE = M.M_CODE) LEFT JOIN TRAVELPOINT TP ON(TS.TP_CODE = TP.TP_CODE) ORDER BY TS_DATE DESC
 	</select>
 
 	<!-- 여행일정 게시판 리스트 조회수 순 -->
+
 	<select id="PselectList_D" resultMap="TravelScheduleMap_D">
 		SELECT * FROM
 		TRAVELSCHEDULE LEFT JOIN TWTMEMBER USING(M_CODE) ORDER BY TS_VIEW DESC
@@ -170,14 +178,12 @@
 	<update id="alterUserKey" parameterType="Member">
 		UPDATE TWTMEMBER SET M_MAILCHECK = 'Y' WHERE M_ID = #{m_Id} AND M_MAILCHECK = 'N'
 	</update>
-
-	<!-- 항공권 전체 조회 -->
+<!-- 
 	<select id="selectAllAirM" resultType="AirplaneInfo">
 		SELECT * FROM AIRPLANEINFO
 		WHERE M_CODE = #{m_Code}
 	</select>
 
-	<!-- 항공권 정보 입력 -->
 	<insert id="insertAirM" parameterType="AirplaneInfo">
 		INSERT INTO AIRPLANEINFO
 		VALUES (#{m_Code},#{dep_Loca1},#{dep_Loca2},#{dep_Date1},
@@ -185,7 +191,6 @@
 		#{re_Loca2},#{re_Date1},#{re_Date2},#{re_Time1},#{re_Time2},'AIR12')
 	</insert>
 
-	<!-- 항공권 정보 수정 -->
 	<update id="updateAirM" parameterType="AirplaneInfo">
 		UPDATE AIRPLANEINFO SET
 		DEP_LOCA1 = #{dep_Loca1}, DEP_LOCA2 = #{dep_Loca2}, DEP_DATE1 = #{dep_Date1}, DEP_DATE2 = #{dep_Date2},
@@ -196,7 +201,7 @@
 		RE_TIME1 =
 		#{re_Time1}, RE_TIME2 = #{re_Time2} WHERE AIR_CODE = #{air_Code}
 	</update>
-
+ -->
 	<!-- 항공권 정보 삭제 -->
 	<delete id="deleteAirM" parameterType="String">
 		DELETE FROM AIRPLANEINFO

@@ -41,6 +41,44 @@
 	    e.preventDefault();
 	  });
 	}); */
+	function deleteChk(){
+		var sr_Code = $("input[name=srcode]").val();
+ 		if(confirm("삭제하시겠습니까?")){
+			var url ="potoBookDelete.do?sr_Code="+sr_Code;
+ 			$(location).attr('href',url);
+		};
+	};
+	
+	function ansfunc(){
+		var formData = $("#ansform").serialize();
+		$.ajax({
+			data : formData,
+			type : "post",
+			url : "ansInsert.do",
+			dataType : "json",
+			success : function(data){
+/* 				
+				$.each(data, function(index, item){
+					
+				}
+				
+                <li class="comment">
+                <div class="vcard bio">
+                </div>
+                <div class="comment-body">
+                  <h3>이름</h3>
+                  <div class="meta">날짜</div>
+                  <p>내용</p>
+                  <p><a href="#" class="reply">Reply</a></p>
+                </div>
+                </li>
+                 */
+			},
+			error : function(){
+				alert("실패");
+			}
+		});
+	}
 </script>
 
 <style type="text/css">
@@ -126,111 +164,63 @@
    <section class="ftco-section ftco-degree-bg" style="padding: 2em 0;">
       <div class="container">
         <div class="row">
-          <div class="col-md-8 ftco-animate">
-            <h2 class="mb-3" style="text-align: center; margin-top: 40px; font-weight: bold; ">제목</h2>
-				
-	  <div class="container">
-		
-	  </div>
-            
+			<div class="container" align="center">
+			<input type="hidden" name="srcode" value="${poto.sr_Code }"/>
+            <h2 class="mb-3" style="text-align: center; margin-top: 40px; font-weight: bold; ">${poto.sr_Title }</h2>
+			${poto.sr_Content }
+	        <div align="right">
+	        <c:if test="${truefalse == true }">
+	        <a href="updatePotoForm.do?sr_Code=${poto.sr_Code }" class="btn btn-primary btn-outline-primary mt-4 px-4 py-3 mb-4"><span>수정</span></a>
+	        <input type="button" onclick="deleteChk();" class="btn btn-primary btn-outline-primary mt-4 px-4 py-3 mb-4" value="삭제"/>
+	        <%-- <a href="potoBookDelete.do?sr_Code=${poto.sr_Code }" class="btn btn-primary btn-outline-primary mt-4 px-4 py-3 mb-4"><span>삭제</span></a> --%>
+	        </c:if>
+	        <a href="community.do" class="btn btn-primary btn-outline-primary mt-4 px-4 py-3 mb-4"><span>목록</span></a>
+	        </div>	
+			</div>
+          <div class="col-md-8 ftco-animate" style="margin-left: 100px">
   <!-- 댓글  -->
-            
             <div class="pt-5 mt-5">
-              <h3 class="mb-5">6 Comments</h3>
+              <h3 class="mb-5">3 Comments</h3>
               <ul class="comment-list">
+              	<c:forEach items="${anslist }" var="list">
                 <li class="comment">
                   <div class="vcard bio">
-                    <img src="${pageContext.request.contextPath}/resources/images/person_1.jpg" alt="Image placeholder">
                   </div>
                   <div class="comment-body">
-                    <h3>John Doe</h3>
-                    <div class="meta">June 27, 2018 at 2:21pm</div>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Pariatur quidem laborum necessitatibus, ipsam impedit vitae autem, eum officia, fugiat saepe enim sapiente iste iure! Quam voluptas earum impedit necessitatibus, nihil?</p>
+                    <h3>${list.m_Code }</h3>
+                    <div class="meta">${list.ans_Date }</div>
+                    <p>${list.ans_Content }</p>
                     <p><a href="#" class="reply">Reply</a></p>
                   </div>
-                </li>
-
-                <li class="comment">
-                  <div class="vcard bio">
-                    <img src="${pageContext.request.contextPath}/resources/images/person_1.jpg" alt="Image placeholder">
-                  </div>
-                  <div class="comment-body">
-                    <h3>John Doe</h3>
-                    <div class="meta">June 27, 2018 at 2:21pm</div>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Pariatur quidem laborum necessitatibus, ipsam impedit vitae autem, eum officia, fugiat saepe enim sapiente iste iure! Quam voluptas earum impedit necessitatibus, nihil?</p>
-                    <p><a href="#" class="reply">Reply</a></p>
-                  </div>
-
+				  <!-- 				  
                   <ul class="children">
                     <li class="comment">
                       <div class="vcard bio">
-                        <img src="${pageContext.request.contextPath}/resources/images/person_1.jpg" alt="Image placeholder">
                       </div>
                       <div class="comment-body">
-                        <h3>John Doe</h3>
-                        <div class="meta">June 27, 2018 at 2:21pm</div>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Pariatur quidem laborum necessitatibus, ipsam impedit vitae autem, eum officia, fugiat saepe enim sapiente iste iure! Quam voluptas earum impedit necessitatibus, nihil?</p>
-                        <p><a href="#" class="reply">Reply</a></p>
+                        <h3>이름</h3>
+                        <div class="meta">날짜</div>
+                        <p>내용</p>
                       </div>
-
-
-                      <ul class="children">
-                        <li class="comment">
-                          <div class="vcard bio">
-                            <img src="${pageContext.request.contextPath}/resources/images/person_1.jpg" alt="Image placeholder">
-                          </div>
-                          <div class="comment-body">
-                            <h3>John Doe</h3>
-                            <div class="meta">June 27, 2018 at 2:21pm</div>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Pariatur quidem laborum necessitatibus, ipsam impedit vitae autem, eum officia, fugiat saepe enim sapiente iste iure! Quam voluptas earum impedit necessitatibus, nihil?</p>
-                            <p><a href="#" class="reply">Reply</a></p>
-                          </div>
-
-                            <ul class="children">
-                              <li class="comment">
-                                <div class="vcard bio">
-                                  <img src="${pageContext.request.contextPath}/resources/images/person_1.jpg" alt="Image placeholder">
-                                </div>
-                                <div class="comment-body">
-                                  <h3>John Doe</h3>
-                                  <div class="meta">June 27, 2018 at 2:21pm</div>
-                                  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Pariatur quidem laborum necessitatibus, ipsam impedit vitae autem, eum officia, fugiat saepe enim sapiente iste iure! Quam voluptas earum impedit necessitatibus, nihil?</p>
-                                  <p><a href="#" class="reply">Reply</a></p>
-                                </div>
-                              </li>
-                            </ul>
-                        </li>
-                      </ul>
                     </li>
                   </ul>
+                   -->
                 </li>
-
-                <li class="comment">
-                  <div class="vcard bio">
-                    <img src="${pageContext.request.contextPath}/resources/images/person_1.jpg" alt="Image placeholder">
-                  </div>
-                  <div class="comment-body">
-                    <h3>John Doe</h3>
-                    <div class="meta">June 27, 2018 at 2:21pm</div>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Pariatur quidem laborum necessitatibus, ipsam impedit vitae autem, eum officia, fugiat saepe enim sapiente iste iure! Quam voluptas earum impedit necessitatibus, nihil?</p>
-                    <p><a href="#" class="reply">Reply</a></p>
-                  </div>
-                </li>
+                </c:forEach>
               </ul>
               <!-- END comment-list -->
-              
               <div class="comment-form-wrap pt-5">
                 <h3 class="mb-5">Leave a comment</h3>
-                <form action="#" class="p-5 bg-light" style="margin-bottom:50px; ">
-
+                <form id="ansform" method="post" class="p-5 bg-light" style="margin-bottom:50px; ">
+                <input type="hidden" name="m_Code" value="${user.m_Id }"/>
+                <input type="hidden" name="board_Code" value="${poto.sr_Code }"/>
                   <div class="form-group">
                     <label for="message">Content</label>
-                    <textarea name="" id="message" cols="60" rows="5" class="form-control"></textarea>
+                    <textarea name="ans_Content" id="message" cols="60" rows="5" class="form-control"></textarea>
                   </div>
                   <div class="form-group" style="margin-left: 510px;">
-                    <input type="submit" value="Post Comment" class="btn py-3 px-4 btn-primary subc">
+                    <input type="button" value="Post Comment" onclick="ansfunc(); return false;" class="btn py-3 px-4 btn-primary subc">
                   </div>
-
                 </form>
               </div>
             </div>

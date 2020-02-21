@@ -85,7 +85,6 @@ body {
 </head>
 <body>
 	<form id="potoForm" method="post" action="potoBookinsert.do" enctype="multipart/form-data">
-	<input type="hidden" name="sr_Code" value="${sr_Code }"/>
 	<input type="hidden" name="m_Code" value="${m_Code }"/>
 	<div class="col-sm-9" id="container">
 		<div class="col-sm-12" style="float: left; margin-top: 30px;">
@@ -105,7 +104,7 @@ body {
 		<div align="center">
 			<input type="submit" style="width: 60px;" class="btns btns-primary btns-outline-primary mt-4 px-4 py-3" value="등록" />
 			&nbsp;&nbsp;&nbsp;
-			<input type="button" style="width: 60px;" class="btns btns-primary btns-outline-primary mt-4 px-4 py-3" value="취소" />
+			<input type="button" style="width: 60px;" class="btns btns-primary btns-outline-primary mt-4 px-4 py-3" value="취소" onclick="location.href='community.do'"/>
 		</div>
 	</div>
 	</form>
