@@ -10,6 +10,16 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<link rel="stylesheet"
+	href="${pageContext.request.contextPath}/resources/css/style.css">
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+	integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+	crossorigin="anonymous"></script>
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+	integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+	crossorigin="anonymous"></script>
 <script src="https://developers.kakao.com/sdk/js/kakao.min.js"></script>
 <script src="${pageContext.request.contextPath}/resources/js/jquery-3.2.1.min.js"></script>
 <script type="text/javascript">
@@ -160,17 +170,39 @@ function form_chk() {
 function login_chk() {
 	var id = $("#login_ID").val();
 	var pwd = $("#login_Pass").val();
+	var res = false;
+	$.ajax({
+		url:"loginChk.do?m_Id="+id+"&m_Pass="+pwd,
+		type:"get",
+		dataType:"json",
+		contentType:"application/json",
+		success : function(data){
+			if(data.check1 == '1' && data.check2 == '1') {
+			} else {
+				alert("아이디 및 비밀번호를 확인해주세요");
+				location.href="login.do";
+		}
+			}, error:function(){
+			alert("실패");
+			$("#login_chk").show();
+			$("#login_chk").text("아이디 및 비밀번호를 확인해주세요");
+			$("#loginbtn").attr("disabled","disabled");
+		}
+	});
 	
 	if(id == null || id == "") {
 		alert("아이디를 입력해주세요");
-		return false;
+		res =  false;
 	} else if(pwd == null || pwd == "") {
 		alert("비밀번호를 입력해주세요");
-		return false;
+		res = false;
 	} else {
-		return true;
+		res = true;
 	}
+	
+	return res;
 }
+
 </script>
 <style type="text/css">
 * {
@@ -433,7 +465,7 @@ footer {
 	z-index: 999;
 }
 
-footer p {
+footer p { 
 	margin: 10px 0;
 }
 
@@ -456,6 +488,14 @@ a:hover {
             font-size:10px;
             text-align:left !important;
             padding-left:20px;
+          }
+          
+#forgot { border:0;
+          background-color:white;
+          outline:0;
+          color:#fc3c3c;
+          font-size:10px;
+         float:right;
           }
 </style>
 <title>TWT - Login</title>
@@ -490,7 +530,7 @@ a:hover {
 		
 		<%-- 로그인 시작 --%>
 		<div class="form-container sign-in-container">
-			<form action="enter.do" method="post" onsubmit="return login_chk()">
+			<form action="enter.do" method="post" onsubmit="return login_chk();">
 				<img src="${pageContext.request.contextPath}/resources/images/account/lock.png" width="40">
 				<h1>LOGIN</h1>
 				<div class="social-container">
@@ -502,8 +542,12 @@ a:hover {
 				</div>
 				<input type="text" name="m_Id" id="login_ID" placeholder="ID" style="border-left: 3px solid #fc3c3c;" />
 				<input type="password" name="m_Pass" id="login_Pass" placeholder="Password" style="border-left: 3px solid #fc3c3c;" />
-				<a href="#" style="font-size: 12px; margin-right: -280px;" class="find">Forgot your password?</a>
-				<button type="submit" id="loginbtn">Sign In</button>
+				
+				<button type="button" id="forgot" data-toggle="modal" data-target="#exampleModalCenter">
+				     Forgot your password?
+				</button>
+				
+				<button type="submit" id="loginbtn" >Sign In</button>
 			</form>
 		</div>
 		<%-- 로그인 끝 --%>
@@ -527,8 +571,8 @@ a:hover {
 		</div>
 	</div>
 
-	<%-- 로그인 판넬 이동 자바스크립트 시작 --%>
-	<script type="text/javascript">
+<%-- 로그인 판넬 이동 자바스크립트 시작 --%>
+<script type="text/javascript">
 const signUpButton = document.getElementById('signUp');
 const signInButton = document.getElementById('signIn');
 const container = document.getElementById('container');
@@ -542,5 +586,29 @@ signInButton.addEventListener('click', () => {
 });
 <%-- 로그인 판넬 이동 자바스크립트 끝 --%>
 </script>
+
+<%-- 비밀번호 찾기 모달창 --%>
+<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+  <form action="searchPassword.do" method="get">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalCenterTitle">Modal title</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+                  아이디 : <input type="text" name="m_Id"><br>
+                  이메일 : <input type="text" name="m_Email">
+      </div>
+      <div class="modal-footer">
+        <button type="submit" class="btn btn-primary btn-outline-primary">확 인</button>
+      </div>
+    </div>
+    </form>
+  </div>
+</div>
+<%-- 비밀번호 찾기 모달창 끝 --%>
 </body>
 </html>

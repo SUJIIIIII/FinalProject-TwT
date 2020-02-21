@@ -67,6 +67,9 @@ public class MypageDaoImpl implements MypageDao {
 
 		try {
 			list = sqlSession.selectList(namespace + "selectAllAirM", m_Code);
+			for (AirplaneInfoVo i : list) {
+				System.out.println(i.toString());
+			}
 		} catch (Exception e) {
 			System.out.println("전체 항공권 리스트 에러");
 			e.printStackTrace();
@@ -123,5 +126,37 @@ public class MypageDaoImpl implements MypageDao {
 		System.out.println("수정버튼 눌렀을때 들어오는 항공권 번호 : " + air_Code);
 		System.out.println("수정할 항공권 vo : " + vo.toString());
 		return sqlSession.update(namespace + "updateAirM", air_Code);
+	}
+
+	// 로그인시 디비에 저장된 아이디
+	@Override
+	public int loginIdChk(String m_Id) {
+		return sqlSession.selectOne(namespace + "loginIdChk", m_Id);
+	}
+
+	// 로그인시 디비에 저장된 비번확인
+	@Override
+	public int loginPwdChk(String m_Pass) {
+		return sqlSession.selectOne(namespace + "loginPwdChk", m_Pass);
+	}
+
+	// 로그인시 디비에 저장된 모든 정보 검토
+	@Override
+	public MemberVo selectOneLogin(MemberVo vo) {
+		MemberVo res = sqlSession.selectOne(namespace + "loginSelectOne", vo);
+		return res;
+	}
+
+	// 비밀번호 변경
+	@Override
+	public void memberUpdate(MemberVo vo) {
+		sqlSession.update(namespace + "updateM", vo);
+	}
+
+	// 비밀번호 찾기
+	@Override
+	public void searchPassword(MemberVo vo) {
+		// TODO Auto-generated method stub
+		sqlSession.update(namespace + "searchPasswordM", vo);
 	}
 }
