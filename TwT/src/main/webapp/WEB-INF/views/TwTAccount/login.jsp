@@ -171,11 +171,6 @@ function login_chk() {
 		return true;
 	}
 }
-
-// 유효한 아이디와 비밀번호인지 체크
-function login_ID() {
-	
-}
 </script>
 <style type="text/css">
 * {
@@ -505,8 +500,8 @@ a:hover {
 					<a href="${url}" class="social"><img src="${pageContext.request.contextPath}/resources/images/account/naver.png" style="border-radius: 50px;"></a>
 					<a href="${googleUrl}" class="social"><img src="${pageContext.request.contextPath}/resources/images/account/google.png" style="border-radius: 50px;"></a>
 				</div>
-				<input type="text" name="m_Id" id="login_ID" oninput="login_ID()" placeholder="ID" style="border-left: 3px solid #fc3c3c;" />
-				<input type="password" name="m_Pass" id="login_Pass" oninput="login_Pass()" placeholder="Password" style="border-left: 3px solid #fc3c3c;" />
+				<input type="text" name="m_Id" id="login_ID" placeholder="ID" style="border-left: 3px solid #fc3c3c;" />
+				<input type="password" name="m_Pass" id="login_Pass" placeholder="Password" style="border-left: 3px solid #fc3c3c;" />
 				<a href="#" style="font-size: 12px; margin-right: -280px;" class="find">Forgot your password?</a>
 				<button type="submit" id="loginbtn">Sign In</button>
 			</form>
