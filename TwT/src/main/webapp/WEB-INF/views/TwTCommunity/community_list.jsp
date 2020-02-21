@@ -97,42 +97,6 @@
 	      $(".hero-wrap").attr('style',"background-image: url('${pageContext.request.contextPath}/resources/images/bg_7.jpg');");
 	      $(".bread").text('Community');
 	   	});
-	    
-	    function potoBookList(){
-	    	$.ajax({
-				dataType : "JSON",
-				type : "POST",
-				url : "potoBookList.do",
-				success : function(data) {
-					alert("성공");
-  					 					
-					$.each(data.potoList, function(key, val){
-/* 						
-						$("#potoList").prepend(
-								"<div class='col-md-5 heading-section ftco-animate'>" +
-								"<a href='potoBookDetail.do'><h2 class='mb-1 pb-1'><strong>123</strong></h2></a>" +
-					          	"<div class='row ftco-animate'>" +
-								"<div class='col-md-12'>" +
-								"<div class='carousel-testimony owl-carousel'>" +
-								"<div class='item'>" +								
-								"<a href='potoBookDetail.do'><img src=""/></a>" +								
-								"</div>" +								
-								"</div>" +								
-								"</div>" +								
-								"</div>" +								
-								"</div>" +								
-								"<div class='col-md-2'></div>"									
-							);
-						 */
-					});
-					   
-				},
-				error : function(){
-					alert("실패");
-				}
-			});
-
-	    };
    	</script>
 
     <section class="ftco-section testimony-section bg-light">
@@ -161,7 +125,7 @@
 							<c:forEach items="${community }" var="vo">
 							 	<div class="col-md-3 d-flex ftco-animate">
 							            <div class="blog-entry align-self-stretch" style="min-width: 250px;">
-							              <a href="communityDetail.do?ts_code=${vo.ts_Code }" class="block-20" style="background-image: url('${pageContext.request.contextPath}/resources/images/image_1.jpg');"></a>
+							              <a href="communityDetail.do?ts_code=${vo.ts_Code }" class="block-20" style="background-image: url(${pageContext.request.contextPath}/resources/images/plan/${vo.city_Code }/${vo.tp_Img });"></a>
 							              <div class="text p-4 d-block" style="min-width: 250px;">
 							              	<span class="tag">${fn:substring(vo.ts_Sday,0,8)}</span>
 							              	<span class="tag">| ${vo.ts_Period }DAYS</span>
@@ -175,12 +139,30 @@
 							                <a href="#" class="tag-cloud-link">${vo.ts_Theme }</a>
 						               	 	</div>
 						           		 	<br>
-						                    <div style="margin-top: -10px;"><i class="fas fa-user"></i>&nbsp;${vo.m_Id }</div>			              	    
+						                    <div style="margin-top: -10px;"><i class="fas fa-user"></i>&nbsp;${vo.m_Name }</div>			              	    
 							              </div>
 							            </div>
 							          </div>
 						 </c:forEach>
 						</div>
+						<!-- 페이징 -->        
+					      <div class="container">
+					        <div class="row mt-5">
+					          <div class="col text-center">
+					            <div class="block-27">
+					              <ul>
+					                <li><a href="#">&lt;</a></li>
+					                <li class="active"><span>1</span></li>
+					                <li><a href="#">2</a></li>
+					                <li><a href="#">3</a></li>
+					                <li><a href="#">4</a></li>
+					                <li><a href="#">5</a></li>
+					                <li><a href="#">&gt;</a></li>
+					              </ul>
+					            </div>
+					          </div>
+					        </div>
+					      </div>
 		              </div>
 
 				    <!-- fade 2 -->
@@ -191,25 +173,54 @@
 				        <div class="container">
 				        <div class="row justify-content-start mb-5 pb-3" id="potoList">
 				        
-<!-- 				        
-				          <div class="col-md-5 heading-section ftco-animate">
-				            <a href="potoBookDetail.do"><h2 class="mb-1 pb-1"><strong>123</strong></h2></a>          
+				        <c:choose>
+				        <c:when test="${empty potoList}">
+				        <div>검색결과가 없습니다.</div>
+				        </c:when>
+				        <c:otherwise>
+				        <c:forEach items="${potoList }" var="list" varStatus="status">
+				        <div class="col-md-5 heading-section ftco-animate">
+				            <a href="potoBookDetail.do?sr_Code=${list.sr_Code }"><h2 class="mb-1 pb-1"><strong>${list.sr_Title}</strong></h2></a>
+				            <h6>작성자 : ${list.m_Code}</h6>       
 				          	<div class="row ftco-animate">
 						          <div class="col-md-12">
 						            <div class="carousel-testimony owl-carousel">
+						              <c:forTokens var="src" items="${list.sr_ImgSrc }" delims=",">
 						              <div class="item">
-										<a href="potoBookDetail.do"><img src=""/></a>
+										<a href="potoBookDetail.do?sr_Code=${list.sr_Code }"><img src="${src}"/></a>
 						              </div>
+									  </c:forTokens>	
 						            </div>
 						          </div>
 						        </div>
 				          </div>
+				          <c:if test="${status.index%2 == 0 }">
 						  <div class="col-md-2"></div>
-						  
- -->						  
+						  </c:if>
+						</c:forEach>
+						</c:otherwise>
+						</c:choose>
 				<!--  -->          
 				        </div>
 						</div>
+						<!-- 페이징 -->        
+					      <div class="container">
+					        <div class="row mt-5">
+					          <div class="col text-center">
+					            <div class="block-27">
+					              <ul>
+					                <li><a href="#">&lt;</a></li>
+					                <li class="active"><span>1</span></li>
+					                <li><a href="#">2</a></li>
+					                <li><a href="#">3</a></li>
+					                <li><a href="#">4</a></li>
+					                <li><a href="#">5</a></li>
+					                <li><a href="#">&gt;</a></li>
+					              </ul>
+					            </div>
+					          </div>
+					        </div>
+					      </div>
 		              </div>
 		            </div>
 		          </div>
@@ -217,24 +228,6 @@
 		      </div>
 		    </div>
     	</div>
-<!-- 페이징 -->        
-      <div class="container">
-        <div class="row mt-5">
-          <div class="col text-center">
-            <div class="block-27">
-              <ul>
-                <li><a href="#">&lt;</a></li>
-                <li class="active"><span>1</span></li>
-                <li><a href="#">2</a></li>
-                <li><a href="#">3</a></li>
-                <li><a href="#">4</a></li>
-                <li><a href="#">5</a></li>
-                <li><a href="#">&gt;</a></li>
-              </ul>
-            </div>
-          </div>
-        </div>
-      </div>
 <!--  -->
     </section>
     

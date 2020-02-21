@@ -45,13 +45,14 @@ public class HotelAirDaoImpl implements HotelAirDao{
 		String departure_day = vo.getDeparture_day();
 		String coming_day = vo.getComing_day();
 		
-		vo.setDeparture_day(dateChange(departure_day)); //출발일 변환
-		vo.setComing_day(dateChange(coming_day));	//도착일 변환
 		
 		String url = "";
 		
 		if(vo.getAirtype().equals("v2&tripType=2")) {
 			System.out.println("왕복접근");
+			
+			vo.setDeparture_day(dateChange(departure_day)); //출발일 변환
+			vo.setComing_day(dateChange(coming_day));	//도착일 변환
 			
 			url= "https://www.whypaymore.co.kr/d/flt/intl/"
 					+ "sched-deals?appId=v2&tripType=2"
@@ -63,6 +64,8 @@ public class HotelAirDaoImpl implements HotelAirDao{
 			//왕복일때
 		}else if (vo.getAirtype().equals("v2&tripType=1")) {
 			System.out.println("편도접근");
+			
+			vo.setDeparture_day(dateChange(departure_day)); //출발일 변환
 			
 			url= "https://www.whypaymore.co.kr/d/flt/intl/"
 					+ "sched-deals?appId=v2&tripType=1"
@@ -102,18 +105,6 @@ public class HotelAirDaoImpl implements HotelAirDao{
 	}
 	
 	//호텔 방 
-	public List<HotelroomVo> selectall_B(){
-		List<HotelroomVo> hotelroomlist = new ArrayList<HotelroomVo>();
-		
-		try {
-		hotelroomlist = sqlSession.selectList(NAMESPACE+"selectall_B");
-		System.out.println("dao 의  hotelroomlist : "+hotelroomlist);
-		}catch(Exception e) {
-			e.printStackTrace();
-		}
-		return hotelroomlist;
-	}
-
 
 	@Override
 	public HotelVo selectOne_B(String h_code) {
@@ -121,6 +112,7 @@ public class HotelAirDaoImpl implements HotelAirDao{
 		
 		try {
 			vo = sqlSession.selectOne(NAMESPACE+"selectOne_B", h_code);
+			System.out.println("vo 확인용 : " + vo);
 		} catch(Exception e) {
 			System.out.println("[error] : selectOne_B");
 			e.printStackTrace();
@@ -129,7 +121,20 @@ public class HotelAirDaoImpl implements HotelAirDao{
 		return vo;
 	}
 	
-	
+	@Override
+	public List<HotelVo> detailList_B(String h_code) {
+		List<HotelVo> list = new ArrayList<HotelVo>();
+		
+		try {
+			list = sqlSession.selectList(NAMESPACE+"detailList_B", h_code);
+			System.out.println("list 확인용 : " + list);
+		} catch(Exception e) {
+			System.out.println("[error] : detailList_B");
+			e.printStackTrace();
+		}
+		
+		return list;
+	}
 	
 	
 	

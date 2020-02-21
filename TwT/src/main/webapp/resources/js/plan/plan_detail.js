@@ -59,12 +59,34 @@ $(document).ready(function(){
 	
 
 
-	// 추가한 스팟 삭제
+	// 추가한 스팟 삭제 및 재설정
 	$(document).on("click",".btn_del",function(){		
-		var spot_index = $(this).parent().parent().parent().attr("id");
-		//$(this).parent().parent().remove();
-		alert("spot_idex : " + spot_index);
+		var spot_num = $(this).parents("#schedule_detail_box").children().length; // 일정에 넣어둔 spot_item 갯수
+		var spot_del_index = // 삭제하려는 index 값
+			$(this).parents(".day_spot_item").children(".img_box").children(".spot_order_box").html();
+		// index 숫자 재설정
+		if(spot_del_index == spot_num){
+			// 삭제하려는 숫자가 끝번호인 경우는 숫자 재배치가 필요없음
+			$(this).parents(".day_spot_item").remove(); // 일정 삭제 메소드
+		} else {
+			// 번호재배치
+			for(i = spot_del_index; i <= spot_num; i++){
+				$(this).parents("#schedule_detail_box").children().eq(i).children(".img_box").children(".spot_order_box").text(i);
+			}
+			// 삭제
+			$(this).parents(".day_spot_item").remove();$(this).parents(".day_spot_item").remove();
+		}	
 	});	
+	
+	$("#schedule_clear").on("click", function() {
+		if(confirm("초기화 하시겠습니까?")){
+			$("#schedule_detail_box").children().remove();
+		} else {
+			alert("취소 되었습니다.");		
+			}
+	});
+	
+	
 });
 
 
