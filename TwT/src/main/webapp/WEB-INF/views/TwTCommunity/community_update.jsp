@@ -84,19 +84,19 @@ body {
 </style>
 </head>
 <body>
-	<form id="potoForm" method="post" action="potoBookinsert.do" enctype="multipart/form-data">
-	<input type="hidden" name="m_Code" value="${m_Code }"/>
+	<form id="potoForm" method="post" action="potoBookupdate.do" enctype="multipart/form-data">
+	<input type="hidden" name="sr_Code" value="${vo.sr_Code}"/>
 	<div class="col-sm-9" id="container">
 		<div class="col-sm-12" style="float: left; margin-top: 30px;">
 			<div class="title">
-				<input type="text" name="sr_Title" placeholder="제목"/>
+				<input type="text" name="sr_Title" value="${vo.sr_Title }"/>
 			</div>
 			<br> <br> <br> <br>
 
 			<div class="row row-cols-1 row-cols-md-3">
 				<div class="col mb-4">
 					<div class="card h-100">
-						<textarea id="summernote" name="sr_Content" class="card-img-top" alt="..."></textarea>
+						<textarea id="summernote" name="sr_Content" class="card-img-top" alt="...">${vo.sr_Content}</textarea>
 					</div>
 				</div>
 			</div>
@@ -104,7 +104,7 @@ body {
 		<div align="center">
 			<input type="submit" style="width: 60px;" class="btns btns-primary btns-outline-primary mt-4 px-4 py-3" value="등록" />
 			&nbsp;&nbsp;&nbsp;
-			<input type="button" style="width: 60px;" class="btns btns-primary btns-outline-primary mt-4 px-4 py-3" value="취소" onclick="location.href='community.do'"/>
+			<input type="button" style="width: 60px;" class="btns btns-primary btns-outline-primary mt-4 px-4 py-3" value="취소" onclick="location.href='potoBookDetail.do?sr_Code=${vo.sr_Code}'"/>
 		</div>
 	</div>
 	</form>
