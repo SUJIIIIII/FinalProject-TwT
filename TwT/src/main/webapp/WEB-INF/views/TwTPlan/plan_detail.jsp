@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
+﻿<%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
@@ -56,6 +56,9 @@ var B_SP_H; // 쇼핑 마커 아이콘(Before hover)
 var A_TD; // 랜드마크 마커 아이콘(After)
 var A_RS; // 식당 마커 아이콘(After)
 var A_SP; // 쇼핑 마커 아이콘(After)
+var A_TD_H; // 랜드마크 마커 아이콘(After hover)
+var A_RS_H; // 식당 마커 아이콘(After hover)
+var A_SP_H; // 쇼핑 마커 아이콘(After hover)
 var tooltipcontent; // infobox content
 var infowindow; // 마커 클릭시 infobox
 var spotaddr = new Array(); // 스팟 주소
@@ -67,6 +70,7 @@ var arrlng = new Array(); // 폴리라인 경도 배열
 var spotcode = new Array(); // 스팟 코드 배열
 var lats = new Array(); // 모든 스팟 위도 배열
 var lngs = new Array(); // 모든 스팟 경도 배열
+var arryn = new Array(); // 모든 스팟 추가 여부
 
 	// map 추가
 	function initMap() {
@@ -96,6 +100,7 @@ var lngs = new Array(); // 모든 스팟 경도 배열
 			lats[i] = $("#spot_"+i).attr("data-lat");
 			lngs[i] = $("#spot_"+i).attr("data-lng");
 			spotcode[i] = $("#spot_"+i).attr("data-no");
+			
        	}
        	
        	// 마커 이미지 
@@ -125,7 +130,6 @@ var lngs = new Array(); // 모든 스팟 경도 배열
 	            	title: content[i]
 	       		});
 				markerListener(marker[i],i,$("#spot_"+i).attr("data-type"));
-				markerOver(marker[i],i,$("#spot_"+i).attr("data-type"),$("#spot_"+i).attr("data-clip-yn"));
 				
 			}else if($("#spot_"+i).attr("data-type") == "식당가"){
 				// 식당 마커 생성
@@ -136,7 +140,6 @@ var lngs = new Array(); // 모든 스팟 경도 배열
 	            	title: content[i]
 	       		});
 				markerListener(marker[i],i,$("#spot_"+i).attr("data-type"));
-				markerOver(marker[i],i,$("#spot_"+i).attr("data-type"),$("#spot_"+i).attr("data-clip-yn"));
 				
 			}else if($("#spot_"+i).attr("data-type") == "쇼핑"){
 				// 쇼핑 마커 생성
@@ -147,12 +150,18 @@ var lngs = new Array(); // 모든 스팟 경도 배열
 	            	title: content[i]
 	       		});
 				markerListener(marker[i],i,$("#spot_"+i).attr("data-type"));
-				markerOver(marker[i],i,$("#spot_"+i).attr("data-type"),$("#spot_"+i).attr("data-clip-yn"));
 			}
         	
 		}
 		
-		/* markerOver(); */
+		if($("#schedule_detail_box").children().length == 0){
+			alert($("#schedule_detail_box").children().length);
+			
+			for(var i=0;i<locations.length;i++){
+				markerOver(marker[i],i,$("#spot_"+i).attr("data-type"));
+			}
+		}
+			
 		
 		
 	} /* init end */
@@ -228,80 +237,132 @@ var lngs = new Array(); // 모든 스팟 경도 배열
 	} /* markerListener end */
 	
 	// mouseover시 마커 아이콘 변경
-	function markerOver(mark,index,type,yn){
+	function markerOver(mark,index,type){
 		
-		if(yn == 'n'){
-			// 마커에 mouseover시
-			google.maps.event.addListener(mark, "mouseover", function() {
-				if(type == "랜드마크"){
-					mark.setIcon(B_TD_H);
-				}else if(type == "식당가"){
-					mark.setIcon(B_RS_H);
-				}else if(type == "쇼핑"){
-					mark.setIcon(B_SP_H);
-				}
-			});
-			
-			// 마커에 mouseout시
-			google.maps.event.addListener(mark, "mouseout", function() {
-				if(type == "랜드마크"){
-					mark.setIcon(B_TD);
-				}else if(type == "식당가"){
-					mark.setIcon(B_RS);
-				}else if(type == "쇼핑"){
-					mark.setIcon(B_SP);
-				}
-			});
-			
-		}
+		// 마커에 mouseover시
+		google.maps.event.addListener(mark, "mouseover", function() {
+			if(type == "랜드마크"){
+				mark.setIcon(B_TD_H);
+			}else if(type == "식당가"){
+				mark.setIcon(B_RS_H);
+			}else if(type == "쇼핑"){
+				mark.setIcon(B_SP_H);
+			}
+		});
+		
+		// 마커에 mouseout시
+		google.maps.event.addListener(mark, "mouseout", function() {
+			if(type == "랜드마크"){
+				mark.setIcon(B_TD);
+			}else if(type == "식당가"){
+				mark.setIcon(B_RS);
+			}else if(type == "쇼핑"){
+				mark.setIcon(B_SP);
+			}
+		});
 		
 	}
 	
 	
-	/* function markerOver(){
-		for(var i=0;i<locations.length;i++){
-			if($("#spot_"+i).attr("data-clip-yn") == 'n'){
+	function markerOver_A(){
+		alert("over_A???");
+		alert("yn??? : " + $("#spot_0").attr("data-clip_yn"));
+		console.log("arryn : " + arryn);
+		console.log("arryn : " + arryn.length);
+		for(var i=0;i<arryn.length;i++){
+			alert("for문 들어옴???");
+			alert(arryn[0]);
+			if(arryn[i] == 'n'){
+				alert("n임");
+				before(i,spot_type[i]);
 				google.maps.event.addListener(marker[i], "mouseover", function() {
 					if(type == "랜드마크"){
-						mark.setIcon(B_TD_H);
+						marker[i].setIcon(B_TD_H);
 					}else if(type == "식당가"){
-						mark.setIcon(B_RS_H);
+						marker[i].setIcon(B_RS_H);
 					}else if(type == "쇼핑"){
-						mark.setIcon(B_SP_H);
+						marker[i].setIcon(B_SP_H);
 					}
 				});
 				
 				google.maps.event.addListener(marker[i], "mouseout", function() {
 					if(type == "랜드마크"){
-						mark.setIcon(B_TD);
+						marker[i].setIcon(B_TD);
 					}else if(type == "식당가"){
-						mark.setIcon(B_RS);
+						marker[i].setIcon(B_RS);
 					}else if(type == "쇼핑"){
-						mark.setIcon(B_SP);
+						marker[i].setIcon(B_SP);
 					}
 				});
-			}else if($("#spot_"+i).attr("data-clip-yn") == 'y'){
+				
+			}else if(arryn[i] == 'y'){
+				alert("y임");
+				after(i,spot_type[i]);
 				google.maps.event.addListener(marker[i], "mouseover", function() {
 					if(type == "랜드마크"){
-						mark.setIcon(A_TD_H);
+						marker[i].setIcon(A_TD_H);
 					}else if(type == "식당가"){
-						mark.setIcon(A_RS_H);
+						marker[i].setIcon(A_RS_H);
 					}else if(type == "쇼핑"){
-						mark.setIcon(A_SP_H);
+						marker[i].setIcon(A_SP_H);
 					}
 				});
 				
 				google.maps.event.addListener(marker[i], "mouseout", function() {
 					if(type == "랜드마크"){
-						mark.setIcon(A_TD);
+						marker[i].setIcon(A_TD);
 					}else if(type == "식당가"){
-						mark.setIcon(A_RS);
+						marker[i].setIcon(A_RS);
 					}else if(type == "쇼핑"){
-						mark.setIcon(A_SP);
+						marker[i].setIcon(A_SP);
 					}
 				});
 			}
 		}
+	}
+	
+	/* function before(i,type){
+		google.maps.event.addListener(marker[i], "mouseover", function() {
+			if(type == "랜드마크"){
+				marker[i].setIcon(B_TD_H);
+			}else if(type == "식당가"){
+				marker[i].setIcon(B_RS_H);
+			}else if(type == "쇼핑"){
+				marker[i].setIcon(B_SP_H);
+			}
+		});
+		
+		google.maps.event.addListener(marker[i], "mouseout", function() {
+			if(type == "랜드마크"){
+				marker[i].setIcon(B_TD);
+			}else if(type == "식당가"){
+				marker[i].setIcon(B_RS);
+			}else if(type == "쇼핑"){
+				marker[i].setIcon(B_SP);
+			}
+		});
+	}
+	
+	function after(i,type){
+		google.maps.event.addListener(marker[i], "mouseover", function() {
+			if(type == "랜드마크"){
+				marker[i].setIcon(A_TD_H);
+			}else if(type == "식당가"){
+				marker[i].setIcon(A_RS_H);
+			}else if(type == "쇼핑"){
+				marker[i].setIcon(A_SP_H);
+			}
+		});
+		
+		google.maps.event.addListener(marker[i], "mouseout", function() {
+			if(type == "랜드마크"){
+				marker[i].setIcon(A_TD);
+			}else if(type == "식당가"){
+				marker[i].setIcon(A_RS);
+			}else if(type == "쇼핑"){
+				marker[i].setIcon(A_SP);
+			}
+		});
 	} */
 	
 	
@@ -314,6 +375,27 @@ var lngs = new Array(); // 모든 스팟 경도 배열
 		}else if(type == "쇼핑"){
 			marker[index].setIcon(A_SP);
 		}
+		
+		google.maps.event.addListener(marker[index], "mouseover", function() {
+			if(type == "랜드마크"){
+				marker[index].setIcon(A_TD_H);
+			}else if(type == "식당가"){
+				marker[index].setIcon(A_RS_H);
+			}else if(type == "쇼핑"){
+				marker[index].setIcon(A_SP_H);
+			}
+		});
+		
+		google.maps.event.addListener(marker[index], "mouseout", function() {
+			if(type == "랜드마크"){
+				marker[index].setIcon(A_TD);
+			}else if(type == "식당가"){
+				marker[index].setIcon(A_RS);
+			}else if(type == "쇼핑"){
+				marker[index].setIcon(A_SP);
+			}
+		});
+		
 	}
 	
 	// 스팟 상세 box 뿌리기
@@ -337,9 +419,9 @@ var lngs = new Array(); // 모든 스팟 경도 배열
 	
 	// 추가된 스팟 배열에 넣기 (수정@@ arrlat으로 접근xx, day_spot_item으로 접근해서 위도 경도 가져오기)
 	function addPath(){
-		 alert("addpath 함수?");
+		 /* alert("addpath 함수?");
 		 console.log("addpath에서 arrlat : " + arrlat);
-		 console.log("addpath에서 arrlng : " + arrlng);
+		 console.log("addpath에서 arrlng : " + arrlng); */
 		// 폴리 라인
 		for(var i=0;i<spotlatlng.length;i++){
 			pathpoly[i] = new google.maps.LatLng(arrlat[i],arrlng[i]);
@@ -419,7 +501,11 @@ var lngs = new Array(); // 모든 스팟 경도 배열
 	                 + "</div>" +  
 	      "");
 	       
-	      $(this).parent().attr("data-clip-yn","y");
+	      $("#spot_"+spot_num).attr("data-clip_yn","y");
+	      
+	      for(var i=0;i<locations.length;i++){
+	    	  arryn[i] = $("#spot_"+i).attr("data-clip_yn");
+	      }
 	      
 	      var latlng = spot_lat + "," + spot_lng;
 	      spotlatlng.push(latlng);
@@ -432,6 +518,11 @@ var lngs = new Array(); // 모든 스팟 경도 배열
 		  // spot추가시 마커 이미지 변경
 	      addMarkerIcon(spot_num,spot_type);
 	      
+	      /* markerOver_A(); */
+	      alert("자식 길이? : " + $("#schedule_detail_box").children().length);
+	      if($("#schedule_detail_box").children().length > 0){
+ 			markerOver_A();
+  		  }
 	}
 
 	/* script */
@@ -507,7 +598,11 @@ var lngs = new Array(); // 모든 스팟 경도 배열
                      + "</div>" +  
           "");
           
-	      $(this).parent().attr("data-clip-yn","y");
+          $("#spot_"+spot_num).attr("data-clip_yn","y");
+          
+          for(var i=0;i<locations.length;i++){
+	    	  arryn[i] = $("#spot_"+i).attr("data-clip_yn");
+	      }
 	       
           var latlng = spot_lat + "," + spot_lng;
           spotlatlng.push(latlng);
@@ -519,12 +614,23 @@ var lngs = new Array(); // 모든 스팟 경도 배열
           addPath();
   		  // spot추가시 마커 이미지 변경
           addMarkerIcon(spot_num,spot_type);
+          
+         alert("자식 길이? : " + $("#schedule_detail_box").children().length);
+         if($("#schedule_detail_box").children().length > 0){
+     		markerOver_A();
+     	 }
        });
 		
 		
 
 		
 	});
+	
+	/* if($("#schedule_detail_box").children().length > 0){
+		markerOver_A();
+	} */
+		
+	
 	
 	google.maps.event.addDomListener(window, 'load', initialize);
 
@@ -840,7 +946,7 @@ src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCiDE5HBue4mflsdkcsGvSZrUe
                 <div class="list_box connectedSortable" style="height: 441px;">
                 <c:set var="count" value="0"></c:set>
                 <c:forEach items="${allSpot}" var="spot" varStatus="status">
-                	<div class="day_spot_item ui-draggable" id="spot_${status.index}" data-seq="${status.index}" data-city="${spot.city_Code}" data-type="${spot.tp_Type}" data-name="${spot.tp_Name}" data-img="${spot.tp_Img}" data-addr="${spot.tp_Addr}" data-con="${spot.tp_Content}" data-set_day="0" data-rel_srl="4740" data-pl_type="0" data-no="${spot.tp_Code}" data-lat="${spot.tp_Lati}" data-lng="${spot.tp_Long}" data-clip-yn="n" data-pl_cat="301" data-ci="87" data-img="${spot.tp_Img}">
+                	<div class="day_spot_item ui-draggable" id="spot_${status.index}" data-seq="${status.index}" data-city="${spot.city_Code}" data-type="${spot.tp_Type}" data-name="${spot.tp_Name}" data-img="${spot.tp_Img}" data-addr="${spot.tp_Addr}" data-con="${spot.tp_Content}" data-set_day="0" data-rel_srl="4740" data-pl_type="0" data-no="${spot.tp_Code}" data-lat="${spot.tp_Lati}" data-lng="${spot.tp_Long}" data-clip_yn="n" data-pl_cat="301" data-ci="87" data-img="${spot.tp_Img}">
                 		<div class="img_box fl"><img src="${pageContext.request.contextPath}/resources/images/plan/${spot.city_Code}/${spot.tp_Img}"></div>
                 		<div class="fl info_box">
                 			<div class="title">${spot.tp_Name}</div>

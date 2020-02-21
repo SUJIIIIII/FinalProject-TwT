@@ -1,4 +1,4 @@
-$(document).ready(function(){
+﻿$(document).ready(function(){
 	$('#date_pick_btn').click(function(){
 		$('#date_pick').show();
 	});
