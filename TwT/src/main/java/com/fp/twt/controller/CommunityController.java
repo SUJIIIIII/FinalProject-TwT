@@ -215,7 +215,6 @@ public class CommunityController {
 		//용훈
 		List<ScheduleReviewVo> list = biz.potoBookList();
 		model.addAttribute("potoList", list);
-		//
 		
 		return "TwTCommunity/community_list";
 	}
