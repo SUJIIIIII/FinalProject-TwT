@@ -29,7 +29,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.fp.twt.HomeController;
 import com.fp.twt.biz.MypageBiz;
-
 import com.fp.twt.common.email.UserMailSendService;
 import com.fp.twt.common.social.KakaoAPI;
 import com.fp.twt.common.social.NaverLoginBO;
@@ -102,21 +101,40 @@ public class MypageController {
 		return "TwTAccount/login";
 	}
 
-	// TODO : 회원수정(비밀번호 수정)
+	// 회원수정(비밀번호 수정)
+	@RequestMapping("/updatePwd.do")
+	public String pwdUpdate(String m_Pass, HttpSession session) throws IOException {
+		MemberVo res = (MemberVo) session.getAttribute("user");
+		String m_Id = res.getm_Id();
+		System.out.println("회원수정 버튼 누름");
+		System.out.println("비밀번호 바꿀 아이디 : " + m_Id);
+		System.out.println("수정하고싶은 비밀번호 :" + m_Pass);
 
-	// TODO : 회원탈퇴
+		MemberVo vo = new MemberVo();
+		vo.setm_Id(m_Id);
+		// 비밀번호 암호화
+		vo.setm_Pass(passwordEncoder.encode(m_Pass));
+		System.out.println("암호화 된 비밀번호 : " + vo.getm_Pass());
+
+		biz.memberUpdate(vo);
+
+		return "redirect:mypage.do";
+	}
+
+	// 회원탈퇴
 	@RequestMapping("/deleteAccount.do")
-	public String deleteAccount(Model model, String m_Code, HttpSession session) {
+	public String deleteAccount(Model model, String m_Code, HttpSession session) throws IOException {
 		System.out.println("회원탙퇴버튼 누름");
 		model.addAttribute("user", biz.deleteAccount(m_Code));
+		session.removeAttribute("user");
 		session.invalidate();
-		return "login.do";
+
+		return "TwTAccount/login";
 	}
 
 	// 로그인
 	@RequestMapping("/enter.do")
-	public String login(MemberVo vo, HttpSession session, Model model, HttpServletResponse response)
-			throws IOException {
+	public String login(MemberVo vo, HttpSession session, Model model) throws IOException {
 
 		MemberVo res = biz.login(vo);
 
@@ -124,11 +142,10 @@ public class MypageController {
 
 		// 비밀번호 해독
 		if (passwordEncoder.matches(vo.getm_Pass(), res.getm_Pass())) {
-			System.out.println("로그인 정보" + res.toString());
+			System.out.println("로그인 정보 : " + res.toString());
 			session.setAttribute("user", res);
 			check = true;
 		}
-
 		return "redirect:/index.jsp";
 	}
 
@@ -164,6 +181,38 @@ public class MypageController {
 		System.out.println("확인 : " + result);
 
 		map.put("check", result);
+
+		return map;
+	}
+
+	// 로그인시 유효한 아이디 비밀번호 확인
+	@RequestMapping(value = "loginChk.do", method = RequestMethod.GET)
+	@ResponseBody
+	public Map<Object, Object> loginCheck(String m_Id, String m_Pass) {
+		Map<Object, Object> map = new HashMap<Object, Object>();
+		MemberVo vo = new MemberVo();
+		vo.setm_Id(m_Id);
+		vo.setm_Pass(m_Pass);
+		MemberVo res = biz.selectOneLogin(vo);
+
+		System.out.println("들어오는 아이디 : " + m_Id);
+		System.out.println("들어오는 비번 : " + m_Pass);
+
+		int result1 = biz.loginIdChk(m_Id);
+		int result2 = 0;
+
+		System.out.println("db의 비밀번호: " + res.getm_Pass());
+
+		// 비밀번호 해독
+		if (passwordEncoder.matches(m_Pass, res.getm_Pass())) {
+			System.out.println("로그인 체크 정보" + m_Id + ":" + m_Pass);
+			result2 = 1;
+		}
+
+		System.out.println("확인 : " + result1 + result2);
+
+		map.put("check1", result1);
+		map.put("check2", result2);
 
 		return map;
 	}
@@ -253,7 +302,7 @@ public class MypageController {
 		System.out.println("항공권 입력 버튼 누름");
 		model.addAttribute("airVo", biz.insertAir(vo));
 		System.out.println("항공권 투스트링 : " + vo.toString());
-		return "redirect:/TwtAccount/mypage.jsp";
+		return "redirect:mypage.do";
 	}
 
 	// 항공권 예약 정보 수정
@@ -261,8 +310,10 @@ public class MypageController {
 	public String updateAir(Model model, AirplaneInfoVo vo, String air_Code) {
 		System.out.println("항공권 수정 버튼 누름");
 		System.out.println("수정할 항공권 정보의 번호 : " + air_Code);
+		System.out.println(vo.getDep_Date1());
+		System.out.println(vo.getDep_Date2());
 		model.addAttribute("airVo", biz.selectOne(vo, air_Code));
-		return "";
+		return "redirect:mypage.do";
 	}
 
 	// 항공권 예약 정보 삭제
@@ -272,5 +323,16 @@ public class MypageController {
 		System.out.println("여기까지 항공번호 들어오나요..." + air_Code);
 		model.addAttribute("airVo", biz.deleteAir(air_Code));
 		return "redirect:mypage.do";
+	}
+
+	// 비밀번호 찾기
+	@RequestMapping(value = "searchPassword.do", method = RequestMethod.GET)
+	@ResponseBody
+	public String passwordSearch(@RequestParam("m_Id") String m_Id, @RequestParam("m_Email") String m_Email,
+			HttpServletRequest request) {
+
+		mailsender.mailSendWithPassword(m_Id, m_Email, request);
+
+		return "TwTAccount/login";
 	}
 }

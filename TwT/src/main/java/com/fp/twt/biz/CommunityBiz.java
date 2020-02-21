@@ -22,13 +22,13 @@ public interface CommunityBiz {
 	
 	//도영
 	
+	//리스트
 	public List<TravelScheduleVo> selectList_D();
 	public List<TravelScheduleVo> PselectList_D();
-
-
-	public TravelScheduleVo selectOne_D(String ts_code);
-
 	
-	public List<TravelScheduleVo> relList_D();
+	//디테일
+	public TravelScheduleVo selectOne_D(String ts_code);
+	public List<TravelScheduleVo> detailList_D(String ts_code);
+	public List<TravelScheduleVo> themeList(String ts_theme);
 
 }

@@ -71,8 +71,13 @@ public class CommunityBizImpl implements CommunityBiz{
 	}
 
 	@Override
-	public List<TravelScheduleVo> relList_D() {
-		return dao.relList_D();
+	public List<TravelScheduleVo> detailList_D(String ts_code) {
+		return dao.detailList_D(ts_code);
+	}
+
+	@Override
+	public List<TravelScheduleVo> themeList(String ts_theme) {
+		return dao.themeList(ts_theme);
 	}
 
 
