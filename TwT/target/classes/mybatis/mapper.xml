@@ -91,9 +91,11 @@
 	</select>
 
 
+
 	<select id="selectOne_B" resultType="Hotel"
 		parameterType="String">
 		SELECT * FROM HOTEL WHERE H_CODE = #{h_code}
+
 	</select>
 
 
@@ -112,6 +114,7 @@
 	</select>
 
 	<!-- 여행일정 게시판 리스트 조회수 순 -->
+
 <!-- 	<select id="PselectList_D" resultMap="TravelScheduleMap_D">
 		SELECT * FROM
 		TRAVELSCHEDULE LEFT JOIN TWTMEMBER USING(M_CODE) ORDER BY TS_VIEW DESC
@@ -128,6 +131,7 @@
 		SELECT * FROM TRAVELSCHEDULE LEFT JOIN TWTMEMBER
 		USING(M_CODE) LEFT JOIN TRAVELSCHEDULE_DAY USING(TS_CODE) LEFT JOIN
 		TRAVELPOINT USING(TP_CODE) WHERE TS_CODE = #{TS_CODE}
+
 	</select>
 
 
