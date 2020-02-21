@@ -6,8 +6,7 @@
 <head>
 <meta charset="UTF-8">
 <!-- 아이콘 -->
-<link rel="stylesheet"
-	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css" />
 <%-- 부트스트랩 모달 core 파일 시작 --%>
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
 	integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
@@ -30,10 +29,8 @@
 <link rel="stylesheet"
 	href="${pageContext.request.contextPath}/resources/scss/bootstrap/bootstrap.scss">
 <script type="text/javascript" src="js/component.js"></script>
-<script type="text/javascript"
-	src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<script type="text/javascript" src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 <script type="text/javascript">
-	
 <%-- 오른쪽 사이드 리모콘 메뉴 --%>
 	$(document).ready(function() {
 		$("#sidebar").load("../TwTAccount/common/sidebar.jsp")
@@ -57,8 +54,8 @@
 						$(this).find('.fa-eye-slash').attr('class',
 								"fas fa-eye").parents('.form-group').find(
 								'#password').attr('type', 'password');
-					}
-				});
+				}
+		});
 	});
 </script>
 <style type="text/css">
@@ -500,8 +497,9 @@ html {
 </head>
 <body id="body">
 	<%-- 오른쪽 네비게이션 메뉴 DIV 시작 --%>
-	<div id="sidebar"><%@ include
-			file="/WEB-INF/views/TwTAccount/common/sidebar.jsp"%></div>
+	<div id="sidebar">
+	   <%@ include file="/WEB-INF/views/TwTAccount/common/sidebar.jsp"%>
+	</div>
 	<%-- 오른쪽 네비게이션 메뉴 DIV 끝 -%>
 	
 	<%-- NAV시작 --%>
@@ -549,7 +547,7 @@ html {
 	<div class="col-sm-9" id="container">
 		<div class="col-sm-3" style="float: left;">
 			<div class="col-xs-12 title">
-				<p>개인 정보</p>
+				<p>개인정보</p>
 			</div>
 
 			<div class="col-sm-9" id="profile">
@@ -561,8 +559,6 @@ html {
 		<%-- 개인정보조회 DIV 시작 --%>
 		<div class="col-sm-9" style="float: left;">
 			<div id="form_wrap">
-				<%-- FIXME : 폼 액션 pwd_modify.do로 변경 --%>
-				<form action="#" id="user_form" method="post">
 					<div class="form-group">
 						<input type="text" name="m_Id" value="${user.m_Id}" /> <label
 							for="input" class="control-label">ID</label><i class="bar"></i>
@@ -572,8 +568,10 @@ html {
 						<input type="text" name="m_Email" value="${user.m_Email}" /> <label
 							for="input" class="control-label">E-MAIL</label><i class="bar"></i>
 					</div>
-
+					
+					<form action="updatePwd.do" method="post">
 					<div class="form-group">
+					    <input type="hidden" name="m_Id" value="${user.m_Id}">
 						<input type="password" required="required" value="${user.m_Pass}"
 							id="password" name="m_Pass" /> <label for="input"
 							class="control-label">PWD</label><i class="bar"> <span
@@ -584,8 +582,7 @@ html {
 					</div>
 
 					<div style="margin-left: 585px;">
-						<button type="submit" id="pwd_modify"
-							class="btn btn-primary btn-outline-primary">수 정</button>
+						<button type="submit" class="btn btn-primary btn-outline-primary">수 정</button>
 					</div>
 				</form>
 			</div>
@@ -963,8 +960,8 @@ html {
 						<input type="hidden" name="m_Code" value="${user.m_Code}">
 						       출국지: <input type="text" name="dep_Loca1"><br>
 						       출국 도착지 : <input type="text" name="dep_Loca2"><br>
-						       출국날짜 : <input type="text" name="dep_Date1"><br>
-						       출국 도착날짜 : <input type="text" name="dep_Date2"><br>
+						       출국날짜 : <input type="text" name="dep_Date1" id="checkin_date"><br>
+						       출국 도착날짜 : <input type="text" name="dep_Date2" d="checkout_date"><br>
 						       출국 출발시간 : <input type="text" name="dep_Time1"><br>
 						       출국 도착시간 : <input type="text" name="dep_Time2"><br>
 						       귀국출발지 : <input type="text" name="re_Loca1"><br>
@@ -998,19 +995,21 @@ html {
 						</button>
 					</div>
 					<div class="modal-body">
-						<input type="hidden" name="m_Code" value="${user.m_Code}">
-						       출국지: <input type="text" name="dep_Loca1"><br>
-						       출국 도착지 : <input type="text" name="dep_Loca2"><br>
-						       출국날짜 : <input type="text" name="dep_Date1"><br>
-						       출국 도착날짜 : <input type="text" name="dep_Date2"><br>
-						       출국 출발시간 : <input type="text" name="dep_Time1"><br>
-						       출국 도착시간 : <input type="text" name="dep_Time2"><br>
-						       귀국출발지 : <input type="text" name="re_Loca1"><br>
-						       귀국도착지 : <input type="text" name="re_Loca2"><br>
-						       귀국출발날짜 : <input type="text" name="re_Date1"><br>
-						       귀국도착날짜 : <input type="text" name="re_Date2"><br>
-						       귀국출발시간 : <input type="text" name="re_Time1"><br>
-						       귀국도착시간 : <input type="text" name="re_Time2">
+					<c:forEach items="${airlist}" var="airlist">
+					   <input type="hidden" name="air_Code" value="${airlist.air_Code}">
+						       출국지: <input type="text" name="dep_Loca1" value="${airlist.dep_Loca1}"><br>
+						       출국 도착지 : <input type="text" name="dep_Loca2" value="${airlist.dep_Loca2}"><br>
+						       출국날짜 : <input type="text" name="dep_Date1" value="${airlist.dep_Date1}"><br>
+						       출국 도착날짜 : <input type="text" name="dep_Date2" value="${airlist.dep_Date2}"><br>
+						       출국 출발시간 : <input type="text" name="dep_Time1" value="${airlist.dep_Time1}"><br>
+						       출국 도착시간 : <input type="text" name="dep_Time2" value="${airlist.dep_Time2}"><br>
+						       귀국출발지 : <input type="text" name="re_Loca1" value="${airlist.re_Loca1}"><br>
+						       귀국도착지 : <input type="text" name="re_Loca2" value="${airlist.re_Loca2}"><br>
+						       귀국출발날짜 : <input type="text" name="re_Date1" value="${airlist.re_Date1}"><br>
+						       귀국도착날짜 : <input type="text" name="re_Date2" value="${airlist.re_Date2}"><br>
+						       귀국출발시간 : <input type="text" name="re_Time1" value="${airlist.re_Time1}"><br>
+						       귀국도착시간 : <input type="text" name="re_Time2" value="${airlist.re_Time1}">
+					</c:forEach>
 					</div>
 					<div class="modal-footer">
 						<button type="submit" class="btn btn-primary btn-outline-primary">완 료</button>

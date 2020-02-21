@@ -42,4 +42,19 @@ public interface MypageDao {
 	// 항공권 정보 수정
 	public Object updateAir(AirplaneInfoVo vo, String air_Code);
 
+	// 로그인 시 아이디 여부 체크
+	public int loginIdChk(String m_Id);
+
+	// 로그인 시 비밀번호 여부 체크
+	public int loginPwdChk(String m_Pass);
+
+	// 로그인 시 모든 회원의 정보 조회
+	public MemberVo selectOneLogin(MemberVo vo);
+
+	// 비밀번호 변경
+	public void memberUpdate(MemberVo vo);
+
+	// 비밀번호 찾기
+	public void searchPassword(MemberVo vo);
+
 }
