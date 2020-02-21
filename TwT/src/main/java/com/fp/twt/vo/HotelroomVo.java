@@ -18,6 +18,7 @@ public class HotelroomVo {
     private String hr_bed; 		//침대수
     private Date hr_Date; 		//날짜
 
+
     public String geth_Code() {
 		return h_Code;
 	}

@@ -1,5 +1,11 @@
 ﻿package com.fp.twt.controller;
 
+import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,7 +14,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.fp.twt.biz.HotelAirBiz;
+import com.fp.twt.vo.HotelVo;
+import com.fp.twt.vo.PagingVo;
 import com.fp.twt.vo.AirSearchVo;
+
 
 @Controller
 public class HotelAirController {
@@ -48,22 +57,35 @@ public class HotelAirController {
 	public String hotel(Model model) {
 		logger.info("SELECT LIST");
 		model.addAttribute("hotellist",biz.HselectList());
-		
-		
+
 		return "TwTHotel/hotel_list";
 	}
 	
 	// 호텔 객실
 	@RequestMapping("hotelDetail.do")
-	public String hotelDetail(Model model,String h_code) {
+	public String hotelDetail(Model model, HttpServletRequest request) {
 		
 		logger.info("SELECT ONE");
 		
-		model.addAttribute("hvo",biz.selectOne_B(h_code));
+		String h_code = request.getParameter("h_Code");
+		System.out.println("컨트롤러 h_code : " + h_code);
 		
+		
+		model.addAttribute("hvo",biz.selectOne_B(h_code));
+		model.addAttribute("detailList_B",biz.detailList_B(h_code));
 		
 		return "TwTHotel/hotel_detail";
 	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 
 }
