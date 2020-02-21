@@ -57,11 +57,17 @@
 			url : "ansInsert.do",
 			dataType : "json",
 			success : function(data){
-/* 				
-				$.each(data, function(index, item){
+				$("#ansList").append(
+					'<li class="comment">'+
+					'<div class="vcard bio">'+
+					'</div>'+
+					'<div class="comment-body">'+
+					'<h3>'+data.+'</h3>'+
 					
-				}
-				
+					'</div>'+
+					'</li>'
+				);
+/* 				
                 <li class="comment">
                 <div class="vcard bio">
                 </div>
@@ -72,8 +78,8 @@
                   <p><a href="#" class="reply">Reply</a></p>
                 </div>
                 </li>
-                 */
-			},
+                 
+ */			},
 			error : function(){
 				alert("실패");
 			}
@@ -180,9 +186,10 @@
           <div class="col-md-8 ftco-animate" style="margin-left: 100px">
   <!-- 댓글  -->
             <div class="pt-5 mt-5">
-              <h3 class="mb-5">3 Comments</h3>
-              <ul class="comment-list">
-              	<c:forEach items="${anslist }" var="list">
+            <c:if test="${not empty anslist }">
+              <h3 class="mb-5">${anslist.size()} Comments</h3>
+              <ul class="comment-list" id="ansList">
+            	<c:forEach items="${anslist }" var="list">
                 <li class="comment">
                   <div class="vcard bio">
                   </div>
@@ -208,7 +215,9 @@
                 </li>
                 </c:forEach>
               </ul>
+              </c:if>
               <!-- END comment-list -->
+              <c:if test="${truefalse == true }">
               <div class="comment-form-wrap pt-5">
                 <h3 class="mb-5">Leave a comment</h3>
                 <form id="ansform" method="post" class="p-5 bg-light" style="margin-bottom:50px; ">
@@ -223,6 +232,7 @@
                   </div>
                 </form>
               </div>
+              </c:if>	
             </div>
           </div> 
         </div>

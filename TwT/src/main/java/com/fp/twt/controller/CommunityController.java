@@ -185,15 +185,17 @@ public class CommunityController {
 	
 	@RequestMapping("/ansInsert.do")
 	@ResponseBody
-	public Map<String, AnswerVo> ansInsert(AnswerVo vo) {
-		Map<String, AnswerVo> map = new HashMap<String, AnswerVo>();
+	public Map<String, String> ansInsert(AnswerVo vo) {
+		Map<String, String> map = new HashMap<String, String>();
+		String tf = "false";
 		
 		vo.setReple_Code("false");
 		int res = biz.ansInsert(vo);
-		
-		/* List<AnswerVo> list = biz.ansList(); */
-		
-		
+
+		if(res > 0	) {
+			tf = "true";
+		}
+		map.put("tf", tf);
 		
 		return map;
 	}
