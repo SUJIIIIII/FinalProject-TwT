@@ -121,6 +121,7 @@ public class HotelAirDaoImpl implements HotelAirDao{
 		
 		try {
 			vo = sqlSession.selectOne(NAMESPACE+"selectOne_B", h_code);
+			System.out.println("vo 확인용 : " + vo);
 		} catch(Exception e) {
 			System.out.println("[error] : selectOne_B");
 			e.printStackTrace();

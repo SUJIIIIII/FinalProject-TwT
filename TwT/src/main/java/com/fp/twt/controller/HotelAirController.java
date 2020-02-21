@@ -8,7 +8,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.fp.twt.biz.HotelAirBiz;
+import com.fp.twt.vo.HotelVo;
 import com.fp.twt.vo.AirSearchVo;
+
 
 @Controller
 public class HotelAirController {
@@ -58,6 +60,9 @@ public class HotelAirController {
 	public String hotelDetail(Model model,String h_code) {
 		
 		logger.info("SELECT ONE");
+		/*
+		 * HotelVo vo = biz.selectOne_B(h_code); System.out.println(vo.geth_Code());
+		 */
 		
 		model.addAttribute("hvo",biz.selectOne_B(h_code));
 		
