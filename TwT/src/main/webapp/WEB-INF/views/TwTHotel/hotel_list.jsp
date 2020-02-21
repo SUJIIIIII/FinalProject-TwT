@@ -179,11 +179,11 @@
           	
           	
           	
-              <c:forEach items="${hotellist }" var="HotelVo">
+              <c:forEach items="${hotellist }" var="HotelVo" begin="${page.startRow }" end="${page.startRow + 5 }">
           		<div class="col-md-4 ftco-animate">
 		    				<div class="destination">
-		    					<a href="hotelDetail.do?h_Code=${hotelvo.h_Code }" class="img img-2 d-flex justify-content-center align-items-center" 
-		    					        style="background-image: url(${pageContext.request.contextPath}/resources/images/hotel-1.jpg);">
+		    					<a href="hotelDetail.do?h_Code=${HotelVo.h_Code }" class="img img-2 d-flex justify-content-center align-items-center" 
+		    					        style="background-image: url(${pageContext.request.contextPath}/resources/images/hotel/${HotelVo.h_Img});">
 		    						<div class="icon d-flex justify-content-center align-items-center">
     							<span class="icon-search2"></span>
     						</div>
@@ -191,14 +191,13 @@
 		    					<div class="text p-3">
 		    						<div class="d-flex">
 		    							<div class="one">
-				    						<h3 style="width: 130px;"><a href="hotelDetail.do?h_Code=${hotelvo.h_Code }" style="margin: -7px;">${HotelVo.h_Name}</a></h3>
+				    						<h3 style="width: 130px;"><a href="hotelDetail.do?h_Code=${HotelVo.h_Code }" style="margin: -7px;">${HotelVo.h_Name}</a></h3>
 				    						<p class="rate">
 				    							<i class="icon-star"></i>
 				    							<i class="icon-star"></i>
 				    							<i class="icon-star"></i>
 				    							<i class="icon-star"></i>
 				    							<i class="icon-star-o"></i>
-				    							<span>호텔 등급</span>
 				    						</p>
 			    						</div>
 			    						<div class="two">
@@ -209,7 +208,7 @@
 		    						<hr>
 		    						<p class="bottom-area d-flex">
 		    							<span><i class="icon-map-o"></i>&nbsp;&nbsp;${HotelVo.h_Basicaddr}</span> 
-		    							<span class="ml-auto"><a href="hotelDetail.do?h_Code=${hotelvo.h_Code }">상세정보</a></span>
+		    							<span class="ml-auto"><a href="hotelDetail.do?h_Code=${HotelVo.h_Code }">상세정보</a></span>
 		    						</p>
 		    					</div>
 		    				</div>
@@ -221,7 +220,7 @@
 		   	
 		    			<!-- ----------------------------------------------------------------------------------------------- -->
 		    			
-		    			
+		    	<!--  	
           	</div>
           	<div class="row mt-5">
 		          <div class="col text-center">
@@ -238,6 +237,47 @@
 		            </div>
 		          </div>
 		        </div>
+		        -->	
+		        
+		        
+		        
+     <script type="text/javascript">
+	  function PageMove(page){
+    	 location.href = "controller.do?command=paging&curpagenum="+page;
+        }
+     </script>                
+	        <c:if test="${page.listCount > 5}">  
+	        <div class="row mt-5">
+	       	<div class="col text-center">
+	       	  <div class="block-27">
+	       	 	<ul>
+			        <li><a href="javascript:PageMove(1)">맨앞으로</a></li>
+			        <c:if test="${page.preve eq true }">
+			        <li class="active"><a href="javascript:PageMove(${page.currentPage-1 })">앞으로</a></li>
+			        </c:if>
+			              <c:forEach var="i" begin="${page.startPage }" end="${page.endPage }" >
+			                  <c:choose>
+			                      <c:when test="${i eq page.currentPage }">
+			               			<li class="active"><a href="javascript:PageMove(${i})">${i}</a></li>
+			                      </c:when>
+			                      <c:otherwise>
+			                        <li><a href="javascript:PageMove(${i})">${i}</a></li>
+			                      </c:otherwise>
+			                  </c:choose>
+			              </c:forEach>
+			        <c:if test="${page.next eq true }">    
+			        <li class="active"><a href="javascript:PageMove(${page.currentPage+1 })">뒤로</a></li>
+			        </c:if>  
+			        <li><a href="javascript:PageMove(${page.allPage})">맨뒤로</a></li>
+			      </ul>
+			      </div>   
+			      </div> 
+	        </div>
+	        </c:if>
+		        
+		        
+		        
+		        
           </div> <!-- .col-md-8 -->
         </div>
       </div>

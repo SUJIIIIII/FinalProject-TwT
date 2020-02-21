@@ -23,8 +23,8 @@ public interface HotelAirDao {
 	//범식
 		
 	public List<HotelVo> HselectList();
-	public List<HotelroomVo> selectall_B();
-	public HotelVo selectOne_B(String h_code);	
+	public HotelVo selectOne_B(String h_code);
+	public List<HotelVo> detailList_B(String h_code); 
 		
 		
 		

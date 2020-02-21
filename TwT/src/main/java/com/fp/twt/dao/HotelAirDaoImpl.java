@@ -102,18 +102,6 @@ public class HotelAirDaoImpl implements HotelAirDao{
 	}
 	
 	//호텔 방 
-	public List<HotelroomVo> selectall_B(){
-		List<HotelroomVo> hotelroomlist = new ArrayList<HotelroomVo>();
-		
-		try {
-		hotelroomlist = sqlSession.selectList(NAMESPACE+"selectall_B");
-		System.out.println("dao 의  hotelroomlist : "+hotelroomlist);
-		}catch(Exception e) {
-			e.printStackTrace();
-		}
-		return hotelroomlist;
-	}
-
 
 	@Override
 	public HotelVo selectOne_B(String h_code) {
@@ -130,7 +118,20 @@ public class HotelAirDaoImpl implements HotelAirDao{
 		return vo;
 	}
 	
-	
+	@Override
+	public List<HotelVo> detailList_B(String h_code) {
+		List<HotelVo> list = new ArrayList<HotelVo>();
+		
+		try {
+			list = sqlSession.selectList(NAMESPACE+"detailList_B", h_code);
+			System.out.println("list 확인용 : " + list);
+		} catch(Exception e) {
+			System.out.println("[error] : detailList_B");
+			e.printStackTrace();
+		}
+		
+		return list;
+	}
 	
 	
 	
