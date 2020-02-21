@@ -57,10 +57,19 @@ $(document).ready(function(){
 		$(this).children(".item_ctrl_box").css("display", "none" );
 	});
 	
-	
-	
 
+
+	// 추가한 스팟 삭제
+	$(document).on("click",".btn_del",function(){		
+		var spot_index = $(this).parent().parent().parent().attr("id");
+		// $(this).parent().parent().remove();
+		alert("spot_idex : " + spot_index);
+	});	
 });
+
+
+
+
 
 
 // Day 수정 버튼 클릭
