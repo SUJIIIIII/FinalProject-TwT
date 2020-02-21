@@ -113,39 +113,31 @@
 
 	<!-- ================================도영================================== -->
 
-	<resultMap type="TravelSchedule" id="TravelScheduleMap_D">
-		<result property="ts_Code" column="TS_CODE" />
-		<result property="m_Code" column="M_CODE" />
-		<result property="tp_Code" column="TP_CODE" />
-		<result property="ts_Title" column="TS_TITLE" />
-		<result property="ts_Sday" column="TS_SDAY" />
-		<result property="ts_Theme" column="TS_THEME" />
-		<result property="ts_People" column="TS_PEOPLE" />
-		<result property="ts_Thum" column="TS_THUM" />
-		<result property="ts_Period" column="TS_PERIOD" />
-		<result property="ts_Date" column="TS_DATE" />
-		<result property="ts_View" column="SR_VIEW" />
-		<result property="m_Id" column="M_ID" />
-	</resultMap>
-
 	<!-- 여행일정 게시판 리스트 최신 순 -->
-	<select id="selectList_D" resultMap="TravelScheduleMap_D">
-		SELECT * FROM TRAVELSCHEDULE
-		LEFT JOIN TWTMEMBER USING(M_CODE) ORDER BY TS_DATE DESC
+	<select id="selectList_D" resultType="TravelSchedule">
+<!-- 		SELECT * FROM TRAVELSCHEDULE TS LEFT JOIN TWTMEMBER M ON (TS.M_CODE = M.M_CODE) LEFT JOIN TRAVELSCHEDULE_DAY TD ON (TS.TS_CODE = TD.TS_CODE) LEFT JOIN TRAVELPOINT TP ON(TS.TP_CODE = TP.TP_CODE) ORDER BY TS_DATE DESC -->
+		SELECT TS.TS_CODE, TS.M_CODE, TS.TP_CODE, TS.TS_TITLE, TS.TS_SDAY, TS.TS_THEME, TS.TS_PEOPLE, TS.TS_THUM, TS.TS_PERIOD, TS.TS_DATE, TS.TS_VIEW, M.M_NAME, TP.CITY_CODE, TP.TP_IMG FROM TRAVELSCHEDULE TS LEFT JOIN TWTMEMBER M ON (TS.M_CODE = M.M_CODE) LEFT JOIN TRAVELPOINT TP ON(TS.TP_CODE = TP.TP_CODE) ORDER BY TS_DATE DESC
 	</select>
 
 	<!-- 여행일정 게시판 리스트 조회수 순 -->
-	<select id="PselectList_D" resultMap="TravelScheduleMap_D">
-		SELECT * FROM TRAVELSCHEDULE LEFT JOIN TWTMEMBER USING(M_CODE) ORDER BY TS_VIEW DESC
+	<select id="PselectList_D" resultType="TravelSchedule">
+		SELECT TS.TS_CODE, TS.M_CODE, TS.TP_CODE, TS.TS_TITLE, TS.TS_SDAY, TS.TS_THEME, TS.TS_PEOPLE, TS.TS_THUM, TS.TS_PERIOD, TS.TS_DATE, TS.TS_VIEW, M.M_NAME, TP.CITY_CODE, TP.TP_IMG FROM TRAVELSCHEDULE TS LEFT JOIN TWTMEMBER M ON (TS.M_CODE = M.M_CODE) LEFT JOIN TRAVELPOINT TP ON(TS.TP_CODE = TP.TP_CODE) ORDER BY TS_VIEW DESC
 	</select>
 	
-	<select id="relList_D" resultMap="TravelScheduleMap_D">
-		SELECT * FROM TRAVELSCHEDULE LEFT JOIN TWTMEMBER USING(M_CODE) WHERE TS_CODE = #{TS_CODE}
+	<!-- 디테일 리스트 -->
+	<select id="detailList_D" parameterType="String" resultType="TravelSchedule">
+		SELECT * FROM TRAVELSCHEDULE TS LEFT JOIN TWTMEMBER M ON (TS.M_CODE = M.M_CODE) LEFT JOIN TRAVELSCHEDULE_DAY TD ON (TS.TS_CODE = TD.TS_CODE) LEFT JOIN TRAVELPOINT TP ON(TS.TP_CODE = TP.TP_CODE) WHERE TS.TS_CODE = #{TS_CODE}
 	</select>
 
 	<!-- 여행 일정 디테일 -->	
 	<select id="selectOne_D" parameterType="String" resultType="TravelSchedule">
-		SELECT * FROM TRAVELSCHEDULE LEFT JOIN TWTMEMBER USING(M_CODE) LEFT JOIN TRAVELSCHEDULE_DAY USING(TS_CODE) LEFT JOIN TRAVELPOINT USING(TP_CODE) WHERE TS_CODE = #{TS_CODE}
+<!-- SELECT TS.TS_CODE, TS.M_CODE, TS.TP_CODE, TS.TS_TITLE, TS.TS_SDAY, TS.TS_THEME, TS.TS_PEOPLE, TS.TS_THUM, TS.TS_PERIOD, TS.TS_DATE, TS.TS_VIEW, M.M_ID, TD.TS_DAY, TP.TP_TYPE, TP.TP_CONTENT FROM TRAVELSCHEDULE TS LEFT JOIN TWTMEMBER M ON (TS.M_CODE = M.M_CODE) LEFT JOIN TRAVELSCHEDULE_DAY TD ON (TS.TS_CODE = TD.TS_CODE) LEFT JOIN TRAVELPOINT TP ON(TS.TP_CODE = TP.TP_CODE) WHERE TS.TS_CODE = #{TS_CODE} -->
+		SELECT * FROM TRAVELSCHEDULE TS LEFT JOIN TWTMEMBER M ON (TS.M_CODE = M.M_CODE) LEFT JOIN TRAVELSCHEDULE_DAY TD ON (TS.TS_CODE = TD.TS_CODE) LEFT JOIN TRAVELPOINT TP ON(TS.TP_CODE = TP.TP_CODE) WHERE TS.TS_CODE = #{TS_CODE}
+	</select>
+	
+	<!-- 연관 일정 -->
+	<select id="themeList_D" parameterType="String" resultType="TravelSchedule">
+		SELECT TS.TS_CODE, TS.M_CODE, TS.TP_CODE, TS.TS_TITLE, TS.TS_SDAY, TS.TS_THEME, TS.TS_PEOPLE, TS.TS_THUM, TS.TS_DATE, TS.TS_VIEW, M_NAME, TP.CITY_CODE, TP.TP_IMG FROM TRAVELSCHEDULE TS LEFT JOIN TWTMEMBER M ON (TS.M_CODE = M.M_CODE) LEFT JOIN TRAVELSCHEDULE_DAY TD ON (TS.TS_CODE = TD.TS_CODE) LEFT JOIN TRAVELPOINT TP ON(TS.TP_CODE = TP.TP_CODE) WHERE TS.TS_THEME = #{TS_THEME} ORDER BY TS_DATE DESC
 	</select>
 	
 

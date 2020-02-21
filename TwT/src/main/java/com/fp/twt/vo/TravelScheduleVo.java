@@ -19,13 +19,19 @@ public class TravelScheduleVo {
     private String ts_Day;		//일정 날짜
     private String tp_Type;		//여행지타입
     private String tp_Content;	//여행지설명
+    private String tp_Name;		//여행지 이름
+    private String ts_Memo;		//일정 메모
+    private String m_Name;		//회원이름
+    private String tp_Img;		//여행이미지
+    private String city_Code;	//도시 번호
 
     public TravelScheduleVo() {
 		super();
 	}
 
 	public TravelScheduleVo(String ts_Code, String m_Code, String tp_Code, String ts_Title, Date ts_Sday, String ts_Theme,
-			String ts_People, String ts_Thum, int ts_Period, String ts_View, Date ts_Date, String m_Id, String ts_Day, String tp_Type, String tp_Content) {
+			String ts_People, String ts_Thum, int ts_Period, String ts_View, Date ts_Date, String m_Id, String ts_Day, 
+			String tp_Type, String tp_Content, String tp_Name, String ts_Memo, String m_Name, String tp_Img, String city_Code) {
 		super();
 		this.ts_Code = ts_Code;
 		this.m_Code = m_Code;
@@ -42,9 +48,55 @@ public class TravelScheduleVo {
 		this.ts_Day = ts_Day;
 		this.tp_Type = tp_Type;
 		this.tp_Content = tp_Content;
+		this.tp_Name = tp_Name;
+		this.ts_Memo = ts_Memo;
+		this.m_Name = m_Name;
+		this.tp_Img = tp_Img;
+		this.city_Code = city_Code;
 	}
 	
 	
+	
+	public String getCity_Code() {
+		return city_Code;
+	}
+
+	public void setCity_Code(String city_Code) {
+		this.city_Code = city_Code;
+	}
+
+	public String getTp_Img() {
+		return tp_Img;
+	}
+
+	public void setTp_Img(String tp_Img) {
+		this.tp_Img = tp_Img;
+	}
+
+	public String getM_Name() {
+		return m_Name;
+	}
+
+	public void setM_Name(String m_Name) {
+		this.m_Name = m_Name;
+	}
+
+	public String getTs_Memo() {
+		return ts_Memo;
+	}
+
+	public void setTs_Memo(String ts_Memo) {
+		this.ts_Memo = ts_Memo;
+	}
+
+	public String getTp_Name() {
+		return tp_Name;
+	}
+
+	public void setTp_Name(String tp_Name) {
+		this.tp_Name = tp_Name;
+	}
+
 	public String getTp_Type() {
 		return tp_Type;
 	}

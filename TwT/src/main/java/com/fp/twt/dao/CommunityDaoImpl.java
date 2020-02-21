@@ -156,15 +156,28 @@ public class CommunityDaoImpl implements CommunityDao{
 		return vo;
 	}
 	@Override
-	public List<TravelScheduleVo> relList_D() {
+	public List<TravelScheduleVo> detailList_D(String ts_code) {
 		List<TravelScheduleVo> list = new ArrayList<TravelScheduleVo>();
 		try {
-			list = sqlSession.selectList(NAMESPACE+"relList_D");
+			list = sqlSession.selectList(NAMESPACE+"detailList_D", ts_code);
 			
 		} catch(Exception e) {
-			System.out.println("[error] : selectList_D");
+			System.out.println("[error] : detailList_D");
 			e.printStackTrace();
 		}
+		return list;
+	}
+
+	@Override
+	public List<TravelScheduleVo> themeList(String ts_theme) {
+		List<TravelScheduleVo> list = new ArrayList<TravelScheduleVo>();
+		try {
+			list = sqlSession.selectList(NAMESPACE+"themeList_D", ts_theme);
+		} catch(Exception e) {
+			System.out.println("[error] : themeList_D");
+			e.printStackTrace();
+		}
+		
 		return list;
 	}
 
