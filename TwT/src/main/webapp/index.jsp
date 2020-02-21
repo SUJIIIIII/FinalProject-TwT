@@ -32,6 +32,7 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/icomoon.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/style.css">
     
+    
     <!-- font -->
 	<link href="https://fonts.googleapis.com/css?family=Shadows+Into+Light&display=swap" rel="stylesheet">
 	<link href="https://fonts.googleapis.com/css?family=Kalam&display=swap" rel="stylesheet">
@@ -104,7 +105,6 @@
   	<!-- 오른쪽 네비게이션 메뉴 DIV 시작 -->
 	<div id="sidebar"><%@ include file="/WEB-INF/views/TwTAccount/common/sidebar.jsp" %></div>
 	<!-- sidebar end -->
-	
   <nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light" id="ftco-navbar">
     <div class="container">
       <a class="navbar-brand" href="${pageContext.request.contextPath}/index.jsp">TwT</a>

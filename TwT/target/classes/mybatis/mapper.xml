@@ -69,7 +69,7 @@
 		FROM HOTEL
 
 	</select>
-	
+
 	<select id="selectOne_B" resultType="Hotel"
 		parameterType="String">
 		SELECT * FROM HOTEL WHERE H_CODE = #{h_code}
@@ -106,35 +106,52 @@
 
 	<!-- 여행일정 게시판 리스트 조회수 순 -->
 	<select id="PselectList_D" resultMap="TravelScheduleMap_D">
-		SELECT * FROM TRAVELSCHEDULE LEFT JOIN TWTMEMBER USING(M_CODE) ORDER BY TS_VIEW DESC
-	</select>
-	
-	<select id="relList_D" resultMap="TravelScheduleMap_D">
-		SELECT * FROM TRAVELSCHEDULE LEFT JOIN TWTMEMBER USING(M_CODE) WHERE TS_CODE = #{TS_CODE}
+		SELECT * FROM
+		TRAVELSCHEDULE LEFT JOIN TWTMEMBER USING(M_CODE) ORDER BY TS_VIEW DESC
 	</select>
 
-	<!-- 여행 일정 디테일 -->	
-	<select id="selectOne_D" parameterType="String" resultType="TravelSchedule">
-		SELECT * FROM TRAVELSCHEDULE LEFT JOIN TWTMEMBER USING(M_CODE) LEFT JOIN TRAVELSCHEDULE_DAY USING(TS_CODE) LEFT JOIN TRAVELPOINT USING(TP_CODE) WHERE TS_CODE = #{TS_CODE}
+	<select id="relList_D" resultMap="TravelScheduleMap_D">
+		SELECT * FROM TRAVELSCHEDULE
+		LEFT JOIN TWTMEMBER USING(M_CODE) WHERE TS_CODE = #{TS_CODE}
 	</select>
-	
+
+	<!-- 여행 일정 디테일 -->
+	<select id="selectOne_D" parameterType="String"
+		resultType="TravelSchedule">
+		SELECT * FROM TRAVELSCHEDULE LEFT JOIN TWTMEMBER
+		USING(M_CODE) LEFT JOIN TRAVELSCHEDULE_DAY USING(TS_CODE) LEFT JOIN
+		TRAVELPOINT USING(TP_CODE) WHERE TS_CODE = #{TS_CODE}
+	</select>
+
 
 	<!-- ================================보미================================== -->
 	<!-- 회원가입 -->
 	<insert id="insertM" parameterType="Member">
 		INSERT INTO TWTMEMBER VALUES
-		('M10',#{m_Id},#{m_Pass},#{m_Name},#{m_Email},#{m_Api,jdbcType=VARCHAR},'N')
+		('M'||M_SEQ.NEXTVAL,#{m_Id},#{m_Pass},#{m_Name},#{m_Email},#{m_Api,jdbcType=VARCHAR},'N')
 	</insert>
-	
+
 	<!-- 회원탈퇴 -->
 	<delete id="deleteUserM" parameterType="String">
-	   DELETE FROM TWTMEMBER WHERE M_CODE = #{m_Code}
+		DELETE FROM TWTMEMBER
+		WHERE M_CODE = #{m_Code}
 	</delete>
 
 	<!-- 로그인 -->
 	<select id="loginM" resultType="Member">
-		SELECT * FROM TWTMEMBER WHERE
-		M_ID = #{m_Id}
+		SELECT * FROM TWTMEMBER WHERE M_ID = #{m_Id}
+	</select>
+
+	<select id="loginIdChk" resultType="int">
+		SELECT COUNT(*) FROM
+		TWTMEMBER
+		WHERE M_ID = #{m_Id}
+	</select>
+
+	<select id="loginPwdChk" resultType="int">
+		SELECT COUNT(*) FROM
+		TWTMEMBER
+		WHERE M_PASS = #{m_Pass}
 	</select>
 
 	<!-- 아이디 중복검사 -->
@@ -151,8 +168,7 @@
 
 	<!-- 유저 인증키(난수) Y로 변경 -->
 	<update id="alterUserKey" parameterType="Member">
-		UPDATE TWTMEMBER SET
-		M_MAILCHECK = 'Y' WHERE M_ID = #{m_Id} AND M_MAILCHECK = 'N'
+		UPDATE TWTMEMBER SET M_MAILCHECK = 'Y' WHERE M_ID = #{m_Id} AND M_MAILCHECK = 'N'
 	</update>
 
 	<!-- 항공권 전체 조회 -->
@@ -166,21 +182,46 @@
 		INSERT INTO AIRPLANEINFO
 		VALUES (#{m_Code},#{dep_Loca1},#{dep_Loca2},#{dep_Date1},
 		#{dep_Date2},#{dep_Time1},#{dep_Time2},#{re_Loca1},
-		#{re_Loca2},#{re_Date1},#{re_Date2},#{re_Time1},#{re_Time2},'AIR7')
+		#{re_Loca2},#{re_Date1},#{re_Date2},#{re_Time1},#{re_Time2},'AIR12')
 	</insert>
 
 	<!-- 항공권 정보 수정 -->
 	<update id="updateAirM" parameterType="AirplaneInfo">
-	   UPDATE AIRPLANEINFO SET DEP_LOCA1 = ${dep_Loca1}, DEP_LOCA2 = ${dep_Loca2}, DEP_DATE1 = ${dep_Date1}, DEP_DATE2 = ${dep_Date2},
-	   DEP_TIME1 = ${dep_Time1}, DEP_TIME2 = ${dep_Time2}, RE_LOCA1 = ${re_Loca1}, RE_LOCA2 = ${re_Loca2}, RE_DATE1 = ${re_Date1}, RE_DATE2 = ${re_Date2},
-	   RE_TIME1 = ${re_Time1}, RE_TIME2 = ${re_Time2} WHERE AIR_CODE = #{air_Code}
+		UPDATE AIRPLANEINFO SET
+		DEP_LOCA1 = #{dep_Loca1}, DEP_LOCA2 = #{dep_Loca2}, DEP_DATE1 = #{dep_Date1}, DEP_DATE2 = #{dep_Date2},
+		DEP_TIME1 = #{dep_Time1},
+		DEP_TIME2 = #{dep_Time2}, RE_LOCA1 = #{re_Loca1},
+		RE_LOCA2 =
+		#{re_Loca2}, RE_DATE1 = #{re_Date1}, RE_DATE2 = #{re_Date2},
+		RE_TIME1 =
+		#{re_Time1}, RE_TIME2 = #{re_Time2} WHERE AIR_CODE = #{air_Code}
 	</update>
 
 	<!-- 항공권 정보 삭제 -->
 	<delete id="deleteAirM" parameterType="String">
-		DELETE FROM AIRPLANEINFO WHERE AIR_CODE = #{air_Code}
+		DELETE FROM AIRPLANEINFO
+		WHERE AIR_CODE = #{air_Code}
 	</delete>
- 
+
+
+	<select id="loginSelectOne" parameterType="Member"
+		resultType="Member">
+		SELECT *
+		FROM TWTMEMBER
+		WHERE M_ID = #{m_Id}
+	</select>
+
+    <!-- 비밀번호 변경 -->
+	<update id="updateM" parameterType="Member">
+		UPDATE TWTMEMBER SET
+		M_PASS = #{m_Pass} WHERE M_ID = #{m_Id}
+	</update>
+
+    <!-- 회원 임시 비밀번호 -->
+    <update id="searchPasswordM" parameterType="Member">
+		UPDATE TWTMEMBER SET M_PASS = #{m_Pass} WHERE M_ID = #{m_Id} AND M_EMAIL = #{m_Email}
+	</update>
+
 	<!-- ================================찬우================================== -->
 
 
