@@ -519,7 +519,6 @@ var lngs = new Array(); // 모든 스팟 경도 배열
           addPath();
   		  // spot추가시 마커 이미지 변경
           addMarkerIcon(spot_num,spot_type);
-          
        });
 		
 		
@@ -703,7 +702,7 @@ src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCiDE5HBue4mflsdkcsGvSZrUe
                   		<div class="fl schedule_detail_title_text" style="width:245px;padding-left:10px;font-size:15px;">
                   			<div class="fl">DAY1 <span style="color:white">|</span> 01.31(금요일) </div>
                   			<%-- <div class="fl day_reset_btn" style="background:url('<%=request.getContextPath()%>/Plan/images/_day_reset_icon.png') no-repeat;" onclick="del_plan_inspot_day_all()"></div> --%>
-                  			<span>&nbsp;<i class="fas fa-redo-alt"></i></span>
+                  			<span>&nbsp;<i class="fas fa-redo-alt" id="schedule_clear" style="cursor:pointer"></i></span> <!-- 초기화 -->
                   			<div class="fr day_next_btn" style="background:url('${pageContext.request.contextPath}/resources/images/plan/_next_icon.png') no-repeat 6px 6px;" onclick="plan_day_next()"></div>
                   			<div class="fr day_prev_btn" style="background:url('${pageContext.request.contextPath}/resources/images/plan/_prev_icon.png') no-repeat 6px 6px;" onclick="plan_day_prev()"></div>
                   			<div class="clear"></div>
@@ -928,7 +927,7 @@ src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCiDE5HBue4mflsdkcsGvSZrUe
 	        
 		</div><!-- right_full_box end@@@@ -->
 </div>
-<script src="${pageContext.request.contextPath}/resources/js/plan/plan_detail.js?version=1.0"></script>
+<script src="${pageContext.request.contextPath}/resources/js/plan/plan_detail.js?version=1.2"></script>
 
 </body>
 </html>
