@@ -45,13 +45,14 @@ public class HotelAirDaoImpl implements HotelAirDao{
 		String departure_day = vo.getDeparture_day();
 		String coming_day = vo.getComing_day();
 		
-		vo.setDeparture_day(dateChange(departure_day)); //출발일 변환
-		vo.setComing_day(dateChange(coming_day));	//도착일 변환
 		
 		String url = "";
 		
 		if(vo.getAirtype().equals("v2&tripType=2")) {
 			System.out.println("왕복접근");
+			
+			vo.setDeparture_day(dateChange(departure_day)); //출발일 변환
+			vo.setComing_day(dateChange(coming_day));	//도착일 변환
 			
 			url= "https://www.whypaymore.co.kr/d/flt/intl/"
 					+ "sched-deals?appId=v2&tripType=2"
@@ -63,6 +64,8 @@ public class HotelAirDaoImpl implements HotelAirDao{
 			//왕복일때
 		}else if (vo.getAirtype().equals("v2&tripType=1")) {
 			System.out.println("편도접근");
+			
+			vo.setDeparture_day(dateChange(departure_day)); //출발일 변환
 			
 			url= "https://www.whypaymore.co.kr/d/flt/intl/"
 					+ "sched-deals?appId=v2&tripType=1"

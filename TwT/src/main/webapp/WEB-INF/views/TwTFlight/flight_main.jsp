@@ -110,7 +110,7 @@
                   <div class="form-group">
 		             <input type="text" name="departure_day" id="checkin_date"  class="form-control" placeholder="가는날" style=" padding-right: 0px; padding-left: 0px; width:100px;">
 		          </div>
-		          <div class="form-group">
+		          <div class="form-group" id="come_day">
 		             <input type="text" name="coming_day" id="checkout_date"  class="form-control" placeholder="오는날" style=" padding-right: 0px; padding-left: 0px; width:100px;">
 		          </div>		               
 		               
@@ -228,6 +228,23 @@
   <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBVWaKrjvy3MaE7SQ74_uJiULgl1JY0H2s&sensor=false"></script>
   <script src="${pageContext.request.contextPath}/resources/js/google-map.js"></script>
   <script src="${pageContext.request.contextPath}/resources/js/main.js"></script>
+  <script type="text/javascript">	
+  	$(document).ready(function() {
+  		
+  		$("select[name=airtype]").on("change", function() {
+  			var airtype = $("select[name=airtype]").val();
+			
+  			if(airtype == "v2&tripType=1"){
+				$("#come_day").css("display", "none");
+			} else if(airtype == "v2&tripType=2"){
+				$("#come_day").css("display", "block");
+			}
+		});
+  		
+
+	});
+  
+  </script>
     
   </body>
 </html>
