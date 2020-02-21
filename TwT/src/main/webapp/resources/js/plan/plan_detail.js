@@ -58,6 +58,7 @@ $(document).ready(function(){
 	});
 	
 
+
 	// 추가한 스팟 삭제
 	$(document).on("click",".btn_del",function(){		
 		var spot_index = $(this).parent().parent().parent().attr("id");
