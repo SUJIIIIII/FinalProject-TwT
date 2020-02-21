@@ -9,6 +9,7 @@ public class ScheduleReviewVo {
     private String ts_Code; 	//여행일정 번호
     private String sr_Title; //일정리뷰 제목
     private String sr_Content;
+    private String sr_ImgSrc;
     private int sr_View;
     private Date sr_Date;
     
@@ -17,13 +18,14 @@ public class ScheduleReviewVo {
 	}
 
 	public ScheduleReviewVo(String sr_Code, String m_Code, String ts_Code, String sr_Title, String sr_Content,
-			int sr_View, Date sr_Date) {
+			String sr_ImgSrc, int sr_View, Date sr_Date) {
 		super();
 		this.sr_Code = sr_Code;
 		this.m_Code = m_Code;
 		this.ts_Code = ts_Code;
 		this.sr_Title = sr_Title;
 		this.sr_Content = sr_Content;
+		this.sr_ImgSrc = sr_ImgSrc;
 		this.sr_View = sr_View;
 		this.sr_Date = sr_Date;
 	}
@@ -68,6 +70,14 @@ public class ScheduleReviewVo {
 		this.sr_Content = sr_Content;
 	}
 
+	public String getSr_ImgSrc() {
+		return sr_ImgSrc;
+	}
+
+	public void setSr_ImgSrc(String sr_ImgSrc) {
+		this.sr_ImgSrc = sr_ImgSrc;
+	}
+
 	public int getSr_View() {
 		return sr_View;
 	}
@@ -83,5 +93,7 @@ public class ScheduleReviewVo {
 	public void setSr_Date(Date sr_Date) {
 		this.sr_Date = sr_Date;
 	}
+
+
 
 }
