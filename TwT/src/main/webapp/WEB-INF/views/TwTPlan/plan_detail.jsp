@@ -1,9 +1,11 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
+﻿<%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
+	<!-- Jquery Ui  Datepicker--> 
+	<link rel="stylesheet" href="http://code.jquery.com/ui/1.8.18/themes/base/jquery-ui.css" type="text/css" />
 	<!-- 아이콘 -->
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css" >
 	
@@ -777,10 +779,10 @@ src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCiDE5HBue4mflsdkcsGvSZrUe
 			</div>
 			<div style="width:100%;height:50px;border:solid #374854 1px;font-size:13px;color:#fff;line-height:50px;text-align:center;cursor:pointer;" id="date_pick_btn">
 				<span class="start_date"><%=request.getParameter("schedule_date") %></span>
-				<img src="${pageContext.request.contextPath}/resources/images/plan/plan_detail/pn_cal_edit_btn2.png" style="vertical-align:middle;margin-left:10px;">
-				<div id="date_pick" class="hasDatepicker">
-				</div>
-			</div> <!-- datePicker end -->
+				<input type="hidden" id="datepick_input" value="<%=request.getParameter("schedule_date") %>"/><!-- datepicker  -->
+				<%-- <img src="${pageContext.request.contextPath}/resources/images/plan/plan_detail/pn_cal_edit_btn2.png" style="vertical-align:middle;margin-left:10px; cursor: pointer;"> --%>
+			</div>				 
+			<!-- datePicker end -->
 			
 			<ul id="cat_menu_edit_box" class="ui-sortable" style="height: 598px;">
 				<li data="1" data-date="01.31" data-day_week="5">
@@ -876,51 +878,7 @@ src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCiDE5HBue4mflsdkcsGvSZrUe
 		
 		        <!--//(s)스케쥴 디테일 리스트-->
 		        <!-- @@@수정 호버 시 아이콘 나오게@@@ -->
-		        <div id="schedule_detail_box" class="connectedSortable ui-sortable" style="height: 548px; display: block;">
-		        	<%-- <div class="day_spot_item" id="spot_1" data="1" data-set_day="1" data-rel_srl="4740" data-pl_type="0" data-no="0" data-pl_cat="301" data-latlng="18.816452,98.891981" data-ci="87">
-		        		<div class="item_ctrl_box" style="display: none">
-		        			<div class="fl item_copy_plan" title="장소복사"><img src="${pageContext.request.contextPath}/resources/images/plan/item_more_icon_a.png"></div>
-		        			<div class="fl item_set_plan" title="메모&amp;예산"><img src="${pageContext.request.contextPath}/resources/images/plan/item_set_icon_a.png"></div>
-		        			<div class="fl btn_del" title="삭제"><img src="${pageContext.request.contextPath}/resources/images/plan/item_del_icon_a.png"></div>
-		        			<div class="clear"></div>
-		        		</div>
-		        		<div class="img_box fl">
-		        			<div class="spot_order_box">1</div>
-		        			<img src="http://img.earthtory.com/img/place_img/87/4740_0_et.jpg">
-		        			<div style="position:absolute;top:35px;left:40px;width:22px;height:20px;">
-		        				<img src="${pageContext.request.contextPath}/resources/images/plan/list_memo_btn_off.png" class="memo_indi" style="width:22px;height:20px;">
-		        				<!-- <i class="fas fa-pencil-alt"></i> -->
-		        			</div>
-		        		</div>
-		        		<div class="fl info_box">
-		        			<div class="title">왓 프라탓 도이 쑤텝</div>
-		        			<div class="sub">랜드마크, 절/신사/사원</div>
-		        			<div class="sub inspot_day_info_box" style="color:#1a7ad9"></div>
-		        		</div>
-		        		<div class="clear"></div>
-		        	</div>
-		        	<div class="day_spot_item" id="spot_2" data="1" data-set_day="1" data-rel_srl="4740" data-pl_type="0" data-no="0" data-pl_cat="301" data-latlng="18.786995,98.986595" data-ci="87">
-		        		<div class="item_ctrl_box" style="display: none">
-		        			<div class="fl item_copy_plan" title="장소복사"><img src="${pageContext.request.contextPath}/resources/images/plan/item_more_icon_a.png"></div>
-		        			<div class="fl item_set_plan" title="메모&amp;예산"><img src="${pageContext.request.contextPath}/resources/images/plan/item_set_icon_a.png"></div>
-		        			<div class="fl btn_del" title="삭제"><img src="${pageContext.request.contextPath}/resources/images/plan/item_del_icon_a.png"></div>
-		        			<div class="clear"></div>
-		        		</div>
-		        		<div class="img_box fl">
-		        			<div class="spot_order_box">2</div>
-		        			<img src="http://img.earthtory.com/img/place_img/87/4740_0_et.jpg">
-		        			<div style="position:absolute;top:35px;left:40px;width:22px;height:20px;">
-		        				<img src="${pageContext.request.contextPath}/resources/images/plan/list_memo_btn_off.png" class="memo_indi" style="width:22px;height:20px;">
-		        				<!-- <i class="fas fa-pencil-alt"></i> -->
-		        			</div>
-		        		</div>
-		        		<div class="fl info_box">
-		        			<div class="title">두씻 정원</div>
-		        			<div class="sub">랜드마크, 절/신사/사원</div>
-		        			<div class="sub inspot_day_info_box" style="color:#1a7ad9"></div>
-		        		</div>
-		        		<div class="clear"></div>
-		        	</div> --%>
+		        <div id="schedule_detail_box" class="connectedSortable ui-sortable" style="height: 548px; display: block;">		        
 		        </div>
 		        <!--//(e)스케쥴 디테일 리스트-->
 				<div class="inspot_add_box" style="height:100vh;">
@@ -975,20 +933,20 @@ src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCiDE5HBue4mflsdkcsGvSZrUe
                 	<div class="list_search_box">
 						<input type="text" id="input_search" placeholder="장소 검색">
 						<div style="margin-left:20px;margin-top:5px;">
-							<span type="radio" class="radio on" data-val="city" data-on="on" data-name="search_type" style="color:#808080">
-							<span class="et-radio" style="padding-top: 4px;">&nbsp;<!-- 수정@@ --><i class="far fa-check-circle"></i></span>
-							<span class="et-radio_txt">태그별 검색&nbsp;&nbsp;&nbsp;&nbsp;</span></span>
-							<span type="radio" class="radio" data-val="total" data-name="search_type" style="color:#808080" data-on="off">
-							<span class="et-radio" style="padding-top: 4px;">&nbsp;<!-- 수정@@ --><i class="far fa-circle"></i></span><span class="et-radio_txt">전체검색</span></span>
+							<span id="type_city" type="radio" class="radio on" data-val="city" data-on="on" data-name="search_type" style="color:#808080">
+							<span class="et-radio" style="padding-top: 4px;">&nbsp;<!-- 수정@@ --><i class="far fa-check-circle check"></i></span>
+							<span class="et-radio_txt">도시내 검색&nbsp;&nbsp;&nbsp;&nbsp;</span></span>
+							<span id="type_total" type="radio" class="radio" data-val="total" data-name="search_type" style="color:#808080" data-on="off">
+							<span class="et-radio" style="padding-top: 4px;">&nbsp;<!-- 수정@@ --><i class="far fa-circle check"></i></span><span class="et-radio_txt">전체검색</span></span>
 							<input type="hidden" name="search_type" id="search_type" class="news" value="city">
 						</div>
 					</div>
                     <div class="list_category_box" style="border-bottom: solid #dadada 1px;">
-						<div class="list_cat_item fl" data="5"><img src="${pageContext.request.contextPath}/resources/images/plan/ic_000_a.png"></div>
-                    	<div class="list_cat_item fl on" data="3"><img src="${pageContext.request.contextPath}/resources/images/plan/ic_300_c.png"></div>
-                        <div class="list_cat_item fl" data="2"><img src="${pageContext.request.contextPath}/resources/images/plan/ic_200_a.png"></div>
-                        <div class="list_cat_item fl" data="4"><img src="${pageContext.request.contextPath}/resources/images/plan/ic_400_a.png"></div>
-						<%-- <div class="list_cat_item fl" data="1"><img src="${pageContext.request.contextPath}/resources/images/plan/ic_100_a.png"></div> --%>
+                    	<div class="list_cat_item fl on" data="1" data-type="total"><img src="${pageContext.request.contextPath}/resources/images/plan/ic_000_c.png"></div>
+                    	<div class="list_cat_item fl" data="2" data-type="랜드마크"><img src="${pageContext.request.contextPath}/resources/images/plan/ic_300_a.png"></div>
+                        <div class="list_cat_item fl" data="3" data-type="식당가"><img src="${pageContext.request.contextPath}/resources/images/plan/ic_200_a.png"></div>
+                        <div class="list_cat_item fl" data="4" data-type="쇼핑"><img src="${pageContext.request.contextPath}/resources/images/plan/ic_400_a.png"></div>
+						<%-- <div class="list_cat_item fl" data="1" data-type="호텔" style="display: none;"><img src="${pageContext.request.contextPath}/resources/images/plan/ic_100_a.png"></div> --%> 
                         <div class="clear"></div>             
                     </div>
                	</div>
@@ -1091,7 +1049,12 @@ src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCiDE5HBue4mflsdkcsGvSZrUe
 	        
 		</div><!-- right_full_box end@@@@ -->
 </div>
-<script src="${pageContext.request.contextPath}/resources/js/plan/plan_detail.js?version=1.2"></script>
+
+<!-- // jQuery 기본 js파일 -->
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+<!-- // jQuery UI 라이브러리 js파일 -->
+<script src="http://code.jquery.com/ui/1.8.18/jquery-ui.min.js"></script>
+<script src="${pageContext.request.contextPath}/resources/js/plan/plan_detail.js?version=1.4"></script>
 
 </body>
 </html>
