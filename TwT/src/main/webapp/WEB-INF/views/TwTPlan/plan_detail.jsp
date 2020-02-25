@@ -69,7 +69,7 @@ var lats = new Array(); // 모든 스팟 위도 배열
 var lngs = new Array(); // 모든 스팟 경도 배열
 var arryn = new Array(); // 모든 스팟 추가 여부
 var paths = new Array(); // 경로 배열
-var distance;
+var distance; // 
 
 	// map 추가
 	function initMap() {
