@@ -45,9 +45,6 @@ var markers = new Array(); // 마커 배열
 var citycode = new Array(); // 도시 코드
 var imgname = new Array(); // 이미지 이름
 var spottype = new Array(); // 스팟 타입
-/* var marker_td = new Array(); // 랜드마크 마커 배열
-var marker_rs = new Array(); // 식당 마커 배열
-var marker_sp = new Array(); // 쇼핑 마커 배열 */
 var citycodes = new Array(); //도시 코드
 var B_TD; // 랜드마크 마커 아이콘(Before)
 var B_RS; // 식당 마커 아이콘(Before)
@@ -65,7 +62,7 @@ var tooltipcontent; // infobox content
 var infowindow; // 마커 클릭시 infobox
 var spotaddr = new Array(); // 스팟 주소
 var spotcontent = new Array(); // 스팟 설명
-var spotlatlng = new Array(); // 스팟(일정 목록에 추가한) 위도, 경도 배열
+/* var spotlatlng = new Array(); // 스팟(일정 목록에 추가한) 위도, 경도 배열 */
 var pathpoly = new Array(); // 폴리라인 위도,경도 생성
 var arrlat = new Array(); // 폴리라인 위도 배열
 var arrlng = new Array(); // 폴리라인 경도 배열
@@ -73,6 +70,8 @@ var spotcode = new Array(); // 스팟 코드 배열
 var lats = new Array(); // 모든 스팟 위도 배열
 var lngs = new Array(); // 모든 스팟 경도 배열
 var arryn = new Array(); // 모든 스팟 추가 여부
+var paths = new Array(); // 경로 배열
+var distance;
 
 	// map 추가
 	function initMap() {
@@ -156,14 +155,18 @@ var arryn = new Array(); // 모든 스팟 추가 여부
         	
 		}
 		
+		// spot 추가가 없을 경우 마커 이미지 변경
 		if($("#schedule_detail_box").children().length == 0){
-			alert($("#schedule_detail_box").children().length);
-			
 			for(var i=0;i<locations.length;i++){
 				markerOver(marker[i],i,$("#spot_"+i).attr("data-type"));
 			}
 		}
-			
+		
+		// 거리계산(안됨)
+		/* distance = google.maps.geometry.spherical.computeDistanceBetween(locations[0],locations[1]);
+		
+		alert(distance);
+		console.log(distance); */
 		
 		
 	} /* init end */
@@ -238,7 +241,7 @@ var arryn = new Array(); // 모든 스팟 추가 여부
 		
 	} /* markerListener end */
 	
-	// mouseover시 마커 아이콘 변경
+	// mouseover시 마커 아이콘 변경(spot 추가 전)
 	function markerOver(mark,index,type){
 		
 		// 마커에 mouseover시
@@ -266,110 +269,9 @@ var arryn = new Array(); // 모든 스팟 추가 여부
 	}
 	
 	
-	function markerOver_A(){
-		alert("over_A???");
-		alert("yn??? : " + $("#spot_0").attr("data-clip_yn"));
-		console.log("arryn : " + arryn);
-		console.log("arryn : " + arryn.length);
-		for(var i=0;i<arryn.length;i++){
-			alert("for문 들어옴???");
-			alert(arryn[0]);
-			if(arryn[i] == 'n'){
-				alert("n임");
-				before(i,spot_type[i]);
-				google.maps.event.addListener(marker[i], "mouseover", function() {
-					if(type == "랜드마크"){
-						marker[i].setIcon(B_TD_H);
-					}else if(type == "식당가"){
-						marker[i].setIcon(B_RS_H);
-					}else if(type == "쇼핑"){
-						marker[i].setIcon(B_SP_H);
-					}
-				});
-				
-				google.maps.event.addListener(marker[i], "mouseout", function() {
-					if(type == "랜드마크"){
-						marker[i].setIcon(B_TD);
-					}else if(type == "식당가"){
-						marker[i].setIcon(B_RS);
-					}else if(type == "쇼핑"){
-						marker[i].setIcon(B_SP);
-					}
-				});
-				
-			}else if(arryn[i] == 'y'){
-				alert("y임");
-				after(i,spot_type[i]);
-				google.maps.event.addListener(marker[i], "mouseover", function() {
-					if(type == "랜드마크"){
-						marker[i].setIcon(A_TD_H);
-					}else if(type == "식당가"){
-						marker[i].setIcon(A_RS_H);
-					}else if(type == "쇼핑"){
-						marker[i].setIcon(A_SP_H);
-					}
-				});
-				
-				google.maps.event.addListener(marker[i], "mouseout", function() {
-					if(type == "랜드마크"){
-						marker[i].setIcon(A_TD);
-					}else if(type == "식당가"){
-						marker[i].setIcon(A_RS);
-					}else if(type == "쇼핑"){
-						marker[i].setIcon(A_SP);
-					}
-				});
-			}
-		}
-	}
-	
-	/* function before(i,type){
-		google.maps.event.addListener(marker[i], "mouseover", function() {
-			if(type == "랜드마크"){
-				marker[i].setIcon(B_TD_H);
-			}else if(type == "식당가"){
-				marker[i].setIcon(B_RS_H);
-			}else if(type == "쇼핑"){
-				marker[i].setIcon(B_SP_H);
-			}
-		});
-		
-		google.maps.event.addListener(marker[i], "mouseout", function() {
-			if(type == "랜드마크"){
-				marker[i].setIcon(B_TD);
-			}else if(type == "식당가"){
-				marker[i].setIcon(B_RS);
-			}else if(type == "쇼핑"){
-				marker[i].setIcon(B_SP);
-			}
-		});
-	}
-	
-	function after(i,type){
-		google.maps.event.addListener(marker[i], "mouseover", function() {
-			if(type == "랜드마크"){
-				marker[i].setIcon(A_TD_H);
-			}else if(type == "식당가"){
-				marker[i].setIcon(A_RS_H);
-			}else if(type == "쇼핑"){
-				marker[i].setIcon(A_SP_H);
-			}
-		});
-		
-		google.maps.event.addListener(marker[i], "mouseout", function() {
-			if(type == "랜드마크"){
-				marker[i].setIcon(A_TD);
-			}else if(type == "식당가"){
-				marker[i].setIcon(A_RS);
-			}else if(type == "쇼핑"){
-				marker[i].setIcon(A_SP);
-			}
-		});
-	} */
-	
-	
 	// spot추가시 마커 이미지 변경
 	function addMarkerIcon(index,type){
+		// spot 추가 직후 
 		if(type == "랜드마크"){
 			marker[index].setIcon(A_TD);
 		}else if(type == "식당가"){
@@ -378,6 +280,7 @@ var arryn = new Array(); // 모든 스팟 추가 여부
 			marker[index].setIcon(A_SP);
 		}
 		
+		// spot 마커 mouseover시 
 		google.maps.event.addListener(marker[index], "mouseover", function() {
 			if(type == "랜드마크"){
 				marker[index].setIcon(A_TD_H);
@@ -388,6 +291,7 @@ var arryn = new Array(); // 모든 스팟 추가 여부
 			}
 		});
 		
+		// spot 마커 mouseout시 
 		google.maps.event.addListener(marker[index], "mouseout", function() {
 			if(type == "랜드마크"){
 				marker[index].setIcon(A_TD);
@@ -400,15 +304,52 @@ var arryn = new Array(); // 모든 스팟 추가 여부
 		
 	}
 	
+	// spot 삭제시 마커 이미지 변경
+	function delMarkerIcon(index,type){
+		// spot 삭제 직후 
+		if(type == "랜드마크"){
+			marker[index].setIcon(B_TD);
+		}else if(type == "식당가"){
+			marker[index].setIcon(B_RS);
+		}else if(type == "쇼핑"){
+			marker[index].setIcon(B_SP);
+		}
+		
+		// 삭제된 spot 마커 mouseover시 
+		google.maps.event.addListener(marker[index], "mouseover", function() {
+			if(type == "랜드마크"){
+				marker[index].setIcon(B_TD_H);
+			}else if(type == "식당가"){
+				marker[index].setIcon(B_RS_H);
+			}else if(type == "쇼핑"){
+				marker[index].setIcon(B_SP_H);
+			}
+		});
+		
+		// 삭제된 spot 마커 mouseout시 
+		google.maps.event.addListener(marker[index], "mouseout", function() {
+			if(type == "랜드마크"){
+				marker[index].setIcon(B_TD);
+			}else if(type == "식당가"){
+				marker[index].setIcon(B_RS);
+			}else if(type == "쇼핑"){
+				marker[index].setIcon(B_SP);
+			}
+		});
+	}
+	
 	// 스팟 상세 box 뿌리기
-	function detail_view_spot(name,img,con,add,citycd,type,spotcd,lat,lng,index){
+	function detail_view_spot(name,img,con,add,citycd,type){
 		$("#select_detail_view_spot").css("display","block");
+		$(".info_memo").css("display","none");
 		$(".spot_title").html(name);
 		$("#spot_img").attr("src","${pageContext.request.contextPath}/resources/images/plan/"+citycd+"/"+img);
 		$("#spot_con").html(con);
 		$("#sub_addr").html("<i class='fas fa-map'></i>         " + add);
 		$("#sub_info").html(type);
-		/* $(".detail_view_full_box").attr("data-name",name);
+		/*
+		,spotcd,lat,lng,index
+		$(".detail_view_full_box").attr("data-name",name);
 		$(".detail_view_full_box").attr("data-type",type);
 		$(".detail_view_full_box").attr("data-no",spotcd); // 스팟 코드
 		$(".detail_view_full_box").attr("data-lat",lat);
@@ -419,13 +360,21 @@ var arryn = new Array(); // 모든 스팟 추가 여부
 		
 	}
 	
-	// 추가된 스팟 배열에 넣기 (수정@@ arrlat으로 접근xx, day_spot_item으로 접근해서 위도 경도 가져오기)
+	// 추가된 스팟 배열에 넣기
 	function addPath(){
-		 /* alert("addpath 함수?");
-		 console.log("addpath에서 arrlat : " + arrlat);
-		 console.log("addpath에서 arrlng : " + arrlng); */
+		// 배열 초기화
+		arrlat = [];
+		arrlng = [];
+		pathpoly = [];
+		
+		// 추가되어있는 스팟들 위도/경도
+		for(var i=1;i<=$("#schedule_detail_box").children().length;i++){
+			arrlat.push($("#spot"+i).attr("data-lat"));
+			arrlng.push($("#spot"+i).attr("data-lng"));
+		}
+		
 		// 폴리 라인
-		for(var i=0;i<spotlatlng.length;i++){
+		for(var i=0;i<arrlat.length;i++){
 			pathpoly[i] = new google.maps.LatLng(arrlat[i],arrlng[i]);
 		}
 		
@@ -435,96 +384,165 @@ var arryn = new Array(); // 모든 스팟 추가 여부
 	
 	// 추가된 스팟 배열로 경로 찍기
 	function markerPoly(){
-		alert("markerpoly??");
-		console.log("markerpoly에서 path : " + pathpoly);
-		
-		/* var locat = [
-	          new google.maps.LatLng(18.816452,98.891981),
-	          new google.maps.LatLng(18.786995,98.986595)
-       	]; */
 		
        	// 라인 모양
 		var lineSymbol = {path: google.maps.SymbolPath.FORWARD_CLOSED_ARROW};
-		
+       	
        	//경로 찍기
-		var paths = new google.maps.Polyline({
-			path: pathpoly,
-            icons: [{
-             icon: lineSymbol,
-             repeat:'100px',
-             offset: '100%'
-           	}],
-           	geodesic: true,
-           	strokeColor: 'red',
-           	strokeOpacity: 1.0,
-           	strokeWeight: 1.5
-     	});
-  		paths.setMap(map);
+		paths.push(new google.maps.Polyline({
+				path: pathpoly,
+	            icons: [{
+	             icon: lineSymbol,
+	             repeat:'100px',
+	             offset: '100%'
+	           	}],
+	           	geodesic: true,
+	           	strokeColor: 'red',
+	           	strokeOpacity: 1.0,
+	           	strokeWeight: 1.5
+	     	})
+		);
+		
+       	// 마지막 추가된 경로만 map에 올리기
+		paths[paths.length-1].setMap(map);
   		
 	}
 	
 	
 	// 마커를 통해 스팟 추가
 	function marker_to_inspot(name,type,tpcd,lat,lng,ctcd,img,index){
-		alert("inspot 함수?");
-	       var spot_name = name; // 여행지명
-	       var spot_type = type; // 여행지 타입
-	       var spot_no = tpcd; // 순서
-	       var spot_lat = lat; // 위도
-	       var spot_lng = lng; // 경도
-	       var spot_city = ctcd; // 도시 번호
-	       var spot_img = img; // 사진
-	       var spot_seq = $("#schedule_detail_box").children().length + 1;
-	       var spot_num = index; // 인덱스 번호
+		
+       	var spot_name = name; // 여행지명
+   	 	var spot_type = type; // 여행지 타입
+       	var spot_no = tpcd; // 순서
+       	var spot_lat = lat; // 위도
+       	var spot_lng = lng; // 경도
+       	var spot_city = ctcd; // 도시 번호
+       	var spot_img = img; // 사진
+       	var spot_seq = $("#schedule_detail_box").children().length + 1;
+       	var spot_num = index; // 인덱스 번호
 	       
 	       
-	      $("#schedule_detail_box").append("" +  
-	      "<div class='day_spot_item' data='1' data-set_day='1' data-pl_type='0' data-seq='"+ spot_num +"' data-no='" + spot_no + "' data-pl_cat='301' data-latlng='" + spot_lat + "," + spot_lng + "' data-lat='" + spot_lat+ "' data-lng='" + spot_lng +"' data-ci='87' data-type='"+spot_type+"' id='spot" + spot_seq + "'>"
-	                 +   "<div class='item_ctrl_box' style='display: none'>"
-	                 +      "<div class='fl item_copy_plan' title='장소복사'><img src='/twt/resources/images/plan/item_more_icon_a.png'></div>"
-	                 +       "<div class='fl item_set_plan' title='메모&amp;예산'><img src='/twt/resources/images/plan/item_set_icon_a.png'></div>"
-	                 +      "<div class='fl btn_del' title='삭제'><img src='/twt/resources/images/plan/item_del_icon_a.png'></div>"
-	                 +      "<div class='clear'></div>" 
-	                 +   "</div>"
-	                 +   "<div class='img_box fl'>"
-	                 +      "<div class='spot_order_box'>" + spot_seq + "</div>"
-	                 +      "<img src='/twt/resources/images/plan/" + spot_city+ "/" + spot_img +"'>"
-	                 +      "<div style='position:absolute;top:35px;left:40px;width:22px;height:20px;>"
-	                 +         "<img src='/twt/resources/images/plan/list_memo_btn_off.png' class='memo_indi' style='width:22px;height:20px;'>"
-	                 +         "<!-- <i class='fas fa-pencil-alt'></i> -->"
-	                 +      "</div>"
-	                 +   "</div>"
-	                 +   "<div class='fl info_box'>"
-	                 +      "<div class='title'>" + spot_name + "</div>"
-	                 +      "<div class='sub'>" + spot_type+"</div>"
-	                 +      "<div class='sub inspot_day_info_box' style='color:#1a7ad9'></div>"
-	                 +   "</div>"
-	                 +   "<div class='clear'></div>"
-	                 + "</div>" +  
-	      "");
-	       
-	      $("#spot_"+spot_num).attr("data-clip_yn","y");
-	      
-	      for(var i=0;i<locations.length;i++){
-	    	  arryn[i] = $("#spot_"+i).attr("data-clip_yn");
-	      }
-	      
-	      var latlng = spot_lat + "," + spot_lng;
-	      spotlatlng.push(latlng);
-	      arrlat.push(spot_lat);
-	      arrlng.push(spot_lng);
-	      console.log("스팟 추가에서 spotlatlng : " + spotlatlng);
-	      
-	      // 추가된 스팟의 위도/경도 넣어주기
-	      addPath();
-		  // spot추가시 마커 이미지 변경
-	      addMarkerIcon(spot_num,spot_type);
-	      
-	      /* markerOver_A(); */
-	      alert("자식 길이? : " + $("#schedule_detail_box").children().length);
-	      if($("#schedule_detail_box").children().length > 0){
- 			markerOver_A();
-  		  }
+      	$("#schedule_detail_box").append("" +  
+      	"<div class='day_spot_item' data='1' data-set_day='1' data-pl_type='0' data-seq='"+ spot_num +"' data-no='" + spot_no + "' data-pl_cat='301' data-latlng='" + spot_lat + "," + spot_lng + "' data-lat='" + spot_lat+ "' data-lng='" + spot_lng +"' data-ci='87' data-type='"+spot_type+"' id='spot" + spot_seq + "'>"
+                 +   "<div class='item_ctrl_box' style='display: none'>"
+                 +      "<div class='fl item_copy_plan' title='장소복사'><img src='/twt/resources/images/plan/item_more_icon_a.png'></div>"
+                 +       "<div class='fl item_set_plan' title='메모&amp;예산'><img src='/twt/resources/images/plan/item_set_icon_a.png'></div>"
+                 +      "<div class='fl btn_del' title='삭제'><img src='/twt/resources/images/plan/item_del_icon_a.png'></div>"
+                 +      "<div class='clear'></div>" 
+                 +   "</div>"
+                 +   "<div class='img_box fl'>"
+                 +      "<div class='spot_order_box'>" + spot_seq + "</div>"
+                 +      "<img src='/twt/resources/images/plan/" + spot_city+ "/" + spot_img +"'>"
+                 +      "<div style='position:absolute;top:35px;left:40px;width:22px;height:20px;>"
+                 +         "<img src='/twt/resources/images/plan/list_memo_btn_off.png' class='memo_indi' style='width:22px;height:20px;'>"
+                 +         "<!-- <i class='fas fa-pencil-alt'></i> -->"
+                 +      "</div>"
+                 +   "</div>"
+                 +   "<div class='fl info_box'>"
+                 +      "<div class='title'>" + spot_name + "</div>"
+                 +      "<div class='sub'>" + spot_type+"</div>"
+                 +      "<div class='sub inspot_day_info_box' style='color:#1a7ad9'></div>"
+                 +   "</div>"
+                 +   "<div class='clear'></div>"
+                 + "</div>" +  
+      	"");
+       	
+       	// 스팟 추가 여부 셋팅
+      	$("#spot_"+spot_num).attr("data-clip_yn","y");
+      	
+       	// 스팟 추가 여부 배열
+      	for(var i=0;i<locations.length;i++){
+    	  	arryn[i] = $("#spot_"+i).attr("data-clip_yn");
+      	}
+      	
+       	// 경로에 쓰일 배열
+      	/* var latlng = spot_lat + "," + spot_lng;
+      	spotlatlng.push(latlng);
+      	console.log("스팟 추가에서 spotlatlng : " + spotlatlng); */
+      	
+      	// 추가된 스팟의 위도/경도 넣어주기
+      	addPath();
+      	
+	  	// spot추가시 마커 이미지 변경
+      	addMarkerIcon(spot_num,spot_type);
+      
+	}
+	
+	// 스팟리스트 클릭시 map줌 & infobox
+	function clickspot(mark,index,type){
+		// info 정보 담아주기
+		tooltipcontent = "<div class='tooltip_full_box' style='display:block;'>"+
+		"<div class='tooltip_img fl'><img src='${pageContext.request.contextPath}/resources/images/plan/"+citycode[index]+"/"+imgname[index]+"'></div>"+
+		"<div class='tooltip_info fl'>"+
+		"<div class='tooltip_title'>"+content[index]+"</div>"+
+		"<div class='tooltip_tag'>"+spottype[index]+"</div></div>"+
+		"<div class='tooltip_detail_bottom_box'>"+
+		"<div class='fl tooltip_detail_btn' onclick='detail_view_spot(&quot;"+content[index]+"&quot;,&quot;"+imgname[index]+"&quot;,&quot;"+spotcontent[index]+"&quot;,&quot;"+spotaddr[index]+"&quot;,&quot;"+citycode[index]+"&quot;,&quot;"+spottype[index]+"&quot;,&quot;"+spotcode[index]+"&quot;,&quot;"+lats[index]+"&quot;,&quot;"+lngs[index]+"&quot;,&quot;"+index+"&quot;)'>자세히 보기</div>"+
+		"<div class='fr tooltip_add_inspot_btn' id='insert_spot' onclick='marker_to_inspot(&quot;"+content[index]+"&quot;,&quot;"+spottype[index]+"&quot;,&quot;"+spotcode[index]+"&quot;,&quot;"+lats[index]+"&quot;,&quot;"+lngs[index]+"&quot;,&quot;"+citycode[index]+"&quot;,&quot;"+imgname[index]+"&quot;,&quot;"+index+"&quot;)'>+ 일정에 추가</div></div></div>";
+		
+		// 클릭시 타입에 맞게 마커 이미지 변경 & infobox 나타내기
+		if(type == "랜드마크"){
+
+			// 클릭시 마커를 중심으로 확대
+			map.setZoom(15);
+       		map.setCenter(mark.getPosition());
+			
+       		// infobox show
+			if(infowindow == null){
+				infowindow = new google.maps.InfoWindow();
+				infowindow.setContent(tooltipcontent);
+				infowindow.open(map, mark);
+			}else{
+				infowindow.close();
+				infowindow = new google.maps.InfoWindow();
+				infowindow.setContent(tooltipcontent);
+				infowindow.open(map, mark);
+			}
+		}else if(type == "식당가"){
+
+			map.setZoom(15);
+       		map.setCenter(mark.getPosition());
+			
+			if(infowindow == null){
+				infowindow = new google.maps.InfoWindow();
+				infowindow.setContent(tooltipcontent);
+				infowindow.open(map, mark);
+			}else{
+				infowindow.close();
+				infowindow = new google.maps.InfoWindow();
+				infowindow.setContent(tooltipcontent);
+				infowindow.open(map, mark);
+			}
+			
+		}else if(type == "쇼핑"){
+
+			map.setZoom(15);
+       		map.setCenter(mark.getPosition());
+			
+			if(infowindow == null){
+				infowindow = new google.maps.InfoWindow();
+				infowindow.setContent(tooltipcontent);
+				infowindow.open(map, mark);
+			}else{
+				infowindow.close();
+				infowindow = new google.maps.InfoWindow();
+				infowindow.setContent(tooltipcontent);
+				infowindow.open(map, mark);
+			}
+		}
+	}
+	
+	// 예산추가
+	function addbudget(seq,name,img,con,add,citycd,type){
+		detail_view_spot(name,img,con,add,citycd,type);
+		$(".info_memo").css("display","block");
+		
+	}
+	
+	function budgetVal(){
+		var val = $(".budget_input").val();
+		alert(val);
 	}
 
 	/* script */
@@ -576,10 +594,10 @@ var arryn = new Array(); // 모든 스팟 추가 여부
 	       
 	       
           $("#schedule_detail_box").append("" +  
-          "<div class='day_spot_item' data='1' data-set_day='1' data-pl_type='0' data-seq='"+ spot_num +"' data-no='" + spot_no + "' data-pl_cat='301' data-latlng='" + spot_lat + "," + spot_lng + "' data-lat='" + spot_lat+ "' data-lng='" + spot_lng +"' data-ci='87' data-type='"+spot_type+"' id='spot" + spot_seq + "'>"
+          "<div class='day_spot_item' data='1' data-set_day='1' data-pl_type='0' data-citycd='"+spot_city+"' data-seq='"+ spot_num +"' data-no='" + spot_no + "' data-pl_cat='301' data-latlng='" + spot_lat + "," + spot_lng + "' data-lat='" + spot_lat+ "' data-lng='" + spot_lng +"' data-ci='87' data-type='"+spot_type+"' id='spot" + spot_seq + "'>"
                      +   "<div class='item_ctrl_box' style='display: none'>"
                      +      "<div class='fl item_copy_plan' title='장소복사'><img src='/twt/resources/images/plan/item_more_icon_a.png'></div>"
-                     +       "<div class='fl item_set_plan' title='메모&amp;예산'><img src='/twt/resources/images/plan/item_set_icon_a.png'></div>"
+                     +       "<div class='fl item_set_plan' title='메모&amp;예산' onclick='addbudget(&quot;"+spot_seq+"&quot;,&quot;"+spot_name+"&quot;,&quot;"+spot_img+"&quot;,&quot;"+spotcontent[spot_seq-1]+"&quot;,&quot;"+spotaddr[spot_seq]+"&quot;,&quot;"+spot_city+"&quot;,&quot;"+spot_type+"&quot;)'><img src='/twt/resources/images/plan/item_set_icon_a.png'></div>"
                      +      "<div class='fl btn_del' title='삭제'><img src='/twt/resources/images/plan/item_del_icon_a.png'></div>"
                      +      "<div class='clear'></div>" 
                      +   "</div>"
@@ -600,39 +618,56 @@ var arryn = new Array(); // 모든 스팟 추가 여부
                      + "</div>" +  
           "");
           
+      	  // 스팟 추가 여부 셋팅
           $("#spot_"+spot_num).attr("data-clip_yn","y");
           
+       	  // 스팟 추가 여부 배열
           for(var i=0;i<locations.length;i++){
 	    	  arryn[i] = $("#spot_"+i).attr("data-clip_yn");
 	      }
-	       
-          var latlng = spot_lat + "," + spot_lng;
+	      
+       	  // 경로에 쓰일 배열
+          /* var latlng = spot_lat + "," + spot_lng;
           spotlatlng.push(latlng);
-          arrlat.push(spot_lat);
-          arrlng.push(spot_lng);
-          console.log("스팟 추가에서 spotlatlng : " + spotlatlng);
+          console.log("스팟 추가에서 spotlatlng : " + spotlatlng); */
           
           // 추가된 스팟의 위도/경도 넣어주기
           addPath();
   		  // spot추가시 마커 이미지 변경
           addMarkerIcon(spot_num,spot_type);
 
-          
-         alert("자식 길이? : " + $("#schedule_detail_box").children().length);
-         if($("#schedule_detail_box").children().length > 0){
-     		markerOver_A();
-     	 }
        });
 		
 		
-
+		// 스팟리스트에서 디테일box
+		$(".title").click(function(){
+			var d_name = $(this).parent().parent().data("name");
+			var d_img = $(this).parent().parent().data("img");
+			var d_con = $(this).parent().parent().data("con");
+			var d_add = $(this).parent().parent().data("addr");
+			var d_citycd = $(this).parent().parent().data("city");
+			var d_type = $(this).parent().parent().data("type");
+			
+			detail_view_spot(d_name,d_img,d_con,d_add,d_citycd,d_type);
+		});
+		
+		// 스팟리스트 클릭시 map줌 & infobox
+		$(".day_spot_item").click(function(){
+			var index = $(this).data("seq");
+			var type = $(this).data("type");
+			var mark = marker[index];
+			clickspot(mark, index, type);
+		});
+		
+		// 도시 변경
+		$(".city_item").click(function(){
+			var citycd = $(this).data("code");
+			
+			location.href="planDetail.do?citycode="+citycd+"&schedule_date="+$(".start_date").text()+"&title="+$("#plan_title").text();
+		});
+		
 		
 	});
-	
-	/* if($("#schedule_detail_box").children().length > 0){
-		markerOver_A();
-	} */
-		
 	
 	
 	google.maps.event.addDomListener(window, 'load', initialize);
@@ -686,6 +721,21 @@ src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCiDE5HBue4mflsdkcsGvSZrUe
     width: 365px;
 }
 #detail_close_btn{background:url('${pageContext.request.contextPath}/resources/images/plan/info_close_btn.png');}
+.list_cat_item img{
+	padding-left:40px;
+	padding-right:30px;
+}
+#selectcurr{
+    border: solid #c8c8ca 1px;
+    font-family: 'nanum';
+    font-size: 12px;
+    color: #808080;
+}
+#memo_save {
+    display: block;
+    width: 278px;
+    margin-left: 10px;
+}
 </style>
 </head>
 <body style="">
@@ -857,37 +907,37 @@ src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCiDE5HBue4mflsdkcsGvSZrUe
                 	<!-- <div class="city_text_search_box"><input type="text" class="city_text_search_input" id="city_search_key"></div>
 				  	<div class="city_search" style="display: none;"></div> -->
 				  	<!-- 도시 변경  -->
-                  	<div class="city_items" data="87" style="height:100%;">
-                  		<div class="city_item" data="87" data-ci_name="${cityvo.city_Name}" data-lat="18.79906428" data-lng="98.99514161" data-ss_id="undefined" data-code="CT1">
-                  			<div class="fl ci_img"><img src="${pageContext.request.contextPath}/resources/images/plan/city/${cityvo.city_Img}"></div>
-                  			<div class="fl">${cityvo.city_Name},&nbsp;<span>태국</span></div>
-                  			<div class="clear"></div>
-                  		</div>
-                  		<div class="clear"></div>
-                  		<div style="width:100%;height:0px;border-bottom:solid 1px #cacaca;"></div>
-                  		<div class="city_item_title">태국 내 다른 도시</div>
-                  		<c:forEach items="${allCity}" var="city">
-                  			<c:if test="${city.city_Code ne citycode}">
-		                  		<div class="clear"></div>
-		                  		<div class="city_item" data="" data-ci_name="${city.city_Name}" data-lat="${city.city_Lati}" data-lng="${city.city_Long}" data-ss_id="null" data-code="${city.city_Code}">
-			                  		<div class="fl ci_img"><img src="${pageContext.request.contextPath}/resources/images/plan/city/${city.city_Img}"></div>
-			                  		<div class="fl">${city.city_Name},&nbsp;<span>태국</span></div>
-			                  		<div class="clear"></div>
-		                  		</div>
-                  			</c:if>
-                  		</c:forEach>
-                  	</div> 
-                  	<!-- 도시 변경 end -->
+                     <div class="city_items" data="87" style="height:100%;">
+                        <div class="city_item" data="87" data-ci_name="${cityvo.city_Name}" data-lat="${cityvo.city_Lati}" data-lng="${cityvo.city_Long}" data-ss_id="undefined" data-code="${cityvo.city_Code}">
+                           <div class="fl ci_img"><img src="${pageContext.request.contextPath}/resources/images/plan/city/${cityvo.city_Img}"></div>
+                           <div class="fl">${cityvo.city_Name},&nbsp;<span>태국</span></div>
+                           <div class="clear"></div>
+                        </div>
+                        <div class="clear"></div>
+                        <div style="width:100%;height:0px;border-bottom:solid 1px #cacaca;"></div>
+                        <div class="city_item_title">태국 내 다른 도시</div>
+                        <c:forEach items="${allCity}" var="city">
+                           <c:if test="${city.city_Code ne citycode}">
+                              <div class="clear"></div>
+                              <div class="city_item" data="" data-ci_name="${city.city_Name}" data-lat="${city.city_Lati}" data-lng="${city.city_Long}" data-ss_id="null" data-code="${city.city_Code}">
+                                 <div class="fl ci_img"><img src="${pageContext.request.contextPath}/resources/images/plan/city/${city.city_Img}"></div>
+                                 <div class="fl">${city.city_Name},&nbsp;<span>태국</span></div>
+                                 <div class="clear"></div>
+                              </div>
+                           </c:if>
+                        </c:forEach>
+                     </div> 
+                     <!-- 도시 변경 end -->
 	            </div>
                 <div class="list_search_full_box">
                 	<div class="list_search_box">
 						<input type="text" id="input_search" placeholder="장소 검색">
 						<div style="margin-left:20px;margin-top:5px;">
 							<span id="type_city" type="radio" class="radio on" data-val="city" data-on="on" data-name="search_type" style="color:#808080">
-							<span class="et-radio">&nbsp;<!-- 수정@@ --><i class="far fa-check-circle check"></i></span>
+							<span class="et-radio" style="padding-top: 4px;">&nbsp;<!-- 수정@@ --><i class="far fa-check-circle check"></i></span>
 							<span class="et-radio_txt">도시내 검색&nbsp;&nbsp;&nbsp;&nbsp;</span></span>
 							<span id="type_total" type="radio" class="radio" data-val="total" data-name="search_type" style="color:#808080" data-on="off">
-							<span class="et-radio">&nbsp;<!-- 수정@@ --><i class="far fa-circle check"></i></span><span class="et-radio_txt">전체검색</span></span>
+							<span class="et-radio" style="padding-top: 4px;">&nbsp;<!-- 수정@@ --><i class="far fa-circle check"></i></span><span class="et-radio_txt">전체검색</span></span>
 							<input type="hidden" name="search_type" id="search_type" class="news" value="city">
 						</div>
 					</div>
@@ -950,15 +1000,22 @@ src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCiDE5HBue4mflsdkcsGvSZrUe
            							<div style="font-size:15px;color:#363636;font-weight:bold;text-align:left;padding-bottom:10px;padding-left:8px;">예산</div>
            							<div style="padding-left:10px;padding-bottom:15px;">
            							<div id="budget_currency_select_list">
-           								<div data="KRW">KRW</div>
-           								<div data="JPY">JPY</div>
+           								<!-- <div data="KRW">KRW</div>
+           								<div data="THB">THB</div> -->
            							</div>
-           							<div id="budget_currency" data="KRW" class="fl">KRW</div>
-           							<div class="fl"><input type="text" class="budget_input" placeholder="0" onkeyup="return isNumberKey(event)"></div>
+           							<div id="budget_currency" data="KRW" class="fl">
+           							<!-- KRW -->
+           								<select id="selectcurr" style="height: 31px;">
+           									<option>KRW</option>
+           									<option>THB</option>
+           								</select>
+           							</div>
+           							<div class="fl"><input type="text" class="budget_input" style="width: 227px;" placeholder="0" onblur="budgetVal()"></div>
+           							<!-- <div class="fl"><input type="text" class="budget_input" style="width: 227px;" placeholder="0" onkeyup="return budgetVal(this)"></div> -->
            							<div class="clear"></div>
            							</div>
            							<div style="font-size:15px;color:#363636;font-weight:bold;text-align:left;padding-bottom:10px;padding-left:8px;">메모</div>
-           							<textarea id="memo_input" data-type="" data-set_day="0" data-set_order="0" data-pl_type="0"></textarea>
+           							<textarea id="memo_input" style="resize:none; width: 257px; height: 70px;" data-type="" data-set_day="0" data-set_order="0" data-pl_type="0"></textarea>
            							<div id="memo_save">저장</div>
            						</div>
            					</div>

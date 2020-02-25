@@ -1,4 +1,4 @@
-﻿$(document).ready(function(){
+$(document).ready(function(){
 	
 	// 페이지 새고로침 액션
 	$(window).on("beforeunload", function() {
@@ -34,6 +34,19 @@
 			// 삭제
 			$(this).parents(".day_spot_item").remove();
 		}	
+    
+      // 스팟 삭제시 마커 이미지 변경
+      var del_seq = $(this).parent().parent().data("seq"); // 삭제하려는 마커의 index
+      var del_type = $(this).parent().parent().data("type"); // 삭제하려는 마커의 type
+      delMarkerIcon(del_seq,del_type);
+      
+      // 스팟 삭제시 찍힌 폴리라인 삭제 후 재생성
+      for(var i=0;i<paths.length;i++){
+    	  paths[i].setMap(null);
+      }
+      paths = [];
+      addPath();
+    
 	});	
 	
 	$("#schedule_clear").on("click", function() {
@@ -140,7 +153,7 @@
 
 // Day 수정 버튼 클릭
 function day_edit_start(){
-	$('#overlay_day_edit').show();
+   $('#overlay_day_edit').show();
 }
 
 
@@ -148,5 +161,4 @@ function day_edit_start(){
 function day_edit_com(){
 	$('#overlay_day_edit').hide();
 }
-
 
