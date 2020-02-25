@@ -942,11 +942,11 @@ src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCiDE5HBue4mflsdkcsGvSZrUe
 						</div>
 					</div>
                     <div class="list_category_box" style="border-bottom: solid #dadada 1px;">
-                    	<div class="list_cat_item fl on" data="3" data-type="랜드마크"><img src="${pageContext.request.contextPath}/resources/images/plan/ic_300_c.png"></div>
-                        <div class="list_cat_item fl" data="2" data-type="식당가"><img src="${pageContext.request.contextPath}/resources/images/plan/ic_200_a.png"></div>
+                    	<div class="list_cat_item fl on" data="1" data-type="total"><img src="${pageContext.request.contextPath}/resources/images/plan/ic_000_c.png"></div>
+                    	<div class="list_cat_item fl" data="2" data-type="랜드마크"><img src="${pageContext.request.contextPath}/resources/images/plan/ic_300_a.png"></div>
+                        <div class="list_cat_item fl" data="3" data-type="식당가"><img src="${pageContext.request.contextPath}/resources/images/plan/ic_200_a.png"></div>
                         <div class="list_cat_item fl" data="4" data-type="쇼핑"><img src="${pageContext.request.contextPath}/resources/images/plan/ic_400_a.png"></div>
-						<div class="list_cat_item fl" data="1" data-type="호텔"><img src="${pageContext.request.contextPath}/resources/images/plan/ic_100_a.png"></div>
-						<div class="list_cat_item fl" data="5"><img src="${pageContext.request.contextPath}/resources/images/plan/ic_000_a.png"></div>
+						<%-- <div class="list_cat_item fl" data="1" data-type="호텔" style="display: none;"><img src="${pageContext.request.contextPath}/resources/images/plan/ic_100_a.png"></div> --%> 
                         <div class="clear"></div>             
                     </div>
                	</div>

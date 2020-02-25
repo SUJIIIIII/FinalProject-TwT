@@ -134,6 +134,7 @@ $(document).ready(function(){
 		
 		if($(this).hasClass("on")){
 			var type = $(this).data("type");
+			alert("type : " + type);
 			var name_num = $(".list_box").children(".day_spot_item").length; // 전체 검색 시 가져올 것들 갯수
 			
 			for(i = 0; i < name_num + 1; i++){
@@ -145,9 +146,7 @@ $(document).ready(function(){
 				}
 			} // 전체검색 end
 		}
-	});
-
-	
+	});	
 });
 
 
