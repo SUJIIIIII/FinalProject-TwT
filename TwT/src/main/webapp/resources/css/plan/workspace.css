@@ -64,8 +64,8 @@ html, body{overflow:hidden !important;}
 #cat_menu_edit_box li .cat_date_right_box{margin-top:20px;margin-left:5px;}
 #cat_menu_edit_box li .cat_right_weekday{margin-bottom:7px;}
 #cat_menu_edit_box li .cat_right_city{color:#b3b3b3;max-width:50px;height:15px;line-height:15px;overflow:hidden;}
-#cat_menu_edit_box li .cat_edit_move{width:18px;height:100%;background:url('/res/img/workspace/new/cat_move_icon.png') no-repeat 3px 25px;border-right:solid #2c3e4b 1px;}
-#cat_menu_edit_box li .cat_edit_del{width:22px;height:22px;margin-top:23px;background:url('/res/img/workspace/new/del_icon.png');margin-right:10px;cursor:pointer;}
+#cat_menu_edit_box li .cat_edit_move{width:18px;height:100%;background:url('/twt/resources/images/plan/cat_move_icon.png') no-repeat 3px 25px;border-right:solid #2c3e4b 1px;}
+#cat_menu_edit_box li .cat_edit_del{width:22px;height:22px;margin-top:23px;background:url('/twt/resources/images/plan/del_icon.png');margin-right:10px;cursor:pointer;}
 
 
 #overlay_day_edit{background:rgba(255,255,255,0.8);width:100%;height:100%;position:fixed;z-index:99999999;display:none;}
