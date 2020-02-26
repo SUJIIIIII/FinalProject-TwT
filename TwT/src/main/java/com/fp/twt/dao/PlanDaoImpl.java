@@ -39,10 +39,10 @@ public class PlanDaoImpl implements PlanDao{
 	
 	
 	@Override
-	public List<TravelPointVo> selectAllSpot(String citycode) { // spot 정보 전부 불러오기
+	public List<TravelPointVo> selectAllSpot() { // spot 정보 전부 불러오기
 		List<TravelPointVo> res = new ArrayList<TravelPointVo>();
 		try {
-			res = sqlSession.selectList(NAMESPACE+"selectallspot_S",citycode);
+			res = sqlSession.selectList(NAMESPACE+"selectallspot_S");
 		}catch(Exception e) {
 			e.printStackTrace();
 			System.out.println("dao에서 데이터 불러오기 오류");

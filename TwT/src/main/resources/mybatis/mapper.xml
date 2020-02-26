@@ -246,16 +246,16 @@ SELECT TS.TS_CODE, TS.M_CODE, TS.TP_CODE, TS.TS_TITLE, TS.TS_SDAY, TS.TS_THEME, 
 	</select>
 
 	<!-- 선택된 city spot 모두 불러오기 -->
-	<select id="selectallspot_S" resultType="TravelPoint"
-		parameterType="String">
-		SELECT * FROM TRAVELPOINT WHERE CITY_CODE = #{citycode}
+	<select id="selectallspot_S" resultType="TravelPoint">
+		SELECT * FROM TRAVELPOINT ORDER BY SUBSTR(CITY_CODE, 3), TO_NUMBER(SUBSTR(TP_CODE, 3))
 	</select>
 
 	<!-- 선택된 city 정보 불러오기 -->
-	<select id="selectcityone_S" resultType="City"
-		parameterType="String">
+	<select id="selectcityone_S" resultType="City" parameterType="String">
 		SELECT * FROM CITY WHERE CITY_CODE = #{citycode}
 	</select>
+	
+	
 
 	<!-- ================================철환================================== -->
 

@@ -56,7 +56,7 @@ public class PlanController {
 		// spot 모든 정보
 		String citycode = request.getParameter("citycode");
 		System.out.println("controller에서 citycode : " + citycode);
-		List<TravelPointVo> allSpot = biz.selectAllSpot(citycode);
+		List<TravelPointVo> allSpot = biz.selectAllSpot();
 		
 		// 선택된 city 정보
 		CityVo cityvo = biz.selectCityOne(citycode);

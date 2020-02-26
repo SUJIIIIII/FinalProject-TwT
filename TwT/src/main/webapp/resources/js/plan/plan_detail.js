@@ -1,3 +1,21 @@
+/*$(document).ready(function(){
+   // 스팟 목록 해당하는 도시외에 제거
+   var city_code_total = $(".city_item").data("code");
+   var name_num_total = $(".list_box").children(".day_spot_item").length; // 전체 검색 시 가져올 것들 갯수
+   var count = 0;
+   for(i = 0; i < name_num_total + 1; i++){
+      var city_val_total = $(".list_box").children(".day_spot_item").eq(i).data("city");
+      if(city_code_total == city_val_total){ 
+         $(".list_box").children(".day_spot_item").eq(i).show();
+         count++;
+      } else {
+         $(".list_box").children(".day_spot_item").eq(i).hide();
+      }
+   } // end
+   alert(count);
+});*/
+
+
 $(document).ready(function(){
 	
 	// 페이지 새고로침 액션

@@ -158,7 +158,7 @@ public class TravelPointVo {
 		return "TravelPointVo [tp_Code=" + tp_Code + ", city_Code=" + city_Code + ", tp_Name=" + tp_Name + ", tp_Lati="
 				+ tp_Lati + ", tp_Long=" + tp_Long + ", tp_Type=" + tp_Type + ", tp_Content=" + tp_Content + ", tp_Img="
 				+ tp_Img + ", tp_Addr=" + tp_Addr + ", city_Name=" + city_Name + ", city_Lati=" + city_Lati
-				+ ", city_Long=" + city_Long + ", city_Img=" + city_Img + ", city_Eng=" + city_Eng + "]";
+				+ ", city_Long=" + city_Long + ", city_Img=" + city_Img + ", city_Eng=" + city_Eng + "]\n";
 	}
 	
 }

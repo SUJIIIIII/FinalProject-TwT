@@ -30,7 +30,7 @@
 	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/plan/workspace.css">
 	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/plan/date_picker.css">
 
-
+<% String cd = request.getParameter("citycode"); %>
 <!-- map script -->
 <script type="text/javascript" src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 <script type="text/javascript">
@@ -71,13 +71,38 @@ var lats = new Array(); // 모든 스팟 위도 배열
 var lngs = new Array(); // 모든 스팟 경도 배열
 var arryn = new Array(); // 모든 스팟 추가 여부
 var paths = new Array(); // 경로 배열
-var distance; // 
+/* var distance; // 거리계산 */
+var selectcd; // 선택된 도시
+var count;
 
+	
 	// map 추가
 	function initMap() {
+		// 스팟 목록 해당하는 도시외에 제거
+	  	var city_code_total = $(".city_item").data("code");
+	   	//var city_code_total = 'CT2';
+	   	var name_num_total = $(".list_box").children(".day_spot_item").length; // 전체 검색 시 가져올 것들 갯수
+	   	count = 0;
+	   	for(i = 0; i < name_num_total + 1; i++){
+	      	var city_val_total = $(".list_box").children(".day_spot_item").eq(i).data("city");
+	      	if(city_code_total == city_val_total){ 
+	         	$(".list_box").children(".day_spot_item").eq(i).show();
+	         	count++;
+	      	} else {
+	         	$(".list_box").children(".day_spot_item").eq(i).hide();
+	      	}
+	   	} // end
+		alert("show 개수 : "+count);
+
+		// create에서 선택한 도시
+		selectcd = city_code_total;
+		alert("선택된 도시 코드 : " + selectcd);
+	
 		// 선택된 도시의 위도/경도
 		var lati = ${cityvo.city_Lati};
 		var lon = ${cityvo.city_Long};
+/* 		var lati = ${cityvo.city_Lati};
+		var lon = ${cityvo.city_Long}; */
 		
 		// 선택된 도시의 센터 위치
 		var cen = {lat: lati, lng: lon}; 
@@ -85,24 +110,44 @@ var distance; //
 		// 선택된 도시의 센터를 중심으로 맵 생성
 		map = new google.maps.Map( //지도 객체 생성
 			document.getElementById('map'), {zoom: 12, center: cen}); //기본 줌,시작 센터 설정
-		
+			
 		// list 개수 가져오기
-		var count = $(".aa").attr("data-count");
+		/* var count = $(".day_spot_item").length; */
+		/* if($(".day_spot_item").css("display") == "block"){
+			 var count = $(".day_spot_item").length;
+		} */
+		/* var count = $(".day_spot_item").length; */
+		/* alert(count); */
+		/* var count = $(".aa").attr("data-count"); */
 		
        	// 위치 위도/경도, 스팟 이름, 도시 코드, 이미지 명, 스팟 타입 담기
-       	for(var i=0;i<count;i++){
-			locations[i] = {"position" : new google.maps.LatLng($("#spot_"+i).attr("data-lat"),$("#spot_"+i).attr("data-lng"))};
-			content[i] = $("#spot_"+i).attr("data-name");
-			citycode[i] = $("#spot_"+i).attr("data-city");
-			imgname[i] = $("#spot_"+i).attr("data-img");
-			spottype[i] = $("#spot_"+i).attr("data-type");
-			spotaddr[i] = $("#spot_"+i).attr("data-addr");
-			spotcontent[i] = $("#spot_"+i).attr("data-con");
-			lats[i] = $("#spot_"+i).attr("data-lat");
-			lngs[i] = $("#spot_"+i).attr("data-lng");
-			spotcode[i] = $("#spot_"+i).attr("data-no");
-			
+       	for(var i=0;i<name_num_total; i++){
+       	//var city_val_total = $(".list_box").children(".day_spot_item").eq(i).data("city");
+       		if($("#spot_"+i).data("city") == selectcd){
+				locations.push({"position" : new google.maps.LatLng($("#spot_"+i).attr("data-lat"),$("#spot_"+i).attr("data-lng"))});
+				content.push($("#spot_"+i).attr("data-name"));
+				citycode.push($("#spot_"+i).attr("data-city"));
+				imgname.push($("#spot_"+i).attr("data-img"));
+				spottype.push($("#spot_"+i).attr("data-type"));
+				spotaddr.push($("#spot_"+i).attr("data-addr"));
+				spotcontent.push($("#spot_"+i).attr("data-con"));
+				lats.push($("#spot_"+i).attr("data-lat"));
+				lngs.push($("#spot_"+i).attr("data-lng"));
+				spotcode.push($("#spot_"+i).attr("data-no"));
+/* 				locations[i] = {"position" : new google.maps.LatLng($("#spot_"+i).attr("data-lat"),$("#spot_"+i).attr("data-lng"))};
+				content[i] = $("#spot_"+i).attr("data-name");
+				citycode[i] = $("#spot_"+i).attr("data-city");
+				imgname[i] = $("#spot_"+i).attr("data-img");
+				spottype[i] = $("#spot_"+i).attr("data-type");
+				spotaddr[i] = $("#spot_"+i).attr("data-addr");
+				spotcontent[i] = $("#spot_"+i).attr("data-con");
+				lats[i] = $("#spot_"+i).attr("data-lat");
+				lngs[i] = $("#spot_"+i).attr("data-lng");
+				spotcode[i] = $("#spot_"+i).attr("data-no"); */
+       		}
        	}
+		console.log(locations.length);
+		console.log(imgname);
        	
        	// 마커 이미지 
 		B_TD = new google.maps.MarkerImage("${pageContext.request.contextPath}/resources/images/plan/marker/B_TD.png",null,null,null,new google.maps.Size(40,42));
@@ -117,7 +162,7 @@ var distance; //
 		A_TD_H = new google.maps.MarkerImage("${pageContext.request.contextPath}/resources/images/plan/marker/A_TD_H.png",null,null,null,new google.maps.Size(40,42));
 		A_RS_H = new google.maps.MarkerImage("${pageContext.request.contextPath}/resources/images/plan/marker/A_RS_H.png",null,null,null,new google.maps.Size(40,42));
 		A_SP_H = new google.maps.MarkerImage("${pageContext.request.contextPath}/resources/images/plan/marker/A_SP_H.png",null,null,null,new google.maps.Size(40,42));
-		
+
 		
 		// 스팟 마커찍기
 		for (var i=0;i<locations.length;i++) {
@@ -544,6 +589,8 @@ var distance; //
 		var val = $(".budget_input").val();
 		alert(val);
 	}
+	
+	
 
 	/* script */
 	$(document).ready(function(){
@@ -580,7 +627,7 @@ var distance; //
  			$("#select_detail_view_spot").css("display","none");
 		});
 		
-		// 일정에 여행지 추가하기
+		// 일정에 여행지추가하기
 	    $(".spot_to_inspot").on("click", function() {
 	       var spot_name = $(this).parent().data("name"); // 여행지명
 	       var spot_type = $(this).parent().data("type"); // 여행지 타입
@@ -660,11 +707,11 @@ var distance; //
 		});
 		
 		// 도시 변경
-		$(".city_item").click(function(){
+		/* $(".city_item").click(function(){
 			var citycd = $(this).data("code");
 			
 			location.href="planDetail.do?citycode="+citycd+"&schedule_date="+$(".start_date").text()+"&title="+$("#plan_title").text();
-		});
+		}); */
 		
 		
 	});
@@ -895,8 +942,8 @@ src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCiDE5HBue4mflsdkcsGvSZrUe
 	
 		<div id="right_full_box" class="fl" style="position: absolute; left: 425px; top: 66px; width: 1111px;">
 			<div id="on_city_open_btn" style="background:url('${pageContext.request.contextPath}/resources/images/plan/city_open_btn.png');"></div>
-           	
-           	<!-- 스팟 리스트 box-->
+           	<%@ include file="plan_spot_box.jsp" %>
+           	<%-- <!-- 스팟 리스트 box-->
            	<div id="city_list" data="87" style="display: block; bottom:2px;">
             	<div class="list_title" style="background: #fc3c3c;"><span>${cityvo.city_Name}</span>
             		<div class="list_title_option_menu" data-is_open="off">&nbsp;도시 변경<i class="fas fa-caret-down"></i></div>
@@ -946,7 +993,7 @@ src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCiDE5HBue4mflsdkcsGvSZrUe
                     	<div class="list_cat_item fl" data="2" data-type="랜드마크"><img src="${pageContext.request.contextPath}/resources/images/plan/ic_300_a.png"></div>
                         <div class="list_cat_item fl" data="3" data-type="식당가"><img src="${pageContext.request.contextPath}/resources/images/plan/ic_200_a.png"></div>
                         <div class="list_cat_item fl" data="4" data-type="쇼핑"><img src="${pageContext.request.contextPath}/resources/images/plan/ic_400_a.png"></div>
-						<%-- <div class="list_cat_item fl" data="1" data-type="호텔" style="display: none;"><img src="${pageContext.request.contextPath}/resources/images/plan/ic_100_a.png"></div> --%> 
+						<div class="list_cat_item fl" data="1" data-type="호텔" style="display: none;"><img src="${pageContext.request.contextPath}/resources/images/plan/ic_100_a.png"></div> 
                         <div class="clear"></div>             
                     </div>
                	</div>
@@ -974,7 +1021,7 @@ src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCiDE5HBue4mflsdkcsGvSZrUe
                 </c:forEach>
                 <div class="aa" style="display:none;" data-count="${count}"></div>
 			</div>
-	    </div><!-- 스팟 리스트 end -->
+	    </div><!-- 스팟 리스트 end --> --%>
 		
 
 

@@ -29,8 +29,8 @@ public class PlanBizImpl implements PlanBiz{
 	}
 
 	@Override
-	public List<TravelPointVo> selectAllSpot(String city_Code) {
-		return dao.selectAllSpot(city_Code);
+	public List<TravelPointVo> selectAllSpot() {
+		return dao.selectAllSpot();
 	}
 
 	@Override
