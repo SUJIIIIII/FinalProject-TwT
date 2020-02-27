@@ -170,37 +170,45 @@ function form_chk() {
 function login_chk() {
 	var id = $("#login_ID").val();
 	var pwd = $("#login_Pass").val();
-	var res = false;
+	var db = false;
+	var blank = false;
+	
+	if(id == null || id == "") {
+		alert("아이디를 입력해주세요");
+		blank =  false;
+	} else if(pwd == null || pwd == "") {
+		alert("비밀번호를 입력해주세요");
+		blank = false;
+	} else {
+		blank = true;
+	}
+	
 	$.ajax({
 		url:"loginChk.do?m_Id="+id+"&m_Pass="+pwd,
 		type:"get",
 		dataType:"json",
-		contentType:"application/json",
+		async:false, // 해당하는 페이지를 동기화 시키는 방법
+		contentType:"application/json", 
 		success : function(data){
-			if(data.check1 == '1' && data.check2 == '1') {
+			if(data.check1 == 1 && data.check2 == 1) {
+				if(data.check3 == 1){
+					db = true;
+				} else {
+					alert("이메일 인증 후 로그인이 가능합니다.");
+				}
 			} else {
 				alert("아이디 및 비밀번호를 확인해주세요");
-				location.href="login.do";
-		}
-			}, error:function(){
-			alert("실패");
-			$("#login_chk").show();
-			$("#login_chk").text("아이디 및 비밀번호를 확인해주세요");
-			$("#loginbtn").attr("disabled","disabled");
+			}
+		}, error:function(){
+			alert("통신 실패");
 		}
 	});
 	
-	if(id == null || id == "") {
-		alert("아이디를 입력해주세요");
-		res =  false;
-	} else if(pwd == null || pwd == "") {
-		alert("비밀번호를 입력해주세요");
-		res = false;
-	} else {
-		res = true;
+	if(db * blank > 0){
+		return true;
+	} else{	
+		return false;
 	}
-	
-	return res;
 }
 
 </script>

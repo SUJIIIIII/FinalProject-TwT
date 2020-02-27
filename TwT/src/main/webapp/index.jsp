@@ -120,12 +120,13 @@
           <li class="nav-item"><a href="flight.do" class="nav-link">Flight</a></li>
           <li class="nav-item"><a href="hotel.do" class="nav-link">Hotel</a></li>
           <li class="nav-item"><a href="community.do" class="nav-link">Community</a></li>
-          <li class="nav-item"><a href="mypage.do" class="nav-link"><i class="fas fa-user"></i>&nbsp;My</a></li>
           <c:if test="${kakaoId eq null and naverId eq null and user eq null and googleId eq null}">
+          <li class="nav-item"><a href="login.do" class="nav-link"><i class="fas fa-user"></i>&nbsp;My</a></li>
           <li class="nav-item cta"><a href="login.do" class="nav-link"><span>Login</span></a></li>
           </c:if>
           <c:if test="${kakaoId ne null or naverId ne null or user ne null or googleId ne null}">
-              <li class="nav-item cta"><a href="logout.do" class="nav-link"><span>Logout</span></a></li>
+          <li class="nav-item"><a href="mypage.do" class="nav-link"><i class="fas fa-user"></i>&nbsp;My</a></li>
+          <li class="nav-item cta"><a href="logout.do" class="nav-link"><span>Logout</span></a></li>
           </c:if>
         </ul>
       </div>
