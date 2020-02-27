@@ -52,10 +52,11 @@ ORDER BY TS_DATE DESC
 
 
 --------------------------------수지-----------------------------------------
-SELECT * FROM TRAVELPOINT;
+SELECT * FROM TRAVELPOINT ORDER BY SUBSTR(CITY_CODE, 3), TO_NUMBER(SUBSTR(TP_CODE, 3));
 SELECT * FROM CITY;
 SELECT * FROM TwTMEMBER;
 SELECT * FROM SCHEDULEREVIEW;
+SELECT * FROM TRAVELPOINT ORDER BY city_code*1;
 --------------------------------철환-----------------------------------------
 
 

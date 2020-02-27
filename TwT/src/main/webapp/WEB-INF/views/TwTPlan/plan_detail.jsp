@@ -30,7 +30,7 @@
 	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/plan/workspace.css">
 	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/plan/date_picker.css">
 
-
+<% String cd = request.getParameter("citycode"); %>
 <!-- map script -->
 <script type="text/javascript" src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 <script type="text/javascript">
@@ -71,13 +71,39 @@ var lats = new Array(); // 모든 스팟 위도 배열
 var lngs = new Array(); // 모든 스팟 경도 배열
 var arryn = new Array(); // 모든 스팟 추가 여부
 var paths = new Array(); // 경로 배열
-var distance;
+/* var distance; // 거리계산 */
+var selectcd; // 선택된 도시
+var count;
 
+	
 	// map 추가
-	function initMap() {
+	window.onload = function initMap() {
+		
+		// 스팟 목록 해당하는 도시외에 제거
+	  	var city_code_total = $(".city_item").data("code");
+	   	//var city_code_total = 'CT2';
+	   	var name_num_total = $(".list_box").children(".day_spot_item").length; // 전체 검색 시 가져올 것들 갯수
+	   	count = 0;
+	   	for(i = 0; i < name_num_total + 1; i++){
+	      	var city_val_total = $(".list_box").children(".day_spot_item").eq(i).data("city");
+	      	if(city_code_total == city_val_total){ 
+	         	$(".list_box").children(".day_spot_item").eq(i).show();
+	         	count++;
+	      	} else {
+	         	$(".list_box").children(".day_spot_item").eq(i).hide();
+	      	}
+	   	} // end
+		alert("show 개수 : "+count);
+
+		// create에서 선택한 도시
+		selectcd = city_code_total;
+		alert("선택된 도시 코드 : " + selectcd);
+	
 		// 선택된 도시의 위도/경도
 		var lati = ${cityvo.city_Lati};
 		var lon = ${cityvo.city_Long};
+/* 		var lati = ${cityvo.city_Lati};
+		var lon = ${cityvo.city_Long}; */
 		
 		// 선택된 도시의 센터 위치
 		var cen = {lat: lati, lng: lon}; 
@@ -85,23 +111,41 @@ var distance;
 		// 선택된 도시의 센터를 중심으로 맵 생성
 		map = new google.maps.Map( //지도 객체 생성
 			document.getElementById('map'), {zoom: 12, center: cen}); //기본 줌,시작 센터 설정
-		
+			
 		// list 개수 가져오기
-		var count = $(".aa").attr("data-count");
+		/* var count = $(".day_spot_item").length; */
+		/* if($(".day_spot_item").css("display") == "block"){
+			 var count = $(".day_spot_item").length;
+		} */
+		/* var count = $(".day_spot_item").length; */
+		/* alert(count); */
+		/* var count = $(".aa").attr("data-count"); */
 		
        	// 위치 위도/경도, 스팟 이름, 도시 코드, 이미지 명, 스팟 타입 담기
-       	for(var i=0;i<count;i++){
-			locations[i] = {"position" : new google.maps.LatLng($("#spot_"+i).attr("data-lat"),$("#spot_"+i).attr("data-lng"))};
-			content[i] = $("#spot_"+i).attr("data-name");
-			citycode[i] = $("#spot_"+i).attr("data-city");
-			imgname[i] = $("#spot_"+i).attr("data-img");
-			spottype[i] = $("#spot_"+i).attr("data-type");
-			spotaddr[i] = $("#spot_"+i).attr("data-addr");
-			spotcontent[i] = $("#spot_"+i).attr("data-con");
-			lats[i] = $("#spot_"+i).attr("data-lat");
-			lngs[i] = $("#spot_"+i).attr("data-lng");
-			spotcode[i] = $("#spot_"+i).attr("data-no");
-			
+       	for(var i=0;i<name_num_total; i++){
+       	//var city_val_total = $(".list_box").children(".day_spot_item").eq(i).data("city");
+       		if($("#spot_"+i).data("city") == selectcd){
+				locations.push({"position" : new google.maps.LatLng($("#spot_"+i).attr("data-lat"),$("#spot_"+i).attr("data-lng"))});
+				content.push($("#spot_"+i).attr("data-name"));
+				citycode.push($("#spot_"+i).attr("data-city"));
+				imgname.push($("#spot_"+i).attr("data-img"));
+				spottype.push($("#spot_"+i).attr("data-type"));
+				spotaddr.push($("#spot_"+i).attr("data-addr"));
+				spotcontent.push($("#spot_"+i).attr("data-con"));
+				lats.push($("#spot_"+i).attr("data-lat"));
+				lngs.push($("#spot_"+i).attr("data-lng"));
+				spotcode.push($("#spot_"+i).attr("data-no"));
+/* 				locations[i] = {"position" : new google.maps.LatLng($("#spot_"+i).attr("data-lat"),$("#spot_"+i).attr("data-lng"))};
+				content[i] = $("#spot_"+i).attr("data-name");
+				citycode[i] = $("#spot_"+i).attr("data-city");
+				imgname[i] = $("#spot_"+i).attr("data-img");
+				spottype[i] = $("#spot_"+i).attr("data-type");
+				spotaddr[i] = $("#spot_"+i).attr("data-addr");
+				spotcontent[i] = $("#spot_"+i).attr("data-con");
+				lats[i] = $("#spot_"+i).attr("data-lat");
+				lngs[i] = $("#spot_"+i).attr("data-lng");
+				spotcode[i] = $("#spot_"+i).attr("data-no"); */
+       		}
        	}
        	
        	// 마커 이미지 
@@ -119,7 +163,7 @@ var distance;
 		A_SP_H = new google.maps.MarkerImage("${pageContext.request.contextPath}/resources/images/plan/marker/A_SP_H.png",null,null,null,new google.maps.Size(40,42));
 		
 		
-		// 스팟 마커찍기
+		/* // 스팟 마커찍기
 		for (var i=0;i<locations.length;i++) {
 			
 			if($("#spot_"+i).attr("data-type") == "랜드마크"){
@@ -153,12 +197,48 @@ var distance;
 				markerListener(marker[i],i,$("#spot_"+i).attr("data-type"));
 			}
         	
+		} */
+		
+		// 스팟 마커찍기
+		for (var i=0;i<locations.length;i++) {
+			
+			if(spottype[i] == "랜드마크"){
+				// 랜드마크 마커 생성
+	        	marker[i] = new google.maps.Marker({
+	            	position: locations[i].position,
+	            	map: map,
+	            	icon: B_TD,
+	            	title: content[i]
+	       		});
+				markerListener(marker[i],i,spottype[i]);
+				
+			}else if(spottype[i] == "식당가"){
+				// 식당 마커 생성
+	        	marker[i] = new google.maps.Marker({
+	            	position: locations[i].position,
+	            	map: map,
+	            	icon: B_RS,
+	            	title: content[i]
+	       		});
+				markerListener(marker[i],i,spottype[i]);
+				
+			}else if(spottype[i] == "쇼핑"){
+				// 쇼핑 마커 생성
+	        	marker[i] = new google.maps.Marker({
+	            	position: locations[i].position,
+	            	map: map,
+	            	icon: B_SP,
+	            	title: content[i]
+	       		});
+				markerListener(marker[i],i,spottype[i]);
+			}
+        	
 		}
 		
 		// spot 추가가 없을 경우 마커 이미지 변경
 		if($("#schedule_detail_box").children().length == 0){
 			for(var i=0;i<locations.length;i++){
-				markerOver(marker[i],i,$("#spot_"+i).attr("data-type"));
+				markerOver(marker[i],i,spottype[i]);
 			}
 		}
 		
@@ -183,7 +263,7 @@ var distance;
 			"<div class='tooltip_title'>"+content[index]+"</div>"+
 			"<div class='tooltip_tag'>"+spottype[index]+"</div></div>"+
 			"<div class='tooltip_detail_bottom_box'>"+
-			"<div class='fl tooltip_detail_btn' onclick='detail_view_spot(&quot;"+content[index]+"&quot;,&quot;"+imgname[index]+"&quot;,&quot;"+spotcontent[index]+"&quot;,&quot;"+spotaddr[index]+"&quot;,&quot;"+citycode[index]+"&quot;,&quot;"+spottype[index]+"&quot;,&quot;"+spotcode[index]+"&quot;,&quot;"+lats[index]+"&quot;,&quot;"+lngs[index]+"&quot;,&quot;"+index+"&quot;)'>자세히 보기</div>"+
+			"<div class='fl tooltip_detail_btn' onclick='detail_view_spot(&quot;"+content[index]+"&quot;,&quot;"+imgname[index]+"&quot;,&quot;"+spotcontent[index]+"&quot;,&quot;"+spotaddr[index]+"&quot;,&quot;"+citycode[index]+"&quot;,&quot;"+spottype[index]+"&quot;,&quot;"+spotcode[index]+"&quot;,&quot;"+lats[index]+"&quot;,&quot;"+lngs[index]+"&quot;,&quot;"+index+"&quot;,'0')'>자세히 보기</div>"+
 			"<div class='fr tooltip_add_inspot_btn' id='insert_spot' onclick='marker_to_inspot(&quot;"+content[index]+"&quot;,&quot;"+spottype[index]+"&quot;,&quot;"+spotcode[index]+"&quot;,&quot;"+lats[index]+"&quot;,&quot;"+lngs[index]+"&quot;,&quot;"+citycode[index]+"&quot;,&quot;"+imgname[index]+"&quot;,&quot;"+index+"&quot;)'>+ 일정에 추가</div></div></div>";
 			
 			// 클릭시 타입에 맞게 마커 이미지 변경 & infobox 나타내기
@@ -339,7 +419,9 @@ var distance;
 	}
 	
 	// 스팟 상세 box 뿌리기
-	function detail_view_spot(name,img,con,add,citycd,type){
+	function detail_view_spot(name,img,con,add,citycd,type,seq){
+		$(".detail_view_full_box").removeData("no")
+		
 		$("#select_detail_view_spot").css("display","block");
 		$(".info_memo").css("display","none");
 		$(".spot_title").html(name);
@@ -347,6 +429,7 @@ var distance;
 		$("#spot_con").html(con);
 		$("#sub_addr").html("<i class='fas fa-map'></i>         " + add);
 		$("#sub_info").html(type);
+		$(".detail_view_full_box").data("no", seq);
 		/*
 		,spotcd,lat,lng,index
 		$(".detail_view_full_box").attr("data-name",name);
@@ -424,7 +507,7 @@ var distance;
 	       
 	       
       	$("#schedule_detail_box").append("" +  
-      	"<div class='day_spot_item' data='1' data-set_day='1' data-pl_type='0' data-seq='"+ spot_num +"' data-no='" + spot_no + "' data-pl_cat='301' data-latlng='" + spot_lat + "," + spot_lng + "' data-lat='" + spot_lat+ "' data-lng='" + spot_lng +"' data-ci='87' data-type='"+spot_type+"' id='spot" + spot_seq + "'>"
+      	"<div class='day_spot_item' data='1' data-set_day='1' data-budget='0' data-memo='0' data-pl_type='0' data-img='"+spot_img+"' data-seq='"+ spot_num +"' data-no='" + spot_no + "' data-pl_cat='301' data-latlng='" + spot_lat + "," + spot_lng + "' data-lat='" + spot_lat+ "' data-lng='" + spot_lng +"' data-ci='87' data-type='"+spot_type+"' id='spot" + spot_seq + "'>"
                  +   "<div class='item_ctrl_box' style='display: none'>"
                  +      "<div class='fl item_copy_plan' title='장소복사'><img src='/twt/resources/images/plan/item_more_icon_a.png'></div>"
                  +       "<div class='fl item_set_plan' title='메모&amp;예산'><img src='/twt/resources/images/plan/item_set_icon_a.png'></div>"
@@ -455,7 +538,7 @@ var distance;
       	for(var i=0;i<locations.length;i++){
     	  	arryn[i] = $("#spot_"+i).attr("data-clip_yn");
       	}
-      	
+       	
        	// 경로에 쓰일 배열
       	/* var latlng = spot_lat + "," + spot_lng;
       	spotlatlng.push(latlng);
@@ -535,15 +618,22 @@ var distance;
 	
 	// 예산추가
 	function addbudget(seq,name,img,con,add,citycd,type){
-		detail_view_spot(name,img,con,add,citycd,type);
+		alert("" + seq);
+		detail_view_spot(name,img,con,add,citycd,type,seq);
+		$(".budget_input").val();
+		$("#memo_input").val();
 		$(".info_memo").css("display","block");
+		$(".budget_input").val("");
+		$("#memo_input").val("");
 		
 	}
 	
-	function budgetVal(){
+	/* function budgetVal(){
 		var val = $(".budget_input").val();
 		alert(val);
-	}
+	} */
+	
+	
 
 	/* script */
 	$(document).ready(function(){
@@ -580,7 +670,7 @@ var distance;
  			$("#select_detail_view_spot").css("display","none");
 		});
 		
-		// 일정에 여행지 추가하기
+		// 일정에 여행지추가하기
 	    $(".spot_to_inspot").on("click", function() {
 	       var spot_name = $(this).parent().data("name"); // 여행지명
 	       var spot_type = $(this).parent().data("type"); // 여행지 타입
@@ -591,13 +681,14 @@ var distance;
 	       var spot_img = $(this).parent().data("img"); // 사진
 	       var spot_seq = $("#schedule_detail_box").children().length + 1;
 	       var spot_num = $(this).parent().data("seq"); // 인덱스 번호
-	       
+	       var index = spot_img.substr(3,2); // show된 리스트의 인덱스 번호
+	       index *= 1; // string to int
 	       
           $("#schedule_detail_box").append("" +  
-          "<div class='day_spot_item' data='1' data-set_day='1' data-pl_type='0' data-citycd='"+spot_city+"' data-seq='"+ spot_num +"' data-no='" + spot_no + "' data-pl_cat='301' data-latlng='" + spot_lat + "," + spot_lng + "' data-lat='" + spot_lat+ "' data-lng='" + spot_lng +"' data-ci='87' data-type='"+spot_type+"' id='spot" + spot_seq + "'>"
+          "<div class='day_spot_item' data='1' data-set_day='1' data-budget='0' data-memo='0' data-pl_type='0' data-img='"+spot_img+"' data-citycd='"+spot_city+"' data-seq='"+ spot_num +"' data-no='" + spot_no + "' data-pl_cat='301' data-latlng='" + spot_lat + "," + spot_lng + "' data-lat='" + spot_lat+ "' data-lng='" + spot_lng +"' data-ci='87' data-type='"+spot_type+"' id='spot" + spot_seq + "'>"
                      +   "<div class='item_ctrl_box' style='display: none'>"
                      +      "<div class='fl item_copy_plan' title='장소복사'><img src='/twt/resources/images/plan/item_more_icon_a.png'></div>"
-                     +       "<div class='fl item_set_plan' title='메모&amp;예산' onclick='addbudget(&quot;"+spot_seq+"&quot;,&quot;"+spot_name+"&quot;,&quot;"+spot_img+"&quot;,&quot;"+spotcontent[spot_seq-1]+"&quot;,&quot;"+spotaddr[spot_seq]+"&quot;,&quot;"+spot_city+"&quot;,&quot;"+spot_type+"&quot;)'><img src='/twt/resources/images/plan/item_set_icon_a.png'></div>"
+                     +       "<div class='fl item_set_plan' title='메모&amp;예산' onclick='addbudget(&quot;"+spot_no+"&quot;,&quot;"+spot_name+"&quot;,&quot;"+spot_img+"&quot;,&quot;"+spotcontent[spot_seq-1]+"&quot;,&quot;"+spotaddr[spot_seq]+"&quot;,&quot;"+spot_city+"&quot;,&quot;"+spot_type+"&quot;)'><img src='/twt/resources/images/plan/item_set_icon_a.png'></div>"
                      +      "<div class='fl btn_del' title='삭제'><img src='/twt/resources/images/plan/item_del_icon_a.png'></div>"
                      +      "<div class='clear'></div>" 
                      +   "</div>"
@@ -634,7 +725,7 @@ var distance;
           // 추가된 스팟의 위도/경도 넣어주기
           addPath();
   		  // spot추가시 마커 이미지 변경
-          addMarkerIcon(spot_num,spot_type);
+          addMarkerIcon(index-1,spot_type);
 
        });
 		
@@ -648,25 +739,70 @@ var distance;
 			var d_citycd = $(this).parent().parent().data("city");
 			var d_type = $(this).parent().parent().data("type");
 			
-			detail_view_spot(d_name,d_img,d_con,d_add,d_citycd,d_type);
+			detail_view_spot(d_name,d_img,d_con,d_add,d_citycd,d_type,'0');
 		});
 		
 		// 스팟리스트 클릭시 map줌 & infobox
+		$(".day_spot_item").click(function(){
+			// show된 리스트의 index 가져오기
+			var tmpimg = $(this).data("img");
+			var index = tmpimg.substr(3,2);
+			// string to int
+			index *= 1;
+			var type = $(this).data("type");
+			var mark = marker[index-1];
+			clickspot(mark, index-1, type);
+		});
+		
+		/* // 스팟리스트 클릭시 map줌 & infobox
 		$(".day_spot_item").click(function(){
 			var index = $(this).data("seq");
 			var type = $(this).data("type");
 			var mark = marker[index];
 			clickspot(mark, index, type);
-		});
+		}); */
 		
 		// 도시 변경
-		$(".city_item").click(function(){
+		/* $(".city_item").click(function(){
 			var citycd = $(this).data("code");
 			
 			location.href="planDetail.do?citycode="+citycd+"&schedule_date="+$(".start_date").text()+"&title="+$("#plan_title").text();
+		}); */
+		
+		/* $(".city_item").click(function(){
+			var changecd = $(".city_item.on").data("code");
+			alert("바뀐 코드 : " + changecd);
+			
+		}); */
+		$(document).on("click", "#memo_save", function() {
+			var budget = $(".budget_input").val();
+			var memo = $("#memo_input").val();
+			var index = $(".detail_view_full_box").data("no");
+			alert(index);
+			
+			for(var i=1;i<=$("#schedule_detail_box").children().length;i++){
+				if($("#spot"+i).data("no") == index){
+					$("#spot"+i).attr("data-budget",budget);
+					$("#spot"+i).attr("data-memo",memo);
+				}
+			}
+			alert("저장되었습니다");
 		});
-		
-		
+		/* $("#memo_save").on("click", function(){
+			var budget = $(".budget_input").val();
+			var memo = $("#memo_input").val();
+			var index = $(".detail_view_full_box").data("no");
+			alert(index);
+			
+			for(var i=1;i<=$("#schedule_detail_box").children().length;i++){
+				if($("#spot"+i).data("no") == index){
+					$("#spot"+i).attr("data-budget",budget);
+					$("#spot"+i).attr("data-memo",memo);
+				}
+			}
+			alert("저장되었습니다");
+		});
+ */		
 	});
 	
 	
@@ -895,8 +1031,8 @@ src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCiDE5HBue4mflsdkcsGvSZrUe
 	
 		<div id="right_full_box" class="fl" style="position: absolute; left: 425px; top: 66px; width: 1111px;">
 			<div id="on_city_open_btn" style="background:url('${pageContext.request.contextPath}/resources/images/plan/city_open_btn.png');"></div>
-           	
-           	<!-- 스팟 리스트 box-->
+           	<%@ include file="plan_spot_box.jsp" %>
+           	<%-- <!-- 스팟 리스트 box-->
            	<div id="city_list" data="87" style="display: block; bottom:2px;">
             	<div class="list_title" style="background: #fc3c3c;"><span>${cityvo.city_Name}</span>
             		<div class="list_title_option_menu" data-is_open="off">&nbsp;도시 변경<i class="fas fa-caret-down"></i></div>
@@ -946,7 +1082,7 @@ src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCiDE5HBue4mflsdkcsGvSZrUe
                     	<div class="list_cat_item fl" data="2" data-type="랜드마크"><img src="${pageContext.request.contextPath}/resources/images/plan/ic_300_a.png"></div>
                         <div class="list_cat_item fl" data="3" data-type="식당가"><img src="${pageContext.request.contextPath}/resources/images/plan/ic_200_a.png"></div>
                         <div class="list_cat_item fl" data="4" data-type="쇼핑"><img src="${pageContext.request.contextPath}/resources/images/plan/ic_400_a.png"></div>
-						<%-- <div class="list_cat_item fl" data="1" data-type="호텔" style="display: none;"><img src="${pageContext.request.contextPath}/resources/images/plan/ic_100_a.png"></div> --%> 
+						<div class="list_cat_item fl" data="1" data-type="호텔" style="display: none;"><img src="${pageContext.request.contextPath}/resources/images/plan/ic_100_a.png"></div> 
                         <div class="clear"></div>             
                     </div>
                	</div>
@@ -974,7 +1110,7 @@ src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCiDE5HBue4mflsdkcsGvSZrUe
                 </c:forEach>
                 <div class="aa" style="display:none;" data-count="${count}"></div>
 			</div>
-	    </div><!-- 스팟 리스트 end -->
+	    </div><!-- 스팟 리스트 end --> --%>
 		
 
 
@@ -1051,7 +1187,7 @@ src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCiDE5HBue4mflsdkcsGvSZrUe
 </div>
 
 <!-- // jQuery 기본 js파일 -->
-  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
 <!-- // jQuery UI 라이브러리 js파일 -->
 <script src="http://code.jquery.com/ui/1.8.18/jquery-ui.min.js"></script>
 <script src="${pageContext.request.contextPath}/resources/js/plan/plan_detail.js?version=1.4"></script>
