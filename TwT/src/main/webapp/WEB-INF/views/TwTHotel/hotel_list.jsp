@@ -66,6 +66,12 @@
 	}
 	
     </style>
+    
+    <script type="text/javascript">
+	    function fn_paging(curPage) {
+    		location.href = "/twt/hotel.do?curPage=" + curPage;
+    	}
+    </script>
 </head>
 <body id="body">
 
@@ -175,11 +181,7 @@
           
           <div class="col-lg-9">
           	<div class="row">
-          	
-          	
-          	
-          	
-              <c:forEach items="${hotellist }" var="HotelVo" begin="${page.startRow }" end="${page.startRow + 5 }">
+              <c:forEach items="${hotellist }" var="HotelVo">
           		<div class="col-md-4 ftco-animate">
 		    				<div class="destination">
 		    					<a href="hotelDetail.do?h_Code=${HotelVo.h_Code }" class="img img-2 d-flex justify-content-center align-items-center" 
@@ -193,11 +195,12 @@
 		    							<div class="one">
 				    						<h3 style="width: 130px;"><a href="hotelDetail.do?h_Code=${HotelVo.h_Code }" style="margin: -7px;">${HotelVo.h_Name}</a></h3>
 				    						<p class="rate">
-				    							<i class="icon-star"></i>
-				    							<i class="icon-star"></i>
-				    							<i class="icon-star"></i>
-				    							<i class="icon-star"></i>
-				    							<i class="icon-star-o"></i>
+		    									<c:forEach begin="1" end="${HotelVo.h_Starn}">
+		    										<i class="icon-star"></i>
+		    									</c:forEach>
+		    									<c:forEach begin="1" end="${5 - HotelVo.h_Starn}">
+				    								<i class="icon-star-o"></i>
+				    							</c:forEach>
 				    						</p>
 			    						</div>
 			    						<div class="two">
@@ -214,67 +217,43 @@
 		    				</div>
 		    			</div>
 			        </c:forEach>
-			        
-		    
-		    			
-		   	
-		    			<!-- ----------------------------------------------------------------------------------------------- -->
-		    			
-		    	<!--  	
           	</div>
-          	<div class="row mt-5">
-		          <div class="col text-center">
-		            <div class="block-27">
-		              <ul>
-		                <li><a href="#">&lt;</a></li>
-		                <li class="active"><span>1</span></li>
-		                <li><a href="#">2</a></li>
-		                <li><a href="#">3</a></li>
-		                <li><a href="#">4</a></li>
-		                <li><a href="#">5</a></li>
-		                <li><a href="#">&gt;</a></li>
-		              </ul>
-		            </div>
-		          </div>
-		        </div>
-		        -->	
-		        
-		        
-		        
-     <script type="text/javascript">
-	  function PageMove(page){
-    	 location.href = "controller.do?command=paging&curpagenum="+page;
-        }
-     </script>                
-	        <c:if test="${page.listCount > 5}">  
-	        <div class="row mt-5">
-	       	<div class="col text-center">
-	       	  <div class="block-27">
-	       	 	<ul>
-			        <li><a href="javascript:PageMove(1)">맨앞으로</a></li>
-			        <c:if test="${page.preve eq true }">
-			        <li class="active"><a href="javascript:PageMove(${page.currentPage-1 })">앞으로</a></li>
-			        </c:if>
-			              <c:forEach var="i" begin="${page.startPage }" end="${page.endPage }" >
-			                  <c:choose>
-			                      <c:when test="${i eq page.currentPage }">
-			               			<li class="active"><a href="javascript:PageMove(${i})">${i}</a></li>
-			                      </c:when>
-			                      <c:otherwise>
-			                        <li><a href="javascript:PageMove(${i})">${i}</a></li>
-			                      </c:otherwise>
-			                  </c:choose>
-			              </c:forEach>
-			        <c:if test="${page.next eq true }">    
-			        <li class="active"><a href="javascript:PageMove(${page.currentPage+1 })">뒤로</a></li>
-			        </c:if>  
-			        <li><a href="javascript:PageMove(${page.allPage})">맨뒤로</a></li>
-			      </ul>
-			      </div>   
-			      </div> 
-	        </div>
-	        </c:if>
-		        
+
+		    			<!-- -------------------------------------------- 페이징 -------------------------------------------- -->
+		    			
+		    			
+		     <div class="row mt-5">
+	          <div class="col text-center">
+	            <div class="block-27">
+	            <ul>
+			    <c:if test="${pagination.curRange ne 1 }">
+			        <li><a href="#" onClick="fn_paging(1)">&lt;</a></li> 
+			    </c:if>
+			    <c:if test="${pagination.curPage ne 1}">
+			        <li><a href="#" onClick="fn_paging('${pagination.prevPage }')">&lt;</a></li> 
+			    </c:if>
+			    <c:forEach var="pageNum" begin="${pagination.startPage }" end="${pagination.endPage }">
+			        <c:choose>
+			            <c:when test="${pageNum eq  pagination.curPage}">
+			                <li class="active"><span style="font-weight: bold;"><a href="#" onClick="fn_paging('${pageNum }')">${pageNum }</a></span></li> 
+			            </c:when>
+			            <c:otherwise>
+			                <li><a href="#" onClick="fn_paging('${pageNum }')">${pageNum }</a></li> 
+			            </c:otherwise>
+			        </c:choose>
+			    </c:forEach>
+			    <c:if test="${pagination.curPage ne pagination.pageCnt && pagination.pageCnt > 0}">
+			        <li><a href="#" onClick="fn_paging('${pagination.nextPage }')">&gt;</a> </li>
+			    </c:if>
+			    <c:if test="${pagination.curRange ne pagination.rangeCnt && pagination.rangeCnt > 0}">
+			       <li> <a href="#" onClick="fn_paging('${pagination.pageCnt }')">&gt;</a></li> 
+			    </c:if>
+			    </ul>
+			</div>
+			</div>
+			</div>
+			
+			    <!-- ---------------------------------------              페이징 종료                      -----------------------------------   -->
 		        
 		        
 		        

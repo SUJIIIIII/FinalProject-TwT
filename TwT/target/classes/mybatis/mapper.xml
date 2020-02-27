@@ -83,11 +83,22 @@
 	</resultMap>
 
 	<!-- 호텔리스트 -->
-	<select id="HselectList" resultMap="hotelMap">
-		SELECT * FROM HOTEL 
+	<select id="HselectList" parameterType="Hotel" resultMap="hotelMap">
+		SELECT TB.*
+		FROM (
+			SELECT ROWNUM as rn, ht.*
+			FROM (
+				SELECT *
+				FROM HOTEL
+				ORDER BY H_CODE) ht
+			ORDER BY rn) TB
+		WHERE rn BETWEEN #{startIndex} AND #{endIndex}
+	</select>
+	
+	<!-- 호텔리스트 목록 개수 -->
+	<select id="HselectListCnt" resultType="Integer">
+		SELECT COUNT(*) FROM HOTEL 
 		ORDER BY H_CODE DESC
-		
-
 	</select>
 	
 	<!-- 디테일 리스트 -->
