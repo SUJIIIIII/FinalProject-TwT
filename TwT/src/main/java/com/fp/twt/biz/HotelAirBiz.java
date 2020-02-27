@@ -4,7 +4,6 @@ import java.util.List;
 
 import com.fp.twt.vo.AirSearchVo;
 import com.fp.twt.vo.HotelVo;
-import com.fp.twt.vo.HotelroomVo;
 
 public interface HotelAirBiz {
 	//찬우
@@ -19,11 +18,10 @@ public interface HotelAirBiz {
 	//범식
 	
 	
-	public List<HotelVo> HselectList();
+	public List<HotelVo> HselectList(HotelVo hotelVo);
+	public int HselectListCnt();
 	public HotelVo selectOne_B(String h_code);
 	public List<HotelVo> detailList_B(String h_code);
-	
-	
 	
 
 }

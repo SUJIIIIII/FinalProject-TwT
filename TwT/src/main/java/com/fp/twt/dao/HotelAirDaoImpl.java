@@ -9,7 +9,6 @@ import org.springframework.stereotype.Repository;
 
 import com.fp.twt.vo.AirSearchVo;
 import com.fp.twt.vo.HotelVo;
-import com.fp.twt.vo.HotelroomVo;
 
 @Repository
 public class HotelAirDaoImpl implements HotelAirDao{
@@ -90,12 +89,16 @@ public class HotelAirDaoImpl implements HotelAirDao{
 	
 	//호텔 리스트
 	@Override
-	public List<HotelVo> HselectList() {
+	public List<HotelVo> HselectList(HotelVo hotelVo) {
 		List<HotelVo> hotellist = new ArrayList<HotelVo>();
 		
+		
+		System.out.println(hotelVo.getStartIndex() +":::"+ hotelVo.getEndIndex());
+		
+		
 		try {
-		hotellist = sqlSession.selectList(NAMESPACE+"HselectList");
-		System.out.println("dao 의 hotellist : "+hotellist);
+			hotellist = sqlSession.selectList(NAMESPACE+"HselectList", hotelVo);
+			System.out.println("dao 의 hotellist : "+hotellist);
 		}catch(Exception e) {
 			System.out.println("[error] : HselectList");
 			e.printStackTrace();
@@ -104,7 +107,23 @@ public class HotelAirDaoImpl implements HotelAirDao{
 		return hotellist;
 	}
 	
-	//호텔 방 
+	//호텔 리스트 목록 개수
+	@Override
+	public int HselectListCnt() {
+		int HselectListCnt = 0;
+		
+		try {
+			HselectListCnt = sqlSession.selectOne(NAMESPACE+"HselectListCnt");
+			System.out.println("dao 의 HselectListCnt : "+HselectListCnt);
+		}catch(Exception e) {
+			System.out.println("[error] : HselectList");
+			e.printStackTrace();
+		}
+		
+		return HselectListCnt;
+	}
+	
+	//호텔 디테일
 
 	@Override
 	public HotelVo selectOne_B(String h_code) {
@@ -120,6 +139,8 @@ public class HotelAirDaoImpl implements HotelAirDao{
 		
 		return vo;
 	}
+	
+	// 객실  
 	
 	@Override
 	public List<HotelVo> detailList_B(String h_code) {

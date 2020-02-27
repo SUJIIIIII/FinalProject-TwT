@@ -143,12 +143,11 @@
           				<div class="item">
           					<div class="hotel-img" style="background-image: url(${pageContext.request.contextPath}/resources/images/hotel/${hvo.h_Img});"></div>
           				</div>
+                        <c:forEach items="${detailList_B}" var="pList">
           				<div class="item">
-          					<div class="hotel-img" style="background-image: url(${pageContext.request.contextPath}/resources/images/hotel-2.jpg);"></div>
+          					<div class="hotel-img" style="background-image: url(${pageContext.request.contextPath}/resources/images/hotel/hotelroom/${pList.hr_Img});"></div>
           				</div>
-          				<div class="item">
-          					<div class="hotel-img" style="background-image: url(${pageContext.request.contextPath}/resources/images/hotel-4.jpg);"></div>
-          				</div>
+          				</c:forEach>
           			</div>
           		</div>
           		<!-- 호텔 사진 끝 -->
@@ -161,20 +160,21 @@
           				<span class="loc"><i class="icon-map"></i>${hvo.h_Addr}</a></span><br><br>
           				<!-- 별점 -->
           				<span class="star">
-    							<i class="icon-star"></i>
-    							<i class="icon-star"></i>
-    							<i class="icon-star"></i>
-    							<i class="icon-star"></i>
-    							<i class="icon-star-o"></i>
-    							</span>
-    						</p>
-    						<!-- 호텔소개 -->
-    						<div class="d-md-flex mt-5 mb-5">
-    							<ul>
-	    							<li>${hvo.h_Content}</li>
+    							<c:forEach begin="1" end="${hvo.h_Starn}">
+		    						<i class="icon-star"></i>
+		    					</c:forEach>
+		    					<c:forEach begin="1" end="${5 - hvo.h_Starn}">
+				    				<i class="icon-star-o"></i>
+				    			</c:forEach>
+    					</span>
+    				</p>
+    					<!-- 호텔소개 -->
+    					<div class="d-md-flex mt-5 mb-5">
+    					  <ul>
+	    					<li>${hvo.h_Content}</li>
 
-	    						</ul>
-    						</div>
+	    					</ul>
+    					</div>
   
           		</div>
           		
