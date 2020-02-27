@@ -33,6 +33,13 @@
 <script src="https://kit.fontawesome.com/6953482b42.js" crossorigin="anonymous"></script>
 <script type="text/javascript" src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 <script type="text/javascript">
+$(document).ready(function() {
+	var memo = $(".text-muted").text();
+/* 	alert("l"+memo+"l"); */
+	if(".text-muted" == null || ".text-muted" == " ") {
+		$("#timeline-footer").hide();
+	}
+});
 /* $(function () {
 	  // Smooth Scroll
 	  $('a[href*=#]').bind('click', function(e){
@@ -43,12 +50,6 @@
 	    e.preventDefault();
 	  });
 	}); */
-$(document).ready(function() {
-	var memo = $("#text-muted").text();
-	if(memo == null || memo == " ") {
-		$("#timeline-footer").css("display", "none");
-	}
-});
 </script>
 
 <style type="text/css">
@@ -143,6 +144,9 @@ $(document).ready(function() {
 						<div class="cnt_spot">
 						<i class="fas fa-map-marker-alt fa-lg" ></i>&nbsp; 태국
 						</div>
+						<div class="cnt_people" style=" float: left; font-weight: bold; padding-left: 20px; background-position: left center; margin-left: 12px; font-size: 12px; ">
+						<i class="fas fa-user-friends fa-lg"></i></i>&nbsp; ${detail.ts_People }
+						</div>
 						<div class="cnt_view">
 						<i class="far fa-eye fa-lg" ></i>&nbsp; ${detail.ts_View }
 						</div>
@@ -166,9 +170,8 @@ $(document).ready(function() {
    <c:forEach items="${detailList}" var="dList">
     <ul class="timeline">
       <li class="timeline-line"></li>
-      
       <li class="timeline-group">
-        <a href="#" class="btn btn-primary">2020.02.03 <br>${dList.ts_Day }</a>
+        <a href="#" class="btn btn-primary">${dList.ts_Day }</a>
       </li>
     </ul>
     <ul class="timeline">
@@ -185,11 +188,13 @@ $(document).ready(function() {
           <div class="timeline-embed" style="padding-top: 0px;">
           <img class="blog-img mr-4" src="<%=request.getContextPath() %>/resources/images/plan/${dList.city_Code }/${dList.tp_Img }" style="float: left; width: 263px; margin-left: 12px; margin-bottom: 15px;" />
           </div>
-          
-          <div class="timeline-content">${dList.tp_Content }</div>
-
+          <div class="timeline-content">
+          <i class="fas fa-won-sign" style="font-size: 12px;">${dList.sm_Money }</i>
+          <br>
+          ${dList.tp_Content }
+          </div>
           <div class="timeline-footer" id="timeline-footer">
-            <i class="far fa-file-alt fas-2x"></i><small class="text-muted" id="text-muted"> ${dList.ts_Memo }</small>
+            <i class="far fa-file-alt fas-2x" id="far fa-file-alt"></i><small class="text-muted" id="text-muted"> ${dList.sm_Memo }</small>
           </div>
         </div>
       </li>

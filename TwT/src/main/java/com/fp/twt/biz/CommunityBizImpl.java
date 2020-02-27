@@ -67,6 +67,7 @@ public class CommunityBizImpl implements CommunityBiz{
 
 	@Override
 	public TravelScheduleVo selectOne_D(String ts_code) {
+
 		return dao.selectOne_D(ts_code);
 	}
 
@@ -78,6 +79,10 @@ public class CommunityBizImpl implements CommunityBiz{
 	@Override
 	public List<TravelScheduleVo> themeList(String ts_theme) {
 		return dao.themeList(ts_theme);
+	}
+	
+	public void viewCnt(String ts_code) {
+		dao.viewCnt(ts_code);
 	}
 
 
