@@ -94,7 +94,17 @@ public class HomeController {
 		MemberVo user = (MemberVo) session.getAttribute("user");
 		String m_Code = user.getm_Code();
 		System.out.println("Mcode : "+m_Code);
+		// 항공권 리스트 조회
 		model.addAttribute("airlist", biz.selectAirList(m_Code));
+		
+		// 호텔 예약 리스트 조회
+		model.addAttribute("booking", biz.selectAllHotelBooking(m_Code));
+		
+		// 찜 목록 조회
+		model.addAttribute("like", biz.selectAllLike(m_Code));
+		
+		// 내가 쓴 일정 조회
+		model.addAttribute("route", biz.selectMyRoute(m_Code));
 		return "TwTAccount/mypage";
 	}
 

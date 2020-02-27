@@ -3,7 +3,9 @@ package com.fp.twt.dao;
 import java.util.List;
 
 import com.fp.twt.vo.AirplaneInfoVo;
+import com.fp.twt.vo.HotelBookingVo;
 import com.fp.twt.vo.MemberVo;
+import com.fp.twt.vo.TravelScheduleVo;
 
 public interface MypageDao {
 
@@ -40,7 +42,7 @@ public interface MypageDao {
 	public Object deleteAccount(String m_Code);
 
 	// 항공권 정보 수정
-	public Object updateAir(AirplaneInfoVo vo, String air_Code);
+	public Object updateAir(AirplaneInfoVo vo);
 
 	// 로그인 시 아이디 여부 체크
 	public int loginIdChk(String m_Id);
@@ -56,5 +58,17 @@ public interface MypageDao {
 
 	// 비밀번호 찾기
 	public void searchPassword(MemberVo vo);
+
+	// 호텔 예약 조회
+	public List<HotelBookingVo> selectAllHotelBooking(String m_Code);
+
+	// SNS 로그인 시 자동 회원가입
+	public int memberSNSInsert(MemberVo vo);
+
+	// 찜 목록 조회
+	public List<TravelScheduleVo> selectAllLike(String m_Code);
+
+	// 내가 쓴 일정 조회
+	public List<TravelScheduleVo> selectMyRoute(String m_Code);
 
 }

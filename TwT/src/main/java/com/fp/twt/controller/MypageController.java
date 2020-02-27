@@ -1,14 +1,17 @@
+
 package com.fp.twt.controller;
 
 import java.io.IOException;
-import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.codehaus.jackson.map.ObjectMapper;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
@@ -22,10 +25,12 @@ import org.springframework.social.oauth2.OAuth2Operations;
 import org.springframework.social.oauth2.OAuth2Parameters;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.fp.twt.HomeController;
 import com.fp.twt.biz.MypageBiz;
@@ -200,19 +205,25 @@ public class MypageController {
 
 		int result1 = biz.loginIdChk(m_Id);
 		int result2 = 0;
+		int result3 = 0;
+		
+		System.out.println("로그인하려는 사람 이메일 체크 :" + res.getm_Mailcheck());
 
-		System.out.println("db의 비밀번호: " + res.getm_Pass());
-
+		if(res.getm_Mailcheck().contains("Y")) {
+			result3 = 1;
+		}
+		
 		// 비밀번호 해독
 		if (passwordEncoder.matches(m_Pass, res.getm_Pass())) {
 			System.out.println("로그인 체크 정보" + m_Id + ":" + m_Pass);
 			result2 = 1;
 		}
 
-		System.out.println("확인 : " + result1 + result2);
+		System.out.println("확인 : " + result1 + result2 + result3);
 
 		map.put("check1", result1);
 		map.put("check2", result2);
+		map.put("check3", result3);
 
 		return map;
 	}
@@ -247,8 +258,10 @@ public class MypageController {
 		vo.setm_Name((String) response.get("name"));
 		vo.setm_Email((String) response.get("email"));
 
-		System.out.println("멤버아이디는 :  " + vo.getm_Id());
-
+		System.out.println("멤버아이디는 : " + vo.getm_Id());
+		
+		biz.memberSNSInsert(vo);
+		
 		// 생략 가능_세션에 담기 위해 사용했다.
 		session.setAttribute("naverId", vo.getm_Id());
 		return "redirect:/index.jsp";
@@ -263,7 +276,7 @@ public class MypageController {
 
 		HashMap<String, Object> userInfo = kakao.getUserInfo(access_Token);
 		System.out.println("login Controller : " + userInfo);
-
+		
 		// 클라이언트의 이메일이 존재할 때 세션에 해당 이메일과 토큰 등록
 		if (userInfo.get("email") != null) {
 			session.setAttribute("kakaoId", userInfo.get("email"));
@@ -310,9 +323,7 @@ public class MypageController {
 	public String updateAir(Model model, AirplaneInfoVo vo, String air_Code) {
 		System.out.println("항공권 수정 버튼 누름");
 		System.out.println("수정할 항공권 정보의 번호 : " + air_Code);
-		System.out.println(vo.getDep_Date1());
-		System.out.println(vo.getDep_Date2());
-		model.addAttribute("airVo", biz.selectOne(vo, air_Code));
+		model.addAttribute("airVo", biz.selectOne(vo));
 		return "redirect:mypage.do";
 	}
 
@@ -335,4 +346,5 @@ public class MypageController {
 
 		return "TwTAccount/login";
 	}
+
 }

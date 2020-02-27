@@ -7,6 +7,7 @@
 <title>Insert title here</title>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css" />
 <script type="text/javascript" src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<!-- <script src="//developers.kakao.com/sdk/js/kakao.min.js"></script> -->
 <script type="text/javascript">
 $(document).ready(function() {
 
@@ -30,6 +31,7 @@ $(document).ready(function() {
 	}).scroll();
  
 });
+
 </script>
 <style type="text/css">
 #floatMenu {
@@ -69,14 +71,39 @@ cursor:pointer;
     <i class="far fa-comment-dots fa-2x" style="color:white; margin-left:13.5px; margin-top:12.5px;"></i>
    </div>
    
-   <div>
-     <img src="${pageContext.request.contextPath}/resources/images/account/side_kakao.png" width="55" style="cursor:pointer; margin-bottom:20px;">
-   </div>
+   <div id="frogue-container" class="position-right-bottom" style="margin-left:13.5px;"
+      data-chatbot="9ab40948-b4ff-48bc-9d83-7c67a7809af9"
+      data-user="사용자ID"
+      data-init-key="value"
+      ></div>
+   
    <a href="#footer">
 	   <div class="side">
 	     <i class="fas fa-arrow-down fa-2x" style="color:white; margin-left:15px; margin-top:13px;"></i>
 	   </div>
    </a>
 </div>
+<!-- <script type='text/javascript'>
+  //<![CDATA[
+    // 사용할 앱의 JavaScript 키를 설정해 주세요.
+    Kakao.init('d3c7b1de1797e1b67988df559b0c2a0c');
+    function chatChannel() {
+      Kakao.Channel.chat({
+        channelPublicId: '_IxkKTxb' // 카카오톡 채널 홈 URL에 명시된 id로 설정합니다.
+      });
+    }
+  //]]> 
+</script> -->
+
+<!-- data-init-식별키=값 으로 셋팅하면 챗플로우에 파라미터와 연동가능. 식별키는 소문자만 가능 -->
+<script>
+(function(d, s, id){
+    var js, fjs = d.getElementsByTagName(s)[0];
+    if (d.getElementById(id)) {return;}
+    js = d.createElement(s); js.id = id;
+    js.src = "https:\/\/danbee.ai/js/plugins/frogue-embed/frogue-embed.min.js";
+    fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'frogue-embed'));
+</script>
 </body>
 </html>

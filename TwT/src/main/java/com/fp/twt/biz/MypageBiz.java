@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.fp.twt.vo.AirplaneInfoVo;
 import com.fp.twt.vo.MemberVo;
+import com.fp.twt.vo.TravelScheduleVo;
 
 public interface MypageBiz {
 	// 회원가입
@@ -37,7 +38,7 @@ public interface MypageBiz {
 	public Object deleteAccount(String m_Code);
 
 	// 항공권 정보 수정
-	public Object selectOne(AirplaneInfoVo vo, String air_Code);
+	public Object selectOne(AirplaneInfoVo vo);
 
 	// 로그인 시 아이디가 존재하는지
 	public int loginIdChk(String m_Id);
@@ -54,4 +55,15 @@ public interface MypageBiz {
 	// 임시 비밀번호 변경
 	public void searchPassword(MemberVo vo);
 
+	// 호텔 예약 조회
+	public Object selectAllHotelBooking(String m_Code);
+
+	// SNS로그인 시 자동 회원가입
+	public int memberSNSInsert(MemberVo vo);
+
+	// 찜 목록 조회
+	public List<TravelScheduleVo> selectAllLike(String m_Code);
+
+	// 내가 쓴 일정 조회
+	public List<TravelScheduleVo> selectMyRoute(String m_Code);
 }
