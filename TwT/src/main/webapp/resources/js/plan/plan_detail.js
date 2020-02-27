@@ -32,14 +32,51 @@ $(document).ready(function(){
 		$(this).children(".item_ctrl_box").css("display", "none" );
 	});
 	
-
-
+	$(".city_item").on("click", function() {
+	      var this_name = $(this).data("ci_name"); // 클릭한 도시명
+	      var this_lat = $(this).data("lat"); // 클릭한 위도
+	      var this_lng = $(this).data("lng"); // 클릭한 경도
+	      var this_code = $(this).data("code"); // 클릭한 도시코드
+	      var this_img = $(this).children(".ci_img").children().attr("src"); // 클릭한 이미지 주소
+	      
+	      alert(this_name + this_code + this_img);
+	      
+	      
+	      if($(".city_item").has("on")){
+	         var city_name = $(".city_item.on").data("ci_name"); // 도시명
+	         var city_lat = $(".city_item.on").data("lat"); // 위도
+	         var city_lng = $(".city_item.on").data("lng") // 경도
+	         var city_code = $(".city_item.on").data("code") // 도시 코드
+	         var city_img = $(".city_item.on").children(".ci_img").children().attr("src"); // 이미지주소
+	         
+	         // 선택한 도시
+	         $(".city_item.on").attr("data-ci_name", this_name);
+	         $(".city_item.on").attr("data-lat", this_lat);
+	         $(".city_item.on").attr("data-lng", this_lng);
+	         $(".city_item.on").attr("data-code", this_code);
+	         $(".city_item.on").children(".ci_img").children().attr("src", this_img);
+	         $(".city_item.on").children().eq(1).html(this_name + ", " + "<span>태국</span>");
+	      }
+	      
+	      // 선택에서 버림 받은 도시
+	      $(this).attr("data-ci_name", city_name);
+	      $(this).attr("data-lat", city_lat);
+	      $(this).attr("data-lng", city_lng);
+	      $(this).attr("data-code", city_code);
+	      $(this).children(".ci_img").children().attr("src", city_img);
+	      $(this).children().eq(1).html(city_name + ", " + "<span>태국</span>");
+	   });
+	
 	// 추가한 스팟 삭제 및 재설정
-	$(document).on("click",".btn_del",function(){		
+	$(document).on("click",".btn_del",function(){
 		var spot_num = $(this).parents("#schedule_detail_box").children().length; // 일정에 넣어둔 spot_item 갯수
 		var spot_del_index = // 삭제하려는 index 값
 			$(this).parents(".day_spot_item").children(".img_box").children(".spot_order_box").html();
 		// index 숫자 재설정
+		
+		var del_type = $(this).parent().parent().data("type"); // 삭제하려는 스팟의 type
+		var tmp = $(this).parent().parent().data("img"); // 삭제할는 스팟의 index(show() 리스트에서)
+		
 		if(spot_del_index == spot_num){
 			// 삭제하려는 숫자가 끝번호인 경우는 숫자 재배치가 필요없음
 			$(this).parents(".day_spot_item").remove(); // 일정 삭제 메소드
@@ -51,20 +88,21 @@ $(document).ready(function(){
 			}
 			// 삭제
 			$(this).parents(".day_spot_item").remove();
-		}	
+		}
     
-      // 스팟 삭제시 마커 이미지 변경
-      var del_seq = $(this).parent().parent().data("seq"); // 삭제하려는 마커의 index
-      var del_type = $(this).parent().parent().data("type"); // 삭제하려는 마커의 type
-      delMarkerIcon(del_seq,del_type);
+		// 스팟 삭제시 마커 이미지 변경
+		var del_seq = tmp.substr(3,2); // show 리스트의 index
+		del_seq *= 1; // string to int
+		delMarkerIcon(del_seq-1,del_type);
+		/*var del_seq = $(this).parent().parent().data("seq"); // 삭제하려는 마커의 index*/      
       
-      // 스팟 삭제시 찍힌 폴리라인 삭제 후 재생성
-      for(var i=0;i<paths.length;i++){
-    	  paths[i].setMap(null);
-      }
-      paths = [];
-      addPath();
-    
+		// 스팟 삭제시 찍힌 폴리라인 삭제 후 재생성
+		for(var i=0;i<paths.length;i++){
+			paths[i].setMap(null);
+		}
+		paths = [];
+		addPath();
+      
 	});	
 	
 	$("#schedule_clear").on("click", function() {

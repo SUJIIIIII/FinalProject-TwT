@@ -78,6 +78,7 @@ var count;
 	
 	// map 추가
 	function initMap() {
+		
 		// 스팟 목록 해당하는 도시외에 제거
 	  	var city_code_total = $(".city_item").data("code");
 	   	//var city_code_total = 'CT2';
@@ -146,8 +147,6 @@ var count;
 				spotcode[i] = $("#spot_"+i).attr("data-no"); */
        		}
        	}
-		console.log(locations.length);
-		console.log(imgname);
        	
        	// 마커 이미지 
 		B_TD = new google.maps.MarkerImage("${pageContext.request.contextPath}/resources/images/plan/marker/B_TD.png",null,null,null,new google.maps.Size(40,42));
@@ -162,9 +161,9 @@ var count;
 		A_TD_H = new google.maps.MarkerImage("${pageContext.request.contextPath}/resources/images/plan/marker/A_TD_H.png",null,null,null,new google.maps.Size(40,42));
 		A_RS_H = new google.maps.MarkerImage("${pageContext.request.contextPath}/resources/images/plan/marker/A_RS_H.png",null,null,null,new google.maps.Size(40,42));
 		A_SP_H = new google.maps.MarkerImage("${pageContext.request.contextPath}/resources/images/plan/marker/A_SP_H.png",null,null,null,new google.maps.Size(40,42));
-
 		
-		// 스팟 마커찍기
+		
+		/* // 스팟 마커찍기
 		for (var i=0;i<locations.length;i++) {
 			
 			if($("#spot_"+i).attr("data-type") == "랜드마크"){
@@ -198,12 +197,48 @@ var count;
 				markerListener(marker[i],i,$("#spot_"+i).attr("data-type"));
 			}
         	
+		} */
+		
+		// 스팟 마커찍기
+		for (var i=0;i<locations.length;i++) {
+			
+			if(spottype[i] == "랜드마크"){
+				// 랜드마크 마커 생성
+	        	marker[i] = new google.maps.Marker({
+	            	position: locations[i].position,
+	            	map: map,
+	            	icon: B_TD,
+	            	title: content[i]
+	       		});
+				markerListener(marker[i],i,spottype[i]);
+				
+			}else if(spottype[i] == "식당가"){
+				// 식당 마커 생성
+	        	marker[i] = new google.maps.Marker({
+	            	position: locations[i].position,
+	            	map: map,
+	            	icon: B_RS,
+	            	title: content[i]
+	       		});
+				markerListener(marker[i],i,spottype[i]);
+				
+			}else if(spottype[i] == "쇼핑"){
+				// 쇼핑 마커 생성
+	        	marker[i] = new google.maps.Marker({
+	            	position: locations[i].position,
+	            	map: map,
+	            	icon: B_SP,
+	            	title: content[i]
+	       		});
+				markerListener(marker[i],i,spottype[i]);
+			}
+        	
 		}
 		
 		// spot 추가가 없을 경우 마커 이미지 변경
 		if($("#schedule_detail_box").children().length == 0){
 			for(var i=0;i<locations.length;i++){
-				markerOver(marker[i],i,$("#spot_"+i).attr("data-type"));
+				markerOver(marker[i],i,spottype[i]);
 			}
 		}
 		
@@ -469,7 +504,7 @@ var count;
 	       
 	       
       	$("#schedule_detail_box").append("" +  
-      	"<div class='day_spot_item' data='1' data-set_day='1' data-pl_type='0' data-seq='"+ spot_num +"' data-no='" + spot_no + "' data-pl_cat='301' data-latlng='" + spot_lat + "," + spot_lng + "' data-lat='" + spot_lat+ "' data-lng='" + spot_lng +"' data-ci='87' data-type='"+spot_type+"' id='spot" + spot_seq + "'>"
+      	"<div class='day_spot_item' data='1' data-set_day='1' data-pl_type='0' data-img='"+spot_img+"' data-seq='"+ spot_num +"' data-no='" + spot_no + "' data-pl_cat='301' data-latlng='" + spot_lat + "," + spot_lng + "' data-lat='" + spot_lat+ "' data-lng='" + spot_lng +"' data-ci='87' data-type='"+spot_type+"' id='spot" + spot_seq + "'>"
                  +   "<div class='item_ctrl_box' style='display: none'>"
                  +      "<div class='fl item_copy_plan' title='장소복사'><img src='/twt/resources/images/plan/item_more_icon_a.png'></div>"
                  +       "<div class='fl item_set_plan' title='메모&amp;예산'><img src='/twt/resources/images/plan/item_set_icon_a.png'></div>"
@@ -500,7 +535,7 @@ var count;
       	for(var i=0;i<locations.length;i++){
     	  	arryn[i] = $("#spot_"+i).attr("data-clip_yn");
       	}
-      	
+       	
        	// 경로에 쓰일 배열
       	/* var latlng = spot_lat + "," + spot_lng;
       	spotlatlng.push(latlng);
@@ -638,10 +673,11 @@ var count;
 	       var spot_img = $(this).parent().data("img"); // 사진
 	       var spot_seq = $("#schedule_detail_box").children().length + 1;
 	       var spot_num = $(this).parent().data("seq"); // 인덱스 번호
-	       
+	       var index = spot_img.substr(3,2); // show된 리스트의 인덱스 번호
+	       index *= 1; // string to int
 	       
           $("#schedule_detail_box").append("" +  
-          "<div class='day_spot_item' data='1' data-set_day='1' data-pl_type='0' data-citycd='"+spot_city+"' data-seq='"+ spot_num +"' data-no='" + spot_no + "' data-pl_cat='301' data-latlng='" + spot_lat + "," + spot_lng + "' data-lat='" + spot_lat+ "' data-lng='" + spot_lng +"' data-ci='87' data-type='"+spot_type+"' id='spot" + spot_seq + "'>"
+          "<div class='day_spot_item' data='1' data-set_day='1' data-pl_type='0' data-img='"+spot_img+"' data-citycd='"+spot_city+"' data-seq='"+ spot_num +"' data-no='" + spot_no + "' data-pl_cat='301' data-latlng='" + spot_lat + "," + spot_lng + "' data-lat='" + spot_lat+ "' data-lng='" + spot_lng +"' data-ci='87' data-type='"+spot_type+"' id='spot" + spot_seq + "'>"
                      +   "<div class='item_ctrl_box' style='display: none'>"
                      +      "<div class='fl item_copy_plan' title='장소복사'><img src='/twt/resources/images/plan/item_more_icon_a.png'></div>"
                      +       "<div class='fl item_set_plan' title='메모&amp;예산' onclick='addbudget(&quot;"+spot_seq+"&quot;,&quot;"+spot_name+"&quot;,&quot;"+spot_img+"&quot;,&quot;"+spotcontent[spot_seq-1]+"&quot;,&quot;"+spotaddr[spot_seq]+"&quot;,&quot;"+spot_city+"&quot;,&quot;"+spot_type+"&quot;)'><img src='/twt/resources/images/plan/item_set_icon_a.png'></div>"
@@ -681,7 +717,7 @@ var count;
           // 추가된 스팟의 위도/경도 넣어주기
           addPath();
   		  // spot추가시 마커 이미지 변경
-          addMarkerIcon(spot_num,spot_type);
+          addMarkerIcon(index-1,spot_type);
 
        });
 		
@@ -700,11 +736,23 @@ var count;
 		
 		// 스팟리스트 클릭시 map줌 & infobox
 		$(".day_spot_item").click(function(){
+			// show된 리스트의 index 가져오기
+			var tmpimg = $(this).data("img");
+			var index = tmpimg.substr(3,2);
+			// string to int
+			index *= 1;
+			var type = $(this).data("type");
+			var mark = marker[index-1];
+			clickspot(mark, index-1, type);
+		});
+		
+		/* // 스팟리스트 클릭시 map줌 & infobox
+		$(".day_spot_item").click(function(){
 			var index = $(this).data("seq");
 			var type = $(this).data("type");
 			var mark = marker[index];
 			clickspot(mark, index, type);
-		});
+		}); */
 		
 		// 도시 변경
 		/* $(".city_item").click(function(){
@@ -712,6 +760,11 @@ var count;
 			
 			location.href="planDetail.do?citycode="+citycd+"&schedule_date="+$(".start_date").text()+"&title="+$("#plan_title").text();
 		}); */
+		
+		$(".city_item").click(function(){
+			var changecd = $(".city_item.on").data("code");
+			alert("바뀐 코드 : " + changecd);
+		});
 		
 		
 	});
@@ -1098,7 +1151,7 @@ src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCiDE5HBue4mflsdkcsGvSZrUe
 </div>
 
 <!-- // jQuery 기본 js파일 -->
-  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
 <!-- // jQuery UI 라이브러리 js파일 -->
 <script src="http://code.jquery.com/ui/1.8.18/jquery-ui.min.js"></script>
 <script src="${pageContext.request.contextPath}/resources/js/plan/plan_detail.js?version=1.4"></script>

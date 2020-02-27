@@ -30,7 +30,7 @@ $(document).ready(function(){
 			  	<div class="city_search" style="display: none;"></div> -->
 			  	<!-- 도시 변경  -->
                     <div class="city_items" data="87" style="height:100%;">
-                       <div class="city_item" data="87" data-ci_name="${cityvo.city_Name}" data-lat="${cityvo.city_Lati}" data-lng="${cityvo.city_Long}" data-ss_id="undefined" data-code="${cityvo.city_Code}">
+                       <div class="city_item on" data="87" data-ci_name="${cityvo.city_Name}" data-lat="${cityvo.city_Lati}" data-lng="${cityvo.city_Long}" data-ss_id="undefined" data-code="${cityvo.city_Code}">
                           <div class="fl ci_img"><img src="${pageContext.request.contextPath}/resources/images/plan/city/${cityvo.city_Img}"></div>
                           <div class="fl">${cityvo.city_Name},&nbsp;<span>태국</span></div>
                           <div class="clear"></div>
