@@ -8,16 +8,32 @@
 <script type="text/javascript" src="https://code.jquery.com/jquery-3.4.1.min.js"></script> -->
 <script type="text/javascript">
    $(document).ready(function() {
+      // 도시변경하기
       $(".city_item").on("click", function() {
          $(".city_item.on").children(".check_img").hide();
          $(".city_item").removeClass("on");
+         $(this).addClass("on"); // 구분자 on 추가
          
-         $(this).addClass("on");
             if($(".city_item").has("on")){
                $(this).children(".check_img").show();
+               var city_name = $(".city_item.on").data("ci_name");
+               $(".list_title").children("span").text(city_name);
             }
             var check_city_item = $(".city_item.on").data("code");
             alert("check :" + check_city_item);
+            
+            // 도시변경에 따른 목록 새로고침
+            var city_code = $(".city_item.on").data("code"); // 현재 선택된 도시 코드 받아오기
+            var name_num = $(".list_box").children(".day_spot_item").length; // 전체 검색 시 가져올 것들 갯수
+            
+            for(i = 0; i < name_num + 1; i++){
+               var city_val = $(".list_box").children(".day_spot_item").eq(i).data("city");
+               if(city_code == city_val){ 
+                  $(".list_box").children(".day_spot_item").eq(i).show();
+               } else {
+                  $(".list_box").children(".day_spot_item").eq(i).hide();
+               }
+            }
          });
    });
 </script>
@@ -70,7 +86,7 @@
                   <input type="hidden" name="search_type" id="search_type" class="news" value="city">
                </div>
             </div>
-                   <div class="list_category_box" style="border-bottom: solid #dadada 1px;">
+                   <div class="list_category_box" style="border-bottom: solid #dadada 1px; padding-left:37px;">
                       <div class="list_cat_item fl on" data="1" data-type="total"><img src="${pageContext.request.contextPath}/resources/images/plan/ic_000_c.png"></div>
                       <div class="list_cat_item fl" data="2" data-type="랜드마크"><img src="${pageContext.request.contextPath}/resources/images/plan/ic_300_a.png"></div>
                        <div class="list_cat_item fl" data="3" data-type="식당가"><img src="${pageContext.request.contextPath}/resources/images/plan/ic_200_a.png"></div>

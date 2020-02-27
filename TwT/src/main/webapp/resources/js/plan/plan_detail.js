@@ -170,6 +170,27 @@ $(document).ready(function(){
 			} // 전체검색 end
 		}
 	});	
+	
+   // Day 추가하기
+   $("#add_plan_day").on("click", function() {
+      $("#schedule_detail_box").hide();
+      var day_index = $("#cat_menu").children().length;
+      var city_name = $(".list_title").children("span").text();
+      
+      $("#cat_menu").append(
+         "<li data='" + day_index + "' data-date='02.01' data-day_week='6' data-f_ci='87' data-f_lat='18.79906428' data-f_lng='98.99514161' original-title='치앙마이'>"
+            +    "<div class='fl cat_date_left_box'>"
+            +       "<div class='cat_left_day'>DAY" + day_index+ "</div>"
+            +      "<div class='cat_left_date'>02.01</div>"   
+            +   "</div>"
+            +   "<div class='fl cat_date_right_box'>"
+            +      "<div class='cat_right_weekday'>토요일</div>"
+            +      "<div class='cat_right_city'>" + city_name + "</div>"
+            +   "</div>"
+            +   "<div class='clear'></div>" + 
+         "</li>"
+      );   
+   });   
 });
 
 
