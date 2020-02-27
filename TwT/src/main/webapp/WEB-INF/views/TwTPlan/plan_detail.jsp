@@ -979,7 +979,7 @@ src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCiDE5HBue4mflsdkcsGvSZrUe
 				</ul>
 				<ul id="cat_add_box" style="width: 160px; background: rgb(32, 51, 65); color: rgb(255, 255, 255); height: 100vh;">
 					<li style="padding-top:15px;">
-						<div style="width:124px;height:32px;line-height:32px;border:solid 1px #fff;text-align:center;margin:0 auto;cursor:pointer;" onclick="add_plan_day()"> DAY 추가</div>
+						<div style="width:124px;height:32px;color:white;line-height:32px;border:solid 1px #fff;text-align:center;margin:0 auto;cursor:pointer;" id="add_plan_day"> DAY 추가</div>
 					</li>
 				</ul>
 				<!-- <ul id="pn_date_controll_box" style="height:100vh;" data="" data-member_srl="1213145">
