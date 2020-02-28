@@ -33,7 +33,7 @@
 	<select id="ansList_Y" resultMap="AnswerMap" parameterType="String">
 		SELECT * FROM ANS
 		WHERE BOARD_CODE = #{sr_Code}
-		ORDER BY ANS_DATE
+		ORDER BY ANS_DATE DESC
 	</select>
 	
 	<insert id="insertPotoBook_Y" parameterType="ScheduleReview">
@@ -209,12 +209,11 @@
 		RE_TIME1 =
 		#{re_Time1}, RE_TIME2 = #{re_Time2} WHERE AIR_CODE = #{air_Code}
 	</update>
- -->
-	<!-- 항공권 정보 삭제 -->
 	<delete id="deleteAirM" parameterType="String">
 		DELETE FROM AIRPLANEINFO
 		WHERE AIR_CODE = #{air_Code}
 	</delete>
+ -->
 
 
 	<select id="loginSelectOne" parameterType="Member"

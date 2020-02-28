@@ -50,6 +50,9 @@
 	};
 	
 	function ansfunc(){
+		if($("#message").val() == ""){
+			alert("내용을 입력하세요.");
+		} else {
 		var formData = $("#ansform").serialize();
 		$.ajax({
 			data : formData,
@@ -57,33 +60,32 @@
 			url : "ansInsert.do",
 			dataType : "json",
 			success : function(data){
-				$("#ansList").append(
-					'<li class="comment">'+
-					'<div class="vcard bio">'+
-					'</div>'+
-					'<div class="comment-body">'+
-					'<h3>'+data.+'</h3>'+
+				$("#message").val("");
+				var html = "";
+				var count = "";
+				$.each(data.list, function(index, val){
+					count++;
+					html += '<li class="comment">';
+					html += '<div class="vcard bio">';
+					html += '</div>';
+					html += '<div class="comment-body">';
+					html += '<h3>'+val.m_Code+'</h3>';
+					//html += '<div class="meta">'+val.ans_Date+'</div>';
+					html += '<p>'+val.ans_Content+'</p>';
+					//html += '<p><a href="#" class="reply">Reply</a></p>';
+					html += '</div>';
+					html += '</li>';
 					
-					'</div>'+
-					'</li>'
-				);
-/* 				
-                <li class="comment">
-                <div class="vcard bio">
-                </div>
-                <div class="comment-body">
-                  <h3>이름</h3>
-                  <div class="meta">날짜</div>
-                  <p>내용</p>
-                  <p><a href="#" class="reply">Reply</a></p>
-                </div>
-                </li>
-                 
- */			},
+				});
+				$("#ansList").html(html);
+				$("#comments").html(count+" Comments");
+ 			},
 			error : function(){
 				alert("실패");
 			}
 		});
+		}
+		 
 	}
 </script>
 
@@ -170,10 +172,13 @@
    <section class="ftco-section ftco-degree-bg" style="padding: 2em 0;">
       <div class="container">
         <div class="row">
-			<div class="container" align="center">
+			<div class="container" style="margin: 50px">
 			<input type="hidden" name="srcode" value="${poto.sr_Code }"/>
-            <h2 class="mb-3" style="text-align: center; margin-top: 40px; font-weight: bold; ">${poto.sr_Title }</h2>
+            <h2 class="mb-3" style="text-align: center; margin-top: 40px; font-weight: bold;">${poto.sr_Title }</h2>
+            
 			${poto.sr_Content }
+			</div>
+			<div class="container">
 	        <div align="right">
 	        <c:if test="${truefalse == true }">
 	        <a href="updatePotoForm.do?sr_Code=${poto.sr_Code }" class="btn btn-primary btn-outline-primary mt-4 px-4 py-3 mb-4"><span>수정</span></a>
@@ -181,13 +186,13 @@
 	        <%-- <a href="potoBookDelete.do?sr_Code=${poto.sr_Code }" class="btn btn-primary btn-outline-primary mt-4 px-4 py-3 mb-4"><span>삭제</span></a> --%>
 	        </c:if>
 	        <a href="community.do" class="btn btn-primary btn-outline-primary mt-4 px-4 py-3 mb-4"><span>목록</span></a>
-	        </div>	
-			</div>
-          <div class="col-md-8 ftco-animate" style="margin-left: 100px">
+	        </div>
+	        </div>
   <!-- 댓글  -->
+          <div class="col-md-8 ftco-animate" style="margin-left: 190px; margin-right: 190px;">
             <div class="pt-5 mt-5">
             <c:if test="${not empty anslist }">
-              <h3 class="mb-5">${anslist.size()} Comments</h3>
+              <h3 id="comments" class="mb-5">${anslist.size()} Comments</h3>
               <ul class="comment-list" id="ansList">
             	<c:forEach items="${anslist }" var="list">
                 <li class="comment">
@@ -195,9 +200,9 @@
                   </div>
                   <div class="comment-body">
                     <h3>${list.m_Code }</h3>
-                    <div class="meta">${list.ans_Date }</div>
+                    <%-- <div class="meta">${list.ans_Date }</div> --%>
                     <p>${list.ans_Content }</p>
-                    <p><a href="#" class="reply">Reply</a></p>
+                    <!-- <p><a href="#" class="reply">Reply</a></p> -->
                   </div>
 				  <!-- 				  
                   <ul class="children">
@@ -227,7 +232,7 @@
                     <label for="message">Content</label>
                     <textarea name="ans_Content" id="message" cols="60" rows="5" class="form-control"></textarea>
                   </div>
-                  <div class="form-group" style="margin-left: 510px;">
+                  <div class="form-group" align="right">
                     <input type="button" value="Post Comment" onclick="ansfunc(); return false;" class="btn py-3 px-4 btn-primary subc">
                   </div>
                 </form>

@@ -88,18 +88,25 @@ public class CommunityController {
 	//포토북 인설트
 	@RequestMapping("/potoBookinsert.do")
 	public ModelAndView communityInsert(Model model, ScheduleReviewVo vo, HttpServletRequest request) throws IOException {
-
-		String[] imgs = request.getParameterValues("potoImg"); // 업로드된 사진 경로들
-		String content = vo.getSr_Content();
-
-		String imgsrc = "";
 		
-		for (String src : imgs) {
-			if (content.contains(src)) {
-				imgsrc += src+",";
+		String imgsrc = "";
+		if(request.getParameter("potoImg") != null) {
+			String[] imgs = request.getParameterValues("potoImg"); // 업로드된 사진 경로들
+			
+			String content = vo.getSr_Content();
+			
+			
+			for (String src : imgs) {
+				if (content.contains(src)) {
+					imgsrc += src+",";
+				}
 			}
+			vo.setSr_ImgSrc(imgsrc);
+		} else {
+			imgsrc = "/potoBook/defalt.jpg";
+			vo.setSr_ImgSrc(imgsrc);
 		}
-		vo.setSr_ImgSrc(imgsrc);
+		
 		int res = biz.potoBookInsert(vo);
 		
 		ModelAndView mav = new ModelAndView();
@@ -120,7 +127,7 @@ public class CommunityController {
 		
 		boolean tf = false;
 		if(member != null) {
-			if(vo.getM_Code().equals(member.getm_Name())) {
+			if(vo.getM_Code().equals(member.getm_Id())) {
 				tf = true;
 			}
 			model.addAttribute("user", member);
@@ -141,27 +148,35 @@ public class CommunityController {
 	
 	@RequestMapping("/potoBookupdate.do")
 	public ModelAndView potoBookUpdate(Model model, ScheduleReviewVo vo, HttpServletRequest request) {
-		ScheduleReviewVo orgvo = biz.potoOne(vo.getSr_Code());
-		String orgsrc = orgvo.getSr_ImgSrc();
 		
 		String content = vo.getSr_Content();
-		String[] orgimgs = orgsrc.split(",");
-		String[] imgs = request.getParameterValues("potoImg");
-		
 		String imgsrc = "";
-		
-		for(String src : orgimgs) {
-			if(content.contains(src)) {
-				imgsrc += src+",";
+
+		ScheduleReviewVo orgvo = biz.potoOne(vo.getSr_Code());
+		String orgsrc = orgvo.getSr_ImgSrc();
+		System.out.println(orgsrc);
+		if(!orgsrc.contains("defalt")) {
+			String[] orgimgs = orgsrc.split(",");
+			
+			for(String src : orgimgs) {
+				if(content.contains(src)) {
+					imgsrc += src+",";
+				}
 			}
 		}
-		for(String src : imgs) {
-			if(content.contains(src)) {
-				imgsrc += src+",";
+		if(request.getParameter("potoImg") != null) {
+			String[] imgs = request.getParameterValues("potoImg");
+			
+			for(String src : imgs) {
+				if(content.contains(src)) {
+					imgsrc += src+",";
+				}
 			}
+			
+			vo.setSr_ImgSrc(imgsrc);
+		} else {
+			vo.setSr_ImgSrc(orgsrc);
 		}
-		
-		vo.setSr_ImgSrc(imgsrc);
 		
 		int res = biz.potoBookUpdate(vo);
 		
@@ -185,17 +200,15 @@ public class CommunityController {
 	
 	@RequestMapping("/ansInsert.do")
 	@ResponseBody
-	public Map<String, String> ansInsert(AnswerVo vo) {
-		Map<String, String> map = new HashMap<String, String>();
-		String tf = "false";
+	public Map<String, List<AnswerVo>> ansInsert(AnswerVo vo) {
+		Map<String, List<AnswerVo>> map = new HashMap<String, List<AnswerVo>>();
 		
 		vo.setReple_Code("false");
 		int res = biz.ansInsert(vo);
 
-		if(res > 0	) {
-			tf = "true";
-		}
-		map.put("tf", tf);
+		List<AnswerVo> anslist = biz.ansList(vo.getBoard_Code());
+		
+		map.put("list", anslist);
 		
 		return map;
 	}
