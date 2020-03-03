@@ -140,7 +140,7 @@
         <div class="row no-gutters slider-text js-fullheight align-items-center justify-content-start" data-scrollax-parent="true">
           <div class="col-md-9 ftco-animate" data-scrollax=" properties: { translateY: '70%' }">
             <h1 class="mb-4" style="font-family: 'Kalam', cursive;" data-scrollax="properties: { translateY: '30%', opacity: 1.6 }"><strong>T</strong>ravel <br><span style="padding:0 0 0 60px;"> <strong>w</strong>ith</span> <br><span style="padding:0 0 0 100px;"><strong>T</strong>ogether</span></h1>
-            <div class="enjoy-css" style="font-family: 'Kalam', cursive;" onclick="location.href='planDetail.do'">Create Plan!</div>
+            <div class="enjoy-css" style="font-family: 'Kalam', cursive;" onclick="location.href='plan.do'">Create Plan!</div>
           </div>
         </div>
       </div>

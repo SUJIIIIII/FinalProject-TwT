@@ -28,7 +28,32 @@ public class PlanController {
 	public PlanBiz biz;
 	//철환
 	
-	
+	@RequestMapping("/selectCity.do")
+	public String selectCity(Model model, HttpServletRequest request) {
+		// 도시변경
+		System.out.println("selectCity");
+		// city 모든 정보
+		List<CityVo> allCity = biz.selectCityAll();
+
+		// 해당하는 도시에 대한 Spot 정보
+		String citycode = request.getParameter("citycode");
+		System.out.println("controller에서 citycode : " + citycode);
+		List<TravelPointVo> cityspot = biz.selectCitySpot(citycode);// 도시별 spot 불러오기s
+
+		// 선택된 city 정보
+		CityVo cityvo = biz.selectCityOne(citycode);
+
+/*		System.out.println("allspot : " + allSpot);
+		System.out.println("위도 : " + allSpot.get(0).gettp_Lati());
+		System.out.println("경도 : " + allSpot.get(0).gettp_Long());*/
+
+		model.addAttribute("allCity", allCity);
+		model.addAttribute("allSpot", cityspot);
+		model.addAttribute("citycode", citycode);
+		model.addAttribute("cityvo", cityvo);
+		
+		return "TwTPlan/plan_spot_box";
+	}
 	
 	
 	
@@ -56,17 +81,19 @@ public class PlanController {
 		// spot 모든 정보
 		String citycode = request.getParameter("citycode");
 		System.out.println("controller에서 citycode : " + citycode);
-		List<TravelPointVo> allSpot = biz.selectAllSpot();
+//		List<TravelPointVo> allSpot = biz.selectAllSpot();
+		List<TravelPointVo> cityspot = biz.selectCitySpot(citycode);// 도시별 spot 불러오기s
 		
 		// 선택된 city 정보
 		CityVo cityvo = biz.selectCityOne(citycode);
 		
-		System.out.println("allspot : " + allSpot);
-		System.out.println("위도 : " + allSpot.get(0).gettp_Lati());
-		System.out.println("경도 : " + allSpot.get(0).gettp_Long());
+//		System.out.println("allspot : " + cityspot);
+		System.out.println("allcity : " + allCity);
+		System.out.println("위도 : " + cityspot.get(0).gettp_Lati());
+		System.out.println("경도 : " + cityspot.get(0).gettp_Long());
 		
 		model.addAttribute("allCity",allCity);
-		model.addAttribute("allSpot",allSpot);
+		model.addAttribute("allSpot",cityspot);
 		model.addAttribute("citycode",citycode);
 		model.addAttribute("cityvo",cityvo);
 		
