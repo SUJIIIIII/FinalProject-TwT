@@ -672,6 +672,11 @@ html {
 				</div>
 			</c:when>
 			<c:otherwise>
+			   <div style="float:right; margin-right:15px;">
+			     <button type="button" data-toggle="modal" data-target="#airplaneInfo" style="border:0; outline:0; background-color:white;">
+			        <span style="color:#fc3c3c; font-size:11px;">+ 추가하기</span>
+			     </button>
+			   </div>
 			   <c:forEach items="${airlist}" var="air">
 					<div class="col-sm-12">
 						<div id="airplane_Info">
