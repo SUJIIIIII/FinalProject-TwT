@@ -35,8 +35,7 @@
 		parameterType="String">
 		SELECT * FROM ANS
 		WHERE BOARD_CODE = #{sr_Code}
-		ORDER BY
-		ANS_DATE
+		ORDER BY ANS_DATE DESC
 	</select>
 
 	<insert id="insertPotoBook_Y" parameterType="ScheduleReview">

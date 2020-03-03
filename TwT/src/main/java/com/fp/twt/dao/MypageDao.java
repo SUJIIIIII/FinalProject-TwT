@@ -70,5 +70,4 @@ public interface MypageDao {
 
 	// 내가 쓴 일정 조회
 	public List<TravelScheduleVo> selectMyRoute(String m_Code);
-
 }

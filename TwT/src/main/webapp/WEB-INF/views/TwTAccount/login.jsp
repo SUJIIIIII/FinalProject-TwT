@@ -598,23 +598,23 @@ signInButton.addEventListener('click', () => {
 <%-- 비밀번호 찾기 모달창 --%>
 <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
-  <form action="searchPassword.do" method="get">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalCenterTitle">Modal title</h5>
+        <h5 class="modal-title" id="exampleModalCenterTitle">비밀번호 찾기</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
+      <form action="searchPassword.do" method="get" style="width:100%;">
       <div class="modal-body">
-                  아이디 : <input type="text" name="m_Id"><br>
-                  이메일 : <input type="text" name="m_Email">
+                  아이디  <input type="text" name="m_Id"><br>
+                  이메일  <input type="text" name="m_Email">
       </div>
-      <div class="modal-footer">
-        <button type="submit" class="btn btn-primary btn-outline-primary">확 인</button>
+      <div class="modal-footer" style="width:495px;">
+          <button type="submit" class="btn btn-primary btn-outline-primary">확 인</button>
       </div>
+      </form>
     </div>
-    </form>
   </div>
 </div>
 <%-- 비밀번호 찾기 모달창 끝 --%>
