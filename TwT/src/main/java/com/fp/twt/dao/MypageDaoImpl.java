@@ -226,4 +226,19 @@ public class MypageDaoImpl implements MypageDao {
 		}
 		return list;
 	}
+
+	// 전체 회원 조회
+	@Override
+	public List<MemberVo> selectAllMember(MemberVo vo) {
+		List<MemberVo> list = new ArrayList<MemberVo>();
+		try {
+			list = sqlSession.selectList(namespace + "allmemberM", vo);
+			for (MemberVo i : list) {
+				System.out.println(i.toString());
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return list;
+	}
 }

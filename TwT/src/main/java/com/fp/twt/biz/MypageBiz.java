@@ -66,4 +66,7 @@ public interface MypageBiz {
 
 	// 내가 쓴 일정 조회
 	public List<TravelScheduleVo> selectMyRoute(String m_Code);
+
+	// 전체 회원 목록 조회
+	public List<MemberVo> selectAllMember(MemberVo vo);
 }

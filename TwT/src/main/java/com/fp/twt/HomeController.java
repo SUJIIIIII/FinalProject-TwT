@@ -105,6 +105,7 @@ public class HomeController {
 		
 		// 내가 쓴 일정 조회
 		model.addAttribute("route", biz.selectMyRoute(m_Code));
+		
 		return "TwTAccount/mypage";
 	}
 
