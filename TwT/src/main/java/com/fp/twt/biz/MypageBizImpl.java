@@ -136,4 +136,10 @@ public class MypageBizImpl implements MypageBiz {
 	public List<TravelScheduleVo> selectMyRoute(String m_Code) {
 		return dao.selectMyRoute(m_Code);
 	}
+
+	// 전체 회원목록 조회
+	@Override
+	public List<MemberVo> selectAllMember(MemberVo vo) {
+		return dao.selectAllMember(vo);
+	}
 }

@@ -248,7 +248,7 @@ SELECT TS.TS_CODE, TS.M_CODE, TS.TP_CODE, TS.TS_TITLE, TS.TS_SDAY, TS.TS_THEME, 
 		INSERT INTO AIRPLANEINFO
 		VALUES (#{m_Code},#{dep_Loca1},#{dep_Loca2},#{dep_Date1},
 		#{dep_Date2},#{dep_Time1},#{dep_Time2},#{re_Loca1},
-		#{re_Loca2},#{re_Date1},#{re_Date2},#{re_Time1},#{re_Time2},'AIR12')
+		#{re_Loca2},#{re_Date1},#{re_Date2},#{re_Time1},#{re_Time2},'AIR'||AIR_SEQ.NEXTVAL)
 	</insert>
 
 	<!-- 항공권 수정 -->
@@ -312,6 +312,11 @@ SELECT TS.TS_CODE, TS.M_CODE, TS.TP_CODE, TS.TS_TITLE, TS.TS_SDAY, TS.TS_THEME, 
 	<!-- 내가 쓴 일정 조회 -->
 	<select id="routeM" resultType="TravelSchedule" parameterType="TravelSchedule">
 	    SELECT * FROM TRAVELSCHEDULE WHERE M_CODE = #{m_Code}
+	</select>
+	
+	<!-- 전체 회원 조회 -->
+	<select id="allmemberM" resultType="Member">
+	   SELECT * FROM TWTMEMBER
 	</select>
 
 	<!-- ================================찬우================================== -->
