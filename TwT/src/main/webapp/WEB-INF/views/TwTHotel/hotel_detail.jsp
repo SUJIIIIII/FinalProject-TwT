@@ -238,6 +238,7 @@
           		<!-- 예약 시작 -->
           		<div class="col-md-12 hotel-single ftco-animate mb-5 mt-4">
           			<h4 class="mb-5">예약</h4>
+					<p style="font-size: 10px; color: #FFA7A7;">그랜드쉐라톤 (그랜드)</p>
           			<h5 class="mb-5">총금액 : $</h5>
           			<div class="fields">
           				<div class="row">
