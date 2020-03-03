@@ -58,10 +58,9 @@ $(document).ready(function(){
 		}
     
 		// 스팟 삭제시 마커 이미지 변경
-		var del_seq = tmp.substr(3,2); // show 리스트의 index
-		del_seq *= 1; // string to int
-		delMarkerIcon(del_seq-1,del_type);
-		/*var del_seq = $(this).parent().parent().data("seq"); // 삭제하려는 마커의 index*/      
+		var del_seq = $(this).parent().parent().data("seq"); // 삭제하려는 마커의 index
+		var del_type = $(this).parent().parent().data("type"); // 삭제하려는 마커의 type
+		delMarkerIcon(del_seq,del_type);    
       
 		// 스팟 삭제시 찍힌 폴리라인 삭제 후 재생성
 		for(var i=0;i<paths.length;i++){
@@ -69,12 +68,19 @@ $(document).ready(function(){
 		}
 		paths = [];
 		addPath();
+		
+		// 총 예산 계산
+		totalBudget();
       
 	});	
 	
 	$("#schedule_clear").on("click", function() {
 		if(confirm("초기화 하시겠습니까?")){
 			$("#schedule_detail_box").children().remove();
+			
+			// 스팟 초기화시 마커이미지 변경 & 폴리라인 삭제
+			
+			
 		} else {
 			alert("취소 되었습니다.");		
 			}
@@ -191,6 +197,31 @@ $(document).ready(function(){
          "</li>"
       );   
    });   
+   
+   $(document).on("click", ".city_item", function() {
+	   var citycode = $(this).data("code");
+	   var citylat = $(this).data("lat");
+	   var citylng = $(this).data("lng");
+	   // 도시 변경 map처리 
+	   changecity(citycode,citylat,citylng);
+
+	   // ajax 처리
+  		$.ajax({
+  			type : "GET",
+  			url : "selectCity.do?citycode=" + citycode,
+  			success : function(data) {
+  				/*alert(data);*/
+  				$("#city_list").html(data);
+  				addMarker(); // 변경된 list에 맞춰 마커 찍기
+				} , 
+  			error : function(error) {
+					alert("Error : " + error);
+				}
+  		}); // ajax end
+  		
+  		
+   });
+   
 });
 
 

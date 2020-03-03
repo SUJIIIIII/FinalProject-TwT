@@ -338,7 +338,10 @@ SELECT TS.TS_CODE, TS.M_CODE, TS.TP_CODE, TS.TS_TITLE, TS.TS_SDAY, TS.TS_THEME, 
 	
 
 	<!-- ================================철환================================== -->
-
+	<!-- 선택된 city spot 불러오기 -->
+	<select id="selectcityspot" resultType="TravelPoint">
+		SELECT * FROM TRAVELPOINT WHERE CITY_CODE = #{citycode} ORDER BY SUBSTR(CITY_CODE, 3), TO_NUMBER(SUBSTR(TP_CODE, 3))
+	</select>
 
 </mapper>
 	

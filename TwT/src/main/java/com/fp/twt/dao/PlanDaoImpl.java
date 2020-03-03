@@ -15,7 +15,17 @@ public class PlanDaoImpl implements PlanDao{
 	@Autowired
 	private SqlSessionTemplate sqlSession;
 	//철환
-	
+	@Override
+	public List<TravelPointVo> selectCitySpot(String citycode) { // 도시별 spot 불러오기
+		List<TravelPointVo> res = new ArrayList<TravelPointVo>();
+		try {
+			res = sqlSession.selectList(NAMESPACE+"selectcityspot", citycode);
+		}catch(Exception e) {
+			e.printStackTrace();
+			System.out.println("dao에서 데이터 불러오기 오류");
+		}
+		return res;
+	}
 	
 	
 	

@@ -7,7 +7,8 @@ import com.fp.twt.vo.TravelPointVo;
 
 public interface PlanBiz {
 	//철환
-	
+	public List<TravelPointVo> selectCitySpot(String citycode); // 도시별 spot 불러오기
+
 	
 	
 	
