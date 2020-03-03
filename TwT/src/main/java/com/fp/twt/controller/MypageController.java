@@ -158,7 +158,6 @@ public class MypageController {
 	@RequestMapping("/logout.do")
 	public String logout(HttpSession session) {
 		// 카카오 로그아웃
-		kakao.kakaoLogout((String) session.getAttribute("access_Token"));
 		session.removeAttribute("access_Token");
 		session.removeAttribute("kakaoId");
 
@@ -202,12 +201,12 @@ public class MypageController {
 
 		System.out.println("들어오는 아이디 : " + m_Id);
 		System.out.println("들어오는 비번 : " + m_Pass);
+		System.out.println("로그인하려는 사람 이메일 체크 :" + res.getm_Mailcheck());
 
 		int result1 = biz.loginIdChk(m_Id);
 		int result2 = 0;
 		int result3 = 0;
 		
-		System.out.println("로그인하려는 사람 이메일 체크 :" + res.getm_Mailcheck());
 
 		if(res.getm_Mailcheck().contains("Y")) {
 			result3 = 1;
