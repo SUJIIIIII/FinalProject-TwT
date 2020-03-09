@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -14,10 +15,13 @@
 <script src="${pageContext.request.contextPath}/resources/js/chat.js"></script>
 
   <script src="http://localhost:82/socket.io/socket.io.js"></script>
+
 	<script>
-		$(document).ready(function(){
-		    var socket = io("http://localhost:82");
-		    
+		$(document).ready(function(){ //웹페이지 로드시 실행(수정)
+		var userId = "<%=session.getAttribute("userId")%>"
+		if(userId != "null"){
+		    var socket = io("http://localhost:3000");
+
             $("#msg").keydown(function(key){
                 //해당하는 키가 엔터키(13) 일떄
                 if(key.keyCode == 13){
@@ -28,16 +32,23 @@
 
             $("#msg_process").click(function(){
                 //소켓에 send_msg라는 이벤트로 input에 #msg의 벨류를 담고 보내준다.
-                 socket.emit("send_msg", $("#msg").val());
+                 socket.emit("send_msg", $("#msg").val(), userId);
                 //#msg에 벨류값을 비워준다.
                 $("#msg").val("");
             });
             
             //소켓 서버로 부터 send_msg를 통해 이벤트를 받을 경우 
-            socket.on('send_msg', function(msg) {
-                //div 태그를 만들어 텍스트를 msg로 지정을 한뒤 #chat_box에 추가를 시켜준다.
-                $('<div class="message parker"></div>').text(msg).appendTo("#chat");
+            socket.on('send_msg', function(msg, Id) {
+            	if(userId == Id){
+	                //div 태그를 만들어 텍스트를 msg로 지정을 한뒤 #chat_box에 추가를 시켜준다.
+	                $('<div class="message parker"></div>').text(msg).appendTo("#chat");
+	                $("#chat").scrollTop($("#chat").innerHeight());
+            	} else {
+	                $('<div class="message stark"></div>').text(msg).appendTo("#chat");
+	                $("#chat").scrollTop($("#chat").innerHeight());
+            	}
             });
+		}
 		});
 	</script>
 
@@ -71,7 +82,13 @@ $(document).ready(function() {
 	hideChat();
 
 	$('#prime').click(function() {
-		$(".center").toggle();
+		var userId = "<%=session.getAttribute("userId")%>"
+		if(userId == "null"){
+			alert("로그인 페이지로 이동합니다.");
+			location.href="login.do";
+		} else{
+			$(".center").toggle();
+		}
 	});
 
 });
@@ -128,78 +145,6 @@ cursor:pointer;
         That is America's ass 🇺🇸🍑
       </div>
     </div>
-        <div class="contact">
-      <div class="pic rogers"></div>
-      <div class="badge">
-        14
-      </div>
-      <div class="name">
-        Steve Rogers
-      </div>
-      <div class="message">
-        That is America's ass 🇺🇸🍑
-      </div>
-    </div>
-        <div class="contact">
-      <div class="pic rogers"></div>
-      <div class="badge">
-        14
-      </div>
-      <div class="name">
-        Steve Rogers
-      </div>
-      <div class="message">
-        That is America's ass 🇺🇸🍑
-      </div>
-    </div>
-        <div class="contact">
-      <div class="pic rogers"></div>
-      <div class="badge">
-        14
-      </div>
-      <div class="name">
-        Steve Rogers
-      </div>
-      <div class="message">
-        That is America's ass 🇺🇸🍑
-      </div>
-    </div>
-        <div class="contact">
-      <div class="pic rogers"></div>
-      <div class="badge">
-        14
-      </div>
-      <div class="name">
-        Steve Rogers
-      </div>
-      <div class="message">
-        That is America's ass 🇺🇸🍑
-      </div>
-    </div>
-        <div class="contact">
-      <div class="pic rogers"></div>
-      <div class="badge">
-        14
-      </div>
-      <div class="name">
-        Steve Rogers
-      </div>
-      <div class="message">
-        That is America's ass 🇺🇸🍑
-      </div>
-    </div>
-        <div class="contact">
-      <div class="pic rogers"></div>
-      <div class="badge">
-        14
-      </div>
-      <div class="name">
-        Steve Rogers
-      </div>
-      <div class="message">
-        That is America's ass 🇺🇸🍑
-      </div>
-    </div>
     <!-- 채팅방 end -->
     
   </div>
@@ -220,13 +165,7 @@ cursor:pointer;
       <div class="time">
         Today at 11:41
       </div>
-      
-      <div class="message parker">
-        Hey, man! What's up, Mr Stark? 👋
-      </div>
-      <div class="message stark">
-        Kid, where'd you come from? 
-      </div>
+
 <!-- 
       <div class="message stark">
         <div class="typing typing-1"></div>
