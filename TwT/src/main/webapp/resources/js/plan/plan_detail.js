@@ -360,7 +360,6 @@ $(document).ready(function(){
    	// total 예산 보여주기
    	totalBudget(storage_index);
    });
-   
 });
 
 // 드래그 가능 코드
@@ -699,5 +698,6 @@ function del_plan_day(day_num) {
 
 // 번호 재정렬 함수
 function reorder() {
+	// 재정렬 된 목록을 기준으로 index 및 Session 재정렬
 	
 }
