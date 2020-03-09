@@ -70,22 +70,28 @@
     </style>
 	
 <script type="text/javascript">
-	function initMap() {
+var map;
+	window.onload = function initMap() {
 		// 초기 선택된 도시의 위도/경도
 		var lati = ${hvo.h_Lati};
 		var lon = ${hvo.h_Long};
-		alert("lat : " + lati);
-		alert("lon : " + lon);
 		
 		// 초기 선택된 도시의 센터 위치
 		var cen = {lat: lati, lng: lon};
 		
-		console.log("t" + cen);
-		
 		// 초기 선택된 도시의 센터를 중심으로 맵 생성
-		var map = new google.maps.Map( //지도 객체 생성
-		document.getElementById('map'), {zoom: 10, center: cen}); //기본 줌,시작 센터 설정
+		map = new google.maps.Map( //지도 객체 생성
+		document.getElementById('map'), {zoom: 15, center: cen}); //기본 줌,시작 센터 설정
+		
+		var location = {"position" : new google.maps.LatLng(lati,lon)};
+		var icon = new google.maps.MarkerImage("${pageContext.request.contextPath}/resources/images/plan/marker/marker.png",null,null,null,new google.maps.Size(50,45));
+		var marker = new google.maps.Marker({
+        	position: location.position,
+        	map: map,
+        	icon: icon
+   		});
 	}
+	
 </script>
 <!-- 구글맵 API KEY -->
 <script async defer
@@ -256,7 +262,7 @@ src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCiDE5HBue4mflsdkcsGvSZrUe
           			<h4 class="mb-5">호텔 위치(지도 들어갈 부분)</h4>
           			<div></div>
           		</div> -->
-          		<div id="map" class="fr" style="height: 657px; position: relative; width: 1111px; overflow: hidden; bottom:2px;"></div>
+          		<div id="map" style="height: 657px; position: relative; width: 1111px; overflow: hidden; bottom:2px;"></div>
           		<!-- 위치 지도 끝 -->
           		
           		<!-- 예약 시작 -->
@@ -394,7 +400,7 @@ src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCiDE5HBue4mflsdkcsGvSZrUe
   <script src="${pageContext.request.contextPath}/resources/js/bootstrap-datepicker.js"></script>
   <script src="${pageContext.request.contextPath}/resources/js/jquery.timepicker.min.js"></script>
   <script src="${pageContext.request.contextPath}/resources/js/scrollax.min.js"></script>
-  <script src="${pageContext.request.contextPath}/resources/js/google-map.js"></script>
+  <%-- <script src="${pageContext.request.contextPath}/resources/js/google-map.js"></script> --%>
   <script src="${pageContext.request.contextPath}/resources/js/main.js"></script>
     
   </body>
