@@ -68,6 +68,29 @@
     color: #fc3c3c;
 	}
     </style>
+	
+<script type="text/javascript">
+	function initMap() {
+		// 초기 선택된 도시의 위도/경도
+		var lati = ${hvo.h_Lati};
+		var lon = ${hvo.h_Long};
+		alert("lat : " + lati);
+		alert("lon : " + lon);
+		
+		// 초기 선택된 도시의 센터 위치
+		var cen = {lat: lati, lng: lon};
+		
+		console.log("t" + cen);
+		
+		// 초기 선택된 도시의 센터를 중심으로 맵 생성
+		var map = new google.maps.Map( //지도 객체 생성
+		document.getElementById('map'), {zoom: 10, center: cen}); //기본 줌,시작 센터 설정
+	}
+</script>
+<!-- 구글맵 API KEY -->
+<script async defer
+src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCiDE5HBue4mflsdkcsGvSZrUeEooX8gWQ&callback=initMap&language=ko&region=KR">
+</script>
 </head>
 <body id="body">
 	<!-- 오른쪽 네비게이션 메뉴 DIV 시작 -->
@@ -229,10 +252,11 @@
           		<!-- 보유객실 정보 끝 -->
           		
           		<!-- 위치 지도 시작 -->
-          		<div class="col-md-12 hotel-single ftco-animate mb-5 mt-4">
+          		<!-- <div class="col-md-12 hotel-single ftco-animate mb-5 mt-4">
           			<h4 class="mb-5">호텔 위치(지도 들어갈 부분)</h4>
           			<div></div>
-          		</div>
+          		</div> -->
+          		<div id="map" class="fr" style="height: 657px; position: relative; width: 1111px; overflow: hidden; bottom:2px;"></div>
           		<!-- 위치 지도 끝 -->
           		
           		<!-- 예약 시작 -->
@@ -370,7 +394,6 @@
   <script src="${pageContext.request.contextPath}/resources/js/bootstrap-datepicker.js"></script>
   <script src="${pageContext.request.contextPath}/resources/js/jquery.timepicker.min.js"></script>
   <script src="${pageContext.request.contextPath}/resources/js/scrollax.min.js"></script>
-  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBVWaKrjvy3MaE7SQ74_uJiULgl1JY0H2s&sensor=false"></script>
   <script src="${pageContext.request.contextPath}/resources/js/google-map.js"></script>
   <script src="${pageContext.request.contextPath}/resources/js/main.js"></script>
     
