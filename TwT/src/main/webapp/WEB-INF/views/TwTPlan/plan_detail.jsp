@@ -34,7 +34,7 @@
 
 <% String cd = request.getParameter("citycode"); %>
 <!-- map script -->
-<script type="text/javascript" src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 <script type="text/javascript">
 
 //전역 변수 선언
@@ -418,8 +418,9 @@ var count; // 스팟리스트 개수
        	var spot_num = index; // 인덱스 번호
        	var spot_content = con; // 스팟 설명
        	var spot_addr = addr; // 스팟 주소
+       	var city_name;
        	
-       	var spot_arr = new Array(spot_name, spot_type, spot_no, spot_lat, spot_lng, spot_city, spot_img, spot_seq, spot_num);
+       	var spot_arr = new Array(spot_name, spot_type, spot_no, spot_lat, spot_lng, spot_city, spot_img, spot_seq, spot_num, city_name);
        	// 정보를 담을 배열 생성
        	var jsonItem = JSON.parse(sessionStorage.getItem("Day" + set_day)); // Session에서 가져올 Key 값
        	if(jsonItem != null){ // 객체가 있는 경우
@@ -461,7 +462,6 @@ var count; // 스팟리스트 개수
       	
 	  	// spot추가시 마커 이미지 변경
       	addMarkerIcon(spot_num,spot_type);
-      
 	}
 	
 	// 스팟리스트 클릭시 map줌 & infobox
@@ -544,7 +544,6 @@ var count; // 스팟리스트 개수
 		$(".info_memo").css("display","block");
 		$(".budget_input").val(tmpbud);
 		$("#memo_input").val(tmpmemo);
-		
 	}
 	
 	// 도시 변경
@@ -564,8 +563,7 @@ var count; // 스팟리스트 개수
 		marker = [];
 		
 	}
-	
-	
+		
 	/* script */
 	$(document).ready(function(){
 		// 로딩 시 map의 크기
@@ -626,20 +624,6 @@ var count; // 스팟리스트 개수
 	    	   jsonItem['index' + spot_seq] = spot_arr;
 		       sessionStorage.setItem("Day"+set_day, JSON.stringify(jsonItem));
 	       }
-	       
-	       
-	       var spot_arr = new Array(spot_name, spot_type, spot_no, spot_lat, spot_lng, spot_city, spot_img, spot_seq, spot_num);
-	       // 정보를 담을 배열 생성
-	       var jsonItem = JSON.parse(sessionStorage.getItem("Day" + set_day)); // Session에서 가져올 Key 값
-	       if(jsonItem != null){ // 객체가 있는 경우
-		       jsonItem['index' + spot_seq] = spot_arr;
-		       sessionStorage.setItem("Day"+set_day, JSON.stringify(jsonItem));
-	       } else {
-	    	   var jsonItem = new Object(); // 객체가 없을 경우 직접 생성해서 넣어줌
-	    	   jsonItem['index' + spot_seq] = spot_arr;
-		       sessionStorage.setItem("Day"+set_day, JSON.stringify(jsonItem));
-	       }
-	       
 	       
           $("#schedule_detail_box").append("" +  
           "<div class='day_spot_item' data='" + spot_seq + "' data-set_day='" + set_day + "' data-budget='' data-memo='' data-img='"+spot_img+"' data-city='"+spot_city+"' data-seq='"+ spot_num +"' data-no='" + spot_no + "' data-pl_cat='301' data-latlng='" + spot_lat + "," + spot_lng + "' data-lat='" + spot_lat+ "' data-lng='" + spot_lng +"' data-ci='87' data-type='"+spot_type+"' id='spot" + spot_seq + "'>"
@@ -725,20 +709,15 @@ var count; // 스팟리스트 개수
 			$('img',this).attr('src',$('img',this).attr('src').replace('.gif','_on.gif'));
 
 		});
-		
-		
 	});
 	
-	
 	google.maps.event.addDomListener(window, 'load', initialize);
-
-
+	
 </script>
 <!-- 구글맵 API KEY -->
 <script async defer
 src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCiDE5HBue4mflsdkcsGvSZrUeEooX8gWQ&callback=initMap&language=ko&region=KR">
 </script>
-
 <style type="text/css">
 .list_box_overlay {
 	width:365px;
@@ -955,7 +934,7 @@ src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCiDE5HBue4mflsdkcsGvSZrUe
 				  	<div class="city_search" style="display: none;"></div> -->
 				  	<!-- 도시 변경  -->
                      <div class="city_items" data="87" style="height:100%;">
-                        <div class="city_item" data="87" data-ci_name="${cityvo.city_Name}" data-lat="${cityvo.city_Lati}" data-lng="${cityvo.city_Long}" data-ss_id="undefined" data-code="${cityvo.city_Code}">
+                        <div class="city_item" data="87" data-ci_name="${cityvo.city_Name}" data-lat="${cityvo.city_Lati}" data-lng="${cityvo.city_Long}" data-code="${cityvo.city_Code}">
                            <div class="fl ci_img"><img src="${pageContext.request.contextPath}/resources/images/plan/city/${cityvo.city_Img}"></div>
                            <div class="fl">${cityvo.city_Name},&nbsp;<span>태국</span></div>
                            <div class="clear"></div>
@@ -1209,6 +1188,6 @@ src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCiDE5HBue4mflsdkcsGvSZrUe
 <!-- // jQuery UI 라이브러리 js파일 -->
 <script src="http://code.jquery.com/ui/1.8.18/jquery-ui.min.js"></script>
 <script src="${pageContext.request.contextPath}/resources/js/plan/plan_detail.js?version=1.4"></script>
-
 </body>
+
 </html>
