@@ -1,6 +1,7 @@
 ﻿<%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -29,17 +30,18 @@
 	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/plan/tipsy.css" type="text/css">
 	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/plan/workspace.css">
 	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/plan/date_picker.css">
+	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/plan/detail_complete_modal.css">
 
 <% String cd = request.getParameter("citycode"); %>
 <!-- map script -->
-<script type="text/javascript" src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 <script type="text/javascript">
 
 //전역 변수 선언
 var map; // 맵
 var marker = new Array(); // 마커
 var myIcon; // 마커 아이콘
-var content = new Array(); // 스팟 이름
+var spotname = new Array(); // 스팟 이름
 var locations = new Array(); // 도시 위도/경도
 var markers = new Array(); // 마커 배열
 var citycode = new Array(); // 도시 코드
@@ -62,93 +64,47 @@ var tooltipcontent; // infobox content
 var infowindow; // 마커 클릭시 infobox
 var spotaddr = new Array(); // 스팟 주소
 var spotcontent = new Array(); // 스팟 설명
-/* var spotlatlng = new Array(); // 스팟(일정 목록에 추가한) 위도, 경도 배열 */
 var pathpoly = new Array(); // 폴리라인 위도,경도 생성
 var arrlat = new Array(); // 폴리라인 위도 배열
 var arrlng = new Array(); // 폴리라인 경도 배열
 var spotcode = new Array(); // 스팟 코드 배열
 var lats = new Array(); // 모든 스팟 위도 배열
 var lngs = new Array(); // 모든 스팟 경도 배열
-var arryn = new Array(); // 모든 스팟 추가 여부
 var paths = new Array(); // 경로 배열
+var count; // 스팟리스트 개수
 /* var distance; // 거리계산 */
-var selectcd; // 선택된 도시
-var count;
 
 	
-	// map 추가
+	// map 객체 생성
 	window.onload = function initMap() {
 		
-		// 스팟 목록 해당하는 도시외에 제거
-	  	var city_code_total = $(".city_item").data("code");
-	   	//var city_code_total = 'CT2';
-	   	var name_num_total = $(".list_box").children(".day_spot_item").length; // 전체 검색 시 가져올 것들 갯수
-	   	count = 0;
-	   	for(i = 0; i < name_num_total + 1; i++){
-	      	var city_val_total = $(".list_box").children(".day_spot_item").eq(i).data("city");
-	      	if(city_code_total == city_val_total){ 
-	         	$(".list_box").children(".day_spot_item").eq(i).show();
-	         	count++;
-	      	} else {
-	         	$(".list_box").children(".day_spot_item").eq(i).hide();
-	      	}
-	   	} // end
-		alert("show 개수 : "+count);
-
-		// create에서 선택한 도시
-		selectcd = city_code_total;
-		alert("선택된 도시 코드 : " + selectcd);
-	
-		// 선택된 도시의 위도/경도
+		// 초기 선택된 도시의 위도/경도
 		var lati = ${cityvo.city_Lati};
 		var lon = ${cityvo.city_Long};
-/* 		var lati = ${cityvo.city_Lati};
-		var lon = ${cityvo.city_Long}; */
 		
-		// 선택된 도시의 센터 위치
+		// 초기 선택된 도시의 센터 위치
 		var cen = {lat: lati, lng: lon}; 
 		
-		// 선택된 도시의 센터를 중심으로 맵 생성
+		// 초기 선택된 도시의 센터를 중심으로 맵 생성
 		map = new google.maps.Map( //지도 객체 생성
 			document.getElementById('map'), {zoom: 12, center: cen}); //기본 줌,시작 센터 설정
-			
-		// list 개수 가져오기
-		/* var count = $(".day_spot_item").length; */
-		/* if($(".day_spot_item").css("display") == "block"){
-			 var count = $(".day_spot_item").length;
-		} */
-		/* var count = $(".day_spot_item").length; */
-		/* alert(count); */
-		/* var count = $(".aa").attr("data-count"); */
 		
-       	// 위치 위도/경도, 스팟 이름, 도시 코드, 이미지 명, 스팟 타입 담기
-       	for(var i=0;i<name_num_total; i++){
-       	//var city_val_total = $(".list_box").children(".day_spot_item").eq(i).data("city");
-       		if($("#spot_"+i).data("city") == selectcd){
-				locations.push({"position" : new google.maps.LatLng($("#spot_"+i).attr("data-lat"),$("#spot_"+i).attr("data-lng"))});
-				content.push($("#spot_"+i).attr("data-name"));
-				citycode.push($("#spot_"+i).attr("data-city"));
-				imgname.push($("#spot_"+i).attr("data-img"));
-				spottype.push($("#spot_"+i).attr("data-type"));
-				spotaddr.push($("#spot_"+i).attr("data-addr"));
-				spotcontent.push($("#spot_"+i).attr("data-con"));
-				lats.push($("#spot_"+i).attr("data-lat"));
-				lngs.push($("#spot_"+i).attr("data-lng"));
-				spotcode.push($("#spot_"+i).attr("data-no"));
-/* 				locations[i] = {"position" : new google.maps.LatLng($("#spot_"+i).attr("data-lat"),$("#spot_"+i).attr("data-lng"))};
-				content[i] = $("#spot_"+i).attr("data-name");
-				citycode[i] = $("#spot_"+i).attr("data-city");
-				imgname[i] = $("#spot_"+i).attr("data-img");
-				spottype[i] = $("#spot_"+i).attr("data-type");
-				spotaddr[i] = $("#spot_"+i).attr("data-addr");
-				spotcontent[i] = $("#spot_"+i).attr("data-con");
-				lats[i] = $("#spot_"+i).attr("data-lat");
-				lngs[i] = $("#spot_"+i).attr("data-lng");
-				spotcode[i] = $("#spot_"+i).attr("data-no"); */
-       		}
-       	}
-       	
-       	// 마커 이미지 
+		// 마커 생성
+		addMarker();
+			
+		// 거리계산(안됨)
+		/* distance = google.maps.geometry.spherical.computeDistanceBetween(locations[0],locations[1]);
+		alert(distance);
+		console.log(distance); */
+		
+	} /* init end */
+	
+	// 마커 추가
+	function addMarker(){
+		// spot list 개수 가져오기
+		count = $(".day_spot_item").length;
+		
+		// 마커 이미지 
 		B_TD = new google.maps.MarkerImage("${pageContext.request.contextPath}/resources/images/plan/marker/B_TD.png",null,null,null,new google.maps.Size(40,42));
 		B_RS = new google.maps.MarkerImage("${pageContext.request.contextPath}/resources/images/plan/marker/B_RS.png",null,null,null,new google.maps.Size(40,42));
 		B_SP = new google.maps.MarkerImage("${pageContext.request.contextPath}/resources/images/plan/marker/B_SP.png",null,null,null,new google.maps.Size(40,42));
@@ -162,17 +118,29 @@ var count;
 		A_RS_H = new google.maps.MarkerImage("${pageContext.request.contextPath}/resources/images/plan/marker/A_RS_H.png",null,null,null,new google.maps.Size(40,42));
 		A_SP_H = new google.maps.MarkerImage("${pageContext.request.contextPath}/resources/images/plan/marker/A_SP_H.png",null,null,null,new google.maps.Size(40,42));
 		
+		// 위치 위도/경도, 스팟 이름, 도시 코드, 이미지 명, 스팟 타입 담기
+       	for(var i=0;i<count; i++){
+			locations[i] = {"position" : new google.maps.LatLng($("#spot_"+i).attr("data-lat"),$("#spot_"+i).attr("data-lng"))};
+			spotname[i] = $("#spot_"+i).attr("data-name");
+			citycode[i] = $("#spot_"+i).attr("data-city");
+			imgname[i] = $("#spot_"+i).attr("data-img");
+			spottype[i] = $("#spot_"+i).attr("data-type");
+			spotaddr[i] = $("#spot_"+i).attr("data-addr");
+			spotcontent[i] = $("#spot_"+i).attr("data-con");
+			lats[i] = $("#spot_"+i).attr("data-lat");
+			lngs[i] = $("#spot_"+i).attr("data-lng");
+			spotcode[i] = $("#spot_"+i).attr("data-no");
+       	}
 		
-		/* // 스팟 마커찍기
-		for (var i=0;i<locations.length;i++) {
-			
+     	// 스팟 마커찍기
+		for (var i=0;i<count;i++) {
 			if($("#spot_"+i).attr("data-type") == "랜드마크"){
 				// 랜드마크 마커 생성
 	        	marker[i] = new google.maps.Marker({
 	            	position: locations[i].position,
 	            	map: map,
 	            	icon: B_TD,
-	            	title: content[i]
+	            	title: spotname[i]
 	       		});
 				markerListener(marker[i],i,$("#spot_"+i).attr("data-type"));
 				
@@ -182,7 +150,7 @@ var count;
 	            	position: locations[i].position,
 	            	map: map,
 	            	icon: B_RS,
-	            	title: content[i]
+	            	title: spotname[i]
 	       		});
 				markerListener(marker[i],i,$("#spot_"+i).attr("data-type"));
 				
@@ -192,49 +160,13 @@ var count;
 	            	position: locations[i].position,
 	            	map: map,
 	            	icon: B_SP,
-	            	title: content[i]
+	            	title: spotname[i]
 	       		});
 				markerListener(marker[i],i,$("#spot_"+i).attr("data-type"));
 			}
         	
-		} */
-		
-		// 스팟 마커찍기
-		for (var i=0;i<locations.length;i++) {
-			
-			if(spottype[i] == "랜드마크"){
-				// 랜드마크 마커 생성
-	        	marker[i] = new google.maps.Marker({
-	            	position: locations[i].position,
-	            	map: map,
-	            	icon: B_TD,
-	            	title: content[i]
-	       		});
-				markerListener(marker[i],i,spottype[i]);
-				
-			}else if(spottype[i] == "식당가"){
-				// 식당 마커 생성
-	        	marker[i] = new google.maps.Marker({
-	            	position: locations[i].position,
-	            	map: map,
-	            	icon: B_RS,
-	            	title: content[i]
-	       		});
-				markerListener(marker[i],i,spottype[i]);
-				
-			}else if(spottype[i] == "쇼핑"){
-				// 쇼핑 마커 생성
-	        	marker[i] = new google.maps.Marker({
-	            	position: locations[i].position,
-	            	map: map,
-	            	icon: B_SP,
-	            	title: content[i]
-	       		});
-				markerListener(marker[i],i,spottype[i]);
-			}
-        	
 		}
-		
+     	
 		// spot 추가가 없을 경우 마커 이미지 변경
 		if($("#schedule_detail_box").children().length == 0){
 			for(var i=0;i<locations.length;i++){
@@ -242,14 +174,7 @@ var count;
 			}
 		}
 		
-		// 거리계산(안됨)
-		/* distance = google.maps.geometry.spherical.computeDistanceBetween(locations[0],locations[1]);
-		
-		alert(distance);
-		console.log(distance); */
-		
-		
-	} /* init end */
+	}
 	
 	// 마커 클릭 이벤트
 	function markerListener(mark, index, type){
@@ -260,11 +185,11 @@ var count;
 			tooltipcontent = "<div class='tooltip_full_box' style='display:block;'>"+
 			"<div class='tooltip_img fl'><img src='${pageContext.request.contextPath}/resources/images/plan/"+citycode[index]+"/"+imgname[index]+"'></div>"+
 			"<div class='tooltip_info fl'>"+
-			"<div class='tooltip_title'>"+content[index]+"</div>"+
+			"<div class='tooltip_title'>"+spotname[index]+"</div>"+
 			"<div class='tooltip_tag'>"+spottype[index]+"</div></div>"+
 			"<div class='tooltip_detail_bottom_box'>"+
-			"<div class='fl tooltip_detail_btn' onclick='detail_view_spot(&quot;"+content[index]+"&quot;,&quot;"+imgname[index]+"&quot;,&quot;"+spotcontent[index]+"&quot;,&quot;"+spotaddr[index]+"&quot;,&quot;"+citycode[index]+"&quot;,&quot;"+spottype[index]+"&quot;,&quot;"+spotcode[index]+"&quot;,&quot;"+lats[index]+"&quot;,&quot;"+lngs[index]+"&quot;,&quot;"+index+"&quot;,'0')'>자세히 보기</div>"+
-			"<div class='fr tooltip_add_inspot_btn' id='insert_spot' onclick='marker_to_inspot(&quot;"+content[index]+"&quot;,&quot;"+spottype[index]+"&quot;,&quot;"+spotcode[index]+"&quot;,&quot;"+lats[index]+"&quot;,&quot;"+lngs[index]+"&quot;,&quot;"+citycode[index]+"&quot;,&quot;"+imgname[index]+"&quot;,&quot;"+index+"&quot;)'>+ 일정에 추가</div></div></div>";
+			"<div class='fl tooltip_detail_btn' onclick='detail_view_spot(&quot;"+spotname[index]+"&quot;,&quot;"+imgname[index]+"&quot;,&quot;"+spotcontent[index]+"&quot;,&quot;"+spotaddr[index]+"&quot;,&quot;"+citycode[index]+"&quot;,&quot;"+spottype[index]+"&quot;)'>자세히 보기</div>"+
+			"<div class='fr tooltip_add_inspot_btn' id='insert_spot' onclick='marker_to_inspot(&quot;"+spotname[index]+"&quot;,&quot;"+spottype[index]+"&quot;,&quot;"+spotcode[index]+"&quot;,&quot;"+lats[index]+"&quot;,&quot;"+lngs[index]+"&quot;,&quot;"+citycode[index]+"&quot;,&quot;"+imgname[index]+"&quot;,&quot;"+index+"&quot;,&quot;"+spotcontent[index]+"&quot;,&quot;"+spotaddr[index]+"&quot;)'>+ 일정에 추가</div></div></div>";
 			
 			// 클릭시 타입에 맞게 마커 이미지 변경 & infobox 나타내기
 			if(type == "랜드마크"){
@@ -419,8 +344,8 @@ var count;
 	}
 	
 	// 스팟 상세 box 뿌리기
-	function detail_view_spot(name,img,con,add,citycd,type,seq){
-		$(".detail_view_full_box").removeData("no")
+	function detail_view_spot(name,img,con,add,citycd,type){
+		$(".detail_view_full_box").removeData("no"); // 메모&예산
 		
 		$("#select_detail_view_spot").css("display","block");
 		$(".info_memo").css("display","none");
@@ -429,21 +354,9 @@ var count;
 		$("#spot_con").html(con);
 		$("#sub_addr").html("<i class='fas fa-map'></i>         " + add);
 		$("#sub_info").html(type);
-		$(".detail_view_full_box").data("no", seq);
-		/*
-		,spotcd,lat,lng,index
-		$(".detail_view_full_box").attr("data-name",name);
-		$(".detail_view_full_box").attr("data-type",type);
-		$(".detail_view_full_box").attr("data-no",spotcd); // 스팟 코드
-		$(".detail_view_full_box").attr("data-lat",lat);
-		$(".detail_view_full_box").attr("data-lng",lng);
-		$(".detail_view_full_box").attr("data-city",citycd);
-		$(".detail_view_full_box").attr("data-img",img);
-		$(".detail_view_full_box").attr("data-seq",index); */
-		
 	}
 	
-	// 추가된 스팟 배열에 넣기
+	// 추가된 스팟 경로배열에 넣기
 	function addPath(){
 		// 배열 초기화
 		arrlat = [];
@@ -491,10 +404,9 @@ var count;
   		
 	}
 	
-	
 	// 마커를 통해 스팟 추가
-	function marker_to_inspot(name,type,tpcd,lat,lng,ctcd,img,index){
-		
+	function marker_to_inspot(name,type,tpcd,lat,lng,ctcd,img,index,con,addr){
+		var set_day = $(".on").attr("data"); // Day
        	var spot_name = name; // 여행지명
    	 	var spot_type = type; // 여행지 타입
        	var spot_no = tpcd; // 순서
@@ -504,13 +416,27 @@ var count;
        	var spot_img = img; // 사진
        	var spot_seq = $("#schedule_detail_box").children().length + 1;
        	var spot_num = index; // 인덱스 번호
-	       
-	       
+       	var spot_content = con; // 스팟 설명
+       	var spot_addr = addr; // 스팟 주소
+       	var city_name;
+       	
+       	var spot_arr = new Array(spot_name, spot_type, spot_no, spot_lat, spot_lng, spot_city, spot_img, spot_seq, spot_num, city_name);
+       	// 정보를 담을 배열 생성
+       	var jsonItem = JSON.parse(sessionStorage.getItem("Day" + set_day)); // Session에서 가져올 Key 값
+       	if(jsonItem != null){ // 객체가 있는 경우
+       		jsonItem['index' + spot_seq] = spot_arr;
+	       	sessionStorage.setItem("Day"+set_day, JSON.stringify(jsonItem));
+       	} else {
+   	   		var jsonItem = new Object(); // 객체가 없을 경우 직접 생성해서 넣어줌
+    	   	jsonItem['index' + spot_seq] = spot_arr;
+	       	sessionStorage.setItem("Day"+set_day, JSON.stringify(jsonItem));
+       	}
+       	
       	$("#schedule_detail_box").append("" +  
-      	"<div class='day_spot_item' data='1' data-set_day='1' data-budget='0' data-memo='0' data-pl_type='0' data-img='"+spot_img+"' data-seq='"+ spot_num +"' data-no='" + spot_no + "' data-pl_cat='301' data-latlng='" + spot_lat + "," + spot_lng + "' data-lat='" + spot_lat+ "' data-lng='" + spot_lng +"' data-ci='87' data-type='"+spot_type+"' id='spot" + spot_seq + "'>"
+      	"<div class='day_spot_item' data='" + spot_seq + "' data-set_day='" + set_day + "' data-budget='' data-memo='' data-pl_type='0' data-img='"+spot_img+"' data-city='"+spot_city+"' data-seq='"+ spot_num +"' data-no='" + spot_no + "' data-pl_cat='301' data-latlng='" + spot_lat + "," + spot_lng + "' data-lat='" + spot_lat+ "' data-lng='" + spot_lng +"' data-ci='87' data-type='"+spot_type+"' id='spot" + spot_seq + "'>"
                  +   "<div class='item_ctrl_box' style='display: none'>"
                  +      "<div class='fl item_copy_plan' title='장소복사'><img src='/twt/resources/images/plan/item_more_icon_a.png'></div>"
-                 +       "<div class='fl item_set_plan' title='메모&amp;예산'><img src='/twt/resources/images/plan/item_set_icon_a.png'></div>"
+                 +       "<div class='fl item_set_plan' title='메모&amp;예산' onclick='addbudget(&quot;"+spot_no+"&quot;,&quot;"+spot_name+"&quot;,&quot;"+spot_img+"&quot;,&quot;"+spot_content+"&quot;,&quot;"+spot_addr+"&quot;,&quot;"+spot_city+"&quot;,&quot;"+spot_type+"&quot;)'><img src='/twt/resources/images/plan/item_set_icon_a.png'></div>"
                  +      "<div class='fl btn_del' title='삭제'><img src='/twt/resources/images/plan/item_del_icon_a.png'></div>"
                  +      "<div class='clear'></div>" 
                  +   "</div>"
@@ -531,25 +457,11 @@ var count;
                  + "</div>" +  
       	"");
        	
-       	// 스팟 추가 여부 셋팅
-      	$("#spot_"+spot_num).attr("data-clip_yn","y");
-      	
-       	// 스팟 추가 여부 배열
-      	for(var i=0;i<locations.length;i++){
-    	  	arryn[i] = $("#spot_"+i).attr("data-clip_yn");
-      	}
-       	
-       	// 경로에 쓰일 배열
-      	/* var latlng = spot_lat + "," + spot_lng;
-      	spotlatlng.push(latlng);
-      	console.log("스팟 추가에서 spotlatlng : " + spotlatlng); */
-      	
       	// 추가된 스팟의 위도/경도 넣어주기
       	addPath();
       	
 	  	// spot추가시 마커 이미지 변경
       	addMarkerIcon(spot_num,spot_type);
-      
 	}
 	
 	// 스팟리스트 클릭시 map줌 & infobox
@@ -558,11 +470,11 @@ var count;
 		tooltipcontent = "<div class='tooltip_full_box' style='display:block;'>"+
 		"<div class='tooltip_img fl'><img src='${pageContext.request.contextPath}/resources/images/plan/"+citycode[index]+"/"+imgname[index]+"'></div>"+
 		"<div class='tooltip_info fl'>"+
-		"<div class='tooltip_title'>"+content[index]+"</div>"+
+		"<div class='tooltip_title'>"+spotname[index]+"</div>"+
 		"<div class='tooltip_tag'>"+spottype[index]+"</div></div>"+
 		"<div class='tooltip_detail_bottom_box'>"+
-		"<div class='fl tooltip_detail_btn' onclick='detail_view_spot(&quot;"+content[index]+"&quot;,&quot;"+imgname[index]+"&quot;,&quot;"+spotcontent[index]+"&quot;,&quot;"+spotaddr[index]+"&quot;,&quot;"+citycode[index]+"&quot;,&quot;"+spottype[index]+"&quot;,&quot;"+spotcode[index]+"&quot;,&quot;"+lats[index]+"&quot;,&quot;"+lngs[index]+"&quot;,&quot;"+index+"&quot;)'>자세히 보기</div>"+
-		"<div class='fr tooltip_add_inspot_btn' id='insert_spot' onclick='marker_to_inspot(&quot;"+content[index]+"&quot;,&quot;"+spottype[index]+"&quot;,&quot;"+spotcode[index]+"&quot;,&quot;"+lats[index]+"&quot;,&quot;"+lngs[index]+"&quot;,&quot;"+citycode[index]+"&quot;,&quot;"+imgname[index]+"&quot;,&quot;"+index+"&quot;)'>+ 일정에 추가</div></div></div>";
+		"<div class='fl tooltip_detail_btn' onclick='detail_view_spot(&quot;"+spotname[index]+"&quot;,&quot;"+imgname[index]+"&quot;,&quot;"+spotcontent[index]+"&quot;,&quot;"+spotaddr[index]+"&quot;,&quot;"+citycode[index]+"&quot;,&quot;"+spottype[index]+"&quot;,&quot;"+spotcode[index]+"&quot;,&quot;"+lats[index]+"&quot;,&quot;"+lngs[index]+"&quot;,&quot;"+index+"&quot;)'>자세히 보기</div>"+
+		"<div class='fr tooltip_add_inspot_btn' id='insert_spot' onclick='marker_to_inspot(&quot;"+spotname[index]+"&quot;,&quot;"+spottype[index]+"&quot;,&quot;"+spotcode[index]+"&quot;,&quot;"+lats[index]+"&quot;,&quot;"+lngs[index]+"&quot;,&quot;"+citycode[index]+"&quot;,&quot;"+imgname[index]+"&quot;,&quot;"+index+"&quot;,&quot;"+spotcontent[index]+"&quot;,&quot;"+spotaddr[index]+"&quot;)'>+ 일정에 추가</div></div></div>";
 		
 		// 클릭시 타입에 맞게 마커 이미지 변경 & infobox 나타내기
 		if(type == "랜드마크"){
@@ -618,42 +530,59 @@ var count;
 	
 	// 예산추가
 	function addbudget(seq,name,img,con,add,citycd,type){
-		alert("" + seq);
-		detail_view_spot(name,img,con,add,citycd,type,seq);
-		$(".budget_input").val();
-		$("#memo_input").val();
-		$(".info_memo").css("display","block");
-		$(".budget_input").val("");
-		$("#memo_input").val("");
+		// 동일한 스팟번호의 저장된 메모&예산 가져오기
+		for(var i=0;i<$("#schedule_detail_box").children().length;i++){
+			if($("#schedule_detail_box").children().eq(i).data("no") == seq){
+				var tmpbud = $("#schedule_detail_box").children().eq(i).data("budget");
+				var tmpmemo = $("#schedule_detail_box").children().eq(i).data("memo");
+			}
+		}
 		
+		// 상세box띄우며 정보 뿌려주기
+		detail_view_spot(name,img,con,add,citycd,type);
+		$(".detail_view_full_box").attr("data-no",seq);
+		$(".info_memo").css("display","block");
+		$(".budget_input").val(tmpbud);
+		$("#memo_input").val(tmpmemo);
 	}
 	
-	/* function budgetVal(){
-		var val = $(".budget_input").val();
-		alert(val);
-	} */
-	
-	
-
+	// 도시 변경
+	function changecity(citycode,citylat,citylng){
+		
+		// 변경된 도시의 센터 위치
+		var cen = {lat: citylat, lng: citylng}; 
+		
+		// 센터 설정
+		map.setZoom(12);
+		map.setCenter(cen);
+		
+		// 전에 찍힌 마커들 삭제
+		for(var i=0;i<marker.length;i++){
+			marker[i].setMap(null);
+		}
+		marker = [];
+		
+	}
+		
 	/* script */
 	$(document).ready(function(){
 		// 로딩 시 map의 크기
 		$("#map").css("width","746px");
 		
 		// 스팟 box 닫기
-		$("#on_city_close_btn").click(function(){
+		$(document).on("click", "#on_city_close_btn", function() {
 			$("#city_list").hide();
 			$("#map").css("width","1111px"); // map크기 조정
 		});
 		
 		//스팟 box 열기
-		$("#on_city_open_btn").click(function(){
+		$(document).on("click", "#on_city_open_btn", function() {
 			$("#city_list").show();
 			$("#map").css("width","746px");
 		});
-		
+
 		// 도시변경 box
-		$(".list_title_option_menu").click(function(){
+		$(document).on("click", ".list_title_option_menu", function() {
 			if($(".city_change_box").css("display") == "none"){
 				$(".city_change_box").slideDown();
 				$(".list_box_overlay").css("display","block");
@@ -671,7 +600,8 @@ var count;
 		});
 		
 		// 일정에 여행지추가하기
-	    $(".spot_to_inspot").on("click", function() {
+		$(document).on("click", ".spot_to_inspot", function() {
+	       var set_day = $(".on").attr("data"); // Day
 	       var spot_name = $(this).parent().data("name"); // 여행지명
 	       var spot_type = $(this).parent().data("type"); // 여행지 타입
 	       var spot_no = $(this).parent().data("no"); // 순서
@@ -681,26 +611,37 @@ var count;
 	       var spot_img = $(this).parent().data("img"); // 사진
 	       var spot_seq = $("#schedule_detail_box").children().length + 1;
 	       var spot_num = $(this).parent().data("seq"); // 인덱스 번호
-	       var index = spot_img.substr(3,2); // show된 리스트의 인덱스 번호
-	       index *= 1; // string to int
+	       var city_name = $(".list_title").children("span").text();
+
+	       var spot_arr = new Array(spot_name, spot_type, spot_no, spot_lat, spot_lng, spot_city, spot_img, null, null, city_name);
+	       // 정보를 담을 배열 생성
+	       var jsonItem = JSON.parse(sessionStorage.getItem("Day" + set_day)); // Session에서 가져올 Key 값
+	       if(jsonItem != null){ // 객체가 있는 경우
+		       jsonItem['index' + spot_seq] = spot_arr;
+		       sessionStorage.setItem("Day"+set_day, JSON.stringify(jsonItem));
+	       } else {
+	    	   var jsonItem = new Object(); // 객체가 없을 경우 직접 생성해서 넣어줌
+	    	   jsonItem['index' + spot_seq] = spot_arr;
+		       sessionStorage.setItem("Day"+set_day, JSON.stringify(jsonItem));
+	       }
 	       
           $("#schedule_detail_box").append("" +  
-          "<div class='day_spot_item' data='1' data-set_day='1' data-budget='0' data-memo='0' data-pl_type='0' data-img='"+spot_img+"' data-citycd='"+spot_city+"' data-seq='"+ spot_num +"' data-no='" + spot_no + "' data-pl_cat='301' data-latlng='" + spot_lat + "," + spot_lng + "' data-lat='" + spot_lat+ "' data-lng='" + spot_lng +"' data-ci='87' data-type='"+spot_type+"' id='spot" + spot_seq + "'>"
+          "<div class='day_spot_item' data='" + spot_seq + "' data-set_day='" + set_day + "' data-budget='' data-memo='' data-img='"+spot_img+"' data-city='"+spot_city+"' data-seq='"+ spot_num +"' data-no='" + spot_no + "' data-pl_cat='301' data-latlng='" + spot_lat + "," + spot_lng + "' data-lat='" + spot_lat+ "' data-lng='" + spot_lng +"' data-ci='87' data-type='"+spot_type+"' id='spot" + spot_seq + "'>"
                      +   "<div class='item_ctrl_box' style='display: none'>"
                      +      "<div class='fl item_copy_plan' title='장소복사'><img src='/twt/resources/images/plan/item_more_icon_a.png'></div>"
-                     +       "<div class='fl item_set_plan' title='메모&amp;예산' onclick='addbudget(&quot;"+spot_no+"&quot;,&quot;"+spot_name+"&quot;,&quot;"+spot_img+"&quot;,&quot;"+spotcontent[spot_seq-1]+"&quot;,&quot;"+spotaddr[spot_seq]+"&quot;,&quot;"+spot_city+"&quot;,&quot;"+spot_type+"&quot;)'><img src='/twt/resources/images/plan/item_set_icon_a.png'></div>"
+         			 +      "<div class='fl item_set_plan' title='메모&amp;예산' onclick='addbudget(&quot;"+spot_no+"&quot;,&quot;"+spot_name+"&quot;,&quot;"+spot_img+"&quot;,&quot;"+spotcontent[spot_num]+"&quot;,&quot;"+spotaddr[spot_num]+"&quot;,&quot;"+spot_city+"&quot;,&quot;"+spot_type+"&quot;)'><img src='/twt/resources/images/plan/item_set_icon_a.png'></div>"
                      +      "<div class='fl btn_del' title='삭제'><img src='/twt/resources/images/plan/item_del_icon_a.png'></div>"
                      +      "<div class='clear'></div>" 
-                     +   "</div>"
-                     +   "<div class='img_box fl'>"
+                     +   	"</div>"
+                     +   	"<div class='img_box fl'>"
                      +      "<div class='spot_order_box'>" + spot_seq + "</div>"
                      +      "<img src='/twt/resources/images/plan/" + spot_city+ "/" + spot_img +"'>"
                      +      "<div style='position:absolute;top:35px;left:40px;width:22px;height:20px;>"
-                     +         "<img src='/twt/resources/images/plan/list_memo_btn_off.png' class='memo_indi' style='width:22px;height:20px;'>"
-                     +         "<!-- <i class='fas fa-pencil-alt'></i> -->"
+                     +      "<img src='/twt/resources/images/plan/list_memo_btn_off.png' class='memo_indi' style='width:22px;height:20px;'>"
+                     +      "<!-- <i class='fas fa-pencil-alt'></i> -->"
                      +      "</div>"
-                     +   "</div>"
-                     +   "<div class='fl info_box'>"
+                     +   	"</div>"
+                     +   	"<div class='fl info_box'>"
                      +      "<div class='title'>" + spot_name + "</div>"
                      +      "<div class='sub'>" + spot_type+"</div>"
                      +      "<div class='sub inspot_day_info_box' style='color:#1a7ad9'></div>"
@@ -708,113 +649,75 @@ var count;
                      +   "<div class='clear'></div>"
                      + "</div>" +  
           "");
-          
-      	  // 스팟 추가 여부 셋팅
-          $("#spot_"+spot_num).attr("data-clip_yn","y");
-          
-       	  // 스팟 추가 여부 배열
-          for(var i=0;i<locations.length;i++){
-	    	  arryn[i] = $("#spot_"+i).attr("data-clip_yn");
-	      }
-	      
-       	  // 경로에 쓰일 배열
-          /* var latlng = spot_lat + "," + spot_lng;
-          spotlatlng.push(latlng);
-          console.log("스팟 추가에서 spotlatlng : " + spotlatlng); */
-          
+
           // 추가된 스팟의 위도/경도 넣어주기
           addPath();
   		  // spot추가시 마커 이미지 변경
-          addMarkerIcon(index-1,spot_type);
+          addMarkerIcon(spot_num,spot_type);
 
        });
 		
-		
 		// 스팟리스트에서 디테일box
-		$(".title").click(function(){
-			var d_name = $(this).parent().parent().data("name");
-			var d_img = $(this).parent().parent().data("img");
-			var d_con = $(this).parent().parent().data("con");
-			var d_add = $(this).parent().parent().data("addr");
+		$(document).on("click", ".title", function() {
+			var d_seq = $(this).parent().parent().data("seq");
 			var d_citycd = $(this).parent().parent().data("city");
-			var d_type = $(this).parent().parent().data("type");
 			
-			detail_view_spot(d_name,d_img,d_con,d_add,d_citycd,d_type,'0');
+			detail_view_spot(spotname[d_seq],imgname[d_seq],spotcontent[d_seq],spotaddr[d_seq],d_citycd,spottype[d_seq]);
 		});
+
 		
 		// 스팟리스트 클릭시 map줌 & infobox
-		$(".day_spot_item").click(function(){
-			// show된 리스트의 index 가져오기
-			var tmpimg = $(this).data("img");
-			var index = tmpimg.substr(3,2);
-			// string to int
-			index *= 1;
-			var type = $(this).data("type");
-			var mark = marker[index-1];
-			clickspot(mark, index-1, type);
-		});
-		
-		/* // 스팟리스트 클릭시 map줌 & infobox
-		$(".day_spot_item").click(function(){
+		$(document).on("click", ".ui-draggable", function() {
+		/* $(".day_spot_item").click(function(){ */
 			var index = $(this).data("seq");
 			var type = $(this).data("type");
 			var mark = marker[index];
 			clickspot(mark, index, type);
-		}); */
-		
-		// 도시 변경
-		/* $(".city_item").click(function(){
-			var citycd = $(this).data("code");
-			
-			location.href="planDetail.do?citycode="+citycd+"&schedule_date="+$(".start_date").text()+"&title="+$("#plan_title").text();
-		}); */
-		
-		/* $(".city_item").click(function(){
-			var changecd = $(".city_item.on").data("code");
-			alert("바뀐 코드 : " + changecd);
-			
-		}); */
-		$(document).on("click", "#memo_save", function() {
-			var budget = $(".budget_input").val();
-			var memo = $("#memo_input").val();
-			var index = $(".detail_view_full_box").data("no");
-			alert(index);
-			
-			for(var i=1;i<=$("#schedule_detail_box").children().length;i++){
-				if($("#spot"+i).data("no") == index){
-					$("#spot"+i).attr("data-budget",budget);
-					$("#spot"+i).attr("data-memo",memo);
-				}
-			}
-			alert("저장되었습니다");
 		});
-		/* $("#memo_save").on("click", function(){
-			var budget = $(".budget_input").val();
-			var memo = $("#memo_input").val();
-			var index = $(".detail_view_full_box").data("no");
-			alert(index);
 			
-			for(var i=1;i<=$("#schedule_detail_box").children().length;i++){
-				if($("#spot"+i).data("no") == index){
-					$("#spot"+i).attr("data-budget",budget);
-					$("#spot"+i).attr("data-memo",memo);
-				}
-			}
-			alert("저장되었습니다");
+		// 예산 숫자만 받기
+		$(".budget_input").keyup(function(){
+			$(this).val($(this).val().replace(/[^0-9]/g,""));
 		});
- */		
+		
+
+		// 완료 modal 띄우기
+		$("#plan_complete_btn").click(function(){
+			$("#city_list").hide();
+			$("#map").css("width","1111px");
+			$(".et_modal").show();
+		});
+		
+		// 완료 modal 끄기
+		$(".modal_btn_close").click(function(){
+			$(".et_modal").hide();
+			$("#city_list").show();
+			$("#map").css("width","746px");
+		});
+		
+		// modal 테마 선택시 이미지 변경
+		$('.theme_radio').click(function(){
+			// on class 모두 삭제
+			$('.theme_radio').removeClass('on');
+			// 선택한 테마의 이미지 변경
+			$('.theme_radio').each(function(){
+				$('img',this).attr('src',$('img',this).attr('src').replace('_on.gif','.gif'));
+			});
+			// 선택한 테마 on class 부여
+			$(this).addClass('on');
+			// 선택외 테마 이미지 변경
+			$('img',this).attr('src',$('img',this).attr('src').replace('.gif','_on.gif'));
+
+		});
 	});
 	
-	
 	google.maps.event.addDomListener(window, 'load', initialize);
-
-
+	
 </script>
 <!-- 구글맵 API KEY -->
 <script async defer
 src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCiDE5HBue4mflsdkcsGvSZrUeEooX8gWQ&callback=initMap&language=ko&region=KR">
 </script>
-
 <style type="text/css">
 .list_box_overlay {
 	width:365px;
@@ -857,10 +760,6 @@ src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCiDE5HBue4mflsdkcsGvSZrUe
     width: 365px;
 }
 #detail_close_btn{background:url('${pageContext.request.contextPath}/resources/images/plan/info_close_btn.png');}
-.list_cat_item img{
-	padding-left:40px;
-	padding-right:30px;
-}
 #selectcurr{
     border: solid #c8c8ca 1px;
     font-family: 'nanum';
@@ -871,6 +770,28 @@ src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCiDE5HBue4mflsdkcsGvSZrUe
     display: block;
     width: 278px;
     margin-left: 10px;
+}
+/* The Modal (background) */
+#modal_class {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+
+/* Modal Content/Box */
+#modal_content {
+    background-color: #fefefe;
+    margin: 15% auto; /* 15% from the top and centered */
+    /* padding: 20px; */
+    border: 1px solid #888;
+    width: 30%; /* Could be more or less, depending on screen size */                          
 }
 </style>
 </head>
@@ -889,7 +810,7 @@ src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCiDE5HBue4mflsdkcsGvSZrUe
 				</div>
 				<div class="clear"></div>
 			</div>
-			<div class="fl" style="width:365px;height:62px;line-height:62px;border-right:solid #ebebeb 1px;text-align:center;color: #555555;font-size:16px;font-weight:bold;" id="plan_total_budget">KRW 0</div>
+			<div class="fl" style="width:365px;height:62px;line-height:62px;border-right:solid #ebebeb 1px;text-align:center;color: #555555;font-size:16px;font-weight:bold;" id="plan_total_budget">KRW <span id="total">0</span>원</div>
 				<div class="fl" id="gnb_ci_name"></div>
 				<div class="fr gnb_box">
 					<div class="fr" style="margin-top:9px;margin-right:20px;">
@@ -921,19 +842,6 @@ src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCiDE5HBue4mflsdkcsGvSZrUe
 			<!-- datePicker end -->
 			
 			<ul id="cat_menu_edit_box" class="ui-sortable" style="height: 598px;">
-				<li data="1" data-date="01.31" data-day_week="5">
-					<div class="cat_edit_move fl"></div>
-					<div class="fl cat_date_left_box">
-						<div class="cat_left_day">DAY1</div>
-						<div class="cat_left_date">01.31</div>
-					</div>
-					<div class="fl cat_date_right_box">
-						<div class="cat_right_weekday">금요일</div>
-						<div class="cat_right_city">치앙마이</div>
-					</div>
-					<div class="fr cat_edit_del" onclick="del_plan_day(1)"></div>
-					<div class="clear"></div>
-				</li>
 			</ul>
 		</div>	
 	</div> <!-- 날짜 수정 모달 end -->
@@ -947,32 +855,21 @@ src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCiDE5HBue4mflsdkcsGvSZrUe
 			<div class="fl">
 				<ul id="pn_title_box" data-member_srl="1213145">
 					<li data="pn_date">
-						<div class="full_date_info fl">02.2~02.3</div>
+						<div class="full_date_info fl"></div>
 						<div class="fl day_edit_start_btn" style="padding-left:8px;" onclick="day_edit_start()"><i class="fas fa-cog"></i>&nbsp;EDIT</div>
 						<div class="clear"></div>
 					</li>
 				</ul>
 				<ul id="cat_menu" data="87" data-member_srl="1213145" data-year="2020" style="max-height: 478px;">
-					<li id="show_all_day" data="show_all_day" original-title="">전체 일정 보기</li>
-					<li data="1" data-date="01.31" data-day_week="5" data-f_ci="87" data-f_lat="18.79906428" data-f_lng="98.99514161" class="on" original-title="치앙마이" style="background:#fc3c3c;border-bottom:solid 1px #fc3c3c;">
+					<!-- <li id="show_all_day" data="show_all_day" original-title="">전체 일정 보기</li> -->
+					<li data="1" data-date="01.31" data-day_week="5" data-f_ci="87" data-f_lat="18.79906428" data-f_lng="98.99514161" class="day_menu on" original-title="치앙마이">
 						<div class="fl cat_date_left_box">
 							<div class="cat_left_day">DAY1</div>
-							<div class="cat_left_date">01.31</div>
+							<div class="cat_left_date"></div>
 						</div>
 						<div class="fl cat_date_right_box">
-							<div class="cat_right_weekday">금요일</div>
-							<div class="cat_right_city">치앙마이</div>
-						</div>
-						<div class="clear"></div>
-					</li>
-					<li data="2" data-date="02.01" data-day_week="6" data-f_ci="87" data-f_lat="18.79906428" data-f_lng="98.99514161" original-title="치앙마이">
-						<div class="fl cat_date_left_box">
-							<div class="cat_left_day">DAY2</div>
-							<div class="cat_left_date">02.01</div>
-						</div>
-						<div class="fl cat_date_right_box">
-							<div class="cat_right_weekday">토요일</div>
-							<div class="cat_right_city">치앙마이</div>
+							<div class="cat_right_weekday"></div>
+							<div class="cat_right_city"></div>
 						</div>
 						<div class="clear"></div>
 					</li>
@@ -1006,12 +903,6 @@ src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCiDE5HBue4mflsdkcsGvSZrUe
 		          	</div>
 	        	</div>
 		
-				<!-- <div id="day_controll_btn_box">
-				    <div id="day_reset_btn" class="fl" onclick="del_plan_inspot_day_all()">일정초기화</div>
-			   		<div id="day_optimize_btn" class="fl" onclick="optimize_route()">경로최적화</div>
-				    <div class="clear"></div>
-				</div> -->
-		
 		        <!--//(s)스케쥴 디테일 리스트-->
 		        <!-- @@@수정 호버 시 아이콘 나오게@@@ -->
 		        <div id="schedule_detail_box" class="connectedSortable ui-sortable" style="height: 548px; display: block;">		        
@@ -1031,8 +922,7 @@ src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCiDE5HBue4mflsdkcsGvSZrUe
 	
 		<div id="right_full_box" class="fl" style="position: absolute; left: 425px; top: 66px; width: 1111px;">
 			<div id="on_city_open_btn" style="background:url('${pageContext.request.contextPath}/resources/images/plan/city_open_btn.png');"></div>
-           	<%@ include file="plan_spot_box.jsp" %>
-           	<%-- <!-- 스팟 리스트 box-->
+			<!-- 스팟 list box -->
            	<div id="city_list" data="87" style="display: block; bottom:2px;">
             	<div class="list_title" style="background: #fc3c3c;"><span>${cityvo.city_Name}</span>
             		<div class="list_title_option_menu" data-is_open="off">&nbsp;도시 변경<i class="fas fa-caret-down"></i></div>
@@ -1044,7 +934,7 @@ src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCiDE5HBue4mflsdkcsGvSZrUe
 				  	<div class="city_search" style="display: none;"></div> -->
 				  	<!-- 도시 변경  -->
                      <div class="city_items" data="87" style="height:100%;">
-                        <div class="city_item" data="87" data-ci_name="${cityvo.city_Name}" data-lat="${cityvo.city_Lati}" data-lng="${cityvo.city_Long}" data-ss_id="undefined" data-code="${cityvo.city_Code}">
+                        <div class="city_item" data="87" data-ci_name="${cityvo.city_Name}" data-lat="${cityvo.city_Lati}" data-lng="${cityvo.city_Long}" data-code="${cityvo.city_Code}">
                            <div class="fl ci_img"><img src="${pageContext.request.contextPath}/resources/images/plan/city/${cityvo.city_Img}"></div>
                            <div class="fl">${cityvo.city_Name},&nbsp;<span>태국</span></div>
                            <div class="clear"></div>
@@ -1077,7 +967,7 @@ src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCiDE5HBue4mflsdkcsGvSZrUe
 							<input type="hidden" name="search_type" id="search_type" class="news" value="city">
 						</div>
 					</div>
-                    <div class="list_category_box" style="border-bottom: solid #dadada 1px;">
+                    <div class="list_category_box" style="border-bottom: solid #dadada 1px; padding-left: 37px;">
                     	<div class="list_cat_item fl on" data="1" data-type="total"><img src="${pageContext.request.contextPath}/resources/images/plan/ic_000_c.png"></div>
                     	<div class="list_cat_item fl" data="2" data-type="랜드마크"><img src="${pageContext.request.contextPath}/resources/images/plan/ic_300_a.png"></div>
                         <div class="list_cat_item fl" data="3" data-type="식당가"><img src="${pageContext.request.contextPath}/resources/images/plan/ic_200_a.png"></div>
@@ -1091,7 +981,7 @@ src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCiDE5HBue4mflsdkcsGvSZrUe
                 <div class="list_box connectedSortable" style="height: 441px;">
                 <c:set var="count" value="0"></c:set>
                 <c:forEach items="${allSpot}" var="spot" varStatus="status">
-                	<div class="day_spot_item ui-draggable" id="spot_${status.index}" data-seq="${status.index}" data-city="${spot.city_Code}" data-type="${spot.tp_Type}" data-name="${spot.tp_Name}" data-img="${spot.tp_Img}" data-addr="${spot.tp_Addr}" data-con="${spot.tp_Content}" data-set_day="0" data-rel_srl="4740" data-pl_type="0" data-no="${spot.tp_Code}" data-lat="${spot.tp_Lati}" data-lng="${spot.tp_Long}" data-clip_yn="n" data-pl_cat="301" data-ci="87" data-img="${spot.tp_Img}">
+                	<div class="day_spot_item ui-draggable" id="spot_${status.index}" data-seq="${status.index}" data-city="${spot.city_Code}" data-type="${spot.tp_Type}" data-name="${spot.tp_Name}" data-img="${spot.tp_Img}" data-addr="${spot.tp_Addr}" data-con="${spot.tp_Content}" data-set_day="0" data-rel_srl="4740" data-pl_type="0" data-no="${spot.tp_Code}" data-lat="${spot.tp_Lati}" data-lng="${spot.tp_Long}" data-pl_cat="301" data-ci="87" data-img="${spot.tp_Img}">
                 		<div class="img_box fl"><img src="${pageContext.request.contextPath}/resources/images/plan/${spot.city_Code}/${spot.tp_Img}"></div>
                 		<div class="fl info_box">
                 			<div class="title">${spot.tp_Name}</div>
@@ -1110,8 +1000,7 @@ src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCiDE5HBue4mflsdkcsGvSZrUe
                 </c:forEach>
                 <div class="aa" style="display:none;" data-count="${count}"></div>
 			</div>
-	    </div><!-- 스팟 리스트 end --> --%>
-		
+	    </div><!-- 스팟 리스트 end -->
 
 
 			<!-- map -->
@@ -1119,7 +1008,7 @@ src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCiDE5HBue4mflsdkcsGvSZrUe
 			
 			
            	<!-- @@@수정@@@스팟 상세정보@@@@@ -->
-           	<div id="select_detail_view_spot" data="4740"  data-cat="301" data-only_clip="0" data-clip_yn="n" class="visible" style="left: 0px; display: none;">
+           	<div id="select_detail_view_spot" data="4740"  data-cat="301" data-only_clip="0" class="visible" style="left: 0px; display: none;">
            		<div class="detail_view_full_box" data-name="" data-type="" data-no="" data-lat="" data-lng="" data-city="" data-img="" data-seq="">
            			<!-- <div id="detail_spot_to_inspot" data-ci="87" data-rel_srl="4740" data-pl_type="0" style="background: #ffba00;border: solid 1px #ffba00">+일정에 추가</div> -->
            			<div id="detail_close_btn"></div>
@@ -1184,13 +1073,121 @@ src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCiDE5HBue4mflsdkcsGvSZrUe
            	</div>
 	        
 		</div><!-- right_full_box end@@@@ -->
-</div>
+		
+		<!-- 완료 modal -->
+		<div class="et_modal" id="modal_class" style="overflow:hidden; display:none;">
+			<!-- <div class="et_modal_layer"> -->
+				<!-- modal content -->
+				<div class="modal_box" id="modal_content" style="width: 460px; height: 596px; margin-top: 95px; top: 50%; overflow: hidden; display: block;">
+					<form:form method="post" enctype="multipart/form-data" action="insertPlan.do">
+					<div class="title_box">
+						<!--일정정보 수정-->
+						<span id="this_modal_title">일정만들기 완료</span>
+						<img src="${pageContext.request.contextPath}/resources/images/plan/modal/modal_close_btn.gif" class="modal_btn_close" alt="" onclick="et_modal_close();">
+					</div>
+					<div class="modal_content">
+						<input type="hidden" name="plan_seq" id="plan_seq" value="1213145">
+						<table class="create_table" width="100%" cellpadding="0" cellspacing="0">
+							<colgroup>
+								<col width="85"></col>
+							</colgroup>
+							<tbody>
+								<tr>
+									<th><!--여행 제목-->여행 제목				</th>
+									<td>
+										<input type="text" name="pn_title" id="pn_title" class="modal_input" value="<%=request.getParameter("title")%>">
+									</td>
+								</tr>
+								<tr>
+									<td colspan="2" class="blank_td">&nbsp;</td>
+								</tr>
+								<tr>
+									<th>
+										<!--설명-->설명				</th>
+									<td>
+										<textarea class="modal_textarea" name="pn_desc" id="pn_desc" style="resize:none;" placeholder="이번 여행에 관한 간략한 소개글을 작성해 보세요             (선택사항)"></textarea>
+									</td>
+								</tr>
+								<tr>
+									<td colspan="2" class="blank_td">&nbsp;</td>
+								</tr>
+								<tr>
+									<th>
+										<!--출발일-->출발일				</th>
+									<td>
+										<input type="text" name="start_day" id="start_day" class="modal_input w50 cal hasDatepicker">
+									</td>
+								</tr>
+								<tr>
+									<td colspan="2" class="blank_td">&nbsp;</td>
+								</tr>
+								<tr>
+									<th valign="top" style="padding-top:5px;">
+									<!--여행 테마-->여행 테마				</th>
+									<td>
+										<input type="hidden" class="modal_input w50 theme" name="tour_type" id="tour_type" value="0">
+										<div class="theme_radio" data-val="001">
+											<div class="r_inner_box">
+												<img src="${pageContext.request.contextPath}/resources/images/plan/modal/theme_alone.gif" alt="">
+												나홀로						</div>
+										</div>
+										<div class="theme_radio" data-val="003">
+											<div class="r_inner_box">
+												<img src="${pageContext.request.contextPath}/resources/images/plan/modal/theme_couple.gif" alt="">
+												커플						</div>
+										</div>
+										<div class="theme_radio" data-val="002">
+											<div class="r_inner_box">
+												<img src="${pageContext.request.contextPath}/resources/images/plan/modal/theme_frends.gif" alt="">
+												친구						</div>
+										</div>
+										<div class="clear"></div>
+										<div class="theme_radio" data-val="004">
+											<div class="r_inner_box">
+												<img src="${pageContext.request.contextPath}/resources/images/plan/modal/theme_family.gif" alt="">
+												가족						</div>
+										</div>
+										<div class="theme_radio" data-val="007">
+											<div class="r_inner_box">
+												<img src="${pageContext.request.contextPath}/resources/images/plan/modal/theme_people.gif" alt="">
+												단체						</div>
+										</div>
+										<div class="theme_radio" data-val="005">
+											<div class="r_inner_box">
+												<img src="${pageContext.request.contextPath}/resources/images/plan/modal/theme_business.gif" alt="">
+												비즈니스						</div>
+										</div>
+									</td>
+								</tr>
+								<tr>
+									<th>여행 인원</th>
+									<td style="height:10px; padding-bottom:9px;"><input style="width:40px;" type="number" min="1">명</td>
+								</tr>
+								<tr>
+									<th>썸네일 등록</th>
+									<td><input type="file" name="file"></td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+					<div class="modal_footer">
+						<div class="fr" style="margin-right:10px;">
+							<input type="submit" class="m_btn_submit" id="form_submit" value="완료"></div>
+						<div class="clear"></div>
+					</div>
+					</form:form>
+				</div><!-- modal content end -->
+			<!-- </div> -->
+		</div><!-- modal end -->
+		
+	</div><!-- full_wrap end -->
+	
 
 <!-- // jQuery 기본 js파일 -->
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
 <!-- // jQuery UI 라이브러리 js파일 -->
 <script src="http://code.jquery.com/ui/1.8.18/jquery-ui.min.js"></script>
 <script src="${pageContext.request.contextPath}/resources/js/plan/plan_detail.js?version=1.4"></script>
-
 </body>
+
 </html>

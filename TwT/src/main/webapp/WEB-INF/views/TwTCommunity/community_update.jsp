@@ -102,7 +102,7 @@ body {
 			</div>
 		</div>
 		<div align="center">
-			<input type="submit" style="width: 60px;" class="btns btns-primary btns-outline-primary mt-4 px-4 py-3" value="등록" />
+			<input type="submit" style="width: 60px;" class="btns btns-primary btns-outline-primary mt-4 px-4 py-3" value="수정" />
 			&nbsp;&nbsp;&nbsp;
 			<input type="button" style="width: 60px;" class="btns btns-primary btns-outline-primary mt-4 px-4 py-3" value="취소" onclick="location.href='potoBookDetail.do?sr_Code=${vo.sr_Code}'"/>
 		</div>

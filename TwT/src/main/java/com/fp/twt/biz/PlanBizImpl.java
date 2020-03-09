@@ -14,7 +14,10 @@ public class PlanBizImpl implements PlanBiz{
 	@Autowired
 	private PlanDao dao;
 	//철환
-	
+	@Override
+	public List<TravelPointVo> selectCitySpot(String citycode) { // 도시별 spot 불러오기
+		return dao.selectCitySpot(citycode);
+	}
 	
 	
 	

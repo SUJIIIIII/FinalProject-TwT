@@ -151,6 +151,10 @@ public class MypageController {
 		if (passwordEncoder.matches(vo.getm_Pass(), res.getm_Pass())) {
 			System.out.println("로그인 정보 : " + res.toString());
 			session.setAttribute("user", res);
+			
+			session.setAttribute("userId", res.getm_Id());
+			model.addAttribute("userId", res.getm_Id());
+			
 			check = true;
 		}
 		return "redirect:/index.jsp";

@@ -5286,7 +5286,18 @@ function day_str(datetime){
 
 
 
+$(document).ready(function(){
+	$('.theme_radio').click(function(){
+		$('.theme_radio').removeClass('on');
+		$('.theme_radio').each(function(){
+			$('img',this).attr('src',$('img',this).attr('src').replace('_on.gif','.gif'));
+		});
+		$(this).addClass('on');
+		$('img',this).attr('src',$('img',this).attr('src').replace('.gif','_on.gif'));
 
+		$('.theme').val($(this).attr('data-val'));
+	});
+});
 
 
 
