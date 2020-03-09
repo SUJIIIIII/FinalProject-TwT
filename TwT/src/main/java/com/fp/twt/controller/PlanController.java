@@ -1,24 +1,34 @@
 package com.fp.twt.controller;
 
+import java.io.File;
+
+import java.io.IOException;
 import java.util.HashMap;
+
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.fp.twt.biz.PlanBiz;
 import com.fp.twt.vo.CityVo;
 import com.fp.twt.vo.TravelPointVo;
+
+
 
 // http://localhost:8090/twt/plan.do
 
@@ -26,6 +36,10 @@ import com.fp.twt.vo.TravelPointVo;
 public class PlanController {
 	@Autowired
 	public PlanBiz biz;
+	
+	@Resource(name="uploadPath")
+	String uploadPath;
+	
 	//철환
 	
 	@RequestMapping("/selectCity.do")
@@ -98,6 +112,29 @@ public class PlanController {
 		model.addAttribute("cityvo",cityvo);
 		
 		return "TwTPlan/plan_detail";
+	}
+	
+	@RequestMapping("/insertPlan.do")
+	public String insertPlan(MultipartFile file) {
+		
+		// ------- file upload --------
+		// 고유 id 부여
+		UUID uuid = UUID.randomUUID();
+		// 고유 id + 저장하려는 실제 파일 이름
+		String fileName = uuid.toString() + "_" + file.getOriginalFilename();
+		System.out.println("파일 이름 : " + fileName);
+		// 저장 경로, 이름 지정
+		File target = new File(uploadPath, fileName);
+		
+		try {
+			// 임시 디렉토리에 저장된 파일을 지정된 디렉토리로 복사
+			FileCopyUtils.copy(file.getBytes(), target);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		// ------- file upload end --------
+		
+		return "redirect:/index.jsp";
 	}
 	
 //	@RequestMapping("/cityJson.do")

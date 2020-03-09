@@ -29,6 +29,7 @@
    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/plan/gnb.css">
    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/plan/date_picker.css">
    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/plan/plan_create_css.css">
+   <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/plan/plan_create_modal.css">
    <!-- // jQuery UI CSS파일 --> 
    <link rel="stylesheet" href="http://code.jquery.com/ui/1.8.18/themes/base/jquery-ui.css" type="text/css" />  
    
@@ -281,46 +282,42 @@ src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCiDE5HBue4mflsdkcsGvSZrUe
          
       <!-- 모달 정보 설정 -->
       <div id="createmodal" class="createmodal">
-         <div class="modal-title">
-            출발일과 여행제목을 입력해주세요<span class="modal-close">&times;</span>
-         </div>
          <!-- 모달 내용-->
-         <div class="modal-content">
+         <div class="modal-content" style="width:460px; height:240px; padding-top: 0px;">
             <div class="title_box">
-               "출발일 선택"
-               <img src="">
+               	출발일 선택
+               <img src="${pageContext.request.contextPath}/resources/images/plan/modal/modal_close_btn.gif" class="modal_btn_close">
             </div>
-            <table class="create-table" width="100%" cellpadding="0" cellspacing="0">
+            <table class="create-table" width="100%" cellpadding="0" cellspacing="0" style="margin-top: 20px;">
                <colgroup><col width="85"><col></colgroup>
                <tbody>
                   <tr>
-                     <th>"여행제목       "</th>
+                     <th>여행제목       </th>
                      <td>
-                        <div id="modal-input">
-                           <input type="text" id="modal-name" value="" placeholder="여행제목을 입력해주세요"/><br/>
-                           <%--<div class="title-cnt">0/20</div>--%>
+                        <div id="modal-input" class="input_outline">
+                           <input type="text" id="modal-name" class="modal_input pn_title" value="" placeholder="여행제목을 입력해주세요"/><br/>
+                           <!-- <div class="title-cnt">0/20</div> -->
                            <div class="clear"></div>
                         </div>
                      </td>
                   </tr>
                   <tr>
-                     <td colspan="2" style="height: 19px">&nbsp;</td>
+                     <td colspan="2"  style="height: 19px">&nbsp;</td>
                   </tr>
                   <tr>
-                     <th>"여행출발일       "</th>
+                     <th>여행출발일       </th>
                      <td>
-                        <input type="text" id="testDatepicker"/>
+                        <input type="text" id="testDatepicker" class="modal_input" style="width: 45%;"/>
                      </td>
-                  </tr>
-                  <tr>
-                     <td colspan="2" style="height: 19px">&nbsp;</td>
-                     <td><input type="submit" id="submitDetail" value="detail페이지로 넘어갑니다."></td>
                   </tr>
                </tbody>
             </table>
+            <div style="border-top:1px solid #b3b3b3;padding-top: 10px;margin-top: 10px;">
+            	<input type="submit" class="m_btn_submit" id="submitDetail" value="완료" style="float: right;">
+            </div>
          </div>
       </div> <!-- 모달 end -->
-   
+   		
          <div class="clear"></div>
       </div>
    </div>

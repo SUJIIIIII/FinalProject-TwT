@@ -76,14 +76,26 @@ $(document).ready(function(){
 	
 	$("#schedule_clear").on("click", function() {
 		if(confirm("초기화 하시겠습니까?")){
+			// 스팟 초기화시 마커이미지 변경
+			for(var i=1;i<=$("#schedule_detail_box").children().length;i++){
+				delMarkerIcon($("#spot"+i).data("seq"),$("#spot"+i).data("type"));
+			}
+			
+			// 스팟 초기화시 찍힌 폴리라인 삭제
+			for(var i=0;i<paths.length;i++){
+				paths[i].setMap(null);
+			}
+			paths = [];
+			
+			// 총 예산 계산
+			totalBudget();
+			
+			// 목록 삭제
 			$("#schedule_detail_box").children().remove();
-			
-			// 스팟 초기화시 마커이미지 변경 & 폴리라인 삭제
-			
 			
 		} else {
 			alert("취소 되었습니다.");		
-			}
+		}
 	});
 	
 	// datepicker 선언
@@ -177,26 +189,25 @@ $(document).ready(function(){
 		}
 	});	
 	
-   // Day 추가하기
-   $("#add_plan_day").on("click", function() {
-      $("#schedule_detail_box").hide();
-      var day_index = $("#cat_menu").children().length;
-      var city_name = $(".list_title").children("span").text();
-      
-      $("#cat_menu").append(
-         "<li data='" + day_index + "' data-date='02.01' data-day_week='6' data-f_ci='87' data-f_lat='18.79906428' data-f_lng='98.99514161' original-title='치앙마이'>"
-            +    "<div class='fl cat_date_left_box'>"
-            +       "<div class='cat_left_day'>DAY" + day_index+ "</div>"
-            +      "<div class='cat_left_date'>02.01</div>"   
-            +   "</div>"
-            +   "<div class='fl cat_date_right_box'>"
-            +      "<div class='cat_right_weekday'>토요일</div>"
-            +      "<div class='cat_right_city'>" + city_name + "</div>"
-            +   "</div>"
-            +   "<div class='clear'></div>" + 
-         "</li>"
-      );   
-   });   
+	// Day 추가하기
+	$("#add_plan_day").on("click", function() {
+		  var day_index = $("#cat_menu").children().length + 1; // 
+		  var city_name = $(".list_title").children("span").text(); // 현재 선택된 도시명 가져오기
+	      
+		  $("#cat_menu").append(
+		     "<li data='" + day_index + "' data-date='02.01' class='day_menu'>"
+		        +    "<div class='fl cat_date_left_box'>"
+		        +       "<div class='cat_left_day'>DAY" + day_index+ "</div>"
+		        +      "<div class='cat_left_date'>02.01</div>"   
+		        +   "</div>"
+		        +   "<div class='fl cat_date_right_box'>"
+		        +      "<div class='cat_right_weekday'>토요일</div>"
+		        +      "<div class='cat_right_city'>" + city_name + "</div>"
+		        +   "</div>"
+		        +   "<div class='clear'></div>" + 
+		     "</li>"
+		  );   
+	});   
    
    $(document).on("click", ".city_item", function() {
 	   var citycode = $(this).data("code");
@@ -219,8 +230,73 @@ $(document).ready(function(){
 				}
   		}); // ajax end
   		
-  		
    });
+   
+   
+   // Day 선택하기 (추가)
+   $(document).on("click", "#cat_menu li", function() {
+	   
+	   // day 변경시 마커이미지 변경(Before)
+	   for(var i=1;i<=$("#schedule_detail_box").children().length;i++){
+		   delMarkerIcon($("#spot"+i).data("seq"),$("#spot"+i).data("type"));
+	   }
+		
+	   // day 변경시 찍힌 폴리라인 삭제
+	   for(var i=0;i<paths.length;i++){
+		   paths[i].setMap(null);
+	   }
+	   paths = [];
+	   
+	   $(".day_menu").removeClass("on");
+	   $(this).addClass("on");
+	   $("#schedule_detail_box").children().remove();
+
+	   // SessionStorage에서 객체 가져오기
+	   var set_day = $(this).attr("data"); //Key값 설정
+	   var spot_obj = JSON.parse(sessionStorage.getItem("Day"+set_day));
+	   if(spot_obj != null){ // 세션에 key값이 있는 경우 spot_detail에 뿌려주기
+		   for(var i = 1; i <= Object.keys(spot_obj).length; i++){
+			   var num = "index"+i;
+//		       var spot_arr = new Array(spot_name , spot_type, spot_no, spot_lat, spot_lng, spot_city, spot_img, spot_seq, spot_num);
+//		       								0			1		   2		3		  4			5			6		7			8
+		       alert("index: " + i  + " : "  +  spot_obj[num]);
+			   $("#schedule_detail_box").append("" +
+					   "<div class='day_spot_item' data-set_day='" + set_day + " data-img='"+spot_obj[num][6]+"' data-citycd='"+ spot_obj[num][5] +"' data-seq='"+ spot_obj[num][8] +"' data-no='" + spot_obj[num][2] + "' data-pl_cat='301' data-latlng='" + spot_obj[num][3] + "," + spot_obj[num][4] + "' data-lat='" + spot_obj[num][3]+ "' data-lng='" + spot_obj[num][4] +"' data-ci='87' data-type='"+spot_obj[num][1]+"' id='spot" + spot_obj[num][7] + "'>"
+		                  +   "<div class='item_ctrl_box' style='display: none'>"
+		                  +      "<div class='fl item_copy_plan' title='장소복사'><img src='/twt/resources/images/plan/item_more_icon_a.png'></div>"
+		                  +       "<div class='fl item_set_plan' title='메모&amp;예산' onclick='addbudget(&quot;"+spot_obj[num][2]+"&quot;,&quot;"+spot_obj[num][0]+"&quot;,&quot;"+spot_obj[num][6]+"&quot;,&quot;"+spotcontent[spot_obj[num][7]-1]+"&quot;,&quot;"+spotaddr[spot_obj[num][7]]+"&quot;,&quot;"+spot_obj[num][5]+"&quot;,&quot;"+spot_obj[num][1]+"&quot;)'><img src='/twt/resources/images/plan/item_set_icon_a.png'></div>"
+		                  +      "<div class='fl btn_del' title='삭제'><img src='/twt/resources/images/plan/item_del_icon_a.png'></div>"
+		                  +      "<div class='clear'></div>" 
+		                  +   "</div>"
+		                  +   "<div class='img_box fl'>"
+		                  +      "<div class='spot_order_box'>" + spot_obj[num][7] + "</div>"
+		                  +      "<img src='/twt/resources/images/plan/" + spot_obj[num][5]+ "/" + spot_obj[num][6] +"'>"
+		                  +      "<div style='position:absolute;top:35px;left:40px;width:22px;height:20px;>"
+		                  +         "<img src='/twt/resources/images/plan/list_memo_btn_off.png' class='memo_indi' style='width:22px;height:20px;'>"
+		                  +         "<!-- <i class='fas fa-pencil-alt'></i> -->"
+		                  +      "</div>"
+		                  +   "</div>"
+		                  +   "<div class='fl info_box'>"
+		                  +      "<div class='title'>" + spot_obj[num][0] + "</div>"
+		                  +      "<div class='sub'>" + spot_obj[num][1] +"</div>"
+		                  +      "<div class='sub inspot_day_info_box' style='color:#1a7ad9'></div>"
+		                  +   "</div>"
+		                  +   "<div class='clear'></div>"
+		                  + "</div>" +  
+		                  "");			   
+		   }
+	   }
+	   
+	   // day 변경시 마커이미지 변경(After)
+	   for(var i=1;i<=$("#schedule_detail_box").children().length;i++){
+		   addMarkerIcon($("#spot"+i).data("seq"),$("#spot"+i).data("type"));
+	   }
+	   
+	   // 폴리라인 생성
+	   addPath();
+
+   });
+
    
 });
 
