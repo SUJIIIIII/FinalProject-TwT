@@ -1,8 +1,6 @@
-//app이라는 변수에 express를 담아줌
-var app = require('express')();
-//http 변수에 http를 담아두고 Server함수에 app을 담아줌
+var express = require('express');
+var app = express();
 var http = require('http').Server(app);
-
 var io = require('socket.io')(http);
  
 //페이지를 get으로 요청을 했을때.
@@ -11,24 +9,25 @@ app.get('/', function (req, res) {
     res.send('<h1>안녕하세요 "/" 경로 입니다.</h1>');
 });
 
+var count = 1;
 io.on('connection', function(socket){
-	  console.log('한명의 유저가 접속을 했습니다.');
-      socket.on('disconnect', function () {
-          console.log('한명의 유저가 접속해제를 했습니다.');
+	  console.log('user connected : ', socket.id);
+
+	  socket.on('disconnect', function () {
+    	  console.log('user disconnected : ', socket.id);
       });
 
-      socket.on('send_msg', function (msg) {
+      socket.on('send_msg', function (msg, userId) {
           //콘솔로 출력을 한다.
-          console.log(msg);
+          console.log(msg, userId);
           //다시, 소켓을 통해 이벤트를 전송한다.
-          io.emit('send_msg', msg);
+          io.emit('send_msg', msg, userId);
       });
 
 	});
  
-//http는 82번 포트를 사용한다.
-http.listen(82, function () {
+http.listen(3000, function () {
     //콘솔창에 출력
-    console.log('listening on *:82');
+    console.log('listening on *:3000');
 });
 
