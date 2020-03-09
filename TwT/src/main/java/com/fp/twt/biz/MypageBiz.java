@@ -1,6 +1,9 @@
 package com.fp.twt.biz;
 
+import java.util.ArrayList;
 import java.util.List;
+
+import javax.servlet.http.HttpServletResponse;
 
 import com.fp.twt.vo.AirplaneInfoVo;
 import com.fp.twt.vo.MemberVo;
@@ -69,4 +72,7 @@ public interface MypageBiz {
 
 	// 전체 회원 목록 조회
 	public List<MemberVo> selectAllMember(MemberVo vo);
+
+	// 내 아이디 찾기
+	public List<MemberVo> searchId(String m_Email, HttpServletResponse response);
 }

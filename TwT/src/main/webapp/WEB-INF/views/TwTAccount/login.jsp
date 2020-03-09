@@ -210,7 +210,6 @@ function login_chk() {
 		return false;
 	}
 }
-
 </script>
 <style type="text/css">
 * {
@@ -552,7 +551,7 @@ a:hover {
 				<input type="password" name="m_Pass" id="login_Pass" placeholder="Password" style="border-left: 3px solid #fc3c3c;" />
 				
 				<button type="button" id="forgot" data-toggle="modal" data-target="#exampleModalCenter">
-				     Forgot your password?
+				     Forgot your Id/password?
 				</button>
 				
 				<button type="submit" id="loginbtn" >Sign In</button>
@@ -595,8 +594,56 @@ signInButton.addEventListener('click', () => {
 <%-- 로그인 판넬 이동 자바스크립트 끝 --%>
 </script>
 
-<%-- 비밀번호 찾기 모달창 --%>
+<%-- 아이디/비밀번호 찾기 모달창 --%>
 <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalCenterTitle">아이디 / 비밀번호 찾기</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+         <div style="width:50%; height:auto; margin:0; padding:0; float:left; text-align:center;">
+          <a data-toggle="modal" href="#findId" class="btn btn-primary btn-outline-primary">내 아이디 찾기</a>
+         </div>
+         
+          <div style="width:50%; height:auto; margin:0; padding:0; float:left; text-align:center;">
+          <a data-toggle="modal" href="#findPwd" class="btn btn-primary btn-outline-primary">내 비밀번호 찾기</a>
+          </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<%-- 아이디 찾기 모달 창 --%>
+<div class="modal fade" id="findId" aria-hidden="true" role="dialog" style="display:none; z-index:1060">
+ <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="findId">아이디 찾기</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      
+      <form action="searchId.do" method="get" style="width:100%;">
+      <div class="modal-body" id="idmodal">
+                  이름  <input type="text" name="m_Name" id="myname"><br>
+                  이메일  <input type="text" name="m_Email" id="myemail">
+      </div>
+      <div class="modal-footer" style="width:495px;">
+          <button type="submit" class="btn btn-primary btn-outline-primary">찾 기</button>
+      </div>
+      </form>
+    </div>
+  </div>
+</div>
+<%-- 아이디 찾기 모달 창 끝 --%>
+
+<%-- 비밀번호 찾기 모달 창 --%>
+<div class="modal fade" id="findPwd" tabindex="-1" role="dialog" aria-labelledby="findPwd" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header">
@@ -611,7 +658,7 @@ signInButton.addEventListener('click', () => {
                   이메일  <input type="text" name="m_Email">
       </div>
       <div class="modal-footer" style="width:495px;">
-          <button type="submit" class="btn btn-primary btn-outline-primary">확 인</button>
+          <button type="submit" class="btn btn-primary btn-outline-primary">찾 기</button>
       </div>
       </form>
     </div>

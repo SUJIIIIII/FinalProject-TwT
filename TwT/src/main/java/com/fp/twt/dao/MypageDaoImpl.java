@@ -1,7 +1,11 @@
 package com.fp.twt.dao;
 
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -214,7 +218,7 @@ public class MypageDaoImpl implements MypageDao {
 	@Override
 	public List<TravelScheduleVo> selectMyRoute(String m_Code) {
 		List<TravelScheduleVo> list = new ArrayList<TravelScheduleVo>();
-		
+
 		try {
 			list = sqlSession.selectList(namespace + "routeM", m_Code);
 			for (TravelScheduleVo i : list) {
@@ -237,6 +241,32 @@ public class MypageDaoImpl implements MypageDao {
 				System.out.println(i.toString());
 			}
 		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return list;
+	}
+
+	// 아이디 찾기
+	@Override
+	public List<MemberVo> searchId(String m_Email, HttpServletResponse response) {
+		
+		List<MemberVo> list = new ArrayList<MemberVo>();
+
+		try {
+			list = sqlSession.selectList(namespace + "findIdM", m_Email);
+			
+			for (MemberVo i : list) {
+				System.out.println("아이디 : " + i.getm_Id());
+				
+				PrintWriter out = response.getWriter();
+				
+				out.println("<script>alert("+i.getm_Id()+");</script>");
+				
+				out.flush();
+			}
+			
+		} catch (Exception e) {
+			System.out.println("내 아이디 찾기 실패");
 			e.printStackTrace();
 		}
 		return list;
