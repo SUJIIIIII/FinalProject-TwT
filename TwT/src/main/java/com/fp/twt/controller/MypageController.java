@@ -25,12 +25,14 @@ import org.springframework.social.oauth2.OAuth2Operations;
 import org.springframework.social.oauth2.OAuth2Parameters;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.fp.twt.HomeController;
 import com.fp.twt.biz.MypageBiz;
@@ -210,12 +212,11 @@ public class MypageController {
 		int result1 = biz.loginIdChk(m_Id);
 		int result2 = 0;
 		int result3 = 0;
-		
 
-		if(res.getm_Mailcheck().contains("Y")) {
+		if (res.getm_Mailcheck().contains("Y")) {
 			result3 = 1;
 		}
-		
+
 		// 비밀번호 해독
 		if (passwordEncoder.matches(m_Pass, res.getm_Pass())) {
 			System.out.println("로그인 체크 정보" + m_Id + ":" + m_Pass);
@@ -235,12 +236,12 @@ public class MypageController {
 	@RequestMapping(value = "/callback.do", method = { RequestMethod.GET, RequestMethod.POST })
 	public String callback(Model model, @RequestParam String code, @RequestParam String state, HttpSession session,
 			HttpServletRequest request, MemberVo vo) throws IOException, ParseException {
-		
+
 		List<MemberVo> list = biz.selectAllMember(vo);
-		
+
 		System.out.println("여기는 callback");
 		System.out.println("list : " + list.toString());
-		
+
 		OAuth2AccessToken oauthToken;
 		oauthToken = naverLoginBO.getAccessToken(session, code, state);
 
@@ -260,21 +261,21 @@ public class MypageController {
 		vo.setm_Pass(passwordEncoder.encode("1234")); // DB에서 Not null로 처리했기에 임의로 준 값
 		vo.setm_Name((String) response.get("name"));
 		vo.setm_Email((String) response.get("email"));
-		
+
 		System.out.println("네이버 아이디는 : " + vo.getm_Id());
 		System.out.println("네이버 이메일은 : " + vo.getm_Email());
 		System.out.println("네이버 이름은 : " + vo.getm_Name());
 		System.out.println("네이버 비밀번호는 : " + vo.getm_Pass());
 
-		if(list.toString().contains(vo.getm_Id())) {
+		if (list.toString().contains(vo.getm_Id())) {
 			biz.login(vo);
 		} else {
 			biz.memberSNSInsert(vo);
 		}
-		
+
 		// 생략 가능_세션에 담기 위해 사용했다.
 		session.setAttribute("user", vo);
-		
+
 		return "redirect:/index.jsp";
 
 	}
@@ -282,30 +283,30 @@ public class MypageController {
 	// 카카오 로그인 성공시 callback호출 메소드
 	@RequestMapping(value = "/kakaologin.do")
 	public String kakao(@RequestParam("code") String code, MemberVo vo, HttpSession session) {
-		
+
 		List<MemberVo> list = biz.selectAllMember(vo);
-		
+
 		String access_Token = kakao.getAccessToken(code);
 		System.out.println("카카오 : " + access_Token);
 
 		HashMap<String, Object> userInfo = kakao.getUserInfo(access_Token);
 		System.out.println("login Controller : " + userInfo);
-		
+
 		vo.setm_Id((String) userInfo.get("email"));
 		vo.setm_Pass(passwordEncoder.encode("1234"));
 		vo.setm_Name((String) userInfo.get("nickname"));
-		vo.setm_Email((String)userInfo.get("email"));
-		
+		vo.setm_Email((String) userInfo.get("email"));
+
 		System.out.println("카카오 아이디는 : " + vo.getm_Id());
 		System.out.println("카카오 이름은 : " + vo.getm_Name());
 		System.out.println("카카오 비밀번호는 : " + vo.getm_Pass());
-		
+
 		// 클라이언트의 이메일이 존재할 때 세션에 해당 이메일과 토큰 등록
 		if (userInfo.get("email") != null) {
 			session.setAttribute("user", vo);
 			session.setAttribute("access_Token", access_Token);
-			
-			if(list.toString().contains(vo.getm_Id())) {
+
+			if (list.toString().contains(vo.getm_Id())) {
 				biz.login(vo);
 			} else {
 				biz.memberSNSInsert(vo);
@@ -317,10 +318,11 @@ public class MypageController {
 
 	// 구글 로그인 성공시 callback호출 메소드
 	@RequestMapping(value = "/googlelogin.do", method = { RequestMethod.GET, RequestMethod.POST })
-	public String googleCallback(Model model, @RequestParam String code, MemberVo vo, HttpSession session) throws IOException {
-		
+	public String googleCallback(Model model, @RequestParam String code, MemberVo vo, HttpSession session)
+			throws IOException {
+
 		List<MemberVo> list = biz.selectAllMember(vo);
-		
+
 		System.out.println("여기는 googleCallback");
 
 		OAuth2Operations oauthOperations = googleConnectionFactory.getOAuthOperations();
@@ -335,19 +337,19 @@ public class MypageController {
 			accessToken = accessGrant.getRefreshToken();
 			System.out.printf("accessToken is expired. refresh token = {}", accessToken);
 		}
-		
+
 		vo.setm_Id(accessToken.substring(0, 3));
 		vo.setm_Pass(passwordEncoder.encode("1234"));
 		vo.setm_Name("홍길동");
 		vo.setm_Email("twt@gmail.com");
-		
+
 		System.out.println("구글 아디 : " + vo.getm_Id());
-		if(list.toString().contains(vo.getm_Id())) {
+		if (list.toString().contains(vo.getm_Id())) {
 			biz.login(vo);
 		} else {
 			biz.memberSNSInsert(vo);
 		}
-		
+
 		session.setAttribute("user", vo);
 
 		return "redirect:/index.jsp";
@@ -391,4 +393,11 @@ public class MypageController {
 		return "TwTAccount/login";
 	}
 
+	// 아이디 찾기
+	@RequestMapping(value = "searchId.do", method = RequestMethod.GET)
+	public String searchId(Model model, String m_Email, HttpServletResponse response) {
+		System.out.println("이메일 : " + m_Email);
+		model.addAttribute("searchId", biz.searchId(m_Email, response));
+		return "TwTAccount/login";
+	}
 }

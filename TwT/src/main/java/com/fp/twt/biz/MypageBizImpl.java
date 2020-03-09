@@ -1,6 +1,9 @@
 package com.fp.twt.biz;
 
+import java.util.ArrayList;
 import java.util.List;
+
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -141,5 +144,11 @@ public class MypageBizImpl implements MypageBiz {
 	@Override
 	public List<MemberVo> selectAllMember(MemberVo vo) {
 		return dao.selectAllMember(vo);
+	}
+
+	// 아이디 찾기
+	@Override
+	public List<MemberVo> searchId(String m_Email, HttpServletResponse response) {
+		return dao.searchId(m_Email, response);
 	}
 }

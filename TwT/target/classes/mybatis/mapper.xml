@@ -321,6 +321,11 @@ SELECT TS.TS_CODE, TS.M_CODE, TS.TP_CODE, TS.TS_TITLE, TS.TS_SDAY, TS.TS_THEME, 
 	<select id="allmemberM" resultType="Member">
 	   SELECT * FROM TWTMEMBER
 	</select>
+	
+	<!-- 아이디 찾기 -->
+	<select id="findIdM" resultType="Member">
+	   SELECT M_ID FROM TWTMEMBER WHERE M_EMAIL = #{m_Email}
+	</select>
 
 	<!-- ================================찬우================================== -->
 
