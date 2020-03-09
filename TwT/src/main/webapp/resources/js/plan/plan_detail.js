@@ -185,7 +185,14 @@ $(document).ready(function(){
 			}
 		});
 		
-		$("#start_day").datepicker();
+		$("#start_day").datepicker({
+			onSelect : function(dateText) {
+				// 수정된 날짜 클릭시 시작 날짜 변경
+				var date = $(this).val();
+				$(".start_date").text(date);
+			}
+		});
+		
 		
 	}); // date picker end
 	
@@ -335,7 +342,7 @@ $(document).ready(function(){
 	   for(var i=1;i<=$("#schedule_detail_box").children().length;i++){
 		   var spot_no = $("#spot"+i).data("no");
 		   var spot_seq = find_spot_seq(spot_no);
-		   delMarkerIcon(spot_seq,$("#spot"+i).data("type"));
+		   //delMarkerIcon(spot_seq,$("#spot"+i).data("type"));
 	   }
 		
 	   // day 변경시 찍힌 폴리라인 삭제
@@ -366,7 +373,7 @@ $(document).ready(function(){
 		for(var i=1;i<=$("#schedule_detail_box").children().length;i++){
 			var spot_no = $("#spot"+i).data("no");
 			var spot_seq = find_spot_seq(spot_no);
-			addMarkerIcon(spot_seq,$("#spot"+i).data("type"));
+			//addMarkerIcon(spot_seq,$("#spot"+i).data("type"));
 		 }
 		   
 		 // 폴리라인 생성
