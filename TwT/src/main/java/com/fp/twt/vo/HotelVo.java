@@ -7,8 +7,8 @@ public class HotelVo extends PagingVo {
     private String h_Code; 			//숙소 번호
     private String city_Code; 		//도시 번호
     private String h_Name; 			//숙소명
-    private int h_Lati; 				//숙소 위도
-    private int h_Long; 				//숙소 경도
+    private Double h_Lati; 				//숙소 위도
+    private Double h_Long; 				//숙소 경도
     private String h_phone; 		//숙소 전화번호
     private String h_Basicaddr; 		//숙소 간략주소
     private String h_Addr; 			//숙소 주소
@@ -34,7 +34,7 @@ public class HotelVo extends PagingVo {
 		super();
 	}
 
-	public HotelVo(String h_Code, String city_Code, String h_Name, int h_Lati, int h_Long, String h_phone,
+	public HotelVo(String h_Code, String city_Code, String h_Name, Double h_Lati, Double h_Long, String h_phone,
 			String h_Basicaddr, String h_Addr, String h_Img, String h_Content, int h_Starn, String h_Basiccontent,
 			String city_Name, String hr_Code, int hr_Standard, int hr_Max, int hr_Price, int hr_Valid, String hr_Rank,
 			String hr_Img, String hr_Wifi, String hr_Smoking, String hr_Breakfast, String hr_bed, Date hr_Date) {
@@ -90,19 +90,19 @@ public class HotelVo extends PagingVo {
 		this.h_Name = h_Name;
 	}
 
-	public int getH_Lati() {
+	public Double getH_Lati() {
 		return h_Lati;
 	}
 
-	public void setH_Lati(int h_Lati) {
+	public void setH_Lati(Double h_Lati) {
 		this.h_Lati = h_Lati;
 	}
 
-	public int getH_Long() {
+	public Double getH_Long() {
 		return h_Long;
 	}
 
-	public void setH_Long(int h_Long) {
+	public void setH_Long(Double h_Long) {
 		this.h_Long = h_Long;
 	}
 
