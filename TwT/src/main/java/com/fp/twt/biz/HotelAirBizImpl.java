@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 import com.fp.twt.dao.HotelAirDao;
 import com.fp.twt.vo.AirSearchVo;
 import com.fp.twt.vo.HotelVo;
-import com.fp.twt.vo.HotelroomVo;
 
 @Service
 public class HotelAirBizImpl implements HotelAirBiz{
@@ -39,8 +38,14 @@ public class HotelAirBizImpl implements HotelAirBiz{
 	
 	//호텔리스트
 	@Override
-	public List<HotelVo> HselectList(){
-		return dao.HselectList();
+	public List<HotelVo> HselectList(HotelVo hotelVo){
+		return dao.HselectList(hotelVo);
+	}
+	
+	/** 호텔 리스트 목록 개수 */
+	@Override
+	public int HselectListCnt(){
+		return dao.HselectListCnt();
 	}
 
 	@Override

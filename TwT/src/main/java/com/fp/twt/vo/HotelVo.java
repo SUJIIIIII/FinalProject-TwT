@@ -2,7 +2,7 @@ package com.fp.twt.vo;
 
 import java.util.Date;
 
-public class HotelVo {
+public class HotelVo extends PagingVo {
 
     private String h_Code; 			//숙소 번호
     private String city_Code; 		//도시 번호

@@ -170,37 +170,45 @@ function form_chk() {
 function login_chk() {
 	var id = $("#login_ID").val();
 	var pwd = $("#login_Pass").val();
-	var res = false;
+	var db = false;
+	var blank = false;
+	
+	if(id == null || id == "") {
+		alert("아이디를 입력해주세요");
+		blank =  false;
+	} else if(pwd == null || pwd == "") {
+		alert("비밀번호를 입력해주세요");
+		blank = false;
+	} else {
+		blank = true;
+	}
+	
 	$.ajax({
 		url:"loginChk.do?m_Id="+id+"&m_Pass="+pwd,
 		type:"get",
 		dataType:"json",
-		contentType:"application/json",
+		async:false, // 해당하는 페이지를 동기화 시키는 방법
+		contentType:"application/json", 
 		success : function(data){
-			if(data.check1 == '1' && data.check2 == '1') {
+			if(data.check1 == 1 && data.check2 == 1) {
+				if(data.check3 == 1){
+					db = true;
+				} else {
+					alert("이메일 인증 후 로그인이 가능합니다.");
+				}
 			} else {
 				alert("아이디 및 비밀번호를 확인해주세요");
-				location.href="login.do";
-		}
-			}, error:function(){
-			alert("실패");
-			$("#login_chk").show();
-			$("#login_chk").text("아이디 및 비밀번호를 확인해주세요");
-			$("#loginbtn").attr("disabled","disabled");
+			}
+		}, error:function(){
+			alert("통신 실패");
 		}
 	});
 	
-	if(id == null || id == "") {
-		alert("아이디를 입력해주세요");
-		res =  false;
-	} else if(pwd == null || pwd == "") {
-		alert("비밀번호를 입력해주세요");
-		res = false;
-	} else {
-		res = true;
+	if(db * blank > 0){
+		return true;
+	} else{	
+		return false;
 	}
-	
-	return res;
 }
 
 </script>
@@ -590,23 +598,23 @@ signInButton.addEventListener('click', () => {
 <%-- 비밀번호 찾기 모달창 --%>
 <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
-  <form action="searchPassword.do" method="get">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalCenterTitle">Modal title</h5>
+        <h5 class="modal-title" id="exampleModalCenterTitle">비밀번호 찾기</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
+      <form action="searchPassword.do" method="get" style="width:100%;">
       <div class="modal-body">
-                  아이디 : <input type="text" name="m_Id"><br>
-                  이메일 : <input type="text" name="m_Email">
+                  아이디  <input type="text" name="m_Id"><br>
+                  이메일  <input type="text" name="m_Email">
       </div>
-      <div class="modal-footer">
-        <button type="submit" class="btn btn-primary btn-outline-primary">확 인</button>
+      <div class="modal-footer" style="width:495px;">
+          <button type="submit" class="btn btn-primary btn-outline-primary">확 인</button>
       </div>
+      </form>
     </div>
-    </form>
   </div>
 </div>
 <%-- 비밀번호 찾기 모달창 끝 --%>

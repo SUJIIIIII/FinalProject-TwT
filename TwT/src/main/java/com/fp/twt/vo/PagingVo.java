@@ -1,139 +1,155 @@
 package com.fp.twt.vo;
 
 public class PagingVo {
-	private boolean preve;
-    private boolean next;
+	/** 한 페이지당 게시글 수 **/
+    private int pageSize = 6;
+    /** 한 블럭(range)당 페이지 수 **/
+    private int rangeSize = 5;
+    /** 현재 페이지 **/
+    private int curPage = 1;
+    /** 현재 블럭(range) **/
+    private int curRange = 1;
+    /** 총 게시글 수 **/
+    private int listCnt;
+    /** 총 페이지 수 **/
+    private int pageCnt;
+    /** 총 블럭(range) 수 **/
+    private int rangeCnt;
+    /** 시작 페이지 **/
     private int startPage = 1;
-    private int endPage;
-    private int currentPage;
-    private int boardSize;
-    private int startRow;
-    private int listCount;
-    private int allPage;
+    /** 끝 페이지 **/
+    private int endPage = 1;
+    /** 시작 index **/
+    private int startIndex = 0;
+    /** 끝 index **/
+    private int endIndex = 0;
+    /** 이전 페이지 **/
+    private int prevPage;
+    /** 다음 페이지 **/
+    private int nextPage;
     
-    public int getBoardSize() {
-    	return boardSize;
-    }
-    
-    public int getStartRow() {
-        return startRow;
-    }
-
-    public int getCurrentPage() {
-    	return currentPage;
-    }
-    
-    public int getListCount() {
-    	return listCount;
-    }
-
-    public int getEndPage() {
-    	return endPage;
-    }
-
-    public int getStartPage() {
-    	return startPage;
-    }
-
-    public int getAllPage() {
-    	return allPage;
-    }
-    
-    public void setBoardSize(int boardSize) {
-    	this.boardSize = boardSize;
-    }
-    
-    public void setStartRow(int currentPage) {
-    	this.startRow = (currentPage - 1) * boardSize;
-    }
-
-    public void setCurrentPage(int currentPage) {
-        this.currentPage = currentPage;
-    }
-
-    public void setListCount(int listCount) {
-        this.listCount = listCount;
-    }
-    
-    public void setEndPage(int currentPage, int allPage) {
-    	if(currentPage == 1) {
-    		if(allPage < 5) {
-    			this.endPage = allPage;
-    		} else {
-    			this.endPage = currentPage + 4;
-    		}
-    	}else if(currentPage == 2){
-    		if(allPage < 5) {
-    			this.endPage = allPage;
-    		} else {
-    			this.endPage = currentPage + 3;
-    		}
-    	}else if(currentPage >= allPage-2){
-    		this.endPage = allPage;
-    	}else {
-    		this.endPage = currentPage + 2;
-    	}
-    }
-       
-    public void setStartPage(int currentPage, int allPage) {
-    	if(currentPage > 3 && currentPage < allPage-1) {
-    		this.startPage = currentPage - 2;
-    		
-    		
-    	} else if(currentPage >= allPage-1){
-    		if(allPage < 5) {
-    			this.startPage = 1;
-    		} else {
-    			this.startPage = allPage-4;
-    		}
-    		
-    	} else {
-    		this.startPage = 1;
-    	}
-    }
-    
-    public void setAllPage(int listCount) {
-    	if(listCount==0) {
-    		listCount = 1;
-    	}
-        if((listCount % boardSize) == 0) {
-        	this.allPage = listCount / boardSize ;
-        } else {
-            this.allPage = (listCount / boardSize) + 1;
-        }
-    }
-    
-    public void setPreve(int currentPage) {
-    	if(currentPage == 1) {
-    		this.preve = false;
-    	} else {
-    		this.preve = true;
-    	}
-    }
-
-    public void setNext(int currentPage, int allPage) {
-    	if(currentPage == allPage ) {
-    		this.next = false;
-    	} else {
-    		this.next = true;
-    	}
-    }
-
-    public boolean isPreve() {
-        return preve;
-    }
-    
-    public boolean isNext() {
-        return next;
-    }
-     
-	@Override
-	public String toString() {
-		return "PagingVo [preve=" + preve + ", next=" + next + ", startPage=" + startPage + ", endPage=" + endPage
-				+ ", currentPage=" + currentPage + ", boardSize=" + boardSize + ", startRow=" + startRow
-				+ ", listCount=" + listCount + ", allPage=" + allPage + "]";
+    public PagingVo() {
 	}
-
+    
+	public PagingVo(int listCnt, int curPage) {
+	        
+        /**
+         * 페이징 처리 순서
+         * 1. 총 페이지수
+         * 2. 총 블럭(range)수
+         * 3. range setting
+         */
+        
+        // 총 게시물 수와 현재 페이지를 Controller로 부터 받아온다.
+        /** 현재페이지 **/
+        setCurPage(curPage);
+        /** 총 게시물 수 **/
+        setListCnt(listCnt);
+        
+        /** 1. 총 페이지 수 **/
+        setPageCnt(listCnt);
+        /** 2. 총 블럭(range)수 **/
+        setRangeCnt(pageCnt);
+        /** 3. 블럭(range) setting **/
+        rangeSetting(curPage);
+        /** DB 질의를 위한 startIndex 설정 **/
+        setStartIndex(curPage);
+    }
+    
+	public int getPageSize() {
+		return pageSize;
+	}
+	public void setPageSize(int pageSize) {
+		this.pageSize = pageSize;
+	}
+	public int getRangeSize() {
+		return rangeSize;
+	}
+	public void setRangeSize(int rangeSize) {
+		this.rangeSize = rangeSize;
+	}
+	public int getCurPage() {
+		return curPage;
+	}
+	public void setCurPage(int curPage) {
+		this.curPage = curPage;
+	}
+	public int getCurRange() {
+		return curRange;
+	}
+	public int getListCnt() {
+		return listCnt;
+	}
+	public void setListCnt(int listCnt) {
+		this.listCnt = listCnt;
+	}
+	public int getPageCnt() {
+		return pageCnt;
+	}
+	public int getRangeCnt() {
+		return rangeCnt;
+	}
+	public int getStartPage() {
+		return startPage;
+	}
+	public void setStartPage(int startPage) {
+		this.startPage = startPage;
+	}
+	public int getEndPage() {
+		return endPage;
+	}
+	public void setEndPage(int endPage) {
+		this.endPage = endPage;
+	}
+	public int getStartIndex() {
+		return startIndex;
+	}
+	public int getEndIndex() {
+		return endIndex;
+	}
+	public int getPrevPage() {
+		return prevPage;
+	}
+	public void setPrevPage(int prevPage) {
+		this.prevPage = prevPage;
+	}
+	public int getNextPage() {
+		return nextPage;
+	}
+	public void setNextPage(int nextPage) {
+		this.nextPage = nextPage;
+	}
 	
+	public void setPageCnt(int listCnt) {
+        this.pageCnt = (int) Math.ceil(listCnt*1.0/pageSize);
+    }
+    public void setRangeCnt(int pageCnt) {
+        this.rangeCnt = (int) Math.ceil(pageCnt*1.0/rangeSize);
+    }
+    public void rangeSetting(int curPage){
+        
+        setCurRange(curPage);        
+        this.startPage = (curRange - 1) * rangeSize + 1;
+        this.endPage = startPage + rangeSize - 1;
+        
+        if(endPage > pageCnt){
+            this.endPage = pageCnt;
+        }
+        
+        this.prevPage = curPage - 1;
+        this.nextPage = curPage + 1;
+    }
+    public void setCurRange(int curPage) {
+        this.curRange = (int)((curPage-1)/rangeSize) + 1;
+    }
+    public void setStartIndex(int curPage) {
+    	System.out.println("curPage ;; "+curPage +"pageSize;; " +pageSize);
+        this.startIndex = (curPage-1) * pageSize + 1;
+    }
+    public void setEndIndex(int startIndex) {
+		this.endIndex = startIndex + pageSize - 1;
+	}
 	
 }
+	
+
