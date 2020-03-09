@@ -62,11 +62,10 @@ $(document).ready(function() {
 
 
 $(document).ready(function(){
-	
 	// 페이지 새고로침 액션
-	$(window).on("beforeunload", function() {
+/*	$(window).on("beforeunload", function() {
 		return 'test';
-	});
+	});*/
 	
 	// 일정에 MouseHover 했을때 동작
 	$(document).on("mouseenter",".day_spot_item",function(){
@@ -143,15 +142,11 @@ $(document).ready(function(){
 			// 예산에 들어간 값도 다 날려버리기
 			day_budget_clear();
 			
-			$("#schedule_detail_box").children().remove();
-			
-			// 세션에 저장한 값도 날려주기
-			var set_day = $(".day_menu.on").attr("data"); //Key값 설정
-			sessionStorage.removeItem("Day"+set_day);
-			
 			// 스팟 초기화시 마커이미지 변경
 			for(var i=1;i<=$("#schedule_detail_box").children().length;i++){
-				delMarkerIcon($("#spot"+i).data("seq"),$("#spot"+i).data("type"));
+				var spot_no = $("#spot"+i).data("no");
+				var spot_seq = find_spot_seq(spot_no);
+				delMarkerIcon(spot_seq,$("#spot"+i).data("type"));
 			}
 			
 			// 스팟 초기화시 찍힌 폴리라인 삭제
@@ -159,6 +154,14 @@ $(document).ready(function(){
 				paths[i].setMap(null);
 			}
 			paths = [];
+			
+			$("#schedule_detail_box").children().remove();
+			
+			// 세션에 저장한 값도 날려주기
+			var set_day = $(".day_menu.on").attr("data"); //Key값 설정
+			sessionStorage.removeItem("Day"+set_day);
+			
+			
 			
 			
 			// 목록 삭제
@@ -179,9 +182,11 @@ $(document).ready(function(){
 				// 수정된 날짜 클릭시 시작 날짜 변경
 				var date = $(this).val();
 				$(".start_date").text(date);
-				// alert($(".start_date").html());
 			}
-		});	
+		});
+		
+		$("#start_day").datepicker();
+		
 	}); // date picker end
 	
 	// 장소 검색 엔터로 입력시 search
@@ -191,7 +196,6 @@ $(document).ready(function(){
 			var input_val = $(this).val(); // 입력한 값
 			var search_type = $("#search_type").val(); // 도시별 검색인지, 전체 검색인지.
 			var name_num = $(".list_box").children(".day_spot_item").length; // 전체 검색 시 가져올 것들 갯수
-			alert(search_type);
 			
 			if(search_type == "city"){
 				var city_code = "CT1"; // 테스트용 임시 변수, 위에서 가져와야함. 
@@ -271,11 +275,13 @@ $(document).ready(function(){
       dep_date.setDate(dep_date.getDate() + day_index - 1); // 지난 날 만큼 계산
       
       var weekday = date_to_label(dep_date.getDay()); // 요일설정
-      var date = day_add_zero(dep_date); // 0붙여주기
+      var date = day_add_zero(dep_date); // 0 붙여주기
+      var city_lat = $(".city_item").data("lat"); //  현재 선택된 도시의 위도
+      var city_lng = $(".city_item").data("lng"); // 현재 선택된 도시의 경도
       
       	
       $("#cat_menu").append(
-         "<li data='" + day_index + "' data-date='" + date + "' class='day_menu' + data-day_week='" + dep_date.getDay() + "'>"
+         "<li data='" + day_index + "' data-date='" + date + "' class='day_menu' + data-day_week='" + dep_date.getDay() + "' data-f_lat='" + city_lat +"' data-f_lng='" + city_lng +"'>"
             +    "<div class='fl cat_date_left_box'>"
             +       "<div class='cat_left_day'>DAY" + day_index+ "</div>"
             +      "<div class='cat_left_date'>" + date + "</div>"   
@@ -327,7 +333,9 @@ $(document).ready(function(){
 
 	   // day 변경시 마커이미지 변경(Before)
 	   for(var i=1;i<=$("#schedule_detail_box").children().length;i++){
-		   delMarkerIcon($("#spot"+i).data("seq"),$("#spot"+i).data("type"));
+		   var spot_no = $("#spot"+i).data("no");
+		   var spot_seq = find_spot_seq(spot_no);
+		   delMarkerIcon(spot_seq,$("#spot"+i).data("type"));
 	   }
 		
 	   // day 변경시 찍힌 폴리라인 삭제
@@ -353,14 +361,16 @@ $(document).ready(function(){
 	   var set_day = $(this).attr("data"); //Key값 설정
 	   create_spot_detail(set_day);
 	   
-	   // day 변경시 마커이미지 변경(After)
-	   for(var i=1;i<=$("#schedule_detail_box").children().length;i++){
-		   addMarkerIcon($("#spot"+i).data("seq"),$("#spot"+i).data("type"));
-	   }
-	   
-	   // 폴리라인 생성
-	   addPath();
-	   
+
+		// day 변경시 마커이미지 변경(After)
+		for(var i=1;i<=$("#schedule_detail_box").children().length;i++){
+			var spot_no = $("#spot"+i).data("no");
+			var spot_seq = find_spot_seq(spot_no);
+			addMarkerIcon(spot_seq,$("#spot"+i).data("type"));
+		 }
+		   
+		 // 폴리라인 생성
+		 addPath();
    });
    
    // 메모&예산 저장
@@ -391,9 +401,8 @@ $(document).ready(function(){
    	
    	// total 예산 보여주기
    	totalBudget(storage_index);
-	
+
    });
-   
 });
 
 // 드래그 가능 코드
@@ -449,6 +458,7 @@ function create_spot_detail(set_day) {
 		       var spotaddr = find_addr(spot_num);
 //		       var spot_arr = new Array(spot_name , spot_type, spot_no, spot_lat, spot_lng, spot_city, spot_img, budget, memo);
 //		       								0			1		   2		3		  4			5			6		7	   8
+		       
 			   $("#schedule_detail_box").append("" +
 					   "<div class='day_spot_item' data='" + spot_seq + "' data-set_day='" + set_day + "' data-budget='" + spot_obj[num][7]+ "' data-memo='" + spot_obj[num][8]+ "' data-img='"+spot_obj[num][6]+"' data-citycd='"+ spot_obj[num][5] +"' data-seq='"+ spot_num +"' data-no='" + spot_obj[num][2] + "' data-pl_cat='301' data-latlng='" + spot_obj[num][3] + "," + spot_obj[num][4] + "' data-lat='" + spot_obj[num][3]+ "' data-lng='" + spot_obj[num][4] +"' data-ci='87' data-type='"+spot_obj[num][1]+"' id='spot" + spot_seq + "'>"
 		                  +   "<div class='item_ctrl_box' style='display: none'>"
@@ -598,9 +608,19 @@ function set_storage_schedule() {
 			dep_date.setDate(dep_date.getDate() + 1); // 하루씩 날짜 더해주기
 			var weekday = date_to_label(dep_date.getDay()); // 요일 반환하기
 			var set_date = day_add_zero(dep_date); 
+			var spot_lat;
+			var spot_lng;
+		
+			for(j=0; j<= $(".city_item").length; i++){
+				if(city_name == $(".city_item").eq(j).data("ci_name")){
+					spot_lat = $(".city_item").eq(j).data("lat");
+					spot_lng = $(".city_item").eq(j).data("lng");
+					break;
+				}
+			}
 			
 			$("#cat_menu").append(
-					"<li data='" + i + "' data-day_week='" + dep_date.getDay() + "' data-date='" + set_date  + "' class='day_menu'>"
+					"<li data='" + i + "'  data-f_lat='" + spot_lat +"' data-f_lng='" + spot_lng +"' data-day_week='" + dep_date.getDay() + "' data-date='" + set_date  + "' class='day_menu' >"
     	            +    "<div class='fl cat_date_left_box'>"
     	            +       "<div class='cat_left_day'>DAY" + i+ "</div>"
     	            +      "<div class='cat_left_date'>" + set_date + "</div>"   
@@ -679,13 +699,13 @@ function cat_menu_edit() {
 	$("#cat_menu_edit_box").children().remove();
 	
 	for (var i = 1; i <= storage_length; i++) {
-		var spot_obj = JSON.parse(sessionStorage.getItem("Day"+i));
-		
-		var city_name
+		var spot_obj = JSON.parse(sessionStorage.getItem("Day"+i));		
+		var city_name;
 		if(spot_obj['index1'] == null){
 			city_name = "도시가 없습니다";
 		} else{
 			city_name = spot_obj['index1'][9];
+
 		}
 		
 		dep_date.setDate(dep_date.getDate() + 1); // 하루씩 날짜 더해주기
@@ -730,7 +750,22 @@ function del_plan_day(day_num) {
 	cat_menu_edit();
 }
 
+function find_spot_seq(spot_no) {
+	var name_num = $(".list_box").children(".day_spot_item").length; // 전체 검색 시 가져올 것들 갯수
+	
+	for(i = 0; i < name_num + 1; i++){
+		var select_spot_no = $(".list_box").children(".day_spot_item").eq(i).data("no");
+		var res;
+		if(select_spot_no == spot_no){
+			res = $(".list_box").children(".day_spot_item").eq(i).data("seq");
+			return res;
+		} 
+	} // 전체검색 end
+}
+
+
 // 번호 재정렬 함수
 function reorder() {
-	
+	// 재정렬 된 목록을 기준으로 index 및 Session 재정렬
 }
+	
