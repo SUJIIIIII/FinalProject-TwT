@@ -149,12 +149,24 @@ $(document).ready(function(){
 			var set_day = $(".day_menu.on").attr("data"); //Key값 설정
 			sessionStorage.removeItem("Day"+set_day);
 			
-			// 스팟 초기화시 마커이미지 변경 & 폴리라인 삭제
+			// 스팟 초기화시 마커이미지 변경
+			for(var i=1;i<=$("#schedule_detail_box").children().length;i++){
+				delMarkerIcon($("#spot"+i).data("seq"),$("#spot"+i).data("type"));
+			}
 			
+			// 스팟 초기화시 찍힌 폴리라인 삭제
+			for(var i=0;i<paths.length;i++){
+				paths[i].setMap(null);
+			}
+			paths = [];
+			
+			
+			// 목록 삭제
+			$("#schedule_detail_box").children().remove();
 			
 		} else {
 			alert("취소 되었습니다.");		
-			}
+		}
 	});
 	
 	// datepicker 선언
@@ -307,12 +319,23 @@ $(document).ready(function(){
 				}
   		}); // ajax end
   		
-  		
    });
    
    
    // Day 선택하기
    $(document).on("click", "#cat_menu li", function() {
+
+	   // day 변경시 마커이미지 변경(Before)
+	   for(var i=1;i<=$("#schedule_detail_box").children().length;i++){
+		   delMarkerIcon($("#spot"+i).data("seq"),$("#spot"+i).data("type"));
+	   }
+		
+	   // day 변경시 찍힌 폴리라인 삭제
+	   for(var i=0;i<paths.length;i++){
+		   paths[i].setMap(null);
+	   }
+	   paths = [];
+
 	   $(".day_menu").removeClass("on");
 	   $(this).addClass("on");
 	   $("#schedule_detail_box").children().remove();
@@ -359,6 +382,14 @@ $(document).ready(function(){
    	
    	// total 예산 보여주기
    	totalBudget(storage_index);
+
+	// day 변경시 마커이미지 변경(After)
+	   for(var i=1;i<=$("#schedule_detail_box").children().length;i++){
+		   addMarkerIcon($("#spot"+i).data("seq"),$("#spot"+i).data("type"));
+	   }
+	   
+	   // 폴리라인 생성
+	   addPath();
    });
 });
 
