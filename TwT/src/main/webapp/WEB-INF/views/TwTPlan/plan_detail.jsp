@@ -1,6 +1,7 @@
 ﻿<%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -405,6 +406,7 @@ var count; // 스팟리스트 개수
 	
 	// 마커를 통해 스팟 추가
 	function marker_to_inspot(name,type,tpcd,lat,lng,ctcd,img,index,con,addr){
+		var set_day = $(".on").attr("data"); // Day
        	var spot_name = name; // 여행지명
    	 	var spot_type = type; // 여행지 타입
        	var spot_no = tpcd; // 순서
@@ -416,9 +418,21 @@ var count; // 스팟리스트 개수
        	var spot_num = index; // 인덱스 번호
        	var spot_content = con; // 스팟 설명
        	var spot_addr = addr; // 스팟 주소
-	       
+       	
+       	var spot_arr = new Array(spot_name, spot_type, spot_no, spot_lat, spot_lng, spot_city, spot_img, spot_seq, spot_num);
+       	// 정보를 담을 배열 생성
+       	var jsonItem = JSON.parse(sessionStorage.getItem("Day" + set_day)); // Session에서 가져올 Key 값
+       	if(jsonItem != null){ // 객체가 있는 경우
+       		jsonItem['index' + spot_seq] = spot_arr;
+	       	sessionStorage.setItem("Day"+set_day, JSON.stringify(jsonItem));
+       	} else {
+   	   		var jsonItem = new Object(); // 객체가 없을 경우 직접 생성해서 넣어줌
+    	   	jsonItem['index' + spot_seq] = spot_arr;
+	       	sessionStorage.setItem("Day"+set_day, JSON.stringify(jsonItem));
+       	}
+       	
       	$("#schedule_detail_box").append("" +  
-      	"<div class='day_spot_item' data='1' data-set_day='1' data-budget='' data-memo='' data-pl_type='0' data-img='"+spot_img+"' data-city='"+spot_city+"' data-seq='"+ spot_num +"' data-no='" + spot_no + "' data-pl_cat='301' data-latlng='" + spot_lat + "," + spot_lng + "' data-lat='" + spot_lat+ "' data-lng='" + spot_lng +"' data-ci='87' data-type='"+spot_type+"' id='spot" + spot_seq + "'>"
+      	"<div class='day_spot_item' data='" + spot_seq + "' data-set_day='" + set_day + "' data-budget='' data-memo='' data-pl_type='0' data-img='"+spot_img+"' data-city='"+spot_city+"' data-seq='"+ spot_num +"' data-no='" + spot_no + "' data-pl_cat='301' data-latlng='" + spot_lat + "," + spot_lng + "' data-lat='" + spot_lat+ "' data-lng='" + spot_lng +"' data-ci='87' data-type='"+spot_type+"' id='spot" + spot_seq + "'>"
                  +   "<div class='item_ctrl_box' style='display: none'>"
                  +      "<div class='fl item_copy_plan' title='장소복사'><img src='/twt/resources/images/plan/item_more_icon_a.png'></div>"
                  +       "<div class='fl item_set_plan' title='메모&amp;예산' onclick='addbudget(&quot;"+spot_no+"&quot;,&quot;"+spot_name+"&quot;,&quot;"+spot_img+"&quot;,&quot;"+spot_content+"&quot;,&quot;"+spot_addr+"&quot;,&quot;"+spot_city+"&quot;,&quot;"+spot_type+"&quot;)'><img src='/twt/resources/images/plan/item_set_icon_a.png'></div>"
@@ -576,7 +590,7 @@ var count; // 스팟리스트 개수
 	    }  
 	    return str.join('').replace(/^,/,'');   
 	}  
-
+	
 	
 	/* script */
 	$(document).ready(function(){
@@ -615,6 +629,7 @@ var count; // 스팟리스트 개수
 		
 		// 일정에 여행지추가하기
 		$(document).on("click", ".spot_to_inspot", function() {
+	       var set_day = $(".on").attr("data"); // Day
 	       var spot_name = $(this).parent().data("name"); // 여행지명
 	       var spot_type = $(this).parent().data("type"); // 여행지 타입
 	       var spot_no = $(this).parent().data("no"); // 순서
@@ -625,30 +640,44 @@ var count; // 스팟리스트 개수
 	       var spot_seq = $("#schedule_detail_box").children().length + 1;
 	       var spot_num = $(this).parent().data("seq"); // 인덱스 번호
 	       
+	       var spot_arr = new Array(spot_name, spot_type, spot_no, spot_lat, spot_lng, spot_city, spot_img, spot_seq, spot_num);
+	       // 정보를 담을 배열 생성
+	       var jsonItem = JSON.parse(sessionStorage.getItem("Day" + set_day)); // Session에서 가져올 Key 값
+	       if(jsonItem != null){ // 객체가 있는 경우
+		       jsonItem['index' + spot_seq] = spot_arr;
+		       sessionStorage.setItem("Day"+set_day, JSON.stringify(jsonItem));
+	       } else {
+	    	   var jsonItem = new Object(); // 객체가 없을 경우 직접 생성해서 넣어줌
+	    	   jsonItem['index' + spot_seq] = spot_arr;
+		       sessionStorage.setItem("Day"+set_day, JSON.stringify(jsonItem));
+	       }
+	       
+	       
           $("#schedule_detail_box").append("" +  
-          "<div class='day_spot_item' data='1' data-set_day='1' data-budget='' data-memo='' data-pl_type='0' data-img='"+spot_img+"' data-city='"+spot_city+"' data-seq='"+ spot_num +"' data-no='" + spot_no + "' data-pl_cat='301' data-latlng='" + spot_lat + "," + spot_lng + "' data-lat='" + spot_lat+ "' data-lng='" + spot_lng +"' data-ci='87' data-type='"+spot_type+"' id='spot" + spot_seq + "'>"
-                     +   "<div class='item_ctrl_box' style='display: none'>"
+        		  "<div class='day_spot_item' data='" + spot_seq + "' data-set_day='" + set_day + "' data-budget='' data-memo='' data-pl_type='0' data-img='"+spot_img+"' data-city='"+spot_city+"' data-seq='"+ spot_num +"' data-no='" + spot_no + "' data-pl_cat='301' data-latlng='" + spot_lat + "," + spot_lng + "' data-lat='" + spot_lat+ "' data-lng='" + spot_lng +"' data-ci='87' data-type='"+spot_type+"' id='spot" + spot_seq + "'>" 
+                     +   	"<div class='item_ctrl_box' style='display: none'>"
                      +      "<div class='fl item_copy_plan' title='장소복사'><img src='/twt/resources/images/plan/item_more_icon_a.png'></div>"
-                     +       "<div class='fl item_set_plan' title='메모&amp;예산' onclick='addbudget(&quot;"+spot_no+"&quot;,&quot;"+spot_name+"&quot;,&quot;"+spot_img+"&quot;,&quot;"+spotcontent[spot_num]+"&quot;,&quot;"+spotaddr[spot_num]+"&quot;,&quot;"+spot_city+"&quot;,&quot;"+spot_type+"&quot;)'><img src='/twt/resources/images/plan/item_set_icon_a.png'></div>"
+         			 +      "<div class='fl item_set_plan' title='메모&amp;예산' onclick='addbudget(&quot;"+spot_no+"&quot;,&quot;"+spot_name+"&quot;,&quot;"+spot_img+"&quot;,&quot;"+spotcontent[spot_num]+"&quot;,&quot;"+spotaddr[spot_num]+"&quot;,&quot;"+spot_city+"&quot;,&quot;"+spot_type+"&quot;)'><img src='/twt/resources/images/plan/item_set_icon_a.png'></div>"
                      +      "<div class='fl btn_del' title='삭제'><img src='/twt/resources/images/plan/item_del_icon_a.png'></div>"
                      +      "<div class='clear'></div>" 
-                     +   "</div>"
-                     +   "<div class='img_box fl'>"
+                     +   	"</div>"
+                     +   	"<div class='img_box fl'>"
                      +      "<div class='spot_order_box'>" + spot_seq + "</div>"
                      +      "<img src='/twt/resources/images/plan/" + spot_city+ "/" + spot_img +"'>"
                      +      "<div style='position:absolute;top:35px;left:40px;width:22px;height:20px;>"
-                     +         "<img src='/twt/resources/images/plan/list_memo_btn_off.png' class='memo_indi' style='width:22px;height:20px;'>"
-                     +         "<!-- <i class='fas fa-pencil-alt'></i> -->"
+                     +      "<img src='/twt/resources/images/plan/list_memo_btn_off.png' class='memo_indi' style='width:22px;height:20px;'>"
+                     +      "<!-- <i class='fas fa-pencil-alt'></i> -->"
                      +      "</div>"
-                     +   "</div>"
-                     +   "<div class='fl info_box'>"
+                     +   	"</div>"
+                     +   	"<div class='fl info_box'>"
                      +      "<div class='title'>" + spot_name + "</div>"
                      +      "<div class='sub'>" + spot_type+"</div>"
                      +      "<div class='sub inspot_day_info_box' style='color:#1a7ad9'></div>"
-                     +   "</div>"
-                     +   "<div class='clear'></div>"
-                     + "</div>" +  
-          "");
+                     +   	"</div>"
+                     +   	"<div class='clear'></div>"
+                     + 		"</div>" +  
+     	  "");
+	       
           
           // 추가된 스팟의 위도/경도 넣어주기
           addPath();
@@ -900,7 +929,8 @@ src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCiDE5HBue4mflsdkcsGvSZrUe
 				</ul>
 				<ul id="cat_menu" data="87" data-member_srl="1213145" data-year="2020" style="max-height: 478px;">
 					<!-- <li id="show_all_day" data="show_all_day" original-title="">전체 일정 보기</li> -->
-					<li data="1" data-date="01.31" data-day_week="5" data-f_ci="87" data-f_lat="18.79906428" data-f_lng="98.99514161" class="on" original-title="치앙마이" style="background:#fc3c3c;border-bottom:solid 1px #fc3c3c;">
+					<li data="1" data-date="01.31" data-day_week="5" data-f_ci="87" data-f_lat="18.79906428" data-f_lng="98.99514161" class="day_menu on" original-title="치앙마이">
+					<!-- <li data="1" data-date="01.31" data-day_week="5" data-f_ci="87" data-f_lat="18.79906428" data-f_lng="98.99514161" class="day_menu on" original-title="치앙마이" style="background:#fc3c3c;border-bottom:solid 1px #fc3c3c;"> -->
 						<div class="fl cat_date_left_box">
 							<div class="cat_left_day">DAY1</div>
 							<div class="cat_left_date">01.31</div>
@@ -1022,7 +1052,7 @@ src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCiDE5HBue4mflsdkcsGvSZrUe
 							<input type="hidden" name="search_type" id="search_type" class="news" value="city">
 						</div>
 					</div>
-                    <div class="list_category_box" style="border-bottom: solid #dadada 1px;">
+                    <div class="list_category_box" style="border-bottom: solid #dadada 1px; padding-left: 37px;">
                     	<div class="list_cat_item fl on" data="1" data-type="total"><img src="${pageContext.request.contextPath}/resources/images/plan/ic_000_c.png"></div>
                     	<div class="list_cat_item fl" data="2" data-type="랜드마크"><img src="${pageContext.request.contextPath}/resources/images/plan/ic_300_a.png"></div>
                         <div class="list_cat_item fl" data="3" data-type="식당가"><img src="${pageContext.request.contextPath}/resources/images/plan/ic_200_a.png"></div>
@@ -1134,104 +1164,103 @@ src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCiDE5HBue4mflsdkcsGvSZrUe
 			<!-- <div class="et_modal_layer"> -->
 				<!-- modal content -->
 				<div class="modal_box" id="modal_content" style="width: 460px; height: 596px; margin-top: 95px; top: 50%; overflow: hidden; display: block;">
+					<form:form method="post" enctype="multipart/form-data" action="insertPlan.do">
 					<div class="title_box">
 						<!--일정정보 수정-->
 						<span id="this_modal_title">일정만들기 완료</span>
 						<img src="${pageContext.request.contextPath}/resources/images/plan/modal/modal_close_btn.gif" class="modal_btn_close" alt="" onclick="et_modal_close();">
 					</div>
 					<div class="modal_content">
-						<form id="f_plan_edit">
-							<input type="hidden" name="member_srl" id="member_srl" value="1213145">
-							<input type="hidden" name="pn_srl" id="pn_srl" value="304809">
-							<table class="create_table" width="100%" cellpadding="0" cellspacing="0">
-								<colgroup>
-									<col width="85"></col>
-								</colgroup>
-								<tbody>
-									<tr>
-										<th><!--여행 제목-->여행 제목				</th>
-										<td>
-											<input type="text" name="pn_title" id="pn_title" class="modal_input" value="<%=request.getParameter("title")%>">
-										</td>
-									</tr>
-									<tr>
-										<td colspan="2" class="blank_td">&nbsp;</td>
-									</tr>
-									<tr>
-										<th>
-											<!--설명-->설명				</th>
-										<td>
-											<textarea class="modal_textarea" name="pn_desc" id="pn_desc" style="resize:none;" placeholder="이번 여행에 관한 간략한 소개글을 작성해 보세요             (선택사항)"></textarea>
-										</td>
-									</tr>
-									<tr>
-										<td colspan="2" class="blank_td">&nbsp;</td>
-									</tr>
-									<tr>
-										<th>
-											<!--출발일-->출발일				</th>
-										<td>
-											<input type="text" name="start_day" id="start_day" class="modal_input w50 cal hasDatepicker">
-										</td>
-									</tr>
-									<tr>
-										<td colspan="2" class="blank_td">&nbsp;</td>
-									</tr>
-									<tr>
-										<th valign="top" style="padding-top:5px;">
-										<!--여행 테마-->여행 테마				</th>
-										<td>
-											<input type="hidden" class="modal_input w50 theme" name="tour_type" id="tour_type" value="0">
-											<div class="theme_radio" data-val="001">
-												<div class="r_inner_box">
-													<img src="${pageContext.request.contextPath}/resources/images/plan/modal/theme_alone.gif" alt="">
-													나홀로						</div>
-											</div>
-											<div class="theme_radio" data-val="003">
-												<div class="r_inner_box">
-													<img src="${pageContext.request.contextPath}/resources/images/plan/modal/theme_couple.gif" alt="">
-													커플						</div>
-											</div>
-											<div class="theme_radio" data-val="002">
-												<div class="r_inner_box">
-													<img src="${pageContext.request.contextPath}/resources/images/plan/modal/theme_frends.gif" alt="">
-													친구						</div>
-											</div>
-											<div class="clear"></div>
-											<div class="theme_radio" data-val="004">
-												<div class="r_inner_box">
-													<img src="${pageContext.request.contextPath}/resources/images/plan/modal/theme_family.gif" alt="">
-													가족						</div>
-											</div>
-											<div class="theme_radio" data-val="007">
-												<div class="r_inner_box">
-													<img src="${pageContext.request.contextPath}/resources/images/plan/modal/theme_people.gif" alt="">
-													단체						</div>
-											</div>
-											<div class="theme_radio" data-val="005">
-												<div class="r_inner_box">
-													<img src="${pageContext.request.contextPath}/resources/images/plan/modal/theme_business.gif" alt="">
-													비즈니스						</div>
-											</div>
-										</td>
-									</tr>
-									<tr>
-										<th>여행 인원</th>
-										<td style="height:10px; padding-bottom:9px;"><input style="width:40px;" type="number" min="1">명</td>
-									</tr>
-									<tr>
-										<th>썸네일 등록</th>
-										<td><input type="file"></td>
-									</tr>
-								</tbody>
-							</table>
-						</form>
+						<input type="hidden" name="plan_seq" id="plan_seq" value="1213145">
+						<table class="create_table" width="100%" cellpadding="0" cellspacing="0">
+							<colgroup>
+								<col width="85"></col>
+							</colgroup>
+							<tbody>
+								<tr>
+									<th><!--여행 제목-->여행 제목				</th>
+									<td>
+										<input type="text" name="pn_title" id="pn_title" class="modal_input" value="<%=request.getParameter("title")%>">
+									</td>
+								</tr>
+								<tr>
+									<td colspan="2" class="blank_td">&nbsp;</td>
+								</tr>
+								<tr>
+									<th>
+										<!--설명-->설명				</th>
+									<td>
+										<textarea class="modal_textarea" name="pn_desc" id="pn_desc" style="resize:none;" placeholder="이번 여행에 관한 간략한 소개글을 작성해 보세요             (선택사항)"></textarea>
+									</td>
+								</tr>
+								<tr>
+									<td colspan="2" class="blank_td">&nbsp;</td>
+								</tr>
+								<tr>
+									<th>
+										<!--출발일-->출발일				</th>
+									<td>
+										<input type="text" name="start_day" id="start_day" class="modal_input w50 cal hasDatepicker">
+									</td>
+								</tr>
+								<tr>
+									<td colspan="2" class="blank_td">&nbsp;</td>
+								</tr>
+								<tr>
+									<th valign="top" style="padding-top:5px;">
+									<!--여행 테마-->여행 테마				</th>
+									<td>
+										<input type="hidden" class="modal_input w50 theme" name="tour_type" id="tour_type" value="0">
+										<div class="theme_radio" data-val="001">
+											<div class="r_inner_box">
+												<img src="${pageContext.request.contextPath}/resources/images/plan/modal/theme_alone.gif" alt="">
+												나홀로						</div>
+										</div>
+										<div class="theme_radio" data-val="003">
+											<div class="r_inner_box">
+												<img src="${pageContext.request.contextPath}/resources/images/plan/modal/theme_couple.gif" alt="">
+												커플						</div>
+										</div>
+										<div class="theme_radio" data-val="002">
+											<div class="r_inner_box">
+												<img src="${pageContext.request.contextPath}/resources/images/plan/modal/theme_frends.gif" alt="">
+												친구						</div>
+										</div>
+										<div class="clear"></div>
+										<div class="theme_radio" data-val="004">
+											<div class="r_inner_box">
+												<img src="${pageContext.request.contextPath}/resources/images/plan/modal/theme_family.gif" alt="">
+												가족						</div>
+										</div>
+										<div class="theme_radio" data-val="007">
+											<div class="r_inner_box">
+												<img src="${pageContext.request.contextPath}/resources/images/plan/modal/theme_people.gif" alt="">
+												단체						</div>
+										</div>
+										<div class="theme_radio" data-val="005">
+											<div class="r_inner_box">
+												<img src="${pageContext.request.contextPath}/resources/images/plan/modal/theme_business.gif" alt="">
+												비즈니스						</div>
+										</div>
+									</td>
+								</tr>
+								<tr>
+									<th>여행 인원</th>
+									<td style="height:10px; padding-bottom:9px;"><input style="width:40px;" type="number" min="1">명</td>
+								</tr>
+								<tr>
+									<th>썸네일 등록</th>
+									<td><input type="file" name="file"></td>
+								</tr>
+							</tbody>
+						</table>
 					</div>
 					<div class="modal_footer">
 						<div class="fr" style="margin-right:10px;">
-							<input type="button" class="m_btn_submit" id="form_submit" value="완료"></div>
+							<input type="submit" class="m_btn_submit" id="form_submit" value="완료"></div>
 						<div class="clear"></div>
 					</div>
+					</form:form>
 				</div><!-- modal content end -->
 			<!-- </div> -->
 		</div><!-- modal end -->
