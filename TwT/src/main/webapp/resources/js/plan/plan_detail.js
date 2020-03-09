@@ -352,6 +352,15 @@ $(document).ready(function(){
 	   // SessionStorage에서 객체 가져오기
 	   var set_day = $(this).attr("data"); //Key값 설정
 	   create_spot_detail(set_day);
+	   
+	   // day 변경시 마커이미지 변경(After)
+	   for(var i=1;i<=$("#schedule_detail_box").children().length;i++){
+		   addMarkerIcon($("#spot"+i).data("seq"),$("#spot"+i).data("type"));
+	   }
+	   
+	   // 폴리라인 생성
+	   addPath();
+	   
    });
    
    // 메모&예산 저장
@@ -382,14 +391,7 @@ $(document).ready(function(){
    	
    	// total 예산 보여주기
    	totalBudget(storage_index);
-
-	// day 변경시 마커이미지 변경(After)
-	   for(var i=1;i<=$("#schedule_detail_box").children().length;i++){
-		   addMarkerIcon($("#spot"+i).data("seq"),$("#spot"+i).data("type"));
-	   }
-	   
-	   // 폴리라인 생성
-	   addPath();
+	
    });
    
 });
