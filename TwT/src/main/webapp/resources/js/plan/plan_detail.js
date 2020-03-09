@@ -408,6 +408,7 @@ $(document).ready(function(){
    	
    	// total 예산 보여주기
    	totalBudget(storage_index);
+
    });
 });
 

@@ -13,6 +13,7 @@
 
 <link href="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.8/summernote.css" rel="stylesheet">
 <script src="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.8/summernote.js"></script>
+<script src="${pageContext.request.contextPath}/resources/js/summernote-ko-KR.js"></script>
 
 <link rel="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/scss/bootstrap/bootstrap.scss">
@@ -39,7 +40,9 @@
 					onImageUpload : function(files) {
 						uploadImageFile(files[0], this);
 					}
-				}
+				},
+ 			    fontNames: ['바탕체',  '굴림체', '궁서체', '돋움체'],
+			    fontNamesIgnoreCheck: ['바탕체']
 		  });
 		});
 	  
@@ -89,7 +92,7 @@ body {
 	<div class="col-sm-9" id="container">
 		<div class="col-sm-12" style="float: left; margin-top: 30px;">
 			<div class="title">
-				<input type="text" name="sr_Title" placeholder="제목"/>
+				<input type="text" name="sr_Title" placeholder="제목을 입력하세요"/>
 			</div>
 			<br> <br> <br> <br>
 
