@@ -109,12 +109,15 @@
 		ORDER BY H_CODE DESC
 	</select>
 
-
+   	<!-- 디테일 리스트 -->
+   	<select id="detailList_B" parameterType="String" resultType="Hotel">
+        SELECT * FROM HOTEL LEFT JOIN HOTELROOM USING(H_CODE)
+      	WHERE H_CODE = #{h_Code}   
+    </select>
 
 	<select id="selectOne_B" resultType="Hotel"
 		parameterType="String">
 		SELECT * FROM HOTEL WHERE H_CODE = #{h_code}
-
 	</select>
 
 
