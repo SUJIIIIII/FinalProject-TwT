@@ -686,6 +686,14 @@ var count; // 스팟리스트 개수
 			$("#city_list").hide();
 			$("#map").css("width","1111px");
 			$(".et_modal").show();
+			
+			var day_list = new Array();
+			for(var i=1;i<=$(".day_menu").children().length;i++){
+				day_list.push(sessionStorage.getItem("Day"+i));
+			}
+			console.log("객체 : " + day_list);
+			$("#pn_dayList").val(day_list);
+			
 		});
 		
 		// 완료 modal 끄기
@@ -709,6 +717,22 @@ var count; // 스팟리스트 개수
 			$('img',this).attr('src',$('img',this).attr('src').replace('.gif','_on.gif'));
 
 		});
+		
+		// 완료 모달 datepicker
+		$(function(){
+			$("#start_day").datepicker();
+		});
+		
+		/* $("#insertbtn").click(function(){
+			var day_list = new Array();
+			for(var i=0;i<$(".day_menu").children().length;i++){
+				day_list.push(sessionStorage.getItem("Day"+i));
+			}
+			console.log("객체 : " + day_list);
+		}); */
+		
+		
+		
 	});
 	
 	google.maps.event.addDomListener(window, 'load', initialize);
@@ -1087,6 +1111,7 @@ src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCiDE5HBue4mflsdkcsGvSZrUe
 					</div>
 					<div class="modal_content">
 						<input type="hidden" name="plan_seq" id="plan_seq" value="1213145">
+						<input type="hidden" name="pn_dayList" id="pn_dayList" value="">
 						<table class="create_table" width="100%" cellpadding="0" cellspacing="0">
 							<colgroup>
 								<col width="85"></col>
@@ -1115,7 +1140,7 @@ src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCiDE5HBue4mflsdkcsGvSZrUe
 									<th>
 										<!--출발일-->출발일				</th>
 									<td>
-										<input type="text" name="start_day" id="start_day" class="modal_input w50 cal hasDatepicker">
+										<input type="text" name="pn_day" id="start_day">
 									</td>
 								</tr>
 								<tr>
@@ -1125,7 +1150,7 @@ src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCiDE5HBue4mflsdkcsGvSZrUe
 									<th valign="top" style="padding-top:5px;">
 									<!--여행 테마-->여행 테마				</th>
 									<td>
-										<input type="hidden" class="modal_input w50 theme" name="tour_type" id="tour_type" value="0">
+										<input type="hidden" name="pn_type" id="pn_type" value="0">
 										<div class="theme_radio" data-val="001">
 											<div class="r_inner_box">
 												<img src="${pageContext.request.contextPath}/resources/images/plan/modal/theme_alone.gif" alt="">
@@ -1161,7 +1186,7 @@ src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCiDE5HBue4mflsdkcsGvSZrUe
 								</tr>
 								<tr>
 									<th>여행 인원</th>
-									<td style="height:10px; padding-bottom:9px;"><input style="width:40px;" type="number" min="1">명</td>
+									<td style="height:10px; padding-bottom:9px;"><input name="pn_person" style="width:40px;" type="number" min="1">명</td>
 								</tr>
 								<tr>
 									<th>썸네일 등록</th>
@@ -1173,6 +1198,7 @@ src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCiDE5HBue4mflsdkcsGvSZrUe
 					<div class="modal_footer">
 						<div class="fr" style="margin-right:10px;">
 							<input type="submit" class="m_btn_submit" id="form_submit" value="완료"></div>
+							<input type="button" class="m_btn_submit" id="insertbtn" value="테스트">
 						<div class="clear"></div>
 					</div>
 					</form:form>
