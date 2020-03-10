@@ -68,21 +68,23 @@
     color: #fc3c3c;
 	}
     </style>
-	
+
+<!-- 구글map -->
 <script type="text/javascript">
 var map;
 	window.onload = function initMap() {
-		// 초기 선택된 도시의 위도/경도
+		// 호텔 위도/경도
 		var lati = ${hvo.h_Lati};
 		var lon = ${hvo.h_Long};
 		
-		// 초기 선택된 도시의 센터 위치
+		// 지도 센터 위치
 		var cen = {lat: lati, lng: lon};
 		
-		// 초기 선택된 도시의 센터를 중심으로 맵 생성
+		// 호텔 위치를 중심으로 맵 생성
 		map = new google.maps.Map( //지도 객체 생성
 		document.getElementById('map'), {zoom: 15, center: cen}); //기본 줌,시작 센터 설정
 		
+		// 호텔 위치 마커찍기
 		var location = {"position" : new google.maps.LatLng(lati,lon)};
 		var icon = new google.maps.MarkerImage("${pageContext.request.contextPath}/resources/images/plan/marker/marker.png",null,null,null,new google.maps.Size(50,45));
 		var marker = new google.maps.Marker({
@@ -328,10 +330,6 @@ src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCiDE5HBue4mflsdkcsGvSZrUe
           		<!-- 보유객실 정보 끝 -->
           		
           		<!-- 위치 지도 시작 -->
-          		<!-- <div class="col-md-12 hotel-single ftco-animate mb-5 mt-4">
-          			<h4 class="mb-5">호텔 위치(지도 들어갈 부분)</h4>
-          			<div></div>
-          		</div> -->
           		<div id="map" style="height: 657px; position: relative; width: 1111px; overflow: hidden; bottom:2px;"></div>
           		<!-- 위치 지도 끝 -->
           		
