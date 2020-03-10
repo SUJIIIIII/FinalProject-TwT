@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="BoardMapper">
+	
+	<sql id="criteria">
+		<trim prefixOverrides="OR" suffix=") AND " prefix="(">
+			<foreach collection="typeArr" item="type">
+				<trim prefix="OR">
+					<choose>
+						<when test="type == 'T'.toString()">title like '%'||#{keyword}||'%' </when>
+						<when test="type == 'C'.toString()">content like '%'||#{keyword}||'%' </when>
+						<when test="type == 'W'.toString()">writer like '%'||#{keyword}||'%' </when>
+					</choose>
+				</trim>
+			</foreach>
+		</trim>
+	</sql>
+	
+	<select id="getBoardList" resultType="BoardVO">
+		<![CDATA[
+			SELECT idx,title,writer,reg_date,cnt
+			FROM	(
+					SELECT /*+INDEX_DESC(boardTest pk_board) */
+						rownum rn, idx, title, writer,reg_date,cnt 
+					from boardTest
+					where
+		]]>
+		<include refid="criteria"></include>
+		<![CDATA[			
+					rownum <= #{pageNum} * #{amount}
+					)
+			where rn > (#{pageNum}-1) * #{amount}
+		]]>
+	</select>
+	
+	<select id="getContent" resultType="BoardVO">
+		<![CDATA[
+			SELECT *
+			FROM boardtest
+			WHERE idx = #{idx}
+		]]>
+	</select>
+	
+	<select id="insertBoard">
+		<![CDATA[
+		INSERT INTO boardtest(idx, title,writer,content,reg_date)
+		VALUES(tmp_seq.NEXTVAL, #{title}, #{writer}, #{content}, (select sysdate from dual))
+		]]>
+	</select>
+	
+	<update id="updateBoard">
+		<![CDATA[
+		UPDATE boardtest SET
+		title = #{title},
+		content = #{content}
+		WHERE idx = #{idx}
+		]]>
+	</update>
+
+	<delete id="deleteBoard">
+		<![CDATA[
+		DELETE FROM boardtest
+		WHERE idx = #{idx}
+		]]>
+	</delete>
+	
+	<select id="getTotalCnt" resultType="int">
+		SELECT count(*)
+		FROM boardTest
+		where
+		<include refid="criteria"></include>
+		idx>0
+	</select>
+	
+	<select id="getBno" resultType="long">
+		<![CDATA[
+		SELECT idx
+		FROM boardTest
+		WHERE ROWNUM < 2
+		ORDER BY 1 DESC
+		]]>
+	</select>
+	
+	<insert id="insertAttach" parameterType="FileVO">
+		<foreach item="item" index="index" collection="list" separator=" " open="INSERT ALL " close="SELECT * FROM DUAL">
+		INTO attachments(uuid,path,file_name,bno)
+		VALUES (#{item.uuid},#{item.path},#{item.fileName},#{item.bno})
+		</foreach>
+	</insert>
+	
+	<select id="findByBno" resultType="FileVO">
+		<![CDATA[
+		SELECT * FROM attachments WHERE bno = #{bno}
+		]]>
+	</select>
+	
+	<select id="selectAttach" resultType="boolean" parameterType="long">
+		<![CDATA[
+		SELECT count(*)
+		FROM attachments
+		WHERE bno=#{bno} and rownum < 2
+		]]>
+	</select>
+	
+	<delete id="delAttach" parameterType="long">
+		<![CDATA[
+		DELETE FROM attachments
+		WHERE bno=#{bno}
+		]]>
+	</delete>
+</mapper>
