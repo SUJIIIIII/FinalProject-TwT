@@ -1,8 +1,8 @@
 package com.fp.twt.vo;
 
-public class PagingVo {
+public class ts_PagingVo {
 	/** 한 페이지당 게시글 수 **/
-    private int pageSize = 6;
+    private int pageSize = 8;
     /** 한 블럭(range)당 페이지 수 **/
     private int rangeSize = 5;
     /** 현재 페이지 **/
@@ -28,10 +28,10 @@ public class PagingVo {
     /** 다음 페이지 **/
     private int nextPage;
     
-    public PagingVo() {
+    public ts_PagingVo() {
 	}
     
-	public PagingVo(int listCnt, int curPage) {
+	public ts_PagingVo(int listCnt, int curPage) {
 	        
         /**
          * 페이징 처리 순서
@@ -143,7 +143,6 @@ public class PagingVo {
         this.curRange = (int)((curPage-1)/rangeSize) + 1;
     }
     public void setStartIndex(int curPage) {
-    	System.out.println("curPage ;; "+curPage +"pageSize;; " +pageSize);
         this.startIndex = (curPage-1) * pageSize + 1;
     }
     public void setEndIndex(int startIndex) {

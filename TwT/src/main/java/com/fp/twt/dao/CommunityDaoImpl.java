@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.fp.twt.vo.AnswerVo;
+import com.fp.twt.vo.FavoriteListVo;
 import com.fp.twt.vo.ScheduleReviewVo;
 import com.fp.twt.vo.TravelScheduleVo;
 
@@ -117,11 +118,12 @@ public class CommunityDaoImpl implements CommunityDao{
 	//도영
 	
 	@Override
-	public List<TravelScheduleVo> selectList_D() {
+	public List<TravelScheduleVo> selectList_D(TravelScheduleVo travelScheduleVo) {
 		List<TravelScheduleVo> list = new ArrayList<TravelScheduleVo>();
+		System.out.println(travelScheduleVo.getStartIndex() +":::"+ travelScheduleVo.getEndIndex());
 		
 		try {
-			list = sqlSession.selectList(NAMESPACE+"selectList_D");
+			list = sqlSession.selectList(NAMESPACE+"selectList_D", travelScheduleVo);
 		} catch(Exception e) {
 			System.out.println("[error] : selectList_D");
 			e.printStackTrace();
@@ -130,11 +132,11 @@ public class CommunityDaoImpl implements CommunityDao{
 	}
 	
 	@Override
-	public List<TravelScheduleVo> PselectList_D() {
+	public List<TravelScheduleVo> PselectList_D(TravelScheduleVo travelScheduleVo) {
 		List<TravelScheduleVo> list = new ArrayList<TravelScheduleVo>();
 		
 		try {
-			list = sqlSession.selectList(NAMESPACE+"PselectList_D");
+			list = sqlSession.selectList(NAMESPACE+"PselectList_D", travelScheduleVo);
 		} catch(Exception e) {
 			System.out.println("[error] : PselectList_D");
 			e.printStackTrace();
@@ -169,7 +171,7 @@ public class CommunityDaoImpl implements CommunityDao{
 	}
 
 	@Override
-	public List<TravelScheduleVo> themeList(String ts_theme) {
+	public List<TravelScheduleVo> themeList(String ts_theme, TravelScheduleVo travelScheduleVo) {
 		List<TravelScheduleVo> list = new ArrayList<TravelScheduleVo>();
 		try {
 			list = sqlSession.selectList(NAMESPACE+"themeList_D", ts_theme);
@@ -189,6 +191,81 @@ public class CommunityDaoImpl implements CommunityDao{
 			System.out.println("[error] : viewCnt_D");
 			e.printStackTrace();
 		}
+	}
+
+	@Override
+	public FavoriteListVo fListChk(String m_code, String ts_code1) {
+		FavoriteListVo vo = new FavoriteListVo();
+		vo.setM_Code(m_code);
+		vo.setFl_Code(ts_code1);
+		try {
+			vo = sqlSession.selectOne(NAMESPACE+"fListChk_D", vo);
+		} catch(Exception e) {
+			System.out.println("[error] : fListChk_D");
+			e.printStackTrace();
+		}
+		return vo;
+	}
+	
+	@Override
+	public int fList(String m_code, String ts_code1) {
+		int res = 0;
+		FavoriteListVo vo = new FavoriteListVo();
+		vo.setM_Code(m_code);
+		vo.setFl_Code(ts_code1);
+		try {
+			res = sqlSession.insert(NAMESPACE+"fList_D", vo);
+		} catch(Exception e) {
+			System.out.println("[error] : fList_D");
+			e.printStackTrace();
+		}
+		return res;
+	}
+	
+	@Override
+	public int fList_Y(String m_code, String ts_code1) {
+		int res = 0;
+		FavoriteListVo vo = new FavoriteListVo();
+		vo.setM_Code(m_code);
+		vo.setFl_Code(ts_code1);
+		try {
+			res = sqlSession.update(NAMESPACE+"fListY_D", vo);
+		} catch(Exception e) {
+			System.out.println("[error] : fListY_D");
+			e.printStackTrace();
+		}
+		
+		return res;
+	}
+	
+	@Override
+	public int fList_N(String m_code, String ts_code1) {
+		int res = 0;
+		FavoriteListVo vo = new FavoriteListVo();
+		vo.setM_Code(m_code);
+		vo.setFl_Code(ts_code1);
+		
+		try {
+			res = sqlSession.update(NAMESPACE+"fListN_D", vo);
+		} catch(Exception e) {
+			System.out.println("[error] : fListN_D");
+			e.printStackTrace();
+		}
+		
+		return res;
+	}
+	
+	public int selectListCnt_D() {
+		int selectListCnt_D = 0;
+		
+		try {
+			selectListCnt_D = sqlSession.selectOne(NAMESPACE+"selectListCnt_D");
+		}catch(Exception e) {
+			System.out.println("[error] : selectListCnt_D");
+			e.printStackTrace();
+		}
+		
+		return selectListCnt_D;
 	}
 
 
