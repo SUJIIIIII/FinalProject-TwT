@@ -20,10 +20,11 @@ public class TravelScheduleVo {
     private String tp_Type;		//여행지타입
     private String tp_Content;	//여행지설명
     private String tp_Name;		//여행지 이름
-    private String ts_Memo;		//일정 메모
     private String m_Name;		//회원이름
     private String tp_Img;		//여행이미지
     private String city_Code;	//도시 번호
+    private String sm_Memo;		//일정 메모
+    private String sm_Money;	// 여행 예산
 
     public TravelScheduleVo() {
 		super();
@@ -31,7 +32,7 @@ public class TravelScheduleVo {
 
 	public TravelScheduleVo(String ts_Code, String m_Code, String tp_Code, String ts_Title, Date ts_Sday, String ts_Theme,
 			String ts_People, String ts_Thum, int ts_Period, String ts_View, Date ts_Date, String m_Id, String ts_Day, 
-			String tp_Type, String tp_Content, String tp_Name, String ts_Memo, String m_Name, String tp_Img, String city_Code) {
+			String tp_Type, String tp_Content, String tp_Name, String m_Name, String tp_Img, String city_Code, String sm_Memo, String sm_Money) {
 		super();
 		this.ts_Code = ts_Code;
 		this.m_Code = m_Code;
@@ -49,14 +50,32 @@ public class TravelScheduleVo {
 		this.tp_Type = tp_Type;
 		this.tp_Content = tp_Content;
 		this.tp_Name = tp_Name;
-		this.ts_Memo = ts_Memo;
 		this.m_Name = m_Name;
 		this.tp_Img = tp_Img;
 		this.city_Code = city_Code;
+		this.sm_Memo = sm_Memo;
+		this.sm_Money = sm_Money;
 	}
 	
 	
 	
+
+	public String getSm_Memo() {
+		return sm_Memo;
+	}
+
+	public void setSm_Memo(String sm_Memo) {
+		this.sm_Memo = sm_Memo;
+	}
+
+	public String getSm_Money() {
+		return sm_Money;
+	}
+
+	public void setSm_Money(String sm_Money) {
+		this.sm_Money = sm_Money;
+	}
+
 	public String getCity_Code() {
 		return city_Code;
 	}
@@ -79,14 +98,6 @@ public class TravelScheduleVo {
 
 	public void setM_Name(String m_Name) {
 		this.m_Name = m_Name;
-	}
-
-	public String getTs_Memo() {
-		return ts_Memo;
-	}
-
-	public void setTs_Memo(String ts_Memo) {
-		this.ts_Memo = ts_Memo;
 	}
 
 	public String getTp_Name() {

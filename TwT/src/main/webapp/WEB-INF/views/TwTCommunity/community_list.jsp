@@ -97,6 +97,21 @@
 	      $(".hero-wrap").attr('style',"background-image: url('${pageContext.request.contextPath}/resources/images/bg_7.jpg');");
 	      $(".bread").text('Community');
 	   	});
+	    
+/* 	    function f_list(){
+	    	
+	    	  $.ajax({
+	    		  url : "f_list.do?m_code=${m_code}",
+		    	  data : {},
+	    	  	dataType : "json",
+	    	  	success:function(data){
+	    	  		if(data.check == 'Y') 
+	    	  	},
+	    	  	error:function(){
+	    	  		alert("에러 발생");
+	    	  	}
+	    	  })
+	    } */
    	</script>
 
     <section class="ftco-section testimony-section bg-light">
@@ -130,8 +145,8 @@
 							              	<span class="tag">${fn:substring(vo.ts_Sday,0,8)}</span>
 							              	<span class="tag">| ${vo.ts_Period }DAYS</span>
 							              	<span style="padding: 0 0 0 18px; float: right;">
-								              	<a href=""><i class="far fa-heart"></i>&nbsp;&nbsp;</a>
-									            <i class="fas fa-eye"></i><span style="font-size:16px;">&nbsp;&nbsp;${vo.ts_View }</span>
+								              	<a onclick="f_list();" style="cursor:pointer";><i class="far fa-heart" id="far fa-heart" style="color: #fc3c3c;"></i></a>&nbsp;&nbsp;
+									            <i class="fas fa-eye"></i><span style="font-size:14px;">&nbsp;&nbsp;${vo.ts_View }</span>
 								            </span>
 								            <br>
 						              	    <h3 class="heading" style="margin-top: 8px;"><a href="communityDetail.do?ts_code=${vo.ts_Code }">${vo.ts_Title }</a></h3>

@@ -221,11 +221,13 @@ public class CommunityController {
 		logger.info("SELECT LIST");
 
 		//도영
-		List res = biz.selectList_D();
-		TravelScheduleVo vo = (TravelScheduleVo) res.get(0);
-		System.out.println("컨트롤러 id " + vo.getM_Id());
-		model.addAttribute("community", biz.selectList_D());
-		//
+		// 테마 별 모아보기
+		if(ts_theme != null) {
+			model.addAttribute("community", biz.themeList(ts_theme));
+			System.out.println(ts_theme);		
+		}else {
+			model.addAttribute("community", biz.selectList_D());
+		}
 		
 		//용훈
 		List<ScheduleReviewVo> list = biz.potoBookList();
@@ -235,6 +237,7 @@ public class CommunityController {
 		return "TwTCommunity/community_list";
 	}
 
+	// 인기 일정 순 정렬
 	@RequestMapping("/popcommunity.do")
 	public String popcommunity(Model model) {
 		logger.info("SELECT LIST"); 
@@ -249,22 +252,28 @@ public class CommunityController {
 	public String communityDetail(Model model, String ts_code) {
 		logger.info("SELECT ONE");
 		
-		TravelScheduleVo vo = biz.selectOne_D(ts_code);
-		System.out.println(vo.getTs_Day());
-		System.out.println(vo.getTs_Memo());
-		
+		biz.viewCnt(ts_code);
 		
 		model.addAttribute("detail", biz.selectOne_D(ts_code));
 		
 		model.addAttribute("detailList", biz.detailList_D(ts_code));
 
-		System.out.println(vo.getts_Theme());
-		
-		 model.addAttribute("themeList", biz.themeList(vo.getts_Theme()));
-		 		 
+		TravelScheduleVo vo = biz.selectOne_D(ts_code);
+		model.addAttribute("themeList", biz.themeList(vo.getts_Theme()));
+
 		
 		return "TwTCommunity/community_detail"; 
 	}
 	
-
+	/*
+	 * // 찜
+	 * 
+	 * @RequestMapping("f_list.do")
+	 * 
+	 * @ResponseBody public Map<String,String> f_List(String m_code) {
+	 * System.out.println(m_code); return null;
+	 * 
+	 * }
+	 */
+	
 }

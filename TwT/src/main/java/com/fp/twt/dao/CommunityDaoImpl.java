@@ -181,6 +181,16 @@ public class CommunityDaoImpl implements CommunityDao{
 		return list;
 	}
 
+	@Override
+	public void viewCnt(String ts_code) {
+		try {
+			sqlSession.update(NAMESPACE+"viewCnt_D", ts_code);
+		} catch(Exception e) {
+			System.out.println("[error] : viewCnt_D");
+			e.printStackTrace();
+		}
+	}
+
 
 
 

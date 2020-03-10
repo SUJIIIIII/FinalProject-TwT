@@ -30,6 +30,7 @@ public interface CommunityDao {
 	public TravelScheduleVo selectOne_D(String ts_code);
 	public List<TravelScheduleVo> detailList_D(String ts_code);
 	public List<TravelScheduleVo> themeList(String ts_theme);
+	public void viewCnt(String ts_code);
 
 	
 	
