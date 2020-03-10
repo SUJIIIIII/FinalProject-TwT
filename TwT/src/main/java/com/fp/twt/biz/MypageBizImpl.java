@@ -1,13 +1,18 @@
 package com.fp.twt.biz;
 
+import java.util.ArrayList;
 import java.util.List;
+
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.fp.twt.dao.MypageDao;
 import com.fp.twt.vo.AirplaneInfoVo;
+import com.fp.twt.vo.HotelBookingVo;
 import com.fp.twt.vo.MemberVo;
+import com.fp.twt.vo.TravelScheduleVo;
 
 @Service
 public class MypageBizImpl implements MypageBiz {
@@ -36,70 +41,60 @@ public class MypageBizImpl implements MypageBiz {
 	// 네이버 로그인
 	@Override
 	public MemberVo naverlogin(MemberVo vo) {
-		// TODO Auto-generated method stub
 		return dao.naverlogin(vo);
 	}
 
 	// 내 항공권 전체 조회
 	@Override
 	public List<AirplaneInfoVo> selectAirList(String m_Code) {
-		// TODO Auto-generated method stub
 		return dao.selectAirList(m_Code);
 	}
 
 	// 항공권 정보 입력
 	@Override
 	public int insertAir(AirplaneInfoVo vo) {
-		// TODO Auto-generated method stub
 		return dao.insertAir(vo);
 	}
 
 	// 유저 메일 인증 메소드
 	@Override
 	public int GetKey(String m_Id, String key) {
-		// TODO Auto-generated method stub
 		return dao.GetKey(m_Id, key);
 	}
 
 	// 이메일 인증 확인 메소드
 	@Override
 	public int alterUserkey(String m_Id, String key) {
-		// TODO Auto-generated method stub
 		return dao.alterUserKey(m_Id, key);
 	}
 
 	// 항공권 정보 삭제 메소드
 	@Override
 	public Object deleteAir(String air_Code) {
-		// TODO Auto-generated method stub
 		return dao.deleteAir(air_Code);
 	}
 
 	// 회원탈퇴
 	@Override
 	public Object deleteAccount(String m_Code) {
-		// TODO Auto-generated method stub
 		return dao.deleteAccount(m_Code);
 	}
 
 	// 항공권 정보 수정
 	@Override
-	public Object selectOne(AirplaneInfoVo vo, String air_Code) {
-		// TODO Auto-generated method stub
-		return dao.updateAir(vo, air_Code);
+	public Object selectOne(AirplaneInfoVo vo) {
+		return dao.updateAir(vo);
 	}
 
 	// 디비에 저장된 아이디 확인
 	@Override
 	public int loginIdChk(String m_Id) {
-		// TODO Auto-generated method stub
 		return dao.loginIdChk(m_Id);
 	}
 
 	// 디비에 저장된 비밀번호 확인
 	@Override
 	public int loginPwdChk(String m_Pass) {
-		// TODO Auto-generated method stub
 		return dao.loginPwdChk(m_Pass);
 	}
 
@@ -112,14 +107,48 @@ public class MypageBizImpl implements MypageBiz {
 	// 비밀번호 변경
 	@Override
 	public void memberUpdate(MemberVo vo) {
-		// TODO Auto-generated method stub
 		dao.memberUpdate(vo);
 	}
 
 	// 비밀번호 찾기
 	@Override
 	public void searchPassword(MemberVo vo) {
-		// TODO Auto-generated method stub
 		dao.searchPassword(vo);
+	}
+
+	// 호텔 예약 조회
+	@Override
+	public List<HotelBookingVo> selectAllHotelBooking(String m_Code) {
+		return dao.selectAllHotelBooking(m_Code);
+	}
+
+	// SNS로그인 시 자동 회원 가입
+	@Override
+	public int memberSNSInsert(MemberVo vo) {
+		return dao.memberSNSInsert(vo);
+	}
+
+	// 찜 목록 조회
+	@Override
+	public List<TravelScheduleVo> selectAllLike(String m_Code) {
+		return dao.selectAllLike(m_Code);
+	}
+
+	// 내가 쓴 일정 조회
+	@Override
+	public List<TravelScheduleVo> selectMyRoute(String m_Code) {
+		return dao.selectMyRoute(m_Code);
+	}
+
+	// 전체 회원목록 조회
+	@Override
+	public List<MemberVo> selectAllMember(MemberVo vo) {
+		return dao.selectAllMember(vo);
+	}
+
+	// 아이디 찾기
+	@Override
+	public List<MemberVo> searchId(String m_Email, HttpServletResponse response) {
+		return dao.searchId(m_Email, response);
 	}
 }

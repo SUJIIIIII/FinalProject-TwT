@@ -1,3 +1,4 @@
+
 <%@page import="com.fp.twt.vo.MemberVo"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
@@ -33,6 +34,10 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/icomoon.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/style.css">
     
+    <!-- chat -->
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
+	<link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css'>
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/chat.css">
     
     <!-- font -->
 	<link href="https://fonts.googleapis.com/css?family=Shadows+Into+Light&display=swap" rel="stylesheet">
@@ -120,12 +125,13 @@
           <li class="nav-item"><a href="flight.do" class="nav-link">Flight</a></li>
           <li class="nav-item"><a href="hotel.do" class="nav-link">Hotel</a></li>
           <li class="nav-item"><a href="community.do" class="nav-link">Community</a></li>
-          <li class="nav-item"><a href="mypage.do" class="nav-link"><i class="fas fa-user"></i>&nbsp;My</a></li>
           <c:if test="${kakaoId eq null and naverId eq null and user eq null and googleId eq null}">
+          <li class="nav-item"><a href="login.do" class="nav-link"><i class="fas fa-user"></i>&nbsp;My</a></li>
           <li class="nav-item cta"><a href="login.do" class="nav-link"><span>Login</span></a></li>
           </c:if>
           <c:if test="${kakaoId ne null or naverId ne null or user ne null or googleId ne null}">
-              <li class="nav-item cta"><a href="logout.do" class="nav-link"><span>Logout</span></a></li>
+          <li class="nav-item"><a href="mypage.do" class="nav-link"><i class="fas fa-user"></i>&nbsp;My</a></li>
+          <li class="nav-item cta"><a href="logout.do" class="nav-link"><span>Logout</span></a></li>
           </c:if>
         </ul>
       </div>
@@ -139,7 +145,7 @@
         <div class="row no-gutters slider-text js-fullheight align-items-center justify-content-start" data-scrollax-parent="true">
           <div class="col-md-9 ftco-animate" data-scrollax=" properties: { translateY: '70%' }">
             <h1 class="mb-4" style="font-family: 'Kalam', cursive;" data-scrollax="properties: { translateY: '30%', opacity: 1.6 }"><strong>T</strong>ravel <br><span style="padding:0 0 0 60px;"> <strong>w</strong>ith</span> <br><span style="padding:0 0 0 100px;"><strong>T</strong>ogether</span></h1>
-            <div class="enjoy-css" style="font-family: 'Kalam', cursive;" onclick="location.href='planDetail.do'">Create Plan!</div>
+            <div class="enjoy-css" style="font-family: 'Kalam', cursive;" onclick="location.href='plan.do'">Create Plan!</div>
           </div>
         </div>
       </div>
@@ -434,12 +440,11 @@
     	</div>
     </section>
 
-    <!-- footer -->
-	<%@ include file="/WEB-INF/views/footer.jsp" %>
+   <!-- footer -->
+   <%@ include file="/WEB-INF/views/footer.jsp" %>
 
   <!-- loader -->
   <div id="ftco-loader" class="show fullscreen"><svg class="circular" width="48px" height="48px"><circle class="path-bg" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke="#eeeeee"/><circle class="path" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke-miterlimit="10" stroke="#F96D00"/></svg></div>
-
 
   <script src="${pageContext.request.contextPath}/resources/js/jquery.min.js"></script>
   <script src="${pageContext.request.contextPath}/resources/js/jquery-migrate-3.0.1.min.js"></script>
@@ -458,6 +463,6 @@
   <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBVWaKrjvy3MaE7SQ74_uJiULgl1JY0H2s&sensor=false"></script>
   <script src="${pageContext.request.contextPath}/resources/js/google-map.js"></script>
   <script src="${pageContext.request.contextPath}/resources/js/main.js"></script>
-    
+
   </body>
 </html>

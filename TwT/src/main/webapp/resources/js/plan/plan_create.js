@@ -30,7 +30,7 @@ $(document).ready(function() {
    });
 
    // close 버튼 클릭시 모달 창 닫기
-   $(".modal-close").on("click", function () {
+   $(".modal_btn_close").on("click", function () {
       $("#createmodal").css("display", "none");
    });
    

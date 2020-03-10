@@ -175,7 +175,7 @@
 				        
 				        <c:choose>
 				        <c:when test="${empty potoList}">
-				        <div>검색결과가 없습니다.</div>
+				        <div>작성된 글이 없습니다.</div>
 				        </c:when>
 				        <c:otherwise>
 				        <c:forEach items="${potoList }" var="list" varStatus="status">
@@ -187,7 +187,7 @@
 						            <div class="carousel-testimony owl-carousel">
 						              <c:forTokens var="src" items="${list.sr_ImgSrc }" delims=",">
 						              <div class="item">
-										<a href="potoBookDetail.do?sr_Code=${list.sr_Code }"><img src="${src}"/></a>
+										<a href="potoBookDetail.do?sr_Code=${list.sr_Code }"><img src="${src}" height="260px"/></a>
 						              </div>
 									  </c:forTokens>	
 						            </div>

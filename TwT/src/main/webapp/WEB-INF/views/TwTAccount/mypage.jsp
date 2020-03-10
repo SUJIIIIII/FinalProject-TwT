@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -20,16 +21,22 @@
 	integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
 	crossorigin="anonymous"></script>
 <%-- 부트스트랩 모달 core 파일 끝 --%>
-<link
-	rel="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css">
-<link rel="stylesheet"
-	href="${pageContext.request.contextPath}/resources/css/style.css">
-<link rel="stylesheet"
-	href="${pageContext.request.contextPath}/resources/css/account/form.css">
-<link rel="stylesheet"
-	href="${pageContext.request.contextPath}/resources/scss/bootstrap/bootstrap.scss">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/bootstrap-datepicker.css">
+<link rel="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/style.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/account/form.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/scss/bootstrap/bootstrap.scss">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/animate.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/owl.carousel.min.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/owl.theme.default.min.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/magnific-popup.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/aos.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/ionicons.min.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/flaticon.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/icomoon.css">
 <script type="text/javascript" src="js/component.js"></script>
 <script type="text/javascript" src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<script src="${pageContext.request.contextPath}/resources/js/bootstrap-datepicker.js"></script>
 <script type="text/javascript">
 <%-- 오른쪽 사이드 리모콘 메뉴 --%>
 	$(document).ready(function() {
@@ -57,8 +64,64 @@
 				}
 		});
 	});
+
 </script>
 <style type="text/css">
+.ftco-navbar-light .navbar-nav > .nav-item.cta > a:hover {
+	background: #fc3c3c;
+	border: 1px solid #fc3c3c;
+}
+.blog-entry .text .heading a:hover, .blog-entry .text .heading a:focus, .blog-entry .text .heading a:active {
+   	color: #fc3c3c;
+}
+
+.enjoy-css {
+  -webkit-box-sizing: content-box;
+  -moz-box-sizing: content-box;
+  box-sizing: content-box;
+  width: 150px;
+  height: 40px;
+  cursor: pointer;
+  margin: 0;
+  -webkit-border-radius: 40px;
+  border-radius: 35px;
+  font: normal 18px/40px "Domine Font Family", Helvetica, sans-serif;
+  color: rgb(255, 255, 255);
+  text-align: center;
+  -o-text-overflow: clip;
+  text-overflow: clip;
+  letter-spacing: 1px;
+  background: #fc3c3c;
+  margin: 0 0 0 140px;
+}
+
+.ftco-navbar-light.scrolled .nav-item.cta > a {
+     color: #fff !important;
+     background: #fc3c3c;
+   }
+   
+   .destination .text .bottom-area span:last-child a:hover {
+   background: #ffba00;
+}
+.destination .text .bottom-area span:last-child a {
+   background: #ffba00;
+}
+
+.destination .text .rate i {
+   color: #fc3c3c;
+}
+.rate i {
+   color: #fc3c3c;
+}
+.tagcloud a:hover {
+   border: 1px solid #fc3c3c;
+   color: #fc3c3c;
+}
+   
+html{
+	scroll-behavior:smooth;
+}
+   
 body {
 	background-image:
 		url("${pageContext.request.contextPath}/resources/images/account/mypage_bg.jpg");
@@ -306,7 +369,7 @@ ul {
 	font-weight: 400;
 }
 
-figure.snip1432 {
+figure.snip1433 {
 	font-family: 'Raleway', Arial, sans-serif;
 	color: #fff;
 	position: relative;
@@ -320,14 +383,14 @@ figure.snip1432 {
 	text-align: left;
 }
 
-figure.snip1432 * {
+figure.snip1433 * {
 	-webkit-box-sizing: border-box;
 	box-sizing: border-box;
 	-webkit-transition: all 0.6s ease;
 	transition: all 0.6s ease;
 }
 
-figure.snip1432 img {
+figure.snip1433 img {
 	opacity: 0.8;
 	width: 100%;
 	vertical-align: top;
@@ -335,7 +398,7 @@ figure.snip1432 img {
 	transition: opacity 0.35s;
 }
 
-figure.snip1432 figcaption {
+figure.snip1433 figcaption {
 	position: absolute;
 	bottom: 0;
 	left: 0;
@@ -343,14 +406,14 @@ figure.snip1432 figcaption {
 	height: 100%;
 }
 
-figure.snip1432 figcaption>div {
+figure.snip1433 figcaption>div {
 	height: 50%;
 	overflow: hidden;
 	width: 100%;
 	position: relative;
 }
 
-figure.snip1432 h2, figure.snip1432 h3 {
+figure.snip1433 h2, figure.snip1433 h3 {
 	color: white;
 	margin: 0;
 	position: absolute;
@@ -360,24 +423,24 @@ figure.snip1432 h2, figure.snip1432 h3 {
 	margin: 0;
 }
 
-figure.snip1432 h2 {
+figure.snip1433 h2 {
 	font-weight: 900;
 	top: 0;
 }
 
-figure.snip1432 h3 {
+figure.snip1433 h3 {
 	font-size: 1em;
 	bottom: 0;
 	font-weight: 500;
 }
 
-figure.snip1432 h3:nth-of-type(2) {
+figure.snip1433 h3:nth-of-type(2) {
 	opacity: 0;
 	-webkit-transform: translateY(150%);
 	transform: translateY(150%);
 }
 
-figure.snip1432 a {
+figure.snip1433 a {
 	left: 0;
 	right: 0;
 	top: 0;
@@ -385,20 +448,20 @@ figure.snip1432 a {
 	position: absolute;
 }
 
-figure.snip1432:hover img, figure.snip1432.hover img {
+figure.snip1433:hover img, figure.snip1433.hover img {
 	opacity: 0.5;
 	-webkit-filter: grayscale(100%);
 	filter: grayscale(100%);
 }
 
-figure.snip1432:hover figcaption h3:first-of-type, figure.snip1432.hover figcaption h3:first-of-type
+figure.snip1433:hover figcaption h3:first-of-type, figure.snip1433.hover figcaption h3:first-of-type
 	{
 	-webkit-transform: translateY(150%);
 	transform: translateY(150%);
 	opacity: 0;
 }
 
-figure.snip1432:hover figcaption h3:nth-of-type(2), figure.snip1432.hover figcaption h3:nth-of-type(2)
+figure.snip1433:hover figcaption h3:nth-of-type(2), figure.snip1433.hover figcaption h3:nth-of-type(2)
 	{
 	opacity: 1;
 	-webkit-transform: translateY(0%);
@@ -412,6 +475,7 @@ figure.snip1432:hover figcaption h3:nth-of-type(2), figure.snip1432.hover figcap
 	border: 1px solid #fc3c3c;
 	border-radius: 5px;
 	padding: 0 15px;
+	margin-botton:15px;
 }
 
 #myroute:hover {
@@ -608,7 +672,12 @@ html {
 				</div>
 			</c:when>
 			<c:otherwise>
-				<c:forEach items="${airlist}" var="air">
+			   <div style="float:right; margin-right:15px;">
+			     <button type="button" data-toggle="modal" data-target="#airplaneInfo" style="border:0; outline:0; background-color:white;">
+			        <span style="color:#fc3c3c; font-size:11px;">+ 추가하기</span>
+			     </button>
+			   </div>
+			   <c:forEach items="${airlist}" var="air">
 					<div class="col-sm-12">
 						<div id="airplane_Info">
 							<div id="airInfo_title">
@@ -641,13 +710,13 @@ html {
 										<p>출국일</p>
 									</div>
 
-									<div id="info_location">${air.dep_Date1}</div>
+									<div id="info_location">${air.dep_Date1}&nbsp;&nbsp;${air.dep_Time1}</div>
 
 									<div id="info_title">
 										<p>도착일</p>
 									</div>
 
-									<div id="info_location">${air.dep_Date2}</div>
+									<div id="info_location">${air.dep_Date2}&nbsp;&nbsp;${air.dep_Time2}</div>
 								</div>
 								<div class="col-sm-2" id="info">
 									<div id="info_title">
@@ -667,13 +736,13 @@ html {
 										<p>출국일</p>
 									</div>
 
-									<div id="info_location">${air.re_Date1}</div>
+									<div id="info_location">${air.re_Date1}&nbsp;&nbsp;${air.re_Time1}</div>
 
 									<div id="info_title">
 										<p>도착일</p>
 									</div>
 
-									<div id="info_location">${air.re_Date2}</div>
+									<div id="info_location">${air.re_Date2}&nbsp;&nbsp;${air.re_Time2}</div>
 								</div>
 							</div>
 
@@ -692,16 +761,28 @@ html {
 			<div class="title">
 				<p>호텔 예약 정보</p>
 			</div>
-
 			<div class="col-sm-12 page_left">
+			  <c:choose>
+			   	 <c:when test="${empty booking}">
+				<div class="col-sm-12" style="width: 100%; text-align: center;">
+				${user.m_Name}님의 예약된 숙소 정보가 존재하지 않습니다.</div>
+
+				<div class="col-sm-6" style="margin-left: 366px; margin-top: 25px;">
+					<button type="button" class="btn btn-primary btn-outline-primary" onclick="location.href='hotel.do'">
+						GO RESERVATION<i class="far fa-calendar-check" style="margin-left: 5px;"></i>
+					</button>
+				</div>
+			</c:when>
+			<c:otherwise>
+				<c:forEach items="${booking}" var="book">
 				<div class="day-box" id="day_box">
 					<div class="day_info_box">
-						<div class="day_txt">DAY1</div>
+						<div class="day_txt">INFO</div>
 
 						<div class="day_info">
 							<div class="day_info_left">
-								<div class="date">2015.08.01 (토)</div>
-								<div class="day_title">로스엔젤레스</div>
+								<div class="date">${book.hb_Sdate} - ${book.hb_Edate}</div>
+								<div class="day_title">방콕</div>
 							</div>
 							<div class="day_info_right" style="display: none;"></div>
 							<div class="clear"></div>
@@ -710,23 +791,25 @@ html {
 
 					<div class="day_sch_box" id="day_sch_box">
 						<div class="day_sch_num">
-							<div class="sch_num">1</div>
+							<div class="sch_num">${book.hb_Code}</div>
 						</div>
 
 						<div class="day_sch_content">
-							<img
-								src="http://img.earthtory.com/img/place_img/10019/64982_0_et.jpg"
-								class="spot_img" style="cursor: pointer;">
-
 							<div class="spot_content_box">
 								<div class="spot_name">베니스 비치</div>
 								<div class="spot_info">
-									<div class="tag">해변/항구</div>
+									<div class="tag">예약자 : ${book.hb_Name}</div>
+									<div class="tag" style="margin-left:7px;">예약인원 : ${book.hb_People}</div>
+									<div class="tag" style="margin-left:7px;">결제여부(Y/N) : ${book.hb_Check}</div>
 								</div>
 							</div>
 						</div>
 					</div>
 				</div>
+				<div style="color:red; font-size:11px; margin-top:10px;">* 호텔 예약 건에 대한 변경 및 취소는 해당 호텔에 직접 연락바랍니다.</div>
+			  </c:forEach>
+			 </c:otherwise>
+			</c:choose>
 			</div>
 		</div>
 		<%-- 호텔예약조회 DIV 끝 --%>
@@ -736,160 +819,88 @@ html {
 			<div class="title">
 				<p>나의 일정</p>
 			</div>
-			<br> <br> <br>
-			<div class="col-sm-6">
+		</div>
+		
+		<div class="row">
+		<div class="col-sm-6" style="margin-top:30px;">
+		   <c:choose>
+		      <c:when test="${empty route}">
+				   <div class="col-sm-12" style="width: 80%; text-align:center; margin-left:312px;">
+	              ${user.m_Name}님의 일정이 존재하지 않습니다.
+		          </div>
+
+		         <div class="col-sm-6" style="margin-left: 430px; margin-top: 25px;">
+			     <button type="button" class="btn btn-primary btn-outline-primary" onclick="location.href='plan.do'">
+				     GO PLAN<i class="far fa-bookmark" style="margin-left: 5px;"></i>
+			     </button>
+		      </div>
+		      </c:when>
+		      
+		      <c:otherwise>
 				<a href="#" data-toggle="modal" data-target="#exampleModalCenter">
-					<figure class="snip1432">
+					<figure class="snip1433">
 						<img src="${pageContext.request.contextPath}/resources/images/account/route1.jpg" width="150">
 						<figcaption>
 							<div>
-								<h3>Thailand</h3>
-								<h3>작성한 일정 (3개)</h3>
+								<h3></h3>
+								<h3>작성한 일정 (${fn:length(route)}개) </h3>
 							</div>
 							<div>
-								<h2>BANG KOK</h2>
+								<h2>THAILAND</h2>
 							</div>
 						</figcaption>
 					</figure>
 				</a>
+				</c:otherwise>
+				</c:choose>
+	      </div>
 			</div>
-		</div>
 		<%-- 일정 DIV끝 --%>
 
 		<%-- 찜 목록 DIV 시작 --%>
-		<div class="col-sm-12" style="float: left; margin-top: 30px;">
+	<div class="col-sm-12" style="float: left; margin-top: 30px;">
 			<div class="title">
 				<p>찜 목록</p>
 			</div>
-			<br> <br> <br> <br>
+    </div>
+       		<div class="row">
+    			<div class="col-md-12" style="margin-top:40px;">
+    			<c:choose>
+    				    <c:when test="${empty like}">
+    				      <div class="col-sm-12" style="width: 100%; text-align: center;">
+				              ${user.m_Name}님의 찜 목록이 존재하지 않습니다.
+				          </div>
 
-			<div class="row row-cols-1 row-cols-md-3">
-				<div class="col mb-4">
-					<div class="card h-100">
-						<img
-							src="${pageContext.request.contextPath}/resources/images/image_1.jpg"
-							class="card-img-top" alt="...">
-						<div class="card-body">
-							<h5 class="card-title">Card title</h5>
-							<p class="card-text">This is a longer card with supporting
-								text below as a natural lead-in to additional content. This
-								content is a little bit longer.</p>
-						</div>
-					</div>
-				</div>
-				<div class="col mb-4">
-					<div class="card h-100">
-						<img
-							src="${pageContext.request.contextPath}/resources/images/image_6.jpg"
-							class="card-img-top" alt="...">
-						<div class="card-body">
-							<h5 class="card-title">Card title</h5>
-							<p class="card-text">This is a short card.</p>
-						</div>
-					</div>
-				</div>
-				<div class="col mb-4">
-					<div class="card h-100">
-						<img
-							src="${pageContext.request.contextPath}/resources/images/image_3.jpg"
-							class="card-img-top" alt="...">
-						<div class="card-body">
-							<h5 class="card-title">Card title</h5>
-							<p class="card-text">This is a longer card with supporting
-								text below as a natural lead-in to additional content.</p>
-						</div>
-					</div>
-				</div>
-				<div class="col mb-4">
-					<div class="card h-100">
-						<img
-							src="${pageContext.request.contextPath}/resources/images/image_4.jpg"
-							class="card-img-top" alt="...">
-						<div class="card-body">
-							<h5 class="card-title">Card title</h5>
-							<p class="card-text">This is a longer card with supporting
-								text below as a natural lead-in to additional content. This
-								content is a little bit longer.</p>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-		<br> <br>
+				         <div class="col-sm-6" style="margin-left: 420px; margin-top: 25px;">
+					     <button type="button" class="btn btn-primary btn-outline-primary" onclick="location.href='community.do'">
+						     SEE OTHERS<i class="far fa-bookmark" style="margin-left: 5px;"></i>
+					     </button>
+				      </div>
+    				    </c:when>
+    				     <c:otherwise>
+    				      <div class="destination-slider owl-carousel ftco-animate">
+    				        <c:forEach items="${like}" var="like">
+    					    <div class="item">
+		    				<div class="destination">
+		    					<a href="#" class="img d-flex justify-content-center align-items-center">
+		    					   <img src="${pageContext.request.contextPath}/resources/images/account/route1.jpg" style="height:100%; margin-left:12px;"/>
+		    						<div class="icon d-flex justify-content-center align-items-center">
+		    							<span class="icon-search2"></span>
+		    						</div>
+		    					</a>
+		    					<div class="text p-3">
+		    						<h3><a href="#">${like.ts_Title}</a></h3>
+		    						<span class="listing">VIEW : ${like.ts_View}</span>
+		    					</div>
+		    				</div>
+	    				 </div>
+	    				 </c:forEach>
+	    				 </div>
+	    			</c:otherwise>
+	    			</c:choose>
+    				</div>
+    			</div>
 		<%-- 찜 목록 DIV 끝 --%>
-
-		<%-- 커뮤니티 DIV 시작 --%>
-		<div class="col-sm-12" style="float: left; margin-top: 30px;">
-			<div class="title">
-				<p>내가 쓴 게시글</p>
-			</div>
-			<br> <br> <br> <br>
-
-			<div class="row row-cols-1 row-cols-md-3">
-				<div class="col mb-4">
-					<div class="card h-100">
-						<img
-							src="${pageContext.request.contextPath}/resources/images/image_1.jpg"
-							class="card-img-top" alt="...">
-						<div class="card-body">
-							<h5 class="card-title">Card title</h5>
-							<p class="card-text">This is a longer card with supporting
-								text below as a natural lead-in to additional content. This
-								content is a little bit longer.</p>
-						</div>
-					</div>
-				</div>
-				<div class="col mb-4">
-					<div class="card h-100">
-						<img
-							src="${pageContext.request.contextPath}/resources/images/image_6.jpg"
-							class="card-img-top" alt="...">
-						<div class="card-body">
-							<h5 class="card-title">Card title</h5>
-							<p class="card-text">This is a short card.</p>
-						</div>
-					</div>
-				</div>
-				<div class="col mb-4">
-					<div class="card h-100">
-						<img
-							src="${pageContext.request.contextPath}/resources/images/image_3.jpg"
-							class="card-img-top" alt="...">
-						<div class="card-body">
-							<h5 class="card-title">Card title</h5>
-							<p class="card-text">This is a longer card with supporting
-								text below as a natural lead-in to additional content.</p>
-						</div>
-					</div>
-				</div>
-				<div class="col mb-4">
-					<div class="card h-100">
-						<img
-							src="${pageContext.request.contextPath}/resources/images/image_4.jpg"
-							class="card-img-top" alt="...">
-						<div class="card-body">
-							<h5 class="card-title">Card title</h5>
-							<p class="card-text">This is a longer card with supporting
-								text below as a natural lead-in to additional content. This
-								content is a little bit longer.</p>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-
-		<div class="block-27">
-			<ul>
-				<li><a href="#">&lt;</a></li>
-				<li class="active"><span>1</span></li>
-				<li><a href="#">2</a></li>
-				<li><a href="#">3</a></li>
-				<li><a href="#">4</a></li>
-				<li><a href="#">5</a></li>
-				<li><a href="#">&gt;</a></li>
-			</ul>
-		</div>
-		<%-- 커뮤니티 DIV 끝 --%>
 
 		<%-- 회원탈퇴 버튼 시작--%>
 		<div style="margin-left: 880px;">
@@ -915,23 +926,21 @@ html {
 					</button>
 				</div>
 				<div class="modal-body">
+				  <c:forEach items="${route}" var="route">
 					<div class="my_route" id="myroute">
 						<div style="float: left; margin-top: -3px; display: inline;">
-							<img
-								src="${pageContext.request.contextPath}/resources/images/account/Ticket-icon.png"
-								width="65">
+							<img src="${pageContext.request.contextPath}/resources/images/account/Ticket-icon.png" width="65">
+						</div>
+           
+						<div style="float: left; display: inline; font-size: 20px; margin-left: 15px;">
+							<b>${route.ts_Title}</b>
 						</div>
 
-						<div
-							style="float: left; display: inline; font-size: 20px; margin-left: 15px;">
-							<b>일정제목들어갈부분</b>
-						</div>
-
-						<div
-							style="float: left; display: inline; font-size: 11px; margin-left: 40px;">
+						<div style="float: left; display: inline; font-size: 11px; margin-left: 40px;">
 							<b>2020/02/02 - 2020/02/06</b>
 						</div>
 					</div>
+					</c:forEach>
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-primary btn-outline-primary"
@@ -960,8 +969,8 @@ html {
 						<input type="hidden" name="m_Code" value="${user.m_Code}">
 						       출국지: <input type="text" name="dep_Loca1"><br>
 						       출국 도착지 : <input type="text" name="dep_Loca2"><br>
-						       출국날짜 : <input type="text" name="dep_Date1" id="checkin_date"><br>
-						       출국 도착날짜 : <input type="text" name="dep_Date2" d="checkout_date"><br>
+						       출국날짜 : <input type="text" name="dep_Date1"><br>
+						       출국 도착날짜 : <input type="text" name="dep_Date2"><br>
 						       출국 출발시간 : <input type="text" name="dep_Time1"><br>
 						       출국 도착시간 : <input type="text" name="dep_Time2"><br>
 						       귀국출발지 : <input type="text" name="re_Loca1"><br>
@@ -1019,7 +1028,13 @@ html {
 		</div>
 	</form>
 	<%-- 항공권 수정 모달 DIV 끝--%>
-
-	<%@ include file="/WEB-INF/views/footer.jsp"%>
+<script src="${pageContext.request.contextPath}/resources/js/jquery-migrate-3.0.1.min.js"></script>
+<script src="${pageContext.request.contextPath}/resources/js/jquery.waypoints.min.js"></script>
+<script src="${pageContext.request.contextPath}/resources/js/jquery.stellar.min.js"></script>
+<script src="${pageContext.request.contextPath}/resources/js/owl.carousel.min.js"></script>
+<script src="${pageContext.request.contextPath}/resources/js/jquery.animateNumber.min.js"></script>
+<script src="${pageContext.request.contextPath}/resources/js/scrollax.min.js"></script>
+<script src="${pageContext.request.contextPath}/resources/js/aos.js"></script>
+<script src="${pageContext.request.contextPath}/resources/js/main.js"></script>
 </body>
 </html>
