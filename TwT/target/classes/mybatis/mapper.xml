@@ -88,6 +88,7 @@
 		<result property="h_Content" column="H_CONTENT" />
 		<result property="h_Starn" column="H_STARN" />
 		<result property="h_Basiccontent" column="H_BASICCONTENT" />
+		<result property="min_Price" column="MIN_PRICE" />
 	</resultMap>
 
 	<!-- 호텔리스트 -->
@@ -95,25 +96,44 @@
 		SELECT TB.*
 		FROM (
 			SELECT ROWNUM as rn, ht.*
-			FROM (
-				SELECT *
-				FROM HOTEL
-				ORDER BY H_CODE) ht
+		<include refid="hotelInc" />
 			ORDER BY rn) TB
 		WHERE rn BETWEEN #{startIndex} AND #{endIndex}
 	</select>
 	
 	<!-- 호텔리스트 목록 개수 -->
 	<select id="HselectListCnt" resultType="Integer">
-		SELECT COUNT(*) FROM HOTEL 
-		ORDER BY H_CODE DESC
+		SELECT COUNT(*)
+		<include refid="hotelInc" />
 	</select>
 
-   	<!-- 디테일 리스트 -->
-   	<select id="detailList_B" parameterType="String" resultType="Hotel">
-        SELECT * FROM HOTEL LEFT JOIN HOTELROOM USING(H_CODE)
-      	WHERE H_CODE = #{h_Code}   
-    </select>
+	<sql id="hotelInc">
+		FROM (
+			SELECT DISTINCT hotel.*, sb.MIN_PRICE
+			FROM HOTEL hotel INNER JOIN  HOTELROOM room
+               ON hotel.H_CODE = room.H_CODE
+               INNER JOIN (SELECT MIN(HR_PRICE) AS MIN_PRICE, H_CODE FROM HOTELROOM GROUP BY H_CODE) sb
+               ON hotel.H_CODE = sb.H_CODE
+               <if test='h_Name != null and h_Name != ""'>
+               	  AND hotel.H_NAME LIKE CONCAT('%', CONCAT(#{h_Name}, '%'))
+               </if>
+               <if test='h_Starn != null and h_Starn != ""'>
+                  AND hotel.H_STARN IN (${h_Starn})
+               </if>
+               <if test='hr_Breakfast != null and hr_Breakfast != ""'>
+                  AND room.HR_BREAKFAST = #{hr_Breakfast}
+               </if>
+               <if test='stt_Price != null and stt_Price != "" and end_Price != null and end_Price != ""'>
+               	  AND room.HR_PRICE BETWEEN #{stt_Price} AND #{end_Price}
+               </if>
+			ORDER BY hotel.H_CODE) ht
+	</sql>
+	
+	<!-- 디테일 리스트 -->
+	<select id="detailList_B" parameterType="String" resultType="Hotel">
+       	 	SELECT * FROM HOTEL LEFT JOIN HOTELROOM USING(H_CODE)
+      		WHERE H_CODE = #{h_Code}   
+    	</select>
 
 	<select id="selectOne_B" resultType="Hotel"
 		parameterType="String">

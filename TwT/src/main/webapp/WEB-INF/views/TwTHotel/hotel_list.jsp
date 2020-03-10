@@ -71,6 +71,26 @@
 	    function fn_paging(curPage) {
     		location.href = "/twt/hotel.do?curPage=" + curPage;
     	}
+	   
+		function f_submit() {
+			var form = document.getElementById("searchForm")
+			var chkStar = "";
+			
+			for(var i=1; i<=5; i++) {
+				if($("#exampleCheck"+i).is(":checked")) {
+					chkStar = chkStar + "\'" + $("#exampleCheck"+i).val() + "\'\,";
+				}
+			}
+
+			chkStar = chkStar.slice(0,-1)
+			
+			$("#h_Starn").val(chkStar);
+			$("#stt_Price").val($("#value1").html())
+			$("#end_Price").val($("#value2").html())
+			
+			form.submit();
+		}
+
     </script>
 </head>
 <body id="body">
@@ -90,94 +110,102 @@
 	      $(".bread").text('Hotel');
 	   	});
    	</script>
-
+   	
+   	 <!------------------------------------------------------------  검색창           ----------------------------------------------------- -->
     <section class="ftco-section ftco-degree-bg">
       <div class="container">
         <div class="row">
-        	<div class="col-lg-3 sidebar">
+        	<div class="col-lg-3 sidebar" id="searchType">
+        	   <form id="searchForm" action="./hotel.do" method="get" >
         		<div class="sidebar-wrap bg-light ftco-animate">
         			<h3 class="heading mb-4">호텔 검색</h3>
-        			<form action="#">
         				<div class="fields">
 		              <div class="form-group">
-		                <input type="text" class="form-control" placeholder="검색어를 입력하세요">
+		                <input type="text" class="form-control" name="h_Name" placeholder="검색어를 입력하세요" value="">
 		              </div>
 		              
 		              <div class="form-group">
 						 <p class="rate">조식 선택</p>
 		                <div class="select-wrap one-third">
 	                    <div class="icon"><span class="ion-ios-arrow-down"></span></div>
-	                  		  <select name="" id="" class="form-control" placeholder="Breakfast">
+	                  		  <select name="hr_Breakfast" class="form-control" placeholder="Breakfast">
 	                  		    <option value="">전체</option>
-	                   		   <option value="">선택</option>
-	                   		   <option value="">미선택</option>           
+	                   		   <option value="Y">선택</option>
+	                   		   <option value="N">미선택</option>           
 	                   		 </select>
 	                	  </div>
 		              	</div>	
 		              
-		              <div class="form-group">
+		              <!-- <div class="form-group">
 		              <p class="rate">이용일정</p>
 		                <input type="text" id="checkin_date" class="form-control" placeholder="체크인">
 		              </div>
 		              <div class="form-group">
 		                <input type="text" id="checkin_date" class="form-control" placeholder="체크아웃">
-		              </div>
+		              </div> -->
 		              <div class="form-group">
 		              	<p class="rate">금액설정</p>
 		              	<div class="range-slider">
-		              		<span>
-										    <input type="number" value="25000" min="0" max="120000"/>	-
-										    <input type="number" value="50000" min="0" max="120000"/>
-							</span>
-										  <input value="1000" min="0" max="120000" step="500" type="range"/>
-										  <input value="50000" min="0" max="120000" step="500" type="range"/>
-										
+                         
+                         <label> 최소: </label>
+                                     <input type="range" name="stt_Price" min="0" max="500000" step="5000" value="0" oninput="document.getElementById('value1').innerHTML=this.value;">                                                                                               
+                                     <span id="value1" style="color: red;">0</span>
+                                                                                     원 ~ 
+                                      <label> 최대 : </label>
+                                     <input type="range" name="end_Price" min="0" max="500000" step="5000" value="500000" oninput="document.getElementById('value2').innerHTML=this.value;">
+                                     <a><span id="value2" style="color: red;">500000</span></a>
+                                                                                      원
 						</div>			
 		              </div>
-		              <div class="form-group">
-		                <input type="submit" value="호텔 검색" class="btn btn-primary py-3 px-5">
-		              </div>
-		            </div>
-	            </form>
-        		</div>
-        		<div class="sidebar-wrap bg-light ftco-animate">
-        			<h3 class="heading mb-4">호텔 등급 필터</h3>
-        			<form method="post" class="star-rating">
+		               <div class="form-group">
+		               <p class="rate">호텔 등급</p>
+						<input type="hidden" id="h_Starn" name="h_Starn"/>
 							  <div class="form-check">
-									<input type="checkbox" class="form-check-input" id="exampleCheck1">
+									<input type="checkbox" class="form-check-input" id="exampleCheck5" value="5">
 									<label class="form-check-label" for="exampleCheck1">
 										<p class="rate"><span><i class="icon-star"></i><i class="icon-star"></i><i class="icon-star"></i><i class="icon-star"></i><i class="icon-star"></i></span></p>
 									</label>
 							  </div>
 							  <div class="form-check">
-						      <input type="checkbox" class="form-check-input" id="exampleCheck1">
+						      <input type="checkbox" class="form-check-input" id="exampleCheck4" value="4">
 						      <label class="form-check-label" for="exampleCheck1">
 						    	   <p class="rate"><span><i class="icon-star"></i><i class="icon-star"></i><i class="icon-star"></i><i class="icon-star"></i><i class="icon-star-o"></i></span></p>
 						      </label>
 							  </div>
 							  <div class="form-check">
-						      <input type="checkbox" class="form-check-input" id="exampleCheck1">
+						      <input type="checkbox" class="form-check-input" id="exampleCheck3" value="3">
 						      <label class="form-check-label" for="exampleCheck1">
 						      	<p class="rate"><span><i class="icon-star"></i><i class="icon-star"></i><i class="icon-star"></i><i class="icon-star-o"></i><i class="icon-star-o"></i></span></p>
 						     </label>
 							  </div>
 							  <div class="form-check">
-							    <input type="checkbox" class="form-check-input" id="exampleCheck1">
+							    <input type="checkbox" class="form-check-input" id="exampleCheck2" value="2">
 						      <label class="form-check-label" for="exampleCheck1">
 						      	<p class="rate"><span><i class="icon-star"></i><i class="icon-star"></i><i class="icon-star-o"></i><i class="icon-star-o"></i><i class="icon-star-o"></i></span></p>
 						      </label>
 							  </div>
 							  <div class="form-check">
-						      <input type="checkbox" class="form-check-input" id="exampleCheck1">
+						      <input type="checkbox" class="form-check-input" id="exampleCheck1" value="1">
 						      <label class="form-check-label" for="exampleCheck1">
 						      	<p class="rate"><span><i class="icon-star"></i><i class="icon-star-o"></i><i class="icon-star-o"></i><i class="icon-star-o"></i><i class="icon-star-o"></i></span></p>
 							    </label>
 							  </div>
-							</form>
+							</div>
+		              
+		              <div class="form-group">
+		                <input type="button" id="searchBtn" value="호텔 검색" class="btn btn-primary py-3 px-5" onclick="f_submit()">
+		              </div>
+		              
+		            </div>
         		</div>
+             </form>
           </div>
           
-          
+          <!-- ---------------------------------------------------------- 검색창 종료 ---------------------------------------------------------------------------- -->
+
+
+
+
           
           <div class="col-lg-9">
           	<div class="row">
@@ -204,7 +232,7 @@
 				    						</p>
 			    						</div>
 			    						<div class="two">
-			    							<span class="price per-price" style="margin: -7px;">₩169,006<br><a style="font-size: 16px;">/ 1박</a></span>
+			    							<span class="price per-price" style="margin: -7px;">₩&nbsp;<fmt:formatNumber value="${HotelVo.min_Price}" pattern="#,###" /><br><a style="font-size: 16px;">/ 1박</a></span>
 		    							</div>
 		    						</div>
 		    						<p style="width:216px; height:85px;">${HotelVo.h_Basiccontent}</p>
