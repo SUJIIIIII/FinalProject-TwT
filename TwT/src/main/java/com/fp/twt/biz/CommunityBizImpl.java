@@ -1,12 +1,14 @@
 package com.fp.twt.biz;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.fp.twt.dao.CommunityDao;
 import com.fp.twt.vo.AnswerVo;
+import com.fp.twt.vo.FavoriteListVo;
 import com.fp.twt.vo.ScheduleReviewVo;
 import com.fp.twt.vo.TravelScheduleVo;
 
@@ -56,17 +58,18 @@ public class CommunityBizImpl implements CommunityBiz{
 	//도영
 
 	@Override
-	public List<TravelScheduleVo> selectList_D() {
-		return dao.selectList_D();
+	public List<TravelScheduleVo> selectList_D(TravelScheduleVo travelScheduleVo) {
+		return dao.selectList_D(travelScheduleVo);
 	}
 
 	@Override
-	public List<TravelScheduleVo> PselectList_D() {
-		return dao.PselectList_D();
+	public List<TravelScheduleVo> PselectList_D(TravelScheduleVo travelScheduleVo) {
+		return dao.PselectList_D(travelScheduleVo);
 	}
 
 	@Override
 	public TravelScheduleVo selectOne_D(String ts_code) {
+
 		return dao.selectOne_D(ts_code);
 	}
 
@@ -76,9 +79,40 @@ public class CommunityBizImpl implements CommunityBiz{
 	}
 
 	@Override
-	public List<TravelScheduleVo> themeList(String ts_theme) {
-		return dao.themeList(ts_theme);
+	public List<TravelScheduleVo> themeList(String ts_theme, TravelScheduleVo travelScheduleVo) {
+		return dao.themeList(ts_theme, travelScheduleVo);
 	}
+	
+	@Override
+	public void viewCnt(String ts_code) {
+		dao.viewCnt(ts_code);
+	}
+
+	@Override
+	public FavoriteListVo fListChk(String m_code, String ts_code1) {
+		return dao.fListChk(m_code, ts_code1);
+	}
+
+	@Override
+	public int fList(String m_code, String ts_code1) {
+		return dao.fList(m_code, ts_code1);
+	}
+
+	@Override
+	public int fList_Y(String m_code, String ts_code1) {
+		return dao.fList_Y(m_code, ts_code1);
+	}
+	
+	@Override
+	public int fList_N(String m_code, String ts_code1) {
+		return dao.fList_N(m_code, ts_code1);
+	}
+
+	@Override
+	public int selectListCnt_D() {
+		return dao.selectListCnt_D();
+	}
+
 
 
 

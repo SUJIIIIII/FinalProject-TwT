@@ -44,8 +44,8 @@ public class HotelAirBizImpl implements HotelAirBiz{
 	
 	/** 호텔 리스트 목록 개수 */
 	@Override
-	public int HselectListCnt(){
-		return dao.HselectListCnt();
+	public int HselectListCnt(HotelVo hotelVo){
+		return dao.HselectListCnt(hotelVo);
 	}
 
 	@Override
