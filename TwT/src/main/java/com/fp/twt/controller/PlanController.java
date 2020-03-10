@@ -115,7 +115,8 @@ public class PlanController {
 	}
 	
 	@RequestMapping("/insertPlan.do")
-	public String insertPlan(MultipartFile file) {
+	public String insertPlan(MultipartFile file,String pn_dayList) {
+		System.out.println("잘? : " + pn_dayList);
 		
 		// ------- file upload --------
 		// 고유 id 부여
@@ -136,21 +137,6 @@ public class PlanController {
 		
 		return "redirect:/index.jsp";
 	}
-	
-//	@RequestMapping("/cityJson.do")
-//	@ResponseBody
-//	public Map<String,List> cityJson(){
-//		List<CityVo> res = biz.selectCityAll();
-//		Map<String,List> map = new HashMap<String, List>();
-//		
-//		map.put("city", res);
-//		
-//		return map;
-//	}
-	
-	
-	
-	
 	
 
 }

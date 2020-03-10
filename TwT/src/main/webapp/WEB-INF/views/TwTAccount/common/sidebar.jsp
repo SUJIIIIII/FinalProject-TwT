@@ -15,7 +15,7 @@
 <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js'></script>
 <script src="${pageContext.request.contextPath}/resources/js/chat.js"></script>
 
-  <script src="http://localhost:82/socket.io/socket.io.js"></script>
+  <script src="http://localhost:3000/socket.io/socket.io.js"></script>
 
 	<script>
 		$(document).ready(function(){ //웹페이지 로드시 실행(수정)
