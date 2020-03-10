@@ -4,6 +4,7 @@
 	<%@ page import="com.fp.twt.vo.MemberVo" %>
 	<%@ page import="com.fp.twt.vo.TravelScheduleVo" %>
 	<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+	<% MemberVo vo = (MemberVo)session.getAttribute("vo"); %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -27,6 +28,40 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/flaticon.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/icomoon.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/style.css">
+    
+    <script type="text/javascript">
+	    function fn_paging(curPage) {
+			location.href = "/twt/community.do?curPage=" + curPage;
+		}
+	    
+	    function fList(ts_Code){
+	    		alert(ts_Code);
+	    		
+			 	$.ajax({
+				url: "fList.do",
+				
+				data : ts_Code,
+					
+                type: "post",
+                
+                dataType : "json",
+                
+                success: function(data){
+                	var res = data.res;
+                	alert("성공");
+                	alert(res);
+                	
+                	if(res){
+                	$("#fa-heart").css("font-weight", "bold");
+                	}
+                },
+                
+                error:function(){
+        	  		alert("에러");
+        	  	}
+			})
+		};
+    </script>
     
     <style type="text/css">
     html{
@@ -92,26 +127,11 @@
 	<!-- header css 적용 -->
 	<script type="text/javascript" src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 	<script type="text/javascript">
-	    $(document).ready(function() {
+	    $(document).ready(function(){
 	      $("#nav3").addClass("active")
 	      $(".hero-wrap").attr('style',"background-image: url('${pageContext.request.contextPath}/resources/images/bg_7.jpg');");
 	      $(".bread").text('Community');
 	   	});
-	    
-/* 	    function f_list(){
-	    	
-	    	  $.ajax({
-	    		  url : "f_list.do?m_code=${m_code}",
-		    	  data : {},
-	    	  	dataType : "json",
-	    	  	success:function(data){
-	    	  		if(data.check == 'Y') 
-	    	  	},
-	    	  	error:function(){
-	    	  		alert("에러 발생");
-	    	  	}
-	    	  })
-	    } */
    	</script>
 
     <section class="ftco-section testimony-section bg-light">
@@ -132,12 +152,12 @@
 					<!-- fade 1 -->
 		              <div class="tab-pane fade show active" id="v-pills-whatwedo" role="tabpanel" aria-labelledby="v-pills-whatwedo-tab">
 							<div style="margin-bottom: 25px; padding-left: 1020px;">
-					    	<span class="sort" date-id="regdate" onclick="" style="cursor:pointer;"><i class="far fa-calendar-alt"></i>&nbsp;<a href="community.do">최신</a></span>
+					    	<span class="sort" date-id="regdate" ><i class="far fa-calendar-alt"></i>&nbsp;<a href="community.do">최신</a></span>
 					    	<span class="sort">&nbsp;|&nbsp;</span>
-					    	<span class="sort" date-id="po" onclick="" style="cursor:pointer;"><i class="far fa-thumbs-up"></i>&nbsp;<a href="popcommunity.do">인기</a></span>
+					    	<span class="sort" date-id="po" ><i class="far fa-thumbs-up"></i>&nbsp;<a href="popcommunity.do">인기</a></span>
 					      	</div>						
 						<div class="row d-flex">
-							<c:forEach items="${community }" var="vo">
+							<c:forEach items="${community }" var="vo" varStatus="status" begin="0" end="7">
 							 	<div class="col-md-3 d-flex ftco-animate">
 							            <div class="blog-entry align-self-stretch" style="min-width: 250px;">
 							              <a href="communityDetail.do?ts_code=${vo.ts_Code }" class="block-20" style="background-image: url(${pageContext.request.contextPath}/resources/images/plan/${vo.city_Code }/${vo.tp_Img });"></a>
@@ -145,13 +165,16 @@
 							              	<span class="tag">${fn:substring(vo.ts_Sday,0,8)}</span>
 							              	<span class="tag">| ${vo.ts_Period }DAYS</span>
 							              	<span style="padding: 0 0 0 18px; float: right;">
-								              	<a onclick="f_list();" style="cursor:pointer";><i class="far fa-heart" id="far fa-heart" style="color: #fc3c3c;"></i></a>&nbsp;&nbsp;
-									            <i class="fas fa-eye"></i><span style="font-size:14px;">&nbsp;&nbsp;${vo.ts_View }</span>
+										<div class="cnt_copy">
+											<a onclick="fList('${vo.ts_Code}');" id="fList" style="cursor: pointer;"><i class="far fa-heart" id="fa-heart" style="color: #fc3c3c;"></i></a>&nbsp;&nbsp;
+											<i class="fas fa-eye"></i><span style="font-size:14px;">&nbsp;&nbsp;${vo.ts_View }</span>
+										</div>
+								              	
 								            </span>
 								            <br>
 						              	    <h3 class="heading" style="margin-top: 8px;"><a href="communityDetail.do?ts_code=${vo.ts_Code }">${vo.ts_Title }</a></h3>
 						                    <div class="tagcloud">
-							                <a href="#" class="tag-cloud-link">${vo.ts_Theme }</a>
+							                <a href="community.do?ts_theme=${vo.ts_Theme}" class="tag-cloud-link">${vo.ts_Theme }</a>
 						               	 	</div>
 						           		 	<br>
 						                    <div style="margin-top: -10px;"><i class="fas fa-user"></i>&nbsp;${vo.m_Name }</div>			              	    
@@ -166,13 +189,28 @@
 					          <div class="col text-center">
 					            <div class="block-27">
 					              <ul>
-					                <li><a href="#">&lt;</a></li>
-					                <li class="active"><span>1</span></li>
-					                <li><a href="#">2</a></li>
-					                <li><a href="#">3</a></li>
-					                <li><a href="#">4</a></li>
-					                <li><a href="#">5</a></li>
-					                <li><a href="#">&gt;</a></li>
+					                <c:if test="${pagination.curRange ne 1 }">
+			        					<li><a href="#" onClick="fn_paging(1)">&lt;</a></li> 
+			    					</c:if>
+			    					<c:if test="${pagination.curPage ne 1}">
+								        <li><a href="#" onClick="fn_paging('${pagination.prevPage }')">&lt;</a></li> 
+								    </c:if>
+					                <c:forEach var="pageNum" begin="${pagination.startPage }" end="${pagination.endPage }">
+								        <c:choose>
+								            <c:when test="${pageNum eq  pagination.curPage}">
+								                <li class="active"><span style="font-weight: bold;"><a href="#" onClick="fn_paging('${pageNum }')">${pageNum }</a></span></li> 
+								            </c:when>
+								            <c:otherwise>
+								                <li><a href="#" onClick="fn_paging('${pageNum }')">${pageNum }</a></li> 
+								            </c:otherwise>
+								        </c:choose>
+								    </c:forEach>
+					                <c:if test="${pagination.curPage ne pagination.pageCnt && pagination.pageCnt > 0}">
+								        <li><a href="#" onClick="fn_paging('${pagination.nextPage }')">&gt;</a> </li>
+								    </c:if>
+								    <c:if test="${pagination.curRange ne pagination.rangeCnt && pagination.rangeCnt > 0}">
+								       <li> <a href="#" onClick="fn_paging('${pagination.pageCnt }')">&gt;</a></li> 
+								    </c:if>
 					              </ul>
 					            </div>
 					          </div>

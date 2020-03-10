@@ -11,16 +11,21 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+import javax.mail.Session;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.apache.commons.io.FileUtils;
+import org.json.simple.JSONObject;
+import org.omg.CORBA.Request;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -30,10 +35,12 @@ import org.springframework.web.servlet.view.RedirectView;
 
 import com.fp.twt.biz.CommunityBiz;
 import com.fp.twt.vo.AnswerVo;
+import com.fp.twt.vo.FavoriteListVo;
 import com.fp.twt.vo.MemberVo;
 import com.fp.twt.vo.ScheduleReviewVo;
 import com.fp.twt.vo.TravelScheduleVo;
-
+import com.fp.twt.vo.ts_PagingVo;
+import com.google.gson.JsonObject;
 
 @Controller
 public class CommunityController {
@@ -217,16 +224,29 @@ public class CommunityController {
 	// 도영
 	// 여행 일정 리스트
 	@RequestMapping("/community.do")
-	public String newcommunity(Model model, String ts_theme) {
+	public String newcommunity(@ModelAttribute("travelScheduleVo") TravelScheduleVo travelScheduleVo, String ts_theme, Model model) {
 		logger.info("SELECT LIST");
-
+		
+		// 페이징
+		int listCnt = biz.selectListCnt_D();
+        int curPage = travelScheduleVo.getCurPage();
+        
+        ts_PagingVo pagination = new ts_PagingVo(listCnt, curPage);
+        
+        
+        travelScheduleVo.setStartIndex(curPage);
+        travelScheduleVo.setEndIndex(travelScheduleVo.getStartIndex());
+        
 		//도영
+        
 		// 테마 별 모아보기
 		if(ts_theme != null) {
-			model.addAttribute("community", biz.themeList(ts_theme));
+			model.addAttribute("community", biz.themeList(ts_theme, travelScheduleVo));
+			model.addAttribute("pagination", pagination);
 			System.out.println(ts_theme);		
 		}else {
-			model.addAttribute("community", biz.selectList_D());
+			model.addAttribute("community", biz.selectList_D(travelScheduleVo));
+			model.addAttribute("pagination", pagination);
 		}
 		
 		//용훈
@@ -239,41 +259,97 @@ public class CommunityController {
 
 	// 인기 일정 순 정렬
 	@RequestMapping("/popcommunity.do")
-	public String popcommunity(Model model) {
+	public String popcommunity(@ModelAttribute("travelScheduleVo") TravelScheduleVo travelScheduleVo, String ts_theme, Model model) {
 		logger.info("SELECT LIST"); 
-		
-		model.addAttribute("community", biz.PselectList_D());
+		int listCnt = biz.selectListCnt_D();
+        
+        int curPage = travelScheduleVo.getCurPage();
+        
+        ts_PagingVo pagination = new ts_PagingVo(listCnt, curPage);
+        
+        
+        travelScheduleVo.setStartIndex(curPage);
+        travelScheduleVo.setEndIndex(travelScheduleVo.getStartIndex());
+        
+        // 테마 별 모아보기
+     		if(ts_theme != null) {
+     			model.addAttribute("community", biz.themeList(ts_theme, travelScheduleVo));
+     			model.addAttribute("pagination", pagination);
+     			System.out.println(ts_theme);		
+     		}else {
+     			model.addAttribute("community", biz.PselectList_D(travelScheduleVo));
+     			model.addAttribute("pagination", pagination);
+     		}
 		
 		return "TwTCommunity/community_list";
 	}
 
 	// 여행 일정 디테일
-	@RequestMapping("communityDetail.do")
-	public String communityDetail(Model model, String ts_code) {
+	@RequestMapping("/communityDetail.do")
+	public String communityDetail(Model model, String ts_code, TravelScheduleVo travelScheduleVo) {
 		logger.info("SELECT ONE");
 		
 		biz.viewCnt(ts_code);
 		
 		model.addAttribute("detail", biz.selectOne_D(ts_code));
 		
-		model.addAttribute("detailList", biz.detailList_D(ts_code));
-
+		List<TravelScheduleVo> list = biz.detailList_D(ts_code);
+		model.addAttribute("detailList", list);
+		
+		List<String> dayList = new ArrayList<String>();
+		
+		for(int i = 0 ; i < list.size() ; i++) {
+				if(!dayList.contains(list.get(i).getTs_Day())) {
+					dayList.add(list.get(i).getTs_Day());
+			}
+			
+		}
+		model.addAttribute("dayList", dayList);
+		
 		TravelScheduleVo vo = biz.selectOne_D(ts_code);
-		model.addAttribute("themeList", biz.themeList(vo.getts_Theme()));
-
+		model.addAttribute("themeList", biz.themeList(vo.getts_Theme(), travelScheduleVo));
+		for(int i=0; i<list.size(); i++) {
+			System.out.println(list.get(i).getSm_Memo());
+		}
 		
 		return "TwTCommunity/community_detail"; 
 	}
 	
-	/*
-	 * // 찜
-	 * 
-	 * @RequestMapping("f_list.do")
-	 * 
-	 * @ResponseBody public Map<String,String> f_List(String m_code) {
-	 * System.out.println(m_code); return null;
-	 * 
-	 * }
-	 */
+	// 찜
+	@RequestMapping("/fList.do")
+	@ResponseBody 
+	public Map<String, Boolean> fList(@RequestBody String ts_code, HttpSession session, HttpServletRequest request){
+		Map<String, Boolean> map = new HashMap<String, Boolean>();
+		MemberVo member = (MemberVo) session.getAttribute("user");
+		String m_code = member.getm_Code();
+		String ts_code1 = ts_code.substring(0,ts_code.length()-1);
+		System.out.println("회원 번호 : " + m_code);
+		System.out.println("글 번호 : " + ts_code1);
+		
+		Boolean res = false;
+		
+		FavoriteListVo vo = biz.fListChk(m_code, ts_code1);
+		
+		if(vo == null) {	// 찜 목록에 데이터가 없을 시 데이터 인서트
+			int result = biz.fList(m_code, ts_code1);
+			res = true;
+		} else {	// 데이터가 있을 시 찜 여부 확인 후 업데이트
+			System.out.println("기존 찜 여부 : " + vo.getFl_Check());
+			if(vo.getFl_Check().equals("Y")) {
+				System.out.println("찜 여부 N으로 변경");
+				int result = biz.fList_N(m_code, ts_code1);
+				res = true;
+			} else if(vo.getFl_Check().equals("N")){
+				System.out.println("찜 여부 Y로 변경");
+				int result = biz.fList_Y(m_code, ts_code1);
+				res = true;
+			}
+		}
+		map.put("res", res);
+		
+		
+		return map;
+	 }
+	
 	
 }
