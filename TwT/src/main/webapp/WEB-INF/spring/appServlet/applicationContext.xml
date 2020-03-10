@@ -93,7 +93,7 @@
 			value="http://localhost:8787/twt/googlelogin.do" />
 	</beans:bean>
 	
-	<!-- 일정 썸네일 업로드 경로 지정 -->
+	<!-- 일정 썸네일 업로드 경로 지정 (경로 기준 : 수지)-->
 	<beans:bean id="uploadPath" class="java.lang.String">
 		<beans:constructor-arg value="C:\\Users\\gkdmd\\OneDrive\\문서\\github\\FinalProject-TwT\\TwT\\src\\main\\webapp\\resources\\images\\plan\\thumbnail"></beans:constructor-arg>
 	</beans:bean>
