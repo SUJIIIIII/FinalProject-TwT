@@ -88,6 +88,7 @@
 		<result property="h_Content" column="H_CONTENT" />
 		<result property="h_Starn" column="H_STARN" />
 		<result property="h_Basiccontent" column="H_BASICCONTENT" />
+		<result property="min_Price" column="MIN_PRICE" />
 	</resultMap>
 
 	<!-- 호텔리스트 -->
@@ -95,25 +96,44 @@
 		SELECT TB.*
 		FROM (
 			SELECT ROWNUM as rn, ht.*
-			FROM (
-				SELECT *
-				FROM HOTEL
-				ORDER BY H_CODE) ht
+		<include refid="hotelInc" />
 			ORDER BY rn) TB
 		WHERE rn BETWEEN #{startIndex} AND #{endIndex}
 	</select>
 	
 	<!-- 호텔리스트 목록 개수 -->
 	<select id="HselectListCnt" resultType="Integer">
-		SELECT COUNT(*) FROM HOTEL 
-		ORDER BY H_CODE DESC
+		SELECT COUNT(*)
+		<include refid="hotelInc" />
 	</select>
 
-   	<!-- 디테일 리스트 -->
-   	<select id="detailList_B" parameterType="String" resultType="Hotel">
-        SELECT * FROM HOTEL LEFT JOIN HOTELROOM USING(H_CODE)
-      	WHERE H_CODE = #{h_Code}   
-    </select>
+	<sql id="hotelInc">
+		FROM (
+			SELECT DISTINCT hotel.*, sb.MIN_PRICE
+			FROM HOTEL hotel INNER JOIN  HOTELROOM room
+               ON hotel.H_CODE = room.H_CODE
+               INNER JOIN (SELECT MIN(HR_PRICE) AS MIN_PRICE, H_CODE FROM HOTELROOM GROUP BY H_CODE) sb
+               ON hotel.H_CODE = sb.H_CODE
+               <if test='h_Name != null and h_Name != ""'>
+               	  AND hotel.H_NAME LIKE CONCAT('%', CONCAT(#{h_Name}, '%'))
+               </if>
+               <if test='h_Starn != null and h_Starn != ""'>
+                  AND hotel.H_STARN IN (${h_Starn})
+               </if>
+               <if test='hr_Breakfast != null and hr_Breakfast != ""'>
+                  AND room.HR_BREAKFAST = #{hr_Breakfast}
+               </if>
+               <if test='stt_Price != null and stt_Price != "" and end_Price != null and end_Price != ""'>
+               	  AND room.HR_PRICE BETWEEN #{stt_Price} AND #{end_Price}
+               </if>
+			ORDER BY hotel.H_CODE) ht
+	</sql>
+	
+	<!-- 디테일 리스트 -->
+	<select id="detailList_B" parameterType="String" resultType="Hotel">
+       	 	SELECT * FROM HOTEL LEFT JOIN HOTELROOM USING(H_CODE)
+      		WHERE H_CODE = #{h_Code}   
+    	</select>
 
 	<select id="selectOne_B" resultType="Hotel"
 		parameterType="String">
@@ -131,62 +151,96 @@
 
 	<!-- 여행일정 게시판 리스트 최신 순 -->
 	<select id="selectList_D" resultType="TravelSchedule">
-		<!-- SELECT * FROM TRAVELSCHEDULE TS LEFT JOIN TWTMEMBER M ON (TS.M_CODE 
-			= M.M_CODE) LEFT JOIN TRAVELSCHEDULE_DAY TD ON (TS.TS_CODE = TD.TS_CODE) 
-			LEFT JOIN TRAVELPOINT TP ON(TS.TP_CODE = TP.TP_CODE) ORDER BY TS_DATE DESC -->
-		SELECT TS.TS_CODE, TS.M_CODE, TS.TP_CODE, TS.TS_TITLE, TS.TS_SDAY,
-		TS.TS_THEME, TS.TS_PEOPLE, TS.TS_THUM, TS.TS_PERIOD, TS.TS_DATE,
-		TS.TS_VIEW, M.M_NAME, TP.CITY_CODE, TP.TP_IMG FROM TRAVELSCHEDULE TS
-		LEFT JOIN TWTMEMBER M ON (TS.M_CODE = M.M_CODE) LEFT JOIN TRAVELPOINT
-		TP ON(TS.TP_CODE = TP.TP_CODE) ORDER BY TS_DATE DESC
+		SELECT TB.*
+		FROM (
+			SELECT ROWNUM rn, ts.*
+			FROM (
+				SELECT TS.TS_CODE, TS.M_CODE, TS.TP_CODE, TS.TS_TITLE, TS.TS_SDAY, TS.TS_THEME, TS.TS_PEOPLE, TS.TS_THUM, TS.TS_PERIOD, TS.TS_DATE, TS.TS_VIEW, M.M_NAME, TP.CITY_CODE, TP.TP_IMG, FL.FL_CHECK 
+				FROM TRAVELSCHEDULE TS 
+				LEFT JOIN TWTMEMBER M ON (TS.M_CODE = M.M_CODE) 
+				LEFT JOIN TRAVELPOINT TP ON(TS.TP_CODE = TP.TP_CODE)
+				LEFT JOIN FAVORITE_LIST FL ON(TS.TS_CODE = FL.FL_CODE)
+				ORDER BY TS_DATE DESC) ts
+			ORDER BY rn) TB
+		WHERE rn BETWEEN #{startIndex} AND #{endIndex}
 	</select>
 
 	<!-- 여행일정 게시판 리스트 조회수 순 -->
 	<select id="PselectList_D" resultType="TravelSchedule">
-		SELECT TS.TS_CODE,
-		TS.M_CODE, TS.TP_CODE, TS.TS_TITLE, TS.TS_SDAY,
-		TS.TS_THEME,
-		TS.TS_PEOPLE, TS.TS_THUM, TS.TS_PERIOD, TS.TS_DATE,
-		TS.TS_VIEW,
-		M.M_NAME, TP.CITY_CODE, TP.TP_IMG FROM TRAVELSCHEDULE TS
-		LEFT JOIN
-		TWTMEMBER M ON (TS.M_CODE = M.M_CODE) LEFT JOIN TRAVELPOINT
-		TP
-		ON(TS.TP_CODE = TP.TP_CODE) ORDER BY TS_VIEW DESC
+		SELECT TB.*
+		FROM (
+			SELECT ROWNUM rn, ts.*
+			FROM (
+				SELECT TS.TS_CODE, TS.M_CODE, TS.TP_CODE, TS.TS_TITLE, TS.TS_SDAY, TS.TS_THEME, TS.TS_PEOPLE, TS.TS_THUM, TS.TS_PERIOD, TS.TS_DATE, TS.TS_VIEW, M.M_NAME, TP.CITY_CODE, TP.TP_IMG, FL.FL_CHECK
+				FROM TRAVELSCHEDULE TS 
+				LEFT JOIN TWTMEMBER M ON (TS.M_CODE = M.M_CODE) 
+				LEFT JOIN TRAVELPOINT TP ON(TS.TP_CODE = TP.TP_CODE)
+				LEFT JOIN FAVORITE_LIST FL ON(TS.TS_CODE = FL.FL_CODE)
+				ORDER BY TS_VIEW DESC, TS_DATE DESC) ts
+			ORDER BY rn) TB
+		WHERE rn BETWEEN #{startIndex} AND #{endIndex}
 	</select>
 
 	<!-- 디테일 리스트 -->
-	<select id="detailList_D" parameterType="String"
-		resultType="TravelSchedule">
-		SELECT * FROM TRAVELSCHEDULE TS LEFT JOIN TWTMEMBER M ON
-		(TS.M_CODE =
-		M.M_CODE) LEFT JOIN TRAVELSCHEDULE_DAY TD ON (TS.TS_CODE =
-		TD.TS_CODE)
-		LEFT JOIN TRAVELPOINT TP ON(TS.TP_CODE = TP.TP_CODE) WHERE
-		TS.TS_CODE
-		= #{TS_CODE}
+	<select id="detailList_D" parameterType="String" resultType="TravelSchedule">
+		SELECT TS.TS_CODE, TS.M_CODE, TD.TP_CODE, M.M_ID, TD.TS_DAY, TP.TP_NAME, TP.TP_CONTENT, TP.CITY_CODE, TP.TP_IMG, TP.TP_TYPE, SM.SM_MEMO, SM.SM_MONEY
+		FROM TRAVELSCHEDULE TS
+		LEFT JOIN TWTMEMBER M ON (TS.M_CODE = M.M_CODE)
+		LEFT JOIN TRAVELSCHEDULE_DAY TD ON(TS.TS_CODE = TD.TS_CODE)
+		LEFT JOIN TRAVELPOINT TP ON(TD.TP_CODE = TP.TP_CODE)
+		LEFT JOIN SCHEDULEMEMO SM ON(TS.TS_CODE = SM.TS_CODE AND TP.TP_CODE = SM.TP_CODE)
+		WHERE TS.TS_CODE = #{ts_Code}
+		ORDER BY TD.TS_DAY ASC
 	</select>
 
 	<!-- 여행 일정 디테일 -->	
-<!-- 	<select id="selectOne_D" parameterType="String" resultType="TravelSchedule">
-SELECT TS.TS_CODE, TS.M_CODE, TS.TP_CODE, TS.TS_TITLE, TS.TS_SDAY, TS.TS_THEME, TS.TS_PEOPLE, TS.TS_THUM, TS.TS_PERIOD, TS.TS_DATE, TS.TS_VIEW, M.M_ID, TD.TS_DAY, TP.TP_TYPE, TP.TP_CONTENT FROM TRAVELSCHEDULE TS LEFT JOIN TWTMEMBER M ON (TS.M_CODE = M.M_CODE) LEFT JOIN TRAVELSCHEDULE_DAY TD ON (TS.TS_CODE = TD.TS_CODE) LEFT JOIN TRAVELPOINT TP ON(TS.TP_CODE = TP.TP_CODE) WHERE TS.TS_CODE = #{TS_CODE}
-		SELECT * FROM TRAVELSCHEDULE TS LEFT JOIN TWTMEMBER M ON (TS.M_CODE = M.M_CODE) LEFT JOIN TRAVELSCHEDULE_DAY TD ON (TS.TS_CODE = TD.TS_CODE) LEFT JOIN TRAVELPOINT TP ON(TS.TP_CODE = TP.TP_CODE) WHERE TS.TS_CODE = #{TS_CODE}
-	</select> -->
+	<select id="selectOne_D" parameterType="String" resultType="TravelSchedule">
+		SELECT TS.TS_CODE, TS.M_CODE, TS.TS_TITLE, TS.TS_SDAY, TS.TS_THEME, TS.TS_PEOPLE, TS.TS_PERIOD, TS.TS_DATE, TS.TS_VIEW, M.M_NAME, FL.FL_CHECK
+		FROM TRAVELSCHEDULE TS 
+		LEFT JOIN TWTMEMBER M ON (TS.M_CODE = M.M_CODE) 
+		LEFT JOIN FAVORITE_LIST FL ON(TS.TS_CODE = FL.FL_CODE)
+		WHERE TS.TS_CODE = #{ts_Code}
+	</select>
 	
 	<!-- 연관 일정 -->
-	<select id="themeList_D" parameterType="String"
-		resultType="TravelSchedule">
-		SELECT TS.TS_CODE, TS.M_CODE, TS.TP_CODE, TS.TS_TITLE,
-		TS.TS_SDAY,
-		TS.TS_THEME, TS.TS_PEOPLE, TS.TS_THUM, TS.TS_DATE,
-		TS.TS_VIEW, M_NAME,
-		TP.CITY_CODE, TP.TP_IMG FROM TRAVELSCHEDULE TS LEFT
-		JOIN TWTMEMBER M
-		ON (TS.M_CODE = M.M_CODE) LEFT JOIN TRAVELSCHEDULE_DAY
-		TD ON
-		(TS.TS_CODE = TD.TS_CODE) LEFT JOIN TRAVELPOINT TP ON(TS.TP_CODE
-		=
-		TP.TP_CODE) WHERE TS.TS_THEME = #{TS_THEME} ORDER BY TS_DATE DESC
+	<select id="themeList_D" parameterType="String" resultType="TravelSchedule">
+		SELECT TS.TS_CODE, TS.M_CODE, TS.TS_TITLE, TS.TS_SDAY, TS.TS_THEME, TS.TS_PERIOD, TS.TS_PEOPLE, TS.TS_THUM, TS.TS_DATE, TS.TS_VIEW, M.M_NAME, TP.CITY_CODE, TP.TP_IMG 
+		FROM TRAVELSCHEDULE TS LEFT JOIN TWTMEMBER M ON (TS.M_CODE = M.M_CODE) LEFT JOIN TRAVELPOINT TP ON(TS.TP_CODE = TP.TP_CODE) 
+		WHERE TS.TS_THEME = #{ts_Theme} ORDER BY TS_DATE DESC
+	</select>
+	
+	<!-- 조회 수 -->
+	<update id="viewCnt_D" parameterType="String">
+		UPDATE TRAVELSCHEDULE
+		SET TS_VIEW = TS_VIEW + 1 
+		WHERE TS_CODE = #{ts_Code}
+	</update>
+	
+	<!-- 찜 -->
+	<select id="fListChk_D" parameterType="String" resultType="Favorite">
+		SELECT *
+		FROM FAVORITE_LIST 
+		WHERE FL_CODE = #{fl_Code} AND M_CODE = #{m_Code}
+	</select>
+	<insert id="fList_D" parameterType="Favorite">
+		INSERT INTO FAVORITE_LIST 
+		VALUES (#{fl_Code}, #{m_Code}, 'Y')
+	</insert>
+	<update id="fListY_D" parameterType="String">
+		UPDATE FAVORITE_LIST
+		SET FL_CHECK = 'Y'
+		WHERE FL_CODE = #{fl_Code} AND M_CODE = #{m_Code}
+	</update>
+	<update id="fListN_D" parameterType="String">
+		UPDATE FAVORITE_LIST
+		SET FL_CHECK = 'N'
+		WHERE FL_CODE = #{fl_Code} AND M_CODE = #{m_Code}
+	</update>
+	
+	<!-- 페이징 리스트 카운트 -->
+	<select id="selectListCnt_D" resultType="Integer">
+		SELECT COUNT(*) 
+		FROM TRAVELSCHEDULE
 	</select>
 
 	<!-- ================================보미================================== -->
@@ -320,6 +374,11 @@ SELECT TS.TS_CODE, TS.M_CODE, TS.TP_CODE, TS.TS_TITLE, TS.TS_SDAY, TS.TS_THEME, 
 	<!-- 전체 회원 조회 -->
 	<select id="allmemberM" resultType="Member">
 	   SELECT * FROM TWTMEMBER
+	</select>
+	
+	<!-- 아이디 찾기 -->
+	<select id="findIdM" resultType="Member">
+	   SELECT M_ID FROM TWTMEMBER WHERE M_EMAIL = #{m_Email}
 	</select>
 
 	<!-- ================================찬우================================== -->

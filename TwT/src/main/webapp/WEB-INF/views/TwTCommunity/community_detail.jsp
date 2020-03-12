@@ -1,6 +1,8 @@
+<%@page import="com.fp.twt.vo.MemberVo"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
     <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+    <% MemberVo vo = (MemberVo)session.getAttribute("vo"); %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -34,21 +36,49 @@
 <script type="text/javascript" src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 <script type="text/javascript">
 /* $(function () {
-	  // Smooth Scroll
-	  $('a[href*=#]').bind('click', function(e){
-	    var anchor = $(this);
-	    $('html, body').stop().animate({
-	      scrollTop: $(anchor.attr('href')).offset().top
-	    }, 1000);
-	    e.preventDefault();
-	  });
-	}); */
-$(document).ready(function() {
-	var memo = $("#text-muted").text();
-	if(memo == null || memo == " ") {
-		$("#timeline-footer").css("display", "none");
-	}
+// Smooth Scroll
+$('a[href*=#]').bind('click', function(e){
+  var anchor = $(this);
+  $('html, body').stop().animate({
+    scrollTop: $(anchor.attr('href')).offset().top
+  }, 1000);
+  e.preventDefault();
 });
+}); */
+
+
+function fList(ts_Code){
+	alert(ts_Code);
+	
+ 	$.ajax({
+	url: "fList.do",
+	
+	data : ts_Code,
+		
+    type: "post",
+    
+    dataType : "json",
+    
+    success: function(data){
+    	var res = data.res;
+    	alert("성공");
+    	alert(res);
+    	var check = ${detail.fl_Check}.val();
+    	
+    	if(res){
+    		if(check=="Y"){
+    			$("#fa-heart").css("font-weight", "bold");
+    		} else if(check=="N"){
+    			$("#fa-heart").css("font-weight", "");
+    		}
+    	}
+    },
+    
+    error:function(){
+  		alert("에러");
+  	}
+})
+};
 </script>
 
 <style type="text/css">
@@ -143,11 +173,14 @@ $(document).ready(function() {
 						<div class="cnt_spot">
 						<i class="fas fa-map-marker-alt fa-lg" ></i>&nbsp; 태국
 						</div>
+						<div class="cnt_people" style=" float: left; font-weight: bold; padding-left: 20px; background-position: left center; margin-left: 12px; font-size: 12px; ">
+						<i class="fas fa-user-friends fa-lg"></i>&nbsp; ${detail.ts_People }
+						</div>
 						<div class="cnt_view">
 						<i class="far fa-eye fa-lg" ></i>&nbsp; ${detail.ts_View }
 						</div>
 						<div class="cnt_copy">
-						<a href=""><i class="fas fa-heart fa-lg" style="color:#fc3c3c;"></i></a>
+						<a onclick="fList('${detail.ts_Code}');" style="cursor: pointer;"><i class="far fa-heart fa-lg" id="fa-heart" style="color: #fc3c3c;"></i></a>
 						</div>
 					</div>
 				</div>
@@ -162,37 +195,48 @@ $(document).ready(function() {
     </c:when>
 
     <c:otherwise>
-    
-   <c:forEach items="${detailList}" var="dList">
+   <c:forEach items="${dayList}" var="dayList">
     <ul class="timeline">
       <li class="timeline-line"></li>
       
       <li class="timeline-group">
-        <a href="#" class="btn btn-primary">2020.02.03 <br>${dList.ts_Day }</a>
+        <a href="#" class="btn btn-primary">${dayList}</a>
       </li>
+      
     </ul>
+    
     <ul class="timeline">
       <li class="timeline-line"></li>
 
+	<c:forEach items="${detailList }" var="dList">
+	<c:if test="${dayList eq dList.ts_Day}">
       <li class="timeline-item">
-        <div class="timeline-badge"><a href="#"></a></div>
+        <div class="timeline-badge"><a></a></div>
         <div class="timeline-panel">
-          <div class="timeline-heading">
+          <div id="services" class="timeline-heading">
             	${dList.tp_Name }
-            <div class="timeline-date"><i class="fas fa-tag"></i>&nbsp;&nbsp;${dList.tp_Type }</div>
+            <div class="timeline-date" style="font-size: 13px;"><i class="fas fa-tag"></i>&nbsp;&nbsp;${dList.tp_Type }</div>
           </div>
                     
           <div class="timeline-embed" style="padding-top: 0px;">
           <img class="blog-img mr-4" src="<%=request.getContextPath() %>/resources/images/plan/${dList.city_Code }/${dList.tp_Img }" style="float: left; width: 263px; margin-left: 12px; margin-bottom: 15px;" />
           </div>
           
-          <div class="timeline-content">${dList.tp_Content }</div>
-
-          <div class="timeline-footer" id="timeline-footer">
-            <i class="far fa-file-alt fas-2x"></i><small class="text-muted" id="text-muted"> ${dList.ts_Memo }</small>
+          <div class="timeline-content">
+          <i class="fas fa-won-sign" style="font-size: 12px;">${dList.sm_Money }</i>
+          <br>
+          ${dList.tp_Content }
           </div>
+          
+          <c:if test="${dList.sm_Memo ne null }">
+          <div class="timeline-footer" id="timeline-footer">
+            <i class="far fa-file-alt fas-2x" id="far fa-file-alt"></i><small class="text-muted" id="text-muted"> ${dList.sm_Memo }</small>
+          </div>
+          </c:if>
         </div>
-      </li>
+      	</li>
+      	</c:if>
+    	</c:forEach>
     </ul>
     </c:forEach>      
    </c:otherwise>
@@ -304,7 +348,7 @@ $(document).ready(function() {
             <div class="sidebar-box ftco-animate">
               <h3><i class="fas fa-clipboard-list"></i> Relation Post</h3>
    	           
-              <c:forEach items="${themeList}" var="theme">
+              <c:forEach items="${themeList}" var="theme" varStatus="status" begin="0" end="2" >
    	           	<c:choose>
    	       			<c:when test="${detail.ts_Code == theme.ts_Code}">
    	           		</c:when>

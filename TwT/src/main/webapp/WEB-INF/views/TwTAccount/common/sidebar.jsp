@@ -16,6 +16,7 @@
 <script src="${pageContext.request.contextPath}/resources/js/chat.js"></script>
 
   <script src="http://localhost:3000/socket.io/socket.io.js"></script>
+
 	<script>
 	
 		$(document).ready(function(){

@@ -58,7 +58,7 @@ public class HotelAirController {
 		//model.addAttribute("hotellist",biz.HselectList()); //목록 조회
 
 		// 전체리스트 개수
-        int listCnt = biz.HselectListCnt();
+        int listCnt = biz.HselectListCnt(hotelVo);
         
         int curPage = hotelVo.getCurPage();
         

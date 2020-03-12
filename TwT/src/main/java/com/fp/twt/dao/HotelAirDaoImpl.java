@@ -92,9 +92,15 @@ public class HotelAirDaoImpl implements HotelAirDao{
 	public List<HotelVo> HselectList(HotelVo hotelVo) {
 		List<HotelVo> hotellist = new ArrayList<HotelVo>();
 		
-		
+		//페이지 출력
 		System.out.println(hotelVo.getStartIndex() +":::"+ hotelVo.getEndIndex());
 		
+		//검색 옵션 출력
+		System.out.println("호텔명 : " + hotelVo.getH_Name());
+		System.out.println("최소가격 : " + hotelVo.getStt_Price());
+		System.out.println("최대가격 : " + hotelVo.getEnd_Price());
+		System.out.println("평점 : " + hotelVo.getH_Starn());
+		System.out.println("조식 : " + hotelVo.getHr_Breakfast());
 		
 		try {
 			hotellist = sqlSession.selectList(NAMESPACE+"HselectList", hotelVo);
@@ -109,11 +115,11 @@ public class HotelAirDaoImpl implements HotelAirDao{
 	
 	//호텔 리스트 목록 개수
 	@Override
-	public int HselectListCnt() {
+	public int HselectListCnt(HotelVo hotelVo) {
 		int HselectListCnt = 0;
 		
 		try {
-			HselectListCnt = sqlSession.selectOne(NAMESPACE+"HselectListCnt");
+			HselectListCnt = sqlSession.selectOne(NAMESPACE+"HselectListCnt", hotelVo);
 			System.out.println("dao 의 HselectListCnt : "+HselectListCnt);
 		}catch(Exception e) {
 			System.out.println("[error] : HselectList");

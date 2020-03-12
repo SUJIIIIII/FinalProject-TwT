@@ -34,7 +34,7 @@
 
 <% String cd = request.getParameter("citycode"); %>
 <!-- map script -->
-<script type="text/javascript" src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 <script type="text/javascript">
 
 //전역 변수 선언
@@ -418,8 +418,9 @@ var count; // 스팟리스트 개수
        	var spot_num = index; // 인덱스 번호
        	var spot_content = con; // 스팟 설명
        	var spot_addr = addr; // 스팟 주소
+       	var city_name;
        	
-       	var spot_arr = new Array(spot_name, spot_type, spot_no, spot_lat, spot_lng, spot_city, spot_img, spot_seq, spot_num);
+       	var spot_arr = new Array(spot_name, spot_type, spot_no, spot_lat, spot_lng, spot_city, spot_img, spot_seq, spot_num, city_name);
        	// 정보를 담을 배열 생성
        	var jsonItem = JSON.parse(sessionStorage.getItem("Day" + set_day)); // Session에서 가져올 Key 값
        	if(jsonItem != null){ // 객체가 있는 경우
@@ -461,7 +462,6 @@ var count; // 스팟리스트 개수
       	
 	  	// spot추가시 마커 이미지 변경
       	addMarkerIcon(spot_num,spot_type);
-      
 	}
 	
 	// 스팟리스트 클릭시 map줌 & infobox
@@ -544,7 +544,6 @@ var count; // 스팟리스트 개수
 		$(".info_memo").css("display","block");
 		$(".budget_input").val(tmpbud);
 		$("#memo_input").val(tmpmemo);
-		
 	}
 	
 	// 도시 변경
@@ -564,8 +563,7 @@ var count; // 스팟리스트 개수
 		marker = [];
 		
 	}
-	
-	
+		
 	/* script */
 	$(document).ready(function(){
 		// 로딩 시 map의 크기
@@ -626,20 +624,6 @@ var count; // 스팟리스트 개수
 	    	   jsonItem['index' + spot_seq] = spot_arr;
 		       sessionStorage.setItem("Day"+set_day, JSON.stringify(jsonItem));
 	       }
-	       
-	       
-	       var spot_arr = new Array(spot_name, spot_type, spot_no, spot_lat, spot_lng, spot_city, spot_img, spot_seq, spot_num);
-	       // 정보를 담을 배열 생성
-	       var jsonItem = JSON.parse(sessionStorage.getItem("Day" + set_day)); // Session에서 가져올 Key 값
-	       if(jsonItem != null){ // 객체가 있는 경우
-		       jsonItem['index' + spot_seq] = spot_arr;
-		       sessionStorage.setItem("Day"+set_day, JSON.stringify(jsonItem));
-	       } else {
-	    	   var jsonItem = new Object(); // 객체가 없을 경우 직접 생성해서 넣어줌
-	    	   jsonItem['index' + spot_seq] = spot_arr;
-		       sessionStorage.setItem("Day"+set_day, JSON.stringify(jsonItem));
-	       }
-	       
 	       
           $("#schedule_detail_box").append("" +  
           "<div class='day_spot_item' data='" + spot_seq + "' data-set_day='" + set_day + "' data-budget='' data-memo='' data-img='"+spot_img+"' data-city='"+spot_city+"' data-seq='"+ spot_num +"' data-no='" + spot_no + "' data-pl_cat='301' data-latlng='" + spot_lat + "," + spot_lng + "' data-lat='" + spot_lat+ "' data-lng='" + spot_lng +"' data-ci='87' data-type='"+spot_type+"' id='spot" + spot_seq + "'>"
@@ -702,6 +686,14 @@ var count; // 스팟리스트 개수
 			$("#city_list").hide();
 			$("#map").css("width","1111px");
 			$(".et_modal").show();
+			
+			var day_list = new Array();
+			for(var i=1;i<=$(".day_menu").children().length;i++){
+				day_list.push(sessionStorage.getItem("Day"+i));
+			}
+			console.log("객체 : " + day_list);
+			$("#pn_dayList").val(day_list);
+			
 		});
 		
 		// 완료 modal 끄기
@@ -726,19 +718,30 @@ var count; // 스팟리스트 개수
 
 		});
 		
+		// 완료 모달 datepicker
+		$(function(){
+			$("#start_day").datepicker();
+		});
+		
+		/* $("#insertbtn").click(function(){
+			var day_list = new Array();
+			for(var i=0;i<$(".day_menu").children().length;i++){
+				day_list.push(sessionStorage.getItem("Day"+i));
+			}
+			console.log("객체 : " + day_list);
+		}); */
+		
+		
 		
 	});
 	
-	
 	google.maps.event.addDomListener(window, 'load', initialize);
-
-
+	
 </script>
 <!-- 구글맵 API KEY -->
 <script async defer
 src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCiDE5HBue4mflsdkcsGvSZrUeEooX8gWQ&callback=initMap&language=ko&region=KR">
 </script>
-
 <style type="text/css">
 .list_box_overlay {
 	width:365px;
@@ -955,7 +958,7 @@ src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCiDE5HBue4mflsdkcsGvSZrUe
 				  	<div class="city_search" style="display: none;"></div> -->
 				  	<!-- 도시 변경  -->
                      <div class="city_items" data="87" style="height:100%;">
-                        <div class="city_item" data="87" data-ci_name="${cityvo.city_Name}" data-lat="${cityvo.city_Lati}" data-lng="${cityvo.city_Long}" data-ss_id="undefined" data-code="${cityvo.city_Code}">
+                        <div class="city_item" data="87" data-ci_name="${cityvo.city_Name}" data-lat="${cityvo.city_Lati}" data-lng="${cityvo.city_Long}" data-code="${cityvo.city_Code}">
                            <div class="fl ci_img"><img src="${pageContext.request.contextPath}/resources/images/plan/city/${cityvo.city_Img}"></div>
                            <div class="fl">${cityvo.city_Name},&nbsp;<span>태국</span></div>
                            <div class="clear"></div>
@@ -1108,6 +1111,7 @@ src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCiDE5HBue4mflsdkcsGvSZrUe
 					</div>
 					<div class="modal_content">
 						<input type="hidden" name="plan_seq" id="plan_seq" value="1213145">
+						<input type="hidden" name="pn_dayList" id="pn_dayList" value="">
 						<table class="create_table" width="100%" cellpadding="0" cellspacing="0">
 							<colgroup>
 								<col width="85"></col>
@@ -1136,7 +1140,7 @@ src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCiDE5HBue4mflsdkcsGvSZrUe
 									<th>
 										<!--출발일-->출발일				</th>
 									<td>
-										<input type="text" name="start_day" id="start_day" class="modal_input w50 cal hasDatepicker">
+										<input type="text" name="pn_day" id="start_day">
 									</td>
 								</tr>
 								<tr>
@@ -1146,7 +1150,7 @@ src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCiDE5HBue4mflsdkcsGvSZrUe
 									<th valign="top" style="padding-top:5px;">
 									<!--여행 테마-->여행 테마				</th>
 									<td>
-										<input type="hidden" class="modal_input w50 theme" name="tour_type" id="tour_type" value="0">
+										<input type="hidden" name="pn_type" id="pn_type" value="0">
 										<div class="theme_radio" data-val="001">
 											<div class="r_inner_box">
 												<img src="${pageContext.request.contextPath}/resources/images/plan/modal/theme_alone.gif" alt="">
@@ -1182,7 +1186,7 @@ src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCiDE5HBue4mflsdkcsGvSZrUe
 								</tr>
 								<tr>
 									<th>여행 인원</th>
-									<td style="height:10px; padding-bottom:9px;"><input style="width:40px;" type="number" min="1">명</td>
+									<td style="height:10px; padding-bottom:9px;"><input name="pn_person" style="width:40px;" type="number" min="1">명</td>
 								</tr>
 								<tr>
 									<th>썸네일 등록</th>
@@ -1194,6 +1198,7 @@ src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCiDE5HBue4mflsdkcsGvSZrUe
 					<div class="modal_footer">
 						<div class="fr" style="margin-right:10px;">
 							<input type="submit" class="m_btn_submit" id="form_submit" value="완료"></div>
+							<input type="button" class="m_btn_submit" id="insertbtn" value="테스트">
 						<div class="clear"></div>
 					</div>
 					</form:form>
@@ -1209,6 +1214,6 @@ src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCiDE5HBue4mflsdkcsGvSZrUe
 <!-- // jQuery UI 라이브러리 js파일 -->
 <script src="http://code.jquery.com/ui/1.8.18/jquery-ui.min.js"></script>
 <script src="${pageContext.request.contextPath}/resources/js/plan/plan_detail.js?version=1.4"></script>
-
 </body>
+
 </html>
