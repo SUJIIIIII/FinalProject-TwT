@@ -15,41 +15,99 @@
 <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js'></script>
 <script src="${pageContext.request.contextPath}/resources/js/chat.js"></script>
 
-  <script src="http://localhost:82/socket.io/socket.io.js"></script>
-
+  <script src="http://localhost:3000/socket.io/socket.io.js"></script>
 	<script>
-		$(document).ready(function(){ //웹페이지 로드시 실행(수정)
-		var userId = "<%=session.getAttribute("userId")%>"
-		if(userId != "null"){
-		    var socket = io("http://localhost:3000");
+	
+		$(document).ready(function(){
+			var userId = "<%=session.getAttribute("userId")%>"
+			var room = ['defalt','방콕으로 여행~','치앙마이 모여라!','파타야에서 파티야~','푸켓풉키'];
+			var num = 0;
+			
+			if(userId != "null"){
+			    var socket = io("http://localhost:3000");
 
-            $("#msg").keydown(function(key){
-                //해당하는 키가 엔터키(13) 일떄
-                if(key.keyCode == 13){
-                    //msg_process를 클릭해준다.
-                    msg_process.click();
-                }
-            });
-
-            $("#msg_process").click(function(){
-                //소켓에 send_msg라는 이벤트로 input에 #msg의 벨류를 담고 보내준다.
-                 socket.emit("send_msg", $("#msg").val(), userId);
-                //#msg에 벨류값을 비워준다.
-                $("#msg").val("");
-            });
-            
-            //소켓 서버로 부터 send_msg를 통해 이벤트를 받을 경우 
-            socket.on('send_msg', function(msg, Id) {
-            	if(userId == Id){
-	                //div 태그를 만들어 텍스트를 msg로 지정을 한뒤 #chat_box에 추가를 시켜준다.
-	                $('<div class="message parker"></div>').text(msg).appendTo("#chat");
-	                $("#chat").scrollTop($("#chat").innerHeight());
-            	} else {
-	                $('<div class="message stark"></div>').text(msg).appendTo("#chat");
-	                $("#chat").scrollTop($("#chat").innerHeight());
-            	}
-            });
-		}
+			    $("#room1").click(function(){
+			    	$("#chat").empty();
+			    	
+			    	$('<div class="pic stark"></div>').appendTo(".contact bar");
+			    	$('<div class="name"></div>').text(room[1]).appendTo(".contact bar");
+					
+			    	socket.emit('leaveRoom', num, userId);
+					num = 1;
+					socket.emit('joinRoom', num, userId);
+				});
+			    
+			    $("#room2").click(function(){
+			    	$("#chat").empty();
+			    	
+			    	$('<div class="pic stark"></div>').appendTo(".contact bar");
+			    	$('<div class="name"></div>').text(room[2]).appendTo(".contact bar");
+			    	
+			    	socket.emit('leaveRoom', num, userId);
+					num = 2;
+					socket.emit('joinRoom', num, userId);
+				});
+			    
+			    $("#room3").click(function(){
+			    	$("#chat").empty();
+			    	
+			    	$('<div class="pic stark"></div>').appendTo(".contact bar");
+			    	$('<div class="name"></div>').text(room[3]).appendTo(".contact bar");
+			    	
+			    	socket.emit('leaveRoom', num, userId);
+					num = 3;
+					socket.emit('joinRoom', num, userId);
+				});
+			    
+			    $("#room4").click(function(){
+			    	$("#chat").empty();
+			    	
+			    	$('<div class="pic stark"></div>').appendTo(".contact bar");
+			    	$('<div class="name"></div>').text(room[4]).appendTo(".contact bar");
+			    	
+			    	socket.emit('leaveRoom', num, userId);
+					num = 4;
+					socket.emit('joinRoom', num, userId);
+				});
+	
+	            $("#msg").keydown(function(key){
+	                //해당하는 키가 엔터키(13) 일떄
+	                if(key.keyCode == 13){
+	                    //msg_process를 클릭해준다.
+	                    msg_process.click();
+	                }
+	            });
+	
+	            //메세지 전송
+	            $("#msg_process").click(function(){
+	                //소켓에 send_msg라는 이벤트로 input에 #msg의 벨류를 담고 보내준다.
+	                 socket.emit("send_msg", num, $("#msg").val(), userId);
+	                //#msg에 벨류값을 비워준다.
+	                $("#msg").val("");
+	            });
+	            
+	            //소켓 서버로 부터 send_msg를 통해 이벤트를 받을 경우 
+	            socket.on('send_msg', function(msg, Id) {
+	            	if(userId == Id){
+		                //div 태그를 만들어 텍스트를 msg로 지정을 한뒤 #chat_box에 추가를 시켜준다.
+		                $('<div class="message parker"></div>').text(Id + " : " + msg).appendTo("#chat");
+		                $("#chat").scrollTop($("#chat").innerHeight());
+	            	} else {
+		                $('<div class="message stark"></div>').text(Id + " : " + msg).appendTo("#chat");
+		                $("#chat").scrollTop($("#chat").innerHeight());
+	            	}
+	            });
+	            
+	            socket.on('leaveRoom', function(num, Id){
+	            	if(num != 0){
+	            		$('<div class="time"></div>').text(Id+ ' 님이 ' + room[num] + '방에서 퇴장하였습니다.').appendTo("#chat");
+	            	}
+	            });
+	            
+				socket.on('joinRoom', function(num, Id){
+					$('<div class="time"></div>').text(Id+ ' 님이 ' + room[num] + '방에 입장하였습니다.').appendTo("#chat");
+	            });
+			}
 		});
 	</script>
 
@@ -130,29 +188,95 @@ cursor:pointer;
 <!-- chat -->
 <div class="center" id="chats">
   <div class="contacts" style="overflow: auto;" id="chatlist">
-    <div style="padding-bottom: 20px;">
-    <i class="fas fa-plus fa-2x"><a href="#"></a></i>
+    <div style="padding-bottom: 40px;">
+    <i class="fas fa-bars fa-2x"><a href="#"></a></i>
 	</div>
 	
 	<!-- 채팅방 start -->
     <div class="contact">
-      <div class="pic rogers"></div>
-      <div class="badge">
+      <div class="pic Bangkok"></div>
+<!--   
+	  <div class="badge">
         14
       </div>
+-->
       <div class="name">
-        Steve Rogers
+		<h6>방콕으로 여행~</h6>
+		<div style="text-align: right">
+		<i class="fas fa-plus fa-2x" id="room1"><a href="#"></a></i>
+		</div>
       </div>
+<!--       
       <div class="message">
         That is America's ass 🇺🇸🍑
       </div>
+-->
     </div>
+    <div class="contact">
+      <div class="pic ChiangMai"></div>
+<!--   
+	  <div class="badge">
+        14
+      </div>
+-->
+      <div class="name">
+		<h6>치앙마이 모여라!</h6>
+		<div style="text-align: right">
+		<i class="fas fa-plus fa-2x" id="room2"><a href="#"></a></i>
+		</div>
+      </div>
+<!--       
+      <div class="message">
+        That is America's ass 🇺🇸🍑
+      </div>
+-->
+    </div>
+    <div class="contact">
+      <div class="pic Pattaya"></div>
+<!--   
+	  <div class="badge">
+        14
+      </div>
+-->
+      <div class="name">
+		<h6>파타야에서 파티야~</h6>
+		<div style="text-align: right">
+		<i class="fas fa-plus fa-2x" id="room3"><a href="#"></a></i>
+		</div>
+      </div>
+<!--       
+      <div class="message">
+        That is America's ass 🇺🇸🍑
+      </div>
+-->
+    </div>
+    <div class="contact">
+      <div class="pic Phuket"></div>
+<!--   
+	  <div class="badge">
+        14
+      </div>
+-->
+      <div class="name">
+		<h6>푸켓풉키</h6>
+		<div style="text-align: right">
+		<i class="fas fa-plus fa-2x" id="room4"><a href="#"></a></i>
+		</div>
+      </div>
+<!--       
+      <div class="message">
+        That is America's ass 🇺🇸🍑
+      </div>
+-->
+    </div>
+
     <!-- 채팅방 end -->
     
   </div>
   <div class="chat">
   	<!-- 채팅방 정보 -->
     <div class="contact bar">
+<!-- 
       <div class="pic stark"></div>
       <div class="name">
         Tony Stark
@@ -160,12 +284,13 @@ cursor:pointer;
       <div class="seen">
         Today at 12:56
       </div>
+-->
     </div>
     
     <div class="messages" id="chat" style="height: 100%">
       <!-- 날짜 -->
       <div class="time">
-        Today at 11:41
+		채팅방에 참여하여  채팅을 시작해주세요
       </div>
 
 <!-- 
