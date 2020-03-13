@@ -58,8 +58,8 @@ public class CommunityBizImpl implements CommunityBiz{
 	//도영
 
 	@Override
-	public List<TravelScheduleVo> selectList_D(TravelScheduleVo travelScheduleVo) {
-		return dao.selectList_D(travelScheduleVo);
+	public List<TravelScheduleVo> selectList_D() {
+		return dao.selectList_D();
 	}
 
 	@Override
@@ -79,8 +79,8 @@ public class CommunityBizImpl implements CommunityBiz{
 	}
 
 	@Override
-	public List<TravelScheduleVo> themeList(String ts_theme, TravelScheduleVo travelScheduleVo) {
-		return dao.themeList(ts_theme, travelScheduleVo);
+	public List<TravelScheduleVo> themeList(String ts_theme) {
+		return dao.themeList(ts_theme);
 	}
 	
 	@Override
@@ -109,8 +109,8 @@ public class CommunityBizImpl implements CommunityBiz{
 	}
 
 	@Override
-	public int selectListCnt_D() {
-		return dao.selectListCnt_D();
+	public List<FavoriteListVo> chkList(String m_code, FavoriteListVo favoriteListVo) {
+		return dao.chkList(m_code, favoriteListVo);
 	}
 
 
