@@ -25,27 +25,22 @@ public interface CommunityBiz {
 	//도영
 	
 	//리스트
-	public List<TravelScheduleVo> selectList_D(TravelScheduleVo travelScheduleVo);
+	public List<TravelScheduleVo> selectList_D();
 	public List<TravelScheduleVo> PselectList_D(TravelScheduleVo travelScheduleVo);
 	
 	//디테일
 	public TravelScheduleVo selectOne_D(String ts_code);
 	public List<TravelScheduleVo> detailList_D(String ts_code);
-	public List<TravelScheduleVo> themeList(String ts_theme, TravelScheduleVo travelScheduleVo);
+	public List<TravelScheduleVo> themeList(String ts_theme);
 	
 	//조회수
 	public void viewCnt(String ts_code);
 	
 	//찜
+	public List<FavoriteListVo> chkList(String m_code, FavoriteListVo favoriteListVo);
 	public FavoriteListVo fListChk(String m_code, String ts_code1);
 	public int fList(String m_code, String ts_code1);
 	public int fList_Y(String m_code, String ts_code1);
 	public int fList_N(String m_code, String ts_code1);
-	
-	//페이징리스트카운트
-	public int selectListCnt_D();
-
-	
-	
 	
 }

@@ -224,30 +224,71 @@ public class CommunityController {
 	// 도영
 	// 여행 일정 리스트
 	@RequestMapping("/community.do")
-	public String newcommunity(@ModelAttribute("travelScheduleVo") TravelScheduleVo travelScheduleVo, String ts_theme, Model model) {
+	public String newcommunity(@ModelAttribute("travelScheduleVo") TravelScheduleVo travelScheduleVo, FavoriteListVo favoriteListVo, boolean Chk, HttpSession session, String ts_theme, Model model, HttpServletRequest request) {
 		logger.info("SELECT LIST");
 		
-		// 페이징
-		int listCnt = biz.selectListCnt_D();
-        int curPage = travelScheduleVo.getCurPage();
-        
-        ts_PagingVo pagination = new ts_PagingVo(listCnt, curPage);
-        
-        
-        travelScheduleVo.setStartIndex(curPage);
-        travelScheduleVo.setEndIndex(travelScheduleVo.getStartIndex());
-        
 		//도영
+        MemberVo member = (MemberVo) session.getAttribute("user");
+        List<TravelScheduleVo> list = null;
         
-		// 테마 별 모아보기
-		if(ts_theme != null) {
-			model.addAttribute("community", biz.themeList(ts_theme, travelScheduleVo));
-			model.addAttribute("pagination", pagination);
-			System.out.println(ts_theme);		
-		}else {
-			model.addAttribute("community", biz.selectList_D(travelScheduleVo));
-			model.addAttribute("pagination", pagination);
-		}
+        if(member != null) {	// 로그인 되어 있을 경우 찜 목록 체크
+        	String m_code = member.getm_Code();
+        	List<FavoriteListVo> fvo = biz.chkList(m_code, favoriteListVo);
+        	
+        	// 테마 별 모아보기
+			if(ts_theme != null) {	// 테마 값이 담겨 있을 때 해당 테마 값를 가진 리스트 뿌려주기
+				list = biz.themeList(ts_theme);
+			    model.addAttribute("list", list);
+     			model.addAttribute("check", fvo);
+				
+			} else if (Chk) {
+				list = biz.PselectList_D(travelScheduleVo);
+				model.addAttribute("list", list);
+				model.addAttribute("Chk", Chk);
+			} else	{
+				// 아닐 시 일반적인 리스트 출력
+				model.addAttribute("community", biz.selectList_D());
+				model.addAttribute("list", list);
+			}
+        } else if(member == null) {	// 로그인 안돼 있을 경우
+        	// 테마 별 모아보기
+			if(ts_theme != null) {
+				list = biz.themeList(ts_theme);
+			    model.addAttribute("list", list);
+			} else if(Chk) {
+				list = biz.PselectList_D(travelScheduleVo);
+				model.addAttribute("list", list);
+			} else{
+				model.addAttribute("community", biz.selectList_D());
+				model.addAttribute("list", list);
+			}
+	        
+			String curpagenum = request.getParameter("curpagenum");
+
+	        int currentPage = 0;
+
+	        if (curpagenum == null || curpagenum == "0") {
+	           currentPage = 1;
+	        } else {
+	           currentPage = Integer.parseInt(request.getParameter("curpagenum"));
+	        }
+	        
+	        int listCount = list.size();
+
+	        pageinfo page = new pageinfo();
+	        page.setBoardSize(8);
+	        page.setCurrentPage(currentPage);
+	        page.setPreve(currentPage);
+	        page.setStartRow(currentPage);
+	        page.setListCount(listCount);
+	        page.setAllPage(listCount);
+	        page.setStartPage(currentPage, page.getAllPage());
+	        page.setEndPage(currentPage, page.getAllPage());
+	        page.setNext(currentPage, page.getAllPage());
+
+	        model.addAttribute("page", page);
+			
+        }
 		
 		//용훈
 		List<ScheduleReviewVo> list = biz.potoBookList();
@@ -257,61 +298,66 @@ public class CommunityController {
 		return "TwTCommunity/community_list";
 	}
 
-	// 인기 일정 순 정렬
-	@RequestMapping("/popcommunity.do")
-	public String popcommunity(@ModelAttribute("travelScheduleVo") TravelScheduleVo travelScheduleVo, String ts_theme, Model model) {
-		logger.info("SELECT LIST"); 
-		int listCnt = biz.selectListCnt_D();
-        
-        int curPage = travelScheduleVo.getCurPage();
-        
-        ts_PagingVo pagination = new ts_PagingVo(listCnt, curPage);
-        
-        
-        travelScheduleVo.setStartIndex(curPage);
-        travelScheduleVo.setEndIndex(travelScheduleVo.getStartIndex());
-        
-        // 테마 별 모아보기
-     		if(ts_theme != null) {
-     			model.addAttribute("community", biz.themeList(ts_theme, travelScheduleVo));
-     			model.addAttribute("pagination", pagination);
-     			System.out.println(ts_theme);		
-     		}else {
-     			model.addAttribute("community", biz.PselectList_D(travelScheduleVo));
-     			model.addAttribute("pagination", pagination);
-     		}
-		
-		return "TwTCommunity/community_list";
-	}
-
 	// 여행 일정 디테일
 	@RequestMapping("/communityDetail.do")
-	public String communityDetail(Model model, String ts_code, TravelScheduleVo travelScheduleVo) {
+	public String communityDetail(Model model, String ts_code, HttpSession session, TravelScheduleVo travelScheduleVo) {
 		logger.info("SELECT ONE");
-		
+		// 조회수
 		biz.viewCnt(ts_code);
-		
-		model.addAttribute("detail", biz.selectOne_D(ts_code));
-		
-		List<TravelScheduleVo> list = biz.detailList_D(ts_code);
-		model.addAttribute("detailList", list);
+		System.out.println("글 번호 : " + ts_code);
 		
 		List<String> dayList = new ArrayList<String>();
 		
-		for(int i = 0 ; i < list.size() ; i++) {
+		MemberVo member = (MemberVo) session.getAttribute("user");
+		if(member != null) {
+			// 디테일
+			model.addAttribute("detail", biz.selectOne_D(ts_code));
+			
+			// 디테일 반복 부분 리스트
+			List<TravelScheduleVo> list = biz.detailList_D(ts_code);
+			model.addAttribute("detailList", list);
+			
+			// 찜 되어 있는지 안되어있는지 체크하는 부분
+			String m_code = member.getm_Code();	//세션의 회원 번호를 받아와서
+			FavoriteListVo fvo = biz.fListChk(m_code, ts_code);	// 글 번호와 함께 보냄
+			model.addAttribute("fListChk", fvo);
+			
+			// DAY 중복 제거 후 다시 뿌려줌
+			for(int i = 0 ; i < list.size() ; i++) {
+					if(!dayList.contains(list.get(i).getTs_Day())) {
+						dayList.add(list.get(i).getTs_Day());
+				}
+			}
+			model.addAttribute("dayList", dayList);
+
+			
+			// 연관 일정 리스트
+			TravelScheduleVo vo = biz.selectOne_D(ts_code);
+			model.addAttribute("themeList", biz.themeList(vo.getts_Theme()));
+			
+			
+			for(int i=0; i<list.size(); i++) {
+				System.out.println("메모 값 : " + list.get(i).getSm_Memo());
+			}
+		} else if(member == null) {	// 로그인이 안돼있을 시 찜 여부 제거
+			model.addAttribute("detail", biz.selectOne_D(ts_code));
+			
+			List<TravelScheduleVo> list = biz.detailList_D(ts_code);
+			model.addAttribute("detailList", list);
+			
+			for(int i = 0 ; i < list.size() ; i++) {
 				if(!dayList.contains(list.get(i).getTs_Day())) {
 					dayList.add(list.get(i).getTs_Day());
+				}
 			}
-			
-		}
-		model.addAttribute("dayList", dayList);
+			model.addAttribute("dayList", dayList);
 		
-		TravelScheduleVo vo = biz.selectOne_D(ts_code);
-		model.addAttribute("themeList", biz.themeList(vo.getts_Theme(), travelScheduleVo));
-		for(int i=0; i<list.size(); i++) {
-			System.out.println(list.get(i).getSm_Memo());
+			TravelScheduleVo vo = biz.selectOne_D(ts_code);
+			model.addAttribute("themeList", biz.themeList(vo.getts_Theme()));
+			for(int i=0; i<list.size(); i++) {
+				System.out.println("메모 값 : " + list.get(i).getSm_Memo());
+			}
 		}
-		
 		return "TwTCommunity/community_detail"; 
 	}
 	
@@ -332,6 +378,7 @@ public class CommunityController {
 		
 		if(vo == null) {	// 찜 목록에 데이터가 없을 시 데이터 인서트
 			int result = biz.fList(m_code, ts_code1);
+			System.out.println("찜 데이터 Y값 Insert");
 			res = true;
 		} else {	// 데이터가 있을 시 찜 여부 확인 후 업데이트
 			System.out.println("기존 찜 여부 : " + vo.getFl_Check());
@@ -346,7 +393,6 @@ public class CommunityController {
 			}
 		}
 		map.put("res", res);
-		
 		
 		return map;
 	 }

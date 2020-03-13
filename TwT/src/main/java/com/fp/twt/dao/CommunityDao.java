@@ -26,21 +26,17 @@ public interface CommunityDao {
 	
 	//도영
 
-	public List<TravelScheduleVo> selectList_D(TravelScheduleVo travelScheduleVo);
+	public List<TravelScheduleVo> selectList_D();
 	public List<TravelScheduleVo> PselectList_D(TravelScheduleVo travelScheduleVo);
 	public TravelScheduleVo selectOne_D(String ts_code);
 	public List<TravelScheduleVo> detailList_D(String ts_code);
-	public List<TravelScheduleVo> themeList(String ts_theme, TravelScheduleVo travelScheduleVo);
+	public List<TravelScheduleVo> themeList(String ts_theme);
 	public void viewCnt(String ts_code);
 	public FavoriteListVo fListChk(String m_code, String ts_code1);
 	public int fList(String m_code, String ts_code1);
 	public int fList_Y(String m_code, String ts_code1);
 	public int fList_N(String m_code, String ts_code1);
-	public int selectListCnt_D();
-
-	
-	
-	
+	public List<FavoriteListVo> chkList(String m_code, FavoriteListVo favoriteListVo);
 	
 
 }
