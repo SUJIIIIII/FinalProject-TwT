@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import com.fp.twt.biz.MypageBiz;
 import com.fp.twt.common.social.NaverLoginBO;
 import com.fp.twt.vo.AirplaneInfoVo;
+import com.fp.twt.vo.HotelReviewVo;
 import com.fp.twt.vo.MemberVo;
 import com.github.scribejava.core.model.OAuth2AccessToken;
 
@@ -94,6 +95,7 @@ public class HomeController {
 		MemberVo user = (MemberVo) session.getAttribute("user");
 		String m_Code = user.getm_Code();
 		System.out.println("Mcode : "+m_Code);
+		
 		// 항공권 리스트 조회
 		model.addAttribute("airlist", biz.selectAirList(m_Code));
 		
@@ -105,6 +107,12 @@ public class HomeController {
 		
 		// 내가 쓴 일정 조회
 		model.addAttribute("route", biz.selectMyRoute(m_Code));
+		
+		// 예약한 호텔 이름 조회
+		model.addAttribute("hotel", biz.selectOneHotel(m_Code));
+		
+		// 평점 조회
+		model.addAttribute("rating", biz.selectRating(m_Code));
 		
 		return "TwTAccount/mypage";
 	}

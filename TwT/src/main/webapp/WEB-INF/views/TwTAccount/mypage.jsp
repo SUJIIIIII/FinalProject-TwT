@@ -2,27 +2,21 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <!-- 아이콘 -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css" />
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
 <%-- 부트스트랩 모달 core 파일 시작 --%>
-<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
-	integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
-	crossorigin="anonymous"></script>
-<script
-	src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
-	integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
-	crossorigin="anonymous"></script>
-<script
-	src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
-	integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
-	crossorigin="anonymous"></script>
+<script	src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
 <%-- 부트스트랩 모달 core 파일 끝 --%>
-<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/bootstrap-datepicker.css">
-<link rel="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css">
+<link rel="stylesheet" href="http://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/style.css">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/account/form.css">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/scss/bootstrap/bootstrap.scss">
@@ -36,7 +30,6 @@
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/icomoon.css">
 <script type="text/javascript" src="js/component.js"></script>
 <script type="text/javascript" src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-<script src="${pageContext.request.contextPath}/resources/js/bootstrap-datepicker.js"></script>
 <script type="text/javascript">
 <%-- 오른쪽 사이드 리모콘 메뉴 --%>
 	$(document).ready(function() {
@@ -64,6 +57,65 @@
 				}
 		});
 	});
+
+<%-- date picker --%>
+$(function(){
+		//input을 datepicker로 선언
+		$("#Start_date").datepicker({
+		dateFormat: 'yymmdd' //Input Display Format 변경
+		,showOtherMonths: true //빈 공간에 현재월의 앞뒤월의 날짜를 표시
+		,showMonthAfterYear:true //년도 먼저 나오고, 뒤에 월 표시
+		,changeYear: true //콤보박스에서 년 선택 가능
+		,changeMonth: true //콤보박스에서 월 선택 가능                
+		,showOn: "both" //button:버튼을 표시하고,버튼을 눌러야만 달력 표시 ^ both:버튼을 표시하고,버튼을 누르거나 input을 클릭하면 달력 표시  
+		,buttonImage: "http://jqueryui.com/resources/demos/datepicker/images/calendar.gif" //버튼 이미지 경로
+		,buttonImageOnly: true //기본 버튼의 회색 부분을 없애고, 이미지만 보이게 함
+		,buttonText: "선택" //버튼에 마우스 갖다 댔을 때 표시되는 텍스트                
+		,yearSuffix: "년" //달력의 년도 부분 뒤에 붙는 텍스트
+		,monthNamesShort: ['1','2','3','4','5','6','7','8','9','10','11','12'] //달력의 월 부분 텍스트
+		,monthNames: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'] //달력의 월 부분 Tooltip 텍스트
+		,dayNamesMin: ['일','월','화','수','목','금','토'] //달력의 요일 부분 텍스트
+		,dayNames: ['일요일','월요일','화요일','수요일','목요일','금요일','토요일'] //달력의 요일 부분 Tooltip 텍스트
+		,minDate: "0" //최소 선택일자(-1D:하루전, -1M:한달전, -1Y:일년전) 0 으로 설정했을대는 오늘 날짜 이후로 만 선택 가능함.
+		,maxDate: "+1M" //최대 선택일자(+1D:하루후, -1M:한달후, -1Y:일년후)                
+		});                    
+		
+		//초기값을 오늘 날짜로 설정
+		$("#date").datepicker('setDate', 'today');
+});
+
+<%-- 호텔 예약 날짜 비교하여 평점 가능 여부 --%>
+$(document).ready(function(){
+	$("#star").click(function(){
+		
+		// 체크아웃 날짜
+		var endDate = $("#endDate").val().substring(0,10);
+		console.log(endDate);
+		
+		var endDateArr = endDate.split("-");
+		console.log(endDateArr);
+		
+		// 오늘 날짜
+		var today = new Date().toISOString().substring(0,10);
+		console.log(today);
+		
+		var todayArr = today.split("-");
+		console.log(todayArr);
+		
+		var todayCompare = new Date(todayArr[0], parseInt(todayArr[1])-1, todayArr[2]);
+		var endDateCompare = new Date(endDateArr[0], parseInt(endDateArr[1])-1, endDateArr[2]);
+		
+		console.log(todayCompare);
+		console.log(endDateCompare);
+		
+		// 오늘 날짜가 체크아웃 날짜보다 이전이라면
+		if(todayCompare < endDateCompare) {
+			alert("평점은 호텔 체크아웃 이후에 작성할 수 있습니다");
+		} else {
+			$("#star").attr("type","submit");
+		}
+	});
+});
 
 </script>
 <style type="text/css">
@@ -242,6 +294,8 @@ input {
 	color: #363636;
 	font-weight: bold;
 	font-size: 18px;
+	width:70px;
+	margin-top:20px;
 }
 
 .day_sch_box {
@@ -556,6 +610,43 @@ html {
 	font-size: 22px;
 	font-weight: bold;
 }
+
+.star { float:right;
+        width:20%;
+        text-align:center;
+        height:100%;
+        padding-top:23px;
+       }
+       
+.star-rating__wrap{
+	display: inline-block;
+	font-size: 1rem;
+}
+.star-rating__wrap:after{
+	content: "";
+	display: table;
+	clear: both;
+}
+.star-rating__ico{
+	float: right;
+	padding-left: 2px;
+	cursor: pointer;
+	color: #fc3c3c;
+}
+.star-rating__ico:last-child{
+	padding-left: 0;
+}
+.star-rating__input{
+	display: none;
+}
+.star-rating__ico:hover:before,
+.star-rating__ico:hover ~ .star-rating__ico:before,
+.star-rating__input:checked ~ .star-rating__ico:before
+{
+	content:'\f005';
+	font-family:"Font Awesome 5 Free";
+	font-weight:900;
+}
 </style>
 <title>TWT - 마이페이지</title>
 </head>
@@ -763,7 +854,7 @@ html {
 			</div>
 			<div class="col-sm-12 page_left">
 			  <c:choose>
-			   	 <c:when test="${empty booking}">
+			   	 <c:when test="${empty booking && empty hotel}">
 				<div class="col-sm-12" style="width: 100%; text-align: center;">
 				${user.m_Name}님의 예약된 숙소 정보가 존재하지 않습니다.</div>
 
@@ -774,14 +865,23 @@ html {
 				</div>
 			</c:when>
 			<c:otherwise>
-				<c:forEach items="${booking}" var="book">
+				<c:forEach items="${booking}" var="book" varStatus="status">
 				<div class="day-box" id="day_box">
 					<div class="day_info_box">
 						<div class="day_txt">INFO</div>
 
 						<div class="day_info">
 							<div class="day_info_left">
-								<div class="date">${book.hb_Sdate} - ${book.hb_Edate}</div>
+								<div class="date">
+								  <div style="float:left;"> 
+								     <input type="text" id="startDate" readonly="readonly" style="width:100px; border-bottom:0;"
+								     value="<fmt:formatDate value="${book.hb_Sdate}" type="both" pattern="yyyy-MM-dd [E]"/>"/>~&nbsp;&nbsp;&nbsp;&nbsp;
+								  </div>
+								  <div style="float:left;">
+								    <input type="text" id="endDate" readonly="readonly" style="width:100px; border-bottom:0;"
+								     value="<fmt:formatDate value="${book.hb_Edate}" type="both" pattern="yyyy-MM-dd [E]"/>"/>
+								  </div>
+                                </div>
 								<div class="day_title">방콕</div>
 							</div>
 							<div class="day_info_right" style="display: none;"></div>
@@ -791,12 +891,20 @@ html {
 
 					<div class="day_sch_box" id="day_sch_box">
 						<div class="day_sch_num">
-							<div class="sch_num">${book.hb_Code}</div>
+							<div class="sch_num">
+							   <c:set var="code" value="${book.hb_Code}"/>
+     							${fn:substring(code,2,3)}
+     					    </div>
 						</div>
 
 						<div class="day_sch_content">
 							<div class="spot_content_box">
-								<div class="spot_name">베니스 비치</div>
+							 <%--  <c:forEach items="${hotel}" var="hotel"> --%>
+								<div class="spot_name">
+								  ${hotel[status.index].h_Name} 
+								</div> 
+							 <%--  </c:forEach> --%>
+							  	
 								<div class="spot_info">
 									<div class="tag">예약자 : ${book.hb_Name}</div>
 									<div class="tag" style="margin-left:7px;">예약인원 : ${book.hb_People}</div>
@@ -804,10 +912,93 @@ html {
 								</div>
 							</div>
 						</div>
+						
+						<%-- 평점 시작 --%>
+						   <div class="star">
+						       <div class="star-rating__wrap">
+						         <form action="star.do" method="post">
+						          <input type="hidden" name="m_Code" value="${user.m_Code}"/>
+						          <input type="hidden" name="hr_Code" value="${book.hr_Code }"/>
+						          <input type="hidden" name="hb_Code" value="${book.hb_Code}"/>
+						          <input type="hidden" name="h_Code" value="${book.h_Code}"/>
+						          
+						          <%-- 평점 대로 별 모양 유지 시작--%>
+						          <c:forEach items="${rating}" var="star">
+						             <c:if test="${star.hrv_Starn eq 5}">
+						                <script type="text/javascript">
+						                  $(document).ready(function(){
+						                	$(".star").css("margin-top","18px");
+                                            $("#star-rating-5").attr("checked","true");		
+                                            $("#star").hide();
+						                  });
+						                </script>
+						             </c:if>
+						             
+						             <c:if test="${star.hrv_Starn eq 4}">
+						                <script type="text/javascript">
+						                  $(document).ready(function(){
+						                	$(".star").css("margin-top","18px");
+                                            $("#star-rating-4").attr("checked","true");	
+                                            $("#star").hide();
+						                  });
+						                </script>
+						             </c:if>
+						             
+						             <c:if test="${star.hrv_Starn eq 3}">
+						                <script type="text/javascript">
+						                  $(document).ready(function(){
+						                	  $(".star").css("margin-top","18px");
+                                              $("#star-rating-3").attr("checked","true");	
+                                              $("#star").hide();
+						                  });
+						                </script>
+						             </c:if>
+						             
+						             <c:if test="${star.hrv_Starn eq 2}">
+						                <script type="text/javascript">
+						                  $(document).ready(function(){
+						                	  $(".star").css("margin-top","18px");
+                                              $("#star-rating-2").attr("checked","true");	
+                                              $("#star").hide();
+						                  });
+						                </script>
+						             </c:if>
+						             
+						             <c:if test="${star.hrv_Starn eq 1}">
+						                <script type="text/javascript">
+						                  $(document).ready(function(){
+						                	$(".star").css("margin-top","18px");
+                                            $("#star-rating-1").attr("checked","true");	
+                                            $("#star").hide();
+						                  });
+						                </script>
+						             </c:if>
+						          </c:forEach>
+						          <%-- 평점 대로 별 모양 유지 끝 --%>
+						          
+							      <input class="star-rating__input" type="radio" name="hrv_Starn" id="star-rating-5" value="5">
+							      <label class="star-rating__ico far fa-star" for="star-rating-5"></label>
+							      <input class="star-rating__input" type="radio" name="hrv_Starn" id="star-rating-4" value="4">
+							      <label class="star-rating__ico far fa-star" for="star-rating-4"></label>
+							      <input class="star-rating__input" type="radio" name="hrv_Starn" id="star-rating-3" value="3">
+							      <label class="star-rating__ico far fa-star" for="star-rating-3"></label>
+							      <input class="star-rating__input" type="radio" name="hrv_Starn" id="star-rating-2" value="2">
+							      <label class="star-rating__ico far fa-star" for="star-rating-2"></label>
+							      <input class="star-rating__input" type="radio" name="hrv_Starn" id="star-rating-1" value="1">
+							      <label class="star-rating__ico far fa-star" for="star-rating-1"></label><br>
+							      
+							      <c:if test="${star.hrv_Starn eq null}">
+							         <button type="button" class="tag" style="cursor:pointer; margin-left:18px;" id="star">평점주기</button>
+							      </c:if>
+							      
+							     </form>
+							   </div>
+						   </div>
+						<%-- 평점 끝 --%>
 					</div>
 				</div>
-				<div style="color:red; font-size:11px; margin-top:10px;">* 호텔 예약 건에 대한 변경 및 취소는 해당 호텔에 직접 연락바랍니다.</div>
 			  </c:forEach>
+			  <div style="color:red; font-size:11px; margin-top:10px;">* 호텔 예약 건에 대한 변경 및 취소는 해당 호텔에 직접 연락바랍니다.</div>
 			 </c:otherwise>
 			</c:choose>
 			</div>
@@ -858,11 +1049,11 @@ html {
 		<%-- 일정 DIV끝 --%>
 
 		<%-- 찜 목록 DIV 시작 --%>
-	<div class="col-sm-12" style="float: left; margin-top: 30px;">
+	   <div class="col-sm-12" style="float: left; margin-top: 30px;">
 			<div class="title">
 				<p>찜 목록</p>
 			</div>
-    </div>
+       </div>
        		<div class="row">
     			<div class="col-md-12" style="margin-top:40px;">
     			<c:choose>
@@ -883,7 +1074,7 @@ html {
     					    <div class="item">
 		    				<div class="destination">
 		    					<a href="#" class="img d-flex justify-content-center align-items-center">
-		    					   <img src="${pageContext.request.contextPath}/resources/images/account/route1.jpg" style="height:100%; margin-left:12px;"/>
+		    					   <img src="${pageContext.request.contextPath}/resources/images/plan/thumbnail/썸네일명.으로 수정" style="height:100%; margin-left:12px;"/>
 		    						<div class="icon d-flex justify-content-center align-items-center">
 		    							<span class="icon-search2"></span>
 		    						</div>

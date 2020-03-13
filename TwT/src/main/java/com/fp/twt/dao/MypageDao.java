@@ -1,12 +1,13 @@
 package com.fp.twt.dao;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
 
 import com.fp.twt.vo.AirplaneInfoVo;
 import com.fp.twt.vo.HotelBookingVo;
+import com.fp.twt.vo.HotelReviewVo;
+import com.fp.twt.vo.HotelVo;
 import com.fp.twt.vo.MemberVo;
 import com.fp.twt.vo.TravelScheduleVo;
 
@@ -78,5 +79,14 @@ public interface MypageDao {
 	public List<MemberVo> selectAllMember(MemberVo vo);
 
 	// 아이디 찾기
-	public List<MemberVo> searchId(String m_Email, HttpServletResponse response);
+	public String searchId(String m_Name, String m_Email);
+
+	// 예약된 호텔명 조회
+	public List<HotelVo> selectOneHotel(String m_Code);
+
+	// 별점부여
+	public int insertStar(HotelReviewVo vo);
+
+	// 별점조회
+	public List<HotelReviewVo> selectRating(String m_Code);
 }
