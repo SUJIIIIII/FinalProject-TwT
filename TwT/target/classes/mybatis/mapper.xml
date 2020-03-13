@@ -377,10 +377,24 @@
 	</select>
 	
 	<!-- 아이디 찾기 -->
-	<select id="findIdM" resultType="Member">
+	<select id="findIdM" resultType="String">
 	   SELECT M_ID FROM TWTMEMBER WHERE M_EMAIL = #{m_Email}
 	</select>
 
+    <!-- 호텔 이름 조회 -->
+    <select id="hotelM" resultType="Hotel">
+       SELECT H_NAME FROM HOTEL H JOIN HBOOKING B USING(H_CODE) WHERE B.M_CODE = #{m_Code}
+    </select>
+    
+    <!-- 별점 부여 -->
+    <insert id="insertStarM" parameterType="HotelReview">
+       INSERT INTO HOTELREVIEW VALUES ('HRV'||HRV_SEQ.NEXTVAL,#{hr_Code},#{hb_Code},#{h_Code},#{m_Code},#{hrv_Starn})
+    </insert>
+    
+    <!-- 별점 조회 -->
+    <select id="selectStarM" resultType="HotelReview">
+       SELECT DISTINCT HRV_STARN FROM HOTELREVIEW WHERE M_CODE = #{m_Code}
+    </select>
 	<!-- ================================찬우================================== -->
 
 

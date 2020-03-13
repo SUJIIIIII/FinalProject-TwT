@@ -25,6 +25,7 @@
 <script type="text/javascript">
 $(document).ready(function(){
 	$(".info_box").hide();
+	$("#find_result").hide();
 });
 
 // 회원가입 아이디 실시간 중복확인 ajax
@@ -181,34 +182,59 @@ function login_chk() {
 		blank = false;
 	} else {
 		blank = true;
-	}
-	
-	$.ajax({
-		url:"loginChk.do?m_Id="+id+"&m_Pass="+pwd,
-		type:"get",
-		dataType:"json",
-		async:false, // 해당하는 페이지를 동기화 시키는 방법
-		contentType:"application/json", 
-		success : function(data){
-			if(data.check1 == 1 && data.check2 == 1) {
-				if(data.check3 == 1){
-					db = true;
+		
+		$.ajax({
+			url:"loginChk.do?m_Id="+id+"&m_Pass="+pwd,
+			type:"get",
+			dataType:"json",
+			async:false, // 해당하는 페이지를 동기화 시키는 방법
+			contentType:"application/json", 
+			success : function(data){
+				if(data.check1 == 1 && data.check2 == 1) {
+					if(data.check3 == 1){
+						db = true;
+					} else {
+						alert("이메일 인증 후 로그인이 가능합니다.");
+					}
 				} else {
-					alert("이메일 인증 후 로그인이 가능합니다.");
+					alert("아이디 및 비밀번호를 확인해주세요");
 				}
-			} else {
-				alert("아이디 및 비밀번호를 확인해주세요");
+			}, error:function(){
+				alert("통신 실패");
 			}
-		}, error:function(){
-			alert("통신 실패");
-		}
-	});
+		});
+	}
 	
 	if(db * blank > 0){
 		return true;
 	} else{	
 		return false;
 	}
+}
+
+// 아이디 찾기
+function findId() {
+	var m_Name = $("#m_Name").val();
+	var m_Email = $("#m_Email").val();
+	
+	console.log(m_Name);
+	console.log(m_Email);
+	
+	$.ajax({
+		url:"searchId.do?m_Name="+m_Name+"&m_Email="+m_Email,
+		type:"get",
+		dataType:"json",
+		contentType:"application/json",
+		success:function(data){
+			if(data.result == "0") {
+				alert("회원 정보를 확인해주세요");
+			} else {
+				$("#find_result").show();
+				$("#find_result").append(data.info);
+			   /* alert(data.info); */
+			}
+		}
+	});
 }
 </script>
 <style type="text/css">
@@ -490,8 +516,8 @@ a:hover {
 }
 
 .info_box { width:100%; 
-            height:20px;
-            line-height:20px;
+            height:10px;
+            line-height:10px;
             font-size:10px;
             text-align:left !important;
             padding-left:20px;
@@ -562,14 +588,14 @@ a:hover {
 		<div class="overlay-container">
 			<div class="overlay">
 				<div class="overlay-panel overlay-left">
-					<h1>Welcome Back!</h1>
+					<h1 style="color:white !important;">Welcome Back!</h1>
 					<p>To keep connected with us please login with your personal
 						info</p>
 					<button class="ghost2" id="signIn" style="margin-top: 280px;">Sign
 						In</button>
 				</div>
 				<div class="overlay-panel overlay-right">
-					<h1>Hello, Friend!</h1>
+					<h1 style="color:white !important;">Hello, Friend!</h1>
 					<p>Enter your personal details and start journey with us</p>
 					<button class="ghost2" id="signUp" style="margin-top: 190px;">Sign
 						Up</button>
@@ -622,13 +648,24 @@ signInButton.addEventListener('click', () => {
  <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="findId">아이디 찾기</h5>
+        <h5 class="modal-title">아이디 찾기</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
       
-      <form action="searchId.do" method="get" style="width:100%;">
+      <div class="modal-body" id="idmodal">
+                  이름  <input type="text" name="m_Name" id="m_Name"><br>
+                  이메일  <input type="text" name="m_Email" id="m_Email">
+        <div id="find_result" style="width:100%; height:80px; text-align:center; font-weight:bold; font-size:26px; padding:0px; margin-bottom:30px;">
+           <p style="font-size:13px;">회원님의 정보와 일치하는 아이디</p>
+        </div>
+      </div>
+      <div class="modal-footer" style="width:495px;">
+          <button type="button" class="btn btn-primary btn-outline-primary" onclick="findId();">찾 기</button>
+      </div>
+      
+<!--       <form action="searchId.do" method="get" style="width:100%;">
       <div class="modal-body" id="idmodal">
                   이름  <input type="text" name="m_Name" id="myname"><br>
                   이메일  <input type="text" name="m_Email" id="myemail">
@@ -636,7 +673,7 @@ signInButton.addEventListener('click', () => {
       <div class="modal-footer" style="width:495px;">
           <button type="submit" class="btn btn-primary btn-outline-primary">찾 기</button>
       </div>
-      </form>
+      </form> -->
     </div>
   </div>
 </div>

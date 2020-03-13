@@ -11,6 +11,8 @@ import org.springframework.stereotype.Service;
 import com.fp.twt.dao.MypageDao;
 import com.fp.twt.vo.AirplaneInfoVo;
 import com.fp.twt.vo.HotelBookingVo;
+import com.fp.twt.vo.HotelReviewVo;
+import com.fp.twt.vo.HotelVo;
 import com.fp.twt.vo.MemberVo;
 import com.fp.twt.vo.TravelScheduleVo;
 
@@ -148,7 +150,25 @@ public class MypageBizImpl implements MypageBiz {
 
 	// 아이디 찾기
 	@Override
-	public List<MemberVo> searchId(String m_Email, HttpServletResponse response) {
-		return dao.searchId(m_Email, response);
+	public String searchId(String m_Name, String m_Email) {
+		return dao.searchId(m_Name, m_Email);
+	}
+	
+	// 예약된 호텔명 조회
+	@Override
+	public List<HotelVo> selectOneHotel(String m_Code) {
+		return dao.selectOneHotel(m_Code);
+	}
+
+	// 별점부여
+	@Override
+	public int insertStar(HotelReviewVo vo) {
+		return dao.insertStar(vo);
+	}
+
+	// 별점조회
+	@Override
+	public List<HotelReviewVo> selectRating(String m_Code) {
+		return dao.selectRating(m_Code);
 	}
 }
