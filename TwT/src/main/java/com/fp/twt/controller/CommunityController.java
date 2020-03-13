@@ -1,6 +1,7 @@
 package com.fp.twt.controller;
 
 import java.io.File;
+
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -247,7 +248,7 @@ public class CommunityController {
 				model.addAttribute("Chk", Chk);
 			} else	{
 				// 아닐 시 일반적인 리스트 출력
-				model.addAttribute("community", biz.selectList_D());
+				list = biz.selectList_D();
 				model.addAttribute("list", list);
 			}
         } else if(member == null) {	// 로그인 안돼 있을 경우
@@ -259,7 +260,7 @@ public class CommunityController {
 				list = biz.PselectList_D(travelScheduleVo);
 				model.addAttribute("list", list);
 			} else{
-				model.addAttribute("community", biz.selectList_D());
+				list = biz.selectList_D();
 				model.addAttribute("list", list);
 			}
 	        

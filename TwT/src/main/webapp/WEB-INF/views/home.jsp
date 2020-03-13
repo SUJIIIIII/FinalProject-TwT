@@ -119,18 +119,21 @@
 
       <div class="collapse navbar-collapse" id="ftco-nav">
         <ul class="navbar-nav ml-auto">
-          <li class="nav-item active"><a href="${pageContext.request.contextPath}/index2.jsp" class="nav-link">Home</a></li>
+          <li class="nav-item active"><a href="${pageContext.request.contextPath}/index.jsp" class="nav-link">Home</a></li>
           <li class="nav-item"><a href="plan.do" class="nav-link">Plan</a></li>
           <li class="nav-item"><a href="flight.do" class="nav-link">Flight</a></li>
           <li class="nav-item"><a href="hotel.do" class="nav-link">Hotel</a></li>
           <li class="nav-item"><a href="community.do" class="nav-link">Community</a></li>
-          <li class="nav-item"><a href="mypage.do" class="nav-link"><i class="fas fa-user"></i>&nbsp;My</a></li>
-          <c:if test="${kakaoId eq null and naverId eq null and user eq null and googleId eq null}">
-          <li class="nav-item cta"><a href="login.do" class="nav-link"><span>Login</span></a></li>
-          </c:if>
-          <c:if test="${kakaoId ne null or naverId ne null or user ne null or googleId ne null}">
-              <li class="nav-item cta"><a href="logout.do" class="nav-link"><span>Logout</span></a></li>
-          </c:if>
+          <%-- 세션 유무에 따른 버튼 이벤트 --%>
+             <c:if test="${kakaoId eq null and naverId eq null and user eq null and googleId eq null}">
+                <li id="nav4" class="nav-item"><a href="login.do" class="nav-link"><i class="fas fa-user"></i>&nbsp;My</a></li>
+                <li class="nav-item cta"><a href="login.do" class="nav-link"><span>Login</span></a></li>
+             </c:if>
+             
+             <c:if test="${kakaoId ne null or naverId ne null or user ne null or googleId ne null }">
+                <li id="nav4" class="nav-item"><a href="mypage.do" class="nav-link"><i class="fas fa-user"></i>&nbsp;My</a></li>
+                <li class="nav-item cta"><a href="logout.do" class="nav-link"><span>Logout</span></a></li>
+             </c:if>
         </ul>
       </div>
     </div>
@@ -143,7 +146,7 @@
         <div class="row no-gutters slider-text js-fullheight align-items-center justify-content-start" data-scrollax-parent="true">
           <div class="col-md-9 ftco-animate" data-scrollax=" properties: { translateY: '70%' }">
             <h1 class="mb-4" style="font-family: 'Kalam', cursive;" data-scrollax="properties: { translateY: '30%', opacity: 1.6 }"><strong>T</strong>ravel <br><span style="padding:0 0 0 60px;"> <strong>w</strong>ith</span> <br><span style="padding:0 0 0 100px;"><strong>T</strong>ogether</span></h1>
-            <div class="enjoy-css" style="font-family: 'Kalam', cursive;" onclick="location.href='planDetail.do'">Create Plan!</div>
+            <div class="enjoy-css" style="font-family: 'Kalam', cursive;" onclick="location.href='plan.do'">Create Plan!</div>
           </div>
         </div>
       </div>
