@@ -37,6 +37,23 @@ public class HotelAirDaoImpl implements HotelAirDao{
 		return change;
 	}
 	
+	@Override
+	public int success(String hotelname) {
+		
+		int res= 0 ;
+		
+		try {
+			
+			res = sqlSession.update(NAMESPACE+"reservation_Hotel",hotelname);
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.out.println("success 애러");
+		}
+		
+		return res;
+	}
+	
 	
 	@Override
 	public String airSearch(AirSearchVo vo) {
@@ -77,6 +94,8 @@ public class HotelAirDaoImpl implements HotelAirDao{
 		System.out.println(url);
 		return url;
 	}
+	
+	
 	
 	
 	
@@ -162,6 +181,9 @@ public class HotelAirDaoImpl implements HotelAirDao{
 		
 		return list;
 	}
+
+
+
 	
 	
 	

@@ -3,6 +3,7 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page import="com.fp.twt.vo.MemberVo" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -33,10 +34,6 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/icomoon.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/style.css">
     
-    <!-- chat -->
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
-	<link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css'>
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/chat.css">
     
     <!-- font -->
 	<link href="https://fonts.googleapis.com/css?family=Shadows+Into+Light&display=swap" rel="stylesheet">
@@ -122,19 +119,17 @@
 
       <div class="collapse navbar-collapse" id="ftco-nav">
         <ul class="navbar-nav ml-auto">
-          <li class="nav-item active"><a href="${pageContext.request.contextPath}/index.jsp" class="nav-link">Home</a></li>
-          <li class="nav-item"><a href="kakao.do" class="nav-link">카카오페이</a></li>
+          <li class="nav-item active"><a href="${pageContext.request.contextPath}/index2.jsp" class="nav-link">Home</a></li>
           <li class="nav-item"><a href="plan.do" class="nav-link">Plan</a></li>
           <li class="nav-item"><a href="flight.do" class="nav-link">Flight</a></li>
           <li class="nav-item"><a href="hotel.do" class="nav-link">Hotel</a></li>
           <li class="nav-item"><a href="community.do" class="nav-link">Community</a></li>
+          <li class="nav-item"><a href="mypage.do" class="nav-link"><i class="fas fa-user"></i>&nbsp;My</a></li>
           <c:if test="${kakaoId eq null and naverId eq null and user eq null and googleId eq null}">
-          <li class="nav-item"><a href="login.do" class="nav-link"><i class="fas fa-user"></i>&nbsp;My</a></li>
           <li class="nav-item cta"><a href="login.do" class="nav-link"><span>Login</span></a></li>
           </c:if>
           <c:if test="${kakaoId ne null or naverId ne null or user ne null or googleId ne null}">
-          <li class="nav-item"><a href="mypage.do" class="nav-link"><i class="fas fa-user"></i>&nbsp;My</a></li>
-          <li class="nav-item cta"><a href="logout.do" class="nav-link"><span>Logout</span></a></li>
+              <li class="nav-item cta"><a href="logout.do" class="nav-link"><span>Logout</span></a></li>
           </c:if>
         </ul>
       </div>
@@ -148,7 +143,7 @@
         <div class="row no-gutters slider-text js-fullheight align-items-center justify-content-start" data-scrollax-parent="true">
           <div class="col-md-9 ftco-animate" data-scrollax=" properties: { translateY: '70%' }">
             <h1 class="mb-4" style="font-family: 'Kalam', cursive;" data-scrollax="properties: { translateY: '30%', opacity: 1.6 }"><strong>T</strong>ravel <br><span style="padding:0 0 0 60px;"> <strong>w</strong>ith</span> <br><span style="padding:0 0 0 100px;"><strong>T</strong>ogether</span></h1>
-            <div class="enjoy-css" style="font-family: 'Kalam', cursive;" onclick="location.href='plan.do'">Create Plan!</div>
+            <div class="enjoy-css" style="font-family: 'Kalam', cursive;" onclick="location.href='planDetail.do'">Create Plan!</div>
           </div>
         </div>
       </div>
@@ -162,73 +157,30 @@
           </div>
         </div>
         <div class="row d-flex">
+        
+        <c:forEach items="${main_Plan }" var="vo" begin="${page.startRow }" end="${page.startRow + 4}">
           <div class="col-md-3 d-flex ftco-animate">
-            <div class="blog-entry align-self-stretch">
-              <a href="communityDetail.do" class="block-20" style="background-image: url('${pageContext.request.contextPath}/resources/images/image_1.jpg');">
-              </a>
-              <div class="text p-4 d-block" style="min-width: 250px">
-				<span class="tag">2020.02.05</span>
-				<span class="tag">| 5DAYS</span>
-				<span style="padding: 0 0 0 18px;">
-					<i class="far fa-heart"></i>&nbsp;&nbsp;
-					<i class="fas fa-eye"></i><span style="font-size:16px;">&nbsp;&nbsp;1</span>
-				</span>
-				<br><br>
-				<h3 class="heading" style="height: 90px;"><a href="#" style="text-overflow: ellipsis; overflow: hidden;">태국 여행</a></h3>
-				<div class="tagcloud">
-					<a href="#" class="tag-cloud-link">나홀로</a>
-					<a href="#" class="tag-cloud-link">비즈니스 여행</a>
-				</div>
-				<br>
-				<div style="margin-top: -10px;"><i class="fas fa-user"></i> 아이디</div>			              	    
-			  </div>
-            </div>
-          </div>
-          <div class="col-md-3 d-flex ftco-animate">
-            <div class="blog-entry align-self-stretch">
-              <a href="communityDetail.do" class="block-20" style="background-image: url('${pageContext.request.contextPath}/resources/images/image_2.jpg');">
-              </a>
-              <div class="text p-4">
-              	<span class="tag">Culture</span>
-                <h3 class="heading mt-3"><a href="#" style="text-overflow: ellipsis;">Even the all-powerful Pointing has no control about the blind texts</a></h3>
-                <div class="meta mb-3">
-                  <div><a href="#">August 12, 2018</a></div>
-                  <div><a href="#">Admin</a></div>
-                  <div><a href="#" class="meta-chat"><span class="icon-chat"></span> 3</a></div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="col-md-3 d-flex ftco-animate">
-            <div class="blog-entry align-self-stretch">
-              <a href="communityDetail.do" class="block-20" style="background-image: url('${pageContext.request.contextPath}/resources/images/image_3.jpg');">
-              </a>
-              <div class="text p-4">
-              	<span class="tag">Tips, Travel</span>
-                <h3 class="heading mt-3"><a href="#" style="text-overflow: ellipsis;">Even the all-powerful Pointing has no control about the blind texts</a></h3>
-                <div class="meta mb-3">
-                  <div><a href="#">August 12, 2018</a></div>
-                  <div><a href="#">Admin</a></div>
-                  <div><a href="#" class="meta-chat"><span class="icon-chat"></span> 3</a></div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="col-md-3 d-flex ftco-animate">
-            <div class="blog-entry align-self-stretch">
-              <a href="communityDetail.do" class="block-20" style="background-image: url('${pageContext.request.contextPath}/resources/images/image_4.jpg');">
-              </a>
-              <div class="text p-4">
-              	<span class="tag">Tips, Travel</span>
-                <h3 class="heading mt-3"><a href="#" style="text-overflow: ellipsis;">Even the all-powerful Pointing has no control about the blind texts</a></h3>
-                <div class="meta mb-3">
-                  <div><a href="#">August 12, 2018</a></div>
-                  <div><a href="#">Admin</a></div>
-                  <div><a href="#" class="meta-chat"><span class="icon-chat"></span> 3</a></div>
-                </div>
-              </div>
-            </div>
-          </div>
+	            <div class="blog-entry align-self-stretch" style="min-width: 250px;">
+	              <a href="communityDetail.do?ts_code=${vo.ts_Code }" class="block-20" style="background-image: url(${pageContext.request.contextPath}/resources/images/plan/${vo.city_Code }/${vo.tp_Img });"></a>
+	              <div class="text p-4 d-block" style="min-width: 250px;">
+	              	<span class="tag">${fn:substring(vo.ts_Sday,0,8)}</span>
+	              	<span class="tag">| ${vo.ts_Period }DAYS</span>
+	              	<span style="padding: 0 0 0 18px; float: right;">
+		              	<a href=""><i class="far fa-heart"></i>&nbsp;&nbsp;</a>
+			            <i class="fas fa-eye"></i><span style="font-size:16px;">&nbsp;&nbsp;${vo.ts_View }</span>
+		            </span>
+		            <br>
+              	    <h3 class="heading" style="margin-top: 8px;"><a href="communityDetail.do?ts_code=${vo.ts_Code }">${vo.ts_Title }</a></h3>
+                    <div class="tagcloud">
+	                <a href="#" class="tag-cloud-link">${vo.ts_Theme }</a>
+               	 	</div>
+           		 	<br>
+                    <div style="margin-top: -10px;"><i class="fas fa-user"></i>&nbsp;${vo.m_Name }</div>			              	    
+	              </div>
+	            </div>
+	          </div>
+          </c:forEach>
+          
         </div>
       </div>
     </section>
@@ -243,134 +195,111 @@
     		<div class="row">
     			<div class="col-md-12">
     				<div class="destination-slider owl-carousel ftco-animate">
-    					<div class="item">
-		    				<div class="destination">
-		    					<a href="#" class="img d-flex justify-content-center align-items-center" style="background-image: url(${pageContext.request.contextPath}/resources/images/destination-1.jpg);">
-		    						<div class="icon d-flex justify-content-center align-items-center">
-		    							<span class="icon-search2"></span>
-		    						</div>
-		    					</a>
-		    					<div class="text p-3">
-		    						<h3><a href="#">Paris, Italy</a></h3>
-		    						<span class="listing">15 Listing</span>
-		    					</div>
-		    				</div>
-	    				</div>
+    					<c:forEach items="${main_Destination}" var="TravelPointVo" begin="${page.startRow }" end="${page.startRow + 5}">
 	    				<div class="item">
 		    				<div class="destination">
-		    					<a href="#" class="img d-flex justify-content-center align-items-center" style="background-image: url(${pageContext.request.contextPath}/resources/images/destination-2.jpg);">
+		    					<a href="#" class="img d-flex justify-content-center align-items-center" style="background-image: url(${pageContext.request.contextPath}/resources/images/${TravelPointVo.city_Code}/${TravelPointVo.tp_Img});">
 		    						<div class="icon d-flex justify-content-center align-items-center">
 		    							<span class="icon-search2"></span>
 		    						</div>
 		    					</a>
 		    					<div class="text p-3">
-		    						<h3><a href="#">San Francisco, USA</a></h3>
-		    						<span class="listing">20 Listing</span>
+		    						<h3>${TravelPointVo.tp_Name }</h3>
+		    						<span class="listing">${TravelPointVo.tp_Addr }</span>
 		    					</div>
 		    				</div>
 	    				</div>
-	    				<div class="item">
-		    				<div class="destination">
-		    					<a href="#" class="img d-flex justify-content-center align-items-center" style="background-image: url(${pageContext.request.contextPath}/resources/images/destination-3.jpg);">
-		    						<div class="icon d-flex justify-content-center align-items-center">
-		    							<span class="icon-search2"></span>
-		    						</div>
-		    					</a>
-		    					<div class="text p-3">
-		    						<h3><a href="#">Lodon, UK</a></h3>
-		    						<span class="listing">10 Listing</span>
-		    					</div>
-		    				</div>
-	    				</div>
-	    				<div class="item">
-		    				<div class="destination">
-		    					<a href="#" class="img d-flex justify-content-center align-items-center" style="background-image: url(${pageContext.request.contextPath}/resources/images/destination-4.jpg);">
-		    						<div class="icon d-flex justify-content-center align-items-center">
-		    							<span class="icon-search2"></span>
-		    						</div>
-		    					</a>
-		    					<div class="text p-3">
-		    						<h3><a href="#">Lion, Singapore</a></h3>
-		    						<span class="listing">3 Listing</span>
-		    					</div>
-		    				</div>
-	    				</div>
-	    				<div class="item">
-		    				<div class="destination">
-		    					<a href="#" class="img d-flex justify-content-center align-items-center" style="background-image: url(${pageContext.request.contextPath}/resources/images/destination-5.jpg);">
-		    						<div class="icon d-flex justify-content-center align-items-center">
-		    							<span class="icon-search2"></span>
-		    						</div>
-		    					</a>
-		    					<div class="text p-3">
-		    						<h3><a href="#">Australia</a></h3>
-		    						<span class="listing">3 Listing</span>
-		    					</div>
-		    				</div>
-	    				</div>
-	    				<div class="item">
-		    				<div class="destination">
-		    					<a href="#" class="img d-flex justify-content-center align-items-center" style="background-image: url(${pageContext.request.contextPath}/resources/images/destination-6.jpg);">
-		    						<div class="icon d-flex justify-content-center align-items-center">
-		    							<span class="icon-search2"></span>
-		    						</div>
-		    					</a>
-		    					<div class="text p-3">
-		    						<h3><a href="#">Paris, Italy</a></h3>
-		    						<span class="listing">3 Listing</span>
-		    					</div>
-		    				</div>
-	    				</div>
+	    				</c:forEach>
     				</div>
     			</div>
     		</div>
     	</div>
     </section>
 
-    <section class="ftco-section">
+    <section class="ftco-section ftco-destination">
     	<div class="container">
 				<div class="row justify-content-start mb-5 pb-3">
           <div class="col-md-7 heading-section ftco-animate">
             <h2 class="mb-4"><strong>Popular</strong> Hotel</h2>
           </div>
-        </div>    		
+        </div>   
+
     		<div class="row">
-    			<div class="col-md-6 col-lg-3 ftco-animate">
-    				<div class="destination">
-    					<a href="hotelDetail.do" class="img img-2 d-flex justify-content-center align-items-center" style="background-image: url(${pageContext.request.contextPath}/resources/images/restaurant-1.jpg);">
-    						<div class="icon d-flex justify-content-center align-items-center">
+    			<div class="col-md-12">
+    				<div class="destination-slider owl-carousel ftco-animate">
+    					
+
+        
+<!--          	<div class="row">	
+         	<div class="col-md-12">
+         	<div class="destination-slider owl-carousel ftco-animate owl-loaded owl-drag fadeInUp ftco-animated">
+       		<div class="owl-stage-outer">       		
+        	<div class= "owl-stage"> -->
+    		<c:forEach items="${main_hotel }" var="HotelVo" begin="${page.startRow }" end="${page.startRow + 5}">
+          <!-- 		<div class="ftco-animate"> -->
+          				<div class="item">
+		    				<div class="destination">
+		    					<a href="hotelDetail.do?h_Code=${HotelVo.h_Code }" class="img img-2 d-flex justify-content-center align-items-center" 
+		    					        style="background-image: url(${pageContext.request.contextPath}/resources/images/hotel/${HotelVo.h_Img});">
+		    						<div class="icon d-flex justify-content-center align-items-center">
     							<span class="icon-search2"></span>
     						</div>
-    					</a>
-    					<div class="text p-3"  style="width:255px; height:242px;">
-    						<h3><a href="#">Luxury Hotel</a></h3>
-    						<p class="rate">
-    							<i class="icon-star"></i>
-    							<i class="icon-star"></i>
-    							<i class="icon-star"></i>
-    							<i class="icon-star"></i>
-    							<i class="icon-star-o"></i>
-    							<span>8 Rating</span>
-    						</p>
-    						<p style="width:140px; height:75px; text-overflow: ellipsis;">Far far away,</p>
-    						<hr>
-    						<p class="bottom-area d-flex">
-    							<span><i class="icon-map-o"></i> San Franciso, CA</span> 
-    							<span class="ml-auto"><a href="#">Book Now</a></span>
-    						</p>
-    					</div>
-    				</div>
-    			</div>
-    			
-    		</div>
+		    					</a>
+		    					<div class="text p-3">
+		    						<div class="d-flex">
+		    							<div class="one">
+				    						<h3 class="text-truncate" style="max-width: 130px;"><a href="hotelDetail.do?h_Code=${HotelVo.h_Code }">${HotelVo.h_Name}</a></h3>
+				    						<p class="rate">
+				    							<i class="icon-star"></i>
+				    							<i class="icon-star"></i>
+				    							<i class="icon-star"></i>
+				    							<i class="icon-star"></i>
+				    							<i class="icon-star-o"></i>
+				    						</p>
+			    						</div>
+			    						<div class="two">
+			    							<span class="price per-price" style="margin: -7px;">₩169,006<br><a style="font-size: 16px;">/ 1박</a></span>
+		    							</div>
+		    						</div>
+		    						<p style="width:216px; height:85px;">${HotelVo.h_Basiccontent}</p>
+		    						<hr>
+		    						<p class="bottom-area d-flex">
+		    							<span><i class="icon-map-o"></i>&nbsp;&nbsp;${HotelVo.h_Basicaddr}</span> 
+		    							<span class="ml-auto"><a href="hotelDetail.do?h_Code=${HotelVo.h_Code }">상세정보</a></span>
+		    						</p>
+		    					</div>
+		    				</div>
+		    			</div>
+		    			<!-- </div> -->
+			        </c:forEach>
+<!-- 			        
+			         </div>
+			         </div>
+			         
+			         <div class="owl-nav">
+			         <button role="presentation" class="owl-prev"><span class="ion-ios-arrow-back"></span></button>
+			         <button role="presentation" class="owl-next"><span class="ion-ios-arrow-forward"></span></button>
+			         </div>
+			         
+			         <div class="owl-dots">
+			         <button class="owl-dot active"><span></span></button>
+			         <button class="owl-dot"><span></span></button>
+			         </div> -->
+			         
+			        </div>
+			        </div>
+			        </div><!-- row -->
+			       
+			        
     	</div>
     </section>
 
-   <!-- footer -->
-   <%@ include file="/WEB-INF/views/footer.jsp" %>
+    <!-- footer -->
+	<%@ include file="/WEB-INF/views/footer.jsp" %>
 
   <!-- loader -->
   <div id="ftco-loader" class="show fullscreen"><svg class="circular" width="48px" height="48px"><circle class="path-bg" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke="#eeeeee"/><circle class="path" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke-miterlimit="10" stroke="#F96D00"/></svg></div>
+
 
   <script src="${pageContext.request.contextPath}/resources/js/jquery.min.js"></script>
   <script src="${pageContext.request.contextPath}/resources/js/jquery-migrate-3.0.1.min.js"></script>
@@ -389,6 +318,6 @@
   <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBVWaKrjvy3MaE7SQ74_uJiULgl1JY0H2s&sensor=false"></script>
   <script src="${pageContext.request.contextPath}/resources/js/google-map.js"></script>
   <script src="${pageContext.request.contextPath}/resources/js/main.js"></script>
-
+    
   </body>
 </html>

@@ -137,7 +137,7 @@
       </div>
     </div>
 
-    <section class="ftco-section ftco-destination">
+    <%-- <section class="ftco-section ftco-destination">
     	<div class="container">
 	
 					    <!-- 날씨 -->
@@ -201,7 +201,7 @@
         </div>
 	</div>
 
-    </section>
+    </section> --%>
 		
 		
   <!-- footer -->

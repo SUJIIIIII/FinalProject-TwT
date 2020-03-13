@@ -93,6 +93,47 @@ var map;
         	icon: icon
    		});
 	}
+
+	<!-- 찬우 -->
+	function aa(){
+    		console.log($("#reservation_price").val());
+    	}
+    
+    	function kakao_price(num){
+    		//alert("hotel_room" + $(this).parent( '.d-flex' ).children('#hotel_room').text());
+    		//alert("hotel_room" + $(this).parent( '.d-flex' ).children('#hotel_room').val());
+    		//alert("sss:" + num);
+    		var hotel_room = $("#hotel_room"+num).text();
+    		var hotel_price = $("#hotel_price"+num).text();
+    		hotel_price = hotel_price.substring(2);
+    		    		
+    		console.log(hotel_room + "/" +hotel_price);
+    		    		
+    		var hotelVal ={
+    			"hotel_room":hotel_room,
+    			"hotel_price":hotel_price
+    		};
+    		
+    		$.ajax({
+    			type:"post",
+    			data:JSON.stringify(hotelVal),
+    			contentType:"application/json",
+    			dateType:"json",
+    			success:function(){
+    				$("#reservation_hotelroom2").text(hotel_room);
+ 					$("#reservation_hotelroom").attr("value", hotel_room);//인풋히든
+    				$("#reservation_price2").text(hotel_price);
+    				$("#reservation_price").attr("value", hotel_price);
+    				//$("#reservation_price").val(hotel_price);//인풋히든
+    				console.log($("#reservation_price").val());
+    			},
+    			error:function(){
+    				alert("Room을 선택해 주세요");
+    			}
+    			
+    		});
+    		
+    	}
 	
 </script>
 <!-- 구글맵 API KEY -->
@@ -135,6 +176,7 @@ src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCiDE5HBue4mflsdkcsGvSZrUe
 			form.submit();
 		}
    	</script>
+   	
 	
 	<!-- ------------------------------------------------ 검색창 ------------------------------------------------------ -->
 	
@@ -248,7 +290,7 @@ src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCiDE5HBue4mflsdkcsGvSZrUe
           		
           		<div class="col-md-12 hotel-single mt-4 mb-5 ftco-animate">
           			<!-- 호텔 이름 -->
-          			<h2>${hvo.h_Name}</h2>
+          			<h2>${hvo.h_Name}</h2> <!-- 호텔 이름 -->
           			<p class="rate mb-5">
           			    <!-- 호텔주소 -->
           				<span class="loc"><i class="icon-map"></i>${hvo.h_Addr}</a></span><br><br>
@@ -278,17 +320,19 @@ src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCiDE5HBue4mflsdkcsGvSZrUe
           			<h4 class="mb-4">객실 정보</h4>
           			<div class="row">
           				<!-- 객실  -->
+	<c:set var="cnt" value="1"/>
           	  <c:forEach items="${detailList_B}" var="dList">
           				<div class="col-md-4">
 				    				<div class="destination">
 				    					<a class="img img-2" style="background-image: url(${pageContext.request.contextPath}/resources/images/hotel/hotelroom/${dList.hr_Img });"></a>
+									<form action="hotel_reservation.do" method="post">
 				    					<div class="text p-3">
 				    						<div class="d-flex">
 				    							<div class="one">
-						    						<h3><a>${dList.hr_Rank }</a></h3><br>
+						    						<h3><a id="hotel_room${cnt }">${dList.hr_Rank }</a></h3><br><!-- 호텔방 이름  -->
 					    						</div>
 					    						<div class="two">
-					    							<span class="price per-price" style="margin: -13px;"><a>₩&nbsp;</a><fmt:formatNumber value="${dList.hr_Price }" pattern="#,###" /><br></span>
+					    							<span id="hotel_price${cnt }" class="price per-price" style="margin: -13px;"><a>₩&nbsp;</a><fmt:formatNumber value="${dList.hr_Price }" pattern="#,###" /><br></span><!-- 금액  -->
 				    							</div>
 				    						</div>
 				    						<div class="tagcloud">
@@ -317,12 +361,15 @@ src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCiDE5HBue4mflsdkcsGvSZrUe
 				    						</a>
 				    						</div>
 				    						<p class="bottom-area d-flex">
-				    							<span class="ml-auto"><a href="#">Pick</a></span>
+				    							<span class="ml-auto"><a onclick="kakao_price(${cnt});">Pick</a></span>
 				    						</p>
 				    					</div>
+				    					</form>
 				    				</div>
 				    			</div>
+				    			<c:set var="cnt" value="${cnt+1 }"/>
           		</c:forEach>
+          	
           			</div>
           		</div>
           		
@@ -334,36 +381,43 @@ src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCiDE5HBue4mflsdkcsGvSZrUe
           		<!-- 위치 지도 끝 -->
           		
           		<!-- 예약 시작 -->
+          		
           		<div class="col-md-12 hotel-single ftco-animate mb-5 mt-4">
+          		<form action="kakaoPay.do" method="post">
+          			<input type="hidden" id="reservation_hotelroom" name="reservation_hotelroom" value="">
+          			<input type="hidden" id="reservation_price" name="reservation_price" value="">
           			<h4 class="mb-5">예약</h4>
-          			<h5 class="mb-5">총금액 : $</h5>
+					<p id="reservation_hotelname2" style="font-size: 10px; color: #FFA7A7;"><input type="hidden"  name="reservation_hotelname" value="${hvo.h_Name}">${hvo.h_Name} (
+						<span id="reservation_hotelroom2" style="font-size: 10px; color: #FFA7A7;">방정보</span>)
+					</p><!--  -->
+          			<h5 class="mb-5">총금액 :<span id="reservation_price2">금액</span> 원</h5>
           			<div class="fields">
           				<div class="row">
           					<div class="col-md-6">
 				              <div class="form-group">
-				                <input type="text" class="form-control" placeholder="이름">
+				                <input id="reservation_name" name="reservation_name" type="text" class="form-control" placeholder="이름">
 				              </div>
 			              </div>
 			              <div class="col-md-6">
 				              <div class="form-group">
-				                <input type="text" class="form-control" placeholder="Email">
+				                <input id="reservation_email" name="reservation_email" type="text" class="form-control" placeholder="Email">
 				              </div>
 			              </div>
 			              <div class="col-md-6">
 				              <div class="form-group">
-				                <input type="text" id="checkin_date" class="form-control" placeholder="체크인">
+				                <input type="text" id="checkin_date" name="checkin_date" class="form-control" placeholder="체크인">
 				              </div>
 			              </div>
 			              <div class="col-md-6">
 				              <div class="form-group">
-				                <input type="text" id="checkin_date" class="form-control" placeholder="체크 아웃">
+				                <input type="text" id="checkout_date" name="checkout_date" class="form-control" placeholder="체크 아웃">
 				              </div>
 				            </div>
 				            <div class="col-md-6">
 					            <div class="form-group">
 				                <div class="select-wrap one-third">
 			                    <div class="icon"><span class="ion-ios-arrow-down"></span></div>
-			                    <select name="" id="" class="form-control" placeholder="Guest">
+			                    <select id="reservation_guest" name="reservation_guest" class="form-control">
 			                      <option value="0">인원(성인)</option>
 			                      <option value="1">1</option>
 			                      <option value="2">2</option>
@@ -377,7 +431,7 @@ src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCiDE5HBue4mflsdkcsGvSZrUe
 					            <div class="form-group">
 				                <div class="select-wrap one-third">
 			                    <div class="icon"><span class="ion-ios-arrow-down"></span></div>
-			                    <select name="" id="" class="form-control" placeholder="Children">
+			                    <select id="reservation_children" name="reservation_children" class="form-control">
 			                      <option value="0">인원(어린이)</option>
 			                      <option value="0">0</option>
 			                      <option value="1">1</option>
@@ -389,13 +443,14 @@ src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCiDE5HBue4mflsdkcsGvSZrUe
 				              </div>
 			              </div>
 				            <div class="col-md-12">
-				              <div class="form-group">
+				              <div class="form-group">				              
 				                <input type="submit" value="예약 하기" class="btn btn-primary py-3">
 				              </div>
 			              </div>
 		              </div>
-		            </div>
-          		</div>          		
+		            </div> 
+          		</form>  
+          		</div>     		
           		<!-- 예약 끝 -->
           		
           		<!-- 평점시작  평점은 여기가 아닌 마이페이지 쪽에 결제가 진행된 후 체크아웃 되면 그때 해야될것으로 판단됨-->

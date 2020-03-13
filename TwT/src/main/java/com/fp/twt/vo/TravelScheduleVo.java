@@ -263,4 +263,5 @@ public class TravelScheduleVo extends ts_PagingVo {
 				+ ", tp_Name=" + tp_Name + ", ts_Memo=" + ts_Memo + ", m_Name=" + m_Name + ", tp_Img=" + tp_Img
 				+ ", city_Code=" + city_Code + "]";
 	}
+
 }
