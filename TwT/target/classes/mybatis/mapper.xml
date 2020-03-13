@@ -396,7 +396,51 @@
        SELECT DISTINCT HRV_STARN FROM HOTELREVIEW WHERE M_CODE = #{m_Code}
     </select>
 	<!-- ================================찬우================================== -->
-
+	
+	
+	<!-- 메인 호텔 예약많은 순으로 4개 검색 -->
+	 
+	<select id="main_hotel" resultType="Hotel">
+		<![CDATA[
+		SELECT * FROM (SELECT * FROM HOTEL ORDER BY H_BOOKCNT) WHERE ROWNUM <= 6
+		]]>
+	</select>
+	
+	
+	<!-- 메인 관광지 4개 travelschedule_day테이블에서 tp_code많은순 -->
+	
+  	<select id="main_Destination" resultType="TravelPoint">
+		<![CDATA[
+		WITH BB AS 
+		(SELECT TP_CODE, COUNT(*) CC 
+		FROM TRAVELSCHEDULE_DAY 
+		GROUP BY TP_CODE ORDER BY COUNT(*) DESC) 
+		SELECT t1.TP_CODE, CITY_CODE, TP_NAME, TP_LATI, TP_LONG, TP_TYPE, TP_CONTENT, TP_IMG, TP_ADDR, CC 
+		FROM TRAVELPOINT T1, BB T2 WHERE T1.TP_CODE = T2.TP_CODE AND ROWNUM <=6 ORDER BY CC DESC
+		]]>
+	</select>
+	
+	<!-- 메인 일정 4개 조회순높은순 -->
+	
+	<select id="main_Plan" resultType="TravelSchedule">
+		<![CDATA[
+		SELECT TS.TS_CODE, TS.M_CODE, TS.TP_CODE, TS.TS_TITLE, TS.TS_SDAY, TS.TS_THEME, 
+		TS.TS_PEOPLE, TS.TS_THUM, TS.TS_PERIOD, TS.TS_DATE, TS.TS_VIEW, M.M_NAME, TP.CITY_CODE, TP.TP_IMG 
+		FROM TRAVELSCHEDULE TS
+		LEFT JOIN TWTMEMBER M ON (TS.M_CODE = M.M_CODE) 
+		LEFT JOIN TRAVELPOINT TP ON(TS.TP_CODE = TP.TP_CODE) 
+		WHERE ROWNUM <= 4
+		ORDER BY TS_VIEW DESC
+		]]>
+	</select>
+	
+	  
+	<update id="reservation_Hotel" parameterType="String">
+		UPDATE HOTEL 
+		SET H_BOOKCNT = H_BOOKCNT+1 
+		WHERE H_NAME = #{hotelname}
+	</update>
+	
 
 
 	<!-- ================================수지================================== -->

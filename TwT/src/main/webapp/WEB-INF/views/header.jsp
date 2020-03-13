@@ -8,14 +8,14 @@
 
 	<nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light" id="ftco-navbar">
     <div class="container">
-      <a class="navbar-brand" href="${pageContext.request.contextPath}/index.jsp">TwT</a>
+      <a class="navbar-brand" href="${pageContext.request.contextPath}/index2.jsp">TwT</a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#ftco-nav" aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation">
         <span class="oi oi-menu"></span> Menu
       </button>
 
       <div class="collapse navbar-collapse" id="ftco-nav">
         <ul class="navbar-nav ml-auto">
-          <li class="nav-item"><a href="${pageContext.request.contextPath}/index.jsp" class="nav-link">Home</a></li>
+          <li class="nav-item"><a href="${pageContext.request.contextPath}/index2.jsp" class="nav-link">Home</a></li>
           <li class="nav-item"><a href="plan.do" class="nav-link">Plan</a></li>
           <li id="nav1" class="nav-item"><a href="flight.do" class="nav-link">Flight</a></li>
           <li id="nav2" class="nav-item"><a href="hotel.do" class="nav-link">Hotels</a></li>
