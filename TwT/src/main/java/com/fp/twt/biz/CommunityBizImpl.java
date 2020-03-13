@@ -58,8 +58,8 @@ public class CommunityBizImpl implements CommunityBiz{
 	//도영
 
 	@Override
-	public List<TravelScheduleVo> selectList_D(TravelScheduleVo travelScheduleVo) {
-		return dao.selectList_D(travelScheduleVo);
+	public List<TravelScheduleVo> selectList_D() {
+		return dao.selectList_D();
 	}
 
 	@Override

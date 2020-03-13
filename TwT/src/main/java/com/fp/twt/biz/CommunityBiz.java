@@ -25,7 +25,7 @@ public interface CommunityBiz {
 	//도영
 	
 	//리스트
-	public List<TravelScheduleVo> selectList_D(TravelScheduleVo travelScheduleVo);
+	public List<TravelScheduleVo> selectList_D();
 	public List<TravelScheduleVo> PselectList_D(TravelScheduleVo travelScheduleVo);
 	
 	//디테일

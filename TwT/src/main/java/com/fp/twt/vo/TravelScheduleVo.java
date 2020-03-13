@@ -254,13 +254,4 @@ public class TravelScheduleVo extends ts_PagingVo {
         this.ts_View = ts_View;
     }
 
-	@Override
-	public String toString() {
-		return "TravelScheduleVo [ts_Code=" + ts_Code + ", m_Code=" + m_Code + ", tp_Code=" + tp_Code + ", ts_Title="
-				+ ts_Title + ", ts_Sday=" + ts_Sday + ", ts_Theme=" + ts_Theme + ", ts_People=" + ts_People
-				+ ", ts_Thum=" + ts_Thum + ", ts_Period=" + ts_Period + ", ts_View=" + ts_View + ", ts_Date=" + ts_Date
-				+ ", m_Id=" + m_Id + ", ts_Day=" + ts_Day + ", tp_Type=" + tp_Type + ", tp_Content=" + tp_Content
-				+ ", tp_Name=" + tp_Name + ", ts_Memo=" + ts_Memo + ", m_Name=" + m_Name + ", tp_Img=" + tp_Img
-				+ ", city_Code=" + city_Code + "]";
-	}
 }

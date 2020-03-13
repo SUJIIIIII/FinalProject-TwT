@@ -26,7 +26,7 @@ public interface CommunityDao {
 	
 	//도영
 
-	public List<TravelScheduleVo> selectList_D(TravelScheduleVo travelScheduleVo);
+	public List<TravelScheduleVo> selectList_D();
 	public List<TravelScheduleVo> PselectList_D(TravelScheduleVo travelScheduleVo);
 	public TravelScheduleVo selectOne_D(String ts_code);
 	public List<TravelScheduleVo> detailList_D(String ts_code);

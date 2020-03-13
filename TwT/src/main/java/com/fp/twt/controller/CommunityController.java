@@ -39,7 +39,7 @@ import com.fp.twt.vo.FavoriteListVo;
 import com.fp.twt.vo.MemberVo;
 import com.fp.twt.vo.ScheduleReviewVo;
 import com.fp.twt.vo.TravelScheduleVo;
-import com.fp.twt.vo.ts_PagingVo;
+import com.fp.twt.vo.pageinfo;
 import com.google.gson.JsonObject;
 
 @Controller
@@ -224,62 +224,81 @@ public class CommunityController {
 	// 도영
 	// 여행 일정 리스트
 	@RequestMapping("/community.do")
-	public String newcommunity(@ModelAttribute("travelScheduleVo") TravelScheduleVo travelScheduleVo, String ts_theme, Model model) {
+	public String newcommunity(@ModelAttribute("travelScheduleVo") TravelScheduleVo travelScheduleVo, HttpServletRequest request, String ts_theme, boolean Chk, Model model) {
 		logger.info("SELECT LIST");
-		
-		// 페이징
-		int listCnt = biz.selectListCnt_D();
-        int curPage = travelScheduleVo.getCurPage();
-        
-        ts_PagingVo pagination = new ts_PagingVo(listCnt, curPage);
-        
-        
-        travelScheduleVo.setStartIndex(curPage);
-        travelScheduleVo.setEndIndex(travelScheduleVo.getStartIndex());
-        
 		//도영
         
 		// 테마 별 모아보기
+		List<TravelScheduleVo> list = null;
+		
 		if(ts_theme != null) {
-			model.addAttribute("community", biz.themeList(ts_theme, travelScheduleVo));
-			model.addAttribute("pagination", pagination);
-			System.out.println(ts_theme);		
-		}else {
-			model.addAttribute("community", biz.selectList_D(travelScheduleVo));
-			model.addAttribute("pagination", pagination);
+			list = biz.themeList(ts_theme, travelScheduleVo);
+			model.addAttribute("list", list);
+		} else if(Chk) {
+			list = biz.PselectList_D(travelScheduleVo);
+			model.addAttribute("list", list)
+			;
+			model.addAttribute("Chk", Chk);
+		} else {
+			list = biz.selectList_D();
+			model.addAttribute("list", list);
 		}
 		
-		//용훈
-		List<ScheduleReviewVo> list = biz.potoBookList();
-		model.addAttribute("potoList", list);
-		//
-		
-		return "TwTCommunity/community_list";
-	}
+        String curpagenum = request.getParameter("curpagenum");
 
-	// 인기 일정 순 정렬
-	@RequestMapping("/popcommunity.do")
-	public String popcommunity(@ModelAttribute("travelScheduleVo") TravelScheduleVo travelScheduleVo, String ts_theme, Model model) {
-		logger.info("SELECT LIST"); 
-		int listCnt = biz.selectListCnt_D();
+        int currentPage = 0;
+
+        if (curpagenum == null || curpagenum == "0") {
+           currentPage = 1;
+        } else {
+           currentPage = Integer.parseInt(request.getParameter("curpagenum"));
+        }
         
-        int curPage = travelScheduleVo.getCurPage();
+        int listCount = list.size();
+
+        pageinfo page = new pageinfo();
+        page.setBoardSize(8);
+        page.setCurrentPage(currentPage);
+        page.setPreve(currentPage);
+        page.setStartRow(currentPage);
+        page.setListCount(listCount);
+        page.setAllPage(listCount);
+        page.setStartPage(currentPage, page.getAllPage());
+        page.setEndPage(currentPage, page.getAllPage());
+        page.setNext(currentPage, page.getAllPage());
+
+        model.addAttribute("page", page);
         
-        ts_PagingVo pagination = new ts_PagingVo(listCnt, curPage);
-        
-        
-        travelScheduleVo.setStartIndex(curPage);
-        travelScheduleVo.setEndIndex(travelScheduleVo.getStartIndex());
-        
-        // 테마 별 모아보기
-     		if(ts_theme != null) {
-     			model.addAttribute("community", biz.themeList(ts_theme, travelScheduleVo));
-     			model.addAttribute("pagination", pagination);
-     			System.out.println(ts_theme);		
-     		}else {
-     			model.addAttribute("community", biz.PselectList_D(travelScheduleVo));
-     			model.addAttribute("pagination", pagination);
-     		}
+		//용훈
+		List<ScheduleReviewVo> potolist = biz.potoBookList();
+		model.addAttribute("potoList", potolist);
+		
+        String potocurpagenum = request.getParameter("potocurpagenum");
+
+        int potocurrentPage = 0;
+
+        if (potocurpagenum == null || potocurpagenum == "0") {
+           potocurrentPage = 1;
+        } else {
+           potocurrentPage = Integer.parseInt(request.getParameter("potocurpagenum"));
+        }
+		
+        int potolistCount = potolist.size();
+
+        pageinfo potopage = new pageinfo();
+        potopage.setBoardSize(4);
+        potopage.setCurrentPage(potocurrentPage);
+        potopage.setPreve(potocurrentPage);
+        potopage.setStartRow(potocurrentPage);
+        potopage.setListCount(potolistCount);
+        potopage.setAllPage(potolistCount);
+        potopage.setStartPage(potocurrentPage, potopage.getAllPage());
+        potopage.setEndPage(potocurrentPage, potopage.getAllPage());
+        potopage.setNext(potocurrentPage, potopage.getAllPage());
+
+        model.addAttribute("potopage", potopage);
+		
+		//
 		
 		return "TwTCommunity/community_list";
 	}

@@ -154,10 +154,10 @@
 							<div style="margin-bottom: 25px; padding-left: 1020px;">
 					    	<span class="sort" date-id="regdate" ><i class="far fa-calendar-alt"></i>&nbsp;<a href="community.do">최신</a></span>
 					    	<span class="sort">&nbsp;|&nbsp;</span>
-					    	<span class="sort" date-id="po" ><i class="far fa-thumbs-up"></i>&nbsp;<a href="popcommunity.do">인기</a></span>
+					    	<span class="sort" date-id="po" ><i class="far fa-thumbs-up"></i>&nbsp;<a href="community.do?Chk=true">인기</a></span>
 					      	</div>						
 						<div class="row d-flex">
-							<c:forEach items="${community }" var="vo" varStatus="status" begin="0" end="7">
+							<c:forEach items="${list }" var="vo" varStatus="status" begin="${page.startRow }" end="${page.startRow + 7 }">
 							 	<div class="col-md-3 d-flex ftco-animate">
 							            <div class="blog-entry align-self-stretch" style="min-width: 250px;">
 							              <a href="communityDetail.do?ts_code=${vo.ts_Code }" class="block-20" style="background-image: url(${pageContext.request.contextPath}/resources/images/plan/${vo.city_Code }/${vo.tp_Img });"></a>
@@ -184,38 +184,42 @@
 						 </c:forEach>
 						</div>
 						<!-- 페이징 -->        
+<script type="text/javascript">
+	function PageMove(page,Chk){
+		if(Chk == ""){
+			Chk = false;
+		}
+    	location.href = "community.do?curpagenum="+page+"&Chk="+Chk;
+    }
+</script>              
+						<c:if test="${page.listCount > 8}">
 					      <div class="container">
 					        <div class="row mt-5">
 					          <div class="col text-center">
 					            <div class="block-27">
 					              <ul>
-					                <c:if test="${pagination.curRange ne 1 }">
-			        					<li><a href="#" onClick="fn_paging(1)">&lt;</a></li> 
-			    					</c:if>
-			    					<c:if test="${pagination.curPage ne 1}">
-								        <li><a href="#" onClick="fn_paging('${pagination.prevPage }')">&lt;</a></li> 
-								    </c:if>
-					                <c:forEach var="pageNum" begin="${pagination.startPage }" end="${pagination.endPage }">
-								        <c:choose>
-								            <c:when test="${pageNum eq  pagination.curPage}">
-								                <li class="active"><span style="font-weight: bold;"><a href="#" onClick="fn_paging('${pageNum }')">${pageNum }</a></span></li> 
-								            </c:when>
-								            <c:otherwise>
-								                <li><a href="#" onClick="fn_paging('${pageNum }')">${pageNum }</a></li> 
-								            </c:otherwise>
-								        </c:choose>
-								    </c:forEach>
-					                <c:if test="${pagination.curPage ne pagination.pageCnt && pagination.pageCnt > 0}">
-								        <li><a href="#" onClick="fn_paging('${pagination.nextPage }')">&gt;</a> </li>
-								    </c:if>
-								    <c:if test="${pagination.curRange ne pagination.rangeCnt && pagination.rangeCnt > 0}">
-								       <li> <a href="#" onClick="fn_paging('${pagination.pageCnt }')">&gt;</a></li> 
-								    </c:if>
+					              <c:if test="${page.preve eq true }">
+					                <li><a href="javascript:PageMove(${page.currentPage-1 },'${Chk}')">&lt;</a></li>
+					              </c:if>
+					              <c:forEach var="i" begin="${page.startPage }" end="${page.endPage }" >
+					              <c:choose>
+					              <c:when test="${i eq page.currentPage }">
+					                <li class="active"><span><a href="javascript:PageMove(${i},'${Chk}')">${i}</a></span></li>
+					              </c:when>
+					              <c:otherwise>
+					              	<li><a href="javascript:PageMove(${i},'${Chk}')">${i}</a></li>
+					              </c:otherwise>
+					              </c:choose>
+					              </c:forEach>  
+					              <c:if test="${page.next eq true }">  
+					                <li><a href="javascript:PageMove(${page.currentPage+1 },'${Chk}')">&gt;</a></li>
+					              </c:if>  
 					              </ul>
 					            </div>
 					          </div>
 					        </div>
 					      </div>
+						</c:if>   
 		              </div>
 
 				    <!-- fade 2 -->
@@ -231,7 +235,7 @@
 				        <div>작성된 글이 없습니다.</div>
 				        </c:when>
 				        <c:otherwise>
-				        <c:forEach items="${potoList }" var="list" varStatus="status">
+				        <c:forEach items="${potoList }" var="list" varStatus="status" begin="${potopage.startRow }" end="${potopage.startRow + 3 }">
 				        <div class="col-md-5 heading-section ftco-animate">
 				            <a href="potoBookDetail.do?sr_Code=${list.sr_Code }"><h2 class="mb-1 pb-1"><strong>${list.sr_Title}</strong></h2></a>
 				            <h6>작성자 : ${list.m_Code}</h6>       
@@ -257,23 +261,39 @@
 				        </div>
 						</div>
 						<!-- 페이징 -->        
+<script type="text/javascript">
+	function potoPageMove(page){
+    	location.href = "community.do?potocurpagenum="+page;
+    }
+</script>              
+						<c:if test="${potopage.listCount > 4}">
 					      <div class="container">
 					        <div class="row mt-5">
 					          <div class="col text-center">
 					            <div class="block-27">
 					              <ul>
-					                <li><a href="#">&lt;</a></li>
-					                <li class="active"><span>1</span></li>
-					                <li><a href="#">2</a></li>
-					                <li><a href="#">3</a></li>
-					                <li><a href="#">4</a></li>
-					                <li><a href="#">5</a></li>
-					                <li><a href="#">&gt;</a></li>
+					              <c:if test="${potopage.preve eq true }">
+					                <li><a href="javascript:potoPageMove(${potopage.currentPage-1 })">&lt;</a></li>
+					              </c:if>
+					              <c:forEach var="i" begin="${potopage.startPage }" end="${potopage.endPage }" >
+					              <c:choose>
+					              <c:when test="${i eq potopage.currentPage }">
+					                <li class="active"><span><a href="javascript:potoPageMove(${i})">${i}</a></span></li>
+					              </c:when>
+					              <c:otherwise>
+					              	<li><a href="javascript:potoPageMove(${i})">${i}</a></li>
+					              </c:otherwise>
+					              </c:choose>
+					              </c:forEach>  
+					              <c:if test="${potopage.next eq true }">  
+					                <li><a href="javascript:potoPageMove(${potopage.currentPage+1 })">&gt;</a></li>
+					              </c:if>  
 					              </ul>
 					            </div>
 					          </div>
 					        </div>
 					      </div>
+						</c:if>   
 		              </div>
 		            </div>
 		          </div>
