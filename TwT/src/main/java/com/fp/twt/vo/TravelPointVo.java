@@ -168,10 +168,5 @@ public class TravelPointVo {
 		this.cc = cc;
 	}
 
-	}
-
-
-
-	
 	
 }
