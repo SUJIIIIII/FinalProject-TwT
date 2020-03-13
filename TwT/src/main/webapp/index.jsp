@@ -123,7 +123,6 @@
       <div class="collapse navbar-collapse" id="ftco-nav">
         <ul class="navbar-nav ml-auto">
           <li class="nav-item active"><a href="${pageContext.request.contextPath}/index.jsp" class="nav-link">Home</a></li>
-          <li class="nav-item"><a href="kakao.do" class="nav-link">카카오페이</a></li>
           <li class="nav-item"><a href="plan.do" class="nav-link">Plan</a></li>
           <li class="nav-item"><a href="flight.do" class="nav-link">Flight</a></li>
           <li class="nav-item"><a href="hotel.do" class="nav-link">Hotel</a></li>

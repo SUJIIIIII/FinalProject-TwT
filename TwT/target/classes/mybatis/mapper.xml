@@ -106,7 +106,7 @@
 		SELECT COUNT(*)
 		<include refid="hotelInc" />
 	</select>
-
+	
 	<sql id="hotelInc">
 		FROM (
 			SELECT DISTINCT hotel.*, sb.MIN_PRICE

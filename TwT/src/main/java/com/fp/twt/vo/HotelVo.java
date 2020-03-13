@@ -296,22 +296,16 @@ public class HotelVo extends PagingVo {
 
 	public void setMin_Price(String min_Price) {
 		this.min_Price = min_Price;
-
+	}
+    
 	public int getHotel_reservation() {
 		return Hotel_reservation;
 	}
-
-
 
 	public void setHotel_reservation(int hotel_reservation) {
 		Hotel_reservation = hotel_reservation;
 	}
 
-
-
-	
-    
-	
 	
     
 }

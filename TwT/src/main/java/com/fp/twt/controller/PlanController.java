@@ -2,6 +2,7 @@ package com.fp.twt.controller;
 
 import java.io.File;
 
+
 import java.io.IOException;
 import java.util.HashMap;
 
@@ -115,8 +116,8 @@ public class PlanController {
 	}
 	
 	@RequestMapping("/insertPlan.do")
-	public String insertPlan(MultipartFile file,String pn_dayList) {
-		System.out.println("잘? : " + pn_dayList);
+	public String insertPlan(MultipartFile file,Object pn_dayList) {
+		System.out.println("컨트롤러에서 daylist : " + pn_dayList);
 		
 		// ------- file upload --------
 		// 고유 id 부여
@@ -134,6 +135,15 @@ public class PlanController {
 			e.printStackTrace();
 		}
 		// ------- file upload end --------
+		
+		return "redirect:/index.jsp";
+	}
+	
+	@RequestMapping("/testInsert.do")
+	public String testInsert(@RequestBody Map<String,Object> map) {
+		System.out.println("form : " + map.get("form_data"));
+		System.out.println("day : " + map.get("day_list"));
+		
 		
 		return "redirect:/index.jsp";
 	}
