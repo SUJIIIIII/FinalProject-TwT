@@ -94,7 +94,7 @@ var map;
    		});
 	}
 
-	<!-- 찬우 -->
+	/* 찬우  */
 	function aa(){
     		console.log($("#reservation_price").val());
     	}
@@ -361,7 +361,7 @@ src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCiDE5HBue4mflsdkcsGvSZrUe
 				    						</a>
 				    						</div>
 				    						<p class="bottom-area d-flex">
-				    							<span class="ml-auto"><a onclick="kakao_price(${cnt});">Pick</a></span>
+				    							<span class="ml-auto"><a onclick="kakao_price(${cnt});" style="cursor:pointer;">Pick</a></span>
 				    						</p>
 				    					</div>
 				    					</form>
