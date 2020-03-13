@@ -39,7 +39,7 @@ import com.fp.twt.vo.FavoriteListVo;
 import com.fp.twt.vo.MemberVo;
 import com.fp.twt.vo.ScheduleReviewVo;
 import com.fp.twt.vo.TravelScheduleVo;
-import com.fp.twt.vo.ts_PagingVo;
+import com.fp.twt.vo.pageinfo;
 import com.google.gson.JsonObject;
 
 @Controller
@@ -289,10 +289,37 @@ public class CommunityController {
 	        model.addAttribute("page", page);
 			
         }
-		
+      
+        
 		//용훈
-		List<ScheduleReviewVo> list = biz.potoBookList();
-		model.addAttribute("potoList", list);
+		List<ScheduleReviewVo> potolist = biz.potoBookList();
+		model.addAttribute("potoList", potolist);
+		
+        String potocurpagenum = request.getParameter("potocurpagenum");
+
+        int potocurrentPage = 0;
+
+        if (potocurpagenum == null || potocurpagenum == "0") {
+           potocurrentPage = 1;
+        } else {
+           potocurrentPage = Integer.parseInt(request.getParameter("potocurpagenum"));
+        }
+		
+        int potolistCount = potolist.size();
+
+        pageinfo potopage = new pageinfo();
+        potopage.setBoardSize(4);
+        potopage.setCurrentPage(potocurrentPage);
+        potopage.setPreve(potocurrentPage);
+        potopage.setStartRow(potocurrentPage);
+        potopage.setListCount(potolistCount);
+        potopage.setAllPage(potolistCount);
+        potopage.setStartPage(potocurrentPage, potopage.getAllPage());
+        potopage.setEndPage(potocurrentPage, potopage.getAllPage());
+        potopage.setNext(potocurrentPage, potopage.getAllPage());
+
+        model.addAttribute("potopage", potopage);
+		
 		//
 		
 		return "TwTCommunity/community_list";
