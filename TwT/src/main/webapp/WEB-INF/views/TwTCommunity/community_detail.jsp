@@ -2,7 +2,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
     <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-    <% MemberVo vo = (MemberVo)session.getAttribute("vo"); %>
+	<% MemberVo vo = (MemberVo)session.getAttribute("user"); %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -45,11 +45,9 @@ $('a[href*=#]').bind('click', function(e){
   e.preventDefault();
 });
 }); */
-
+var check = '${fListChk.fl_Check}';
 
 function fList(ts_Code){
-	alert(ts_Code);
-	
  	$.ajax({
 	url: "fList.do",
 	
@@ -61,15 +59,17 @@ function fList(ts_Code){
     
     success: function(data){
     	var res = data.res;
-    	alert("성공");
-    	alert(res);
-    	var check = ${detail.fl_Check}.val();
     	
     	if(res){
-    		if(check=="Y"){
-    			$("#fa-heart").css("font-weight", "bold");
-    		} else if(check=="N"){
+    		if(check=='Y'){
+    			alert("찜을 해제하였습니다.")
     			$("#fa-heart").css("font-weight", "");
+     			check = 'N';
+    			
+    		} else{
+    			alert("찜 목록에 등록 되었습니다.");
+    			$("#fa-heart").css("font-weight", "bold");
+    			check = 'Y';
     		}
     	}
     },
@@ -79,6 +79,11 @@ function fList(ts_Code){
   	}
 })
 };
+
+	function login(){
+		alert("로그인이 필요합니다.");
+		location.href="login.do";
+	}
 </script>
 
 <style type="text/css">
@@ -179,9 +184,23 @@ function fList(ts_Code){
 						<div class="cnt_view">
 						<i class="far fa-eye fa-lg" ></i>&nbsp; ${detail.ts_View }
 						</div>
-						<div class="cnt_copy">
-						<a onclick="fList('${detail.ts_Code}');" style="cursor: pointer;"><i class="far fa-heart fa-lg" id="fa-heart" style="color: #fc3c3c;"></i></a>
-						</div>
+						<c:if test="${kakaoId ne null or naverId ne null or user ne null or googleId ne null}">
+							<c:if test="${fListChk.fl_Check eq null or fListChk.fl_Check eq 'N'}">
+								<div class="cnt_copy">
+									<a onclick="fList('${detail.ts_Code}');" style="cursor: pointer;"><i class="far fa-heart fa-lg" id="fa-heart" style="color: #fc3c3c;" ></i></a>
+								</div>
+							</c:if>
+							<c:if test="${fListChk.fl_Check eq 'Y' }">
+								<div class="cnt_copy">
+									<a onclick="fList('${detail.ts_Code}');" style="cursor: pointer;"><i class="far fa-heart fa-lg" id="fa-heart" style="color: #fc3c3c; font-weight: bold;" ></i></a>
+								</div>
+							</c:if>
+						</c:if>
+						<c:if test="${kakaoId eq null and naverId eq null and user eq null and googleId eq null}">
+							<div class="cnt_copy">
+								<a onclick="login();" style="cursor: pointer;"><i class="far fa-heart fa-lg" style="color: #fc3c3c;"></i></a>
+							</div>
+						</c:if>
 					</div>
 				</div>
 				
@@ -269,58 +288,6 @@ function fList(ts_Code){
                     <p><a href="#" class="reply">Reply</a></p>
                   </div>
 
-                  <ul class="children">
-                    <li class="comment">
-                      <div class="vcard bio">
-                      </div>
-                      <div class="comment-body">
-                        <h3>${detail.m_Name }</h3>
-                        <div class="meta">June 27, 2018 at 2:21pm</div>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Pariatur quidem laborum necessitatibus, ipsam impedit vitae autem, eum officia, fugiat saepe enim sapiente iste iure! Quam voluptas earum impedit necessitatibus, nihil?</p>
-                        <p><a href="#" class="reply">Reply</a></p>
-                      </div>
-
-
-                      <ul class="children">
-                        <li class="comment">
-                          <div class="vcard bio">
-                          </div>
-                          <div class="comment-body">
-                            <h3>${detail.m_Name }</h3>
-                            <div class="meta">June 27, 2018 at 2:21pm</div>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Pariatur quidem laborum necessitatibus, ipsam impedit vitae autem, eum officia, fugiat saepe enim sapiente iste iure! Quam voluptas earum impedit necessitatibus, nihil?</p>
-                            <p><a href="#" class="reply">Reply</a></p>
-                          </div>
-
-                            <ul class="children">
-                              <li class="comment">
-                                <div class="vcard bio">
-                                </div>
-                                <div class="comment-body">
-                                  <h3>${detail.m_Name }</h3>
-                                  <div class="meta">June 27, 2018 at 2:21pm</div>
-                                  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Pariatur quidem laborum necessitatibus, ipsam impedit vitae autem, eum officia, fugiat saepe enim sapiente iste iure! Quam voluptas earum impedit necessitatibus, nihil?</p>
-                                  <p><a href="#" class="reply">Reply</a></p>
-                                </div>
-                              </li>
-                            </ul>
-                        </li>
-                      </ul>
-                    </li>
-                  </ul>
-                </li>
-
-                <li class="comment">
-                  <div class="vcard bio">
-                    <img src="${pageContext.request.contextPath}/resources/images/person_1.jpg" alt="Image placeholder">
-                  </div>
-                  <div class="comment-body">
-                    <h3>${detail.m_Name }</h3>
-                    <div class="meta">June 27, 2018 at 2:21pm</div>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Pariatur quidem laborum necessitatibus, ipsam impedit vitae autem, eum officia, fugiat saepe enim sapiente iste iure! Quam voluptas earum impedit necessitatibus, nihil?</p>
-                    <p><a href="#" class="reply">Reply</a></p>
-                  </div>
-                </li>
               </ul>
               <!-- END comment-list -->
               

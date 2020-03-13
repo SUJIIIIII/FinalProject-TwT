@@ -4,7 +4,7 @@
 	<%@ page import="com.fp.twt.vo.MemberVo" %>
 	<%@ page import="com.fp.twt.vo.TravelScheduleVo" %>
 	<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
-	<% MemberVo vo = (MemberVo)session.getAttribute("vo"); %>
+	<% MemberVo vo = (MemberVo)session.getAttribute("user"); %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -35,8 +35,11 @@
 		}
 	    
 	    function fList(ts_Code){
-	    		alert(ts_Code);
-	    		
+	    	var tagid = "#check_"+ts_Code;
+	    	var faid = "#fa-heart_"+ts_Code;
+	    	
+	    	var tag = $(tagid);
+	    	
 			 	$.ajax({
 				url: "fList.do",
 				
@@ -48,11 +51,18 @@
                 
                 success: function(data){
                 	var res = data.res;
-                	alert("성공");
-                	alert(res);
-                	
+                	alert(tag.text());
                 	if(res){
-                	$("#fa-heart").css("font-weight", "bold");
+                		if(tag.text()=='Y'){
+                			alert("찜을 해제하였습니다.")
+                			$(faid).css("font-weight", "");
+                			tag.text('N');
+                			
+                		} else {
+                			alert("찜 목록에 등록 되었습니다.");
+                			$(faid).css("font-weight", "bold");
+                			tag.text('Y');
+                		}
                 	}
                 },
                 
@@ -60,6 +70,11 @@
         	  		alert("에러");
         	  	}
 			})
+		};
+		
+		function login(){
+			alert("로그인이 필요합니다.");
+			location.href="login.do";
 		};
     </script>
     
@@ -157,7 +172,9 @@
 					    	<span class="sort" date-id="po" ><i class="far fa-thumbs-up"></i>&nbsp;<a href="popcommunity.do">인기</a></span>
 					      	</div>						
 						<div class="row d-flex">
-							<c:forEach items="${community }" var="vo" varStatus="status" begin="0" end="7">
+						
+							<c:forEach items="${community }" var="vo"  begin="${page.startRow }" end="${page.startRow + 7 }" varStatus="status">
+							
 							 	<div class="col-md-3 d-flex ftco-animate">
 							            <div class="blog-entry align-self-stretch" style="min-width: 250px;">
 							              <a href="communityDetail.do?ts_code=${vo.ts_Code }" class="block-20" style="background-image: url(${pageContext.request.contextPath}/resources/images/plan/${vo.city_Code }/${vo.tp_Img });"></a>
@@ -165,11 +182,39 @@
 							              	<span class="tag">${fn:substring(vo.ts_Sday,0,8)}</span>
 							              	<span class="tag">| ${vo.ts_Period }DAYS</span>
 							              	<span style="padding: 0 0 0 18px; float: right;">
-										<div class="cnt_copy">
-											<a onclick="fList('${vo.ts_Code}');" id="fList" style="cursor: pointer;"><i class="far fa-heart" id="fa-heart" style="color: #fc3c3c;"></i></a>&nbsp;&nbsp;
-											<i class="fas fa-eye"></i><span style="font-size:14px;">&nbsp;&nbsp;${vo.ts_View }</span>
-										</div>
-								              	
+							              	
+							              	<!-- 로그인 돼있을 때 찜 여부 확인 후 목록 출력 -->
+							              <%-- 	<c:if test="${kakaoId ne null or naverId ne null or user ne null or googleId ne null}">
+							              	<c:set var="istrue" value="false"></c:set>
+							              		<c:forEach items="check" var="check">
+							              			<c:if test="${check.fl_Code eq vo.ts_Code }">
+										              	<c:set var="istrue" value="true"></c:set>
+							              			</c:if>
+							              		</c:forEach>
+							              		  	<c:choose>
+										              	<c:when test="${istrue eq true}"> --%>
+									              				<div class="cnt_copy">
+																	<a onclick="fList('${vo.ts_Code}');" id="fList" style="cursor: pointer;"><i class="far fa-heart" id="fa-heart_${vo.ts_Code}" style="color: #fc3c3c; font-weight: bold;" ></i></a>&nbsp;&nbsp;
+																	<i class="fas fa-eye"></i><span style="font-size:14px;">&nbsp;&nbsp;${vo.ts_View }</span>
+																</div>
+										              	<%-- </c:when>
+										              	<c:otherwise> --%>
+												            <div class="cnt_copy">
+																<a onclick="fList('${vo.ts_Code}');" id="fList" style="cursor: pointer;"><i class="far fa-heart" id="fa-heart_${vo.ts_Code}" style="color: #fc3c3c;" ></i></a>&nbsp;&nbsp;
+																<i class="fas fa-eye"></i><span style="font-size:14px;">&nbsp;&nbsp;${vo.ts_View }</span>
+															</div>
+										              	<%-- </c:otherwise>
+										              	</c:choose>
+											</c:if> --%>
+											
+											<!-- 로그인 안돼 있을 때 하트 클릭 시 로그인 창으로 이동 -->
+											<c:if test="${kakaoId eq null and naverId eq null and user eq null and googleId eq null}">
+												<div class="cnt_copy">
+													<a onclick="login();" id="login" style="cursor: pointer;"><i class="far fa-heart" style="color: #fc3c3c;"></i></a>&nbsp;&nbsp;
+													<i class="fas fa-eye"></i><span style="font-size:14px;">&nbsp;&nbsp;${vo.ts_View }</span>
+							              		</div>
+											</c:if>
+											
 								            </span>
 								            <br>
 						              	    <h3 class="heading" style="margin-top: 8px;"><a href="communityDetail.do?ts_code=${vo.ts_Code }">${vo.ts_Title }</a></h3>
@@ -182,40 +227,47 @@
 							            </div>
 							          </div>
 						 </c:forEach>
+						 
 						</div>
-						<!-- 페이징 -->        
-					      <div class="container">
-					        <div class="row mt-5">
-					          <div class="col text-center">
-					            <div class="block-27">
-					              <ul>
-					                <c:if test="${pagination.curRange ne 1 }">
-			        					<li><a href="#" onClick="fn_paging(1)">&lt;</a></li> 
-			    					</c:if>
-			    					<c:if test="${pagination.curPage ne 1}">
-								        <li><a href="#" onClick="fn_paging('${pagination.prevPage }')">&lt;</a></li> 
-								    </c:if>
-					                <c:forEach var="pageNum" begin="${pagination.startPage }" end="${pagination.endPage }">
-								        <c:choose>
-								            <c:when test="${pageNum eq  pagination.curPage}">
-								                <li class="active"><span style="font-weight: bold;"><a href="#" onClick="fn_paging('${pageNum }')">${pageNum }</a></span></li> 
-								            </c:when>
-								            <c:otherwise>
-								                <li><a href="#" onClick="fn_paging('${pageNum }')">${pageNum }</a></li> 
-								            </c:otherwise>
-								        </c:choose>
-								    </c:forEach>
-					                <c:if test="${pagination.curPage ne pagination.pageCnt && pagination.pageCnt > 0}">
-								        <li><a href="#" onClick="fn_paging('${pagination.nextPage }')">&gt;</a> </li>
-								    </c:if>
-								    <c:if test="${pagination.curRange ne pagination.rangeCnt && pagination.rangeCnt > 0}">
-								       <li> <a href="#" onClick="fn_paging('${pagination.pageCnt }')">&gt;</a></li> 
-								    </c:if>
-					              </ul>
-					            </div>
-					          </div>
-					        </div>
-					      </div>
+						<!-- 페이징 --> 
+						<script type="text/javascript">
+						   function PageMove(page,Chk){
+						      if(Chk == ""){
+						         Chk = false;
+						      }
+						       location.href = "community.do?curpagenum="+page+"&Chk="+Chk;
+						    }
+						</script>              
+						
+						<c:if test="${page.listCount > 8}">
+		                     <div class="container">
+		                       <div class="row mt-5">
+		                         <div class="col text-center">
+		                           <div class="block-27">
+		                             <ul>
+		                             <c:if test="${page.preve eq true }">
+		                               <li><a href="javascript:PageMove(${page.currentPage-1 },'${Chk}')">&lt;</a></li>
+		                             </c:if>
+		                             <c:forEach var="i" begin="${page.startPage }" end="${page.endPage }" >
+		                             <c:choose>
+		                             <c:when test="${i eq page.currentPage }">
+		                               <li class="active"><span><a href="javascript:PageMove(${i},'${Chk}')">${i}</a></span></li>
+		                             </c:when>
+		                             <c:otherwise>
+		                                <li><a href="javascript:PageMove(${i},'${Chk}')">${i}</a></li>
+		                             </c:otherwise>
+		                             </c:choose>
+		                             </c:forEach>  
+		                             <c:if test="${page.next eq true }">  
+		                               <li><a href="javascript:PageMove(${page.currentPage+1 },'${Chk}')">&gt;</a></li>
+		                             </c:if>  
+		                             </ul>
+		                           </div>
+		                         </div>
+		                       </div>
+		                     </div>
+		                  </c:if>   
+						       
 		              </div>
 
 				    <!-- fade 2 -->
