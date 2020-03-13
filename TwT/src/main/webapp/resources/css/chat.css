@@ -251,22 +251,18 @@
     opacity: 1;
   }
 }
-.pic.stark {
-  background-image: url("https://vignette.wikia.nocookie.net/marvelcinematicuniverse/images/7/73/SMH_Mentor_6.png");
+.pic.Bangkok {
+  background-image: url("../images/plan/city/CT_01.jpg");
 }
 
-.pic.banner {
-  background-image: url("https://vignette.wikia.nocookie.net/marvelcinematicuniverse/images/4/4f/BruceHulk-Endgame-TravelingCapInPast.jpg");
+.pic.ChiangMai {
+  background-image: url("../images/plan/city/CT_02.jpg");
 }
 
-.pic.thor {
-  background-image: url("https://vignette.wikia.nocookie.net/marvelcinematicuniverse/images/9/98/ThorFliesThroughTheAnus.jpg");
+.pic.Pattaya {
+  background-image: url("../images/plan/city/CT_03.jpg");
 }
 
-.pic.danvers {
-  background-image: url("https://vignette.wikia.nocookie.net/marvelcinematicuniverse/images/0/05/HeyPeterParker.png");
-}
-
-.pic.rogers {
-  background-image: url("https://vignette.wikia.nocookie.net/marvelcinematicuniverse/images/7/7c/Cap.America_%28We_Don%27t_Trade_Lives_Vision%29.png");
+.pic.Phuket {
+  background-image: url("../images/plan/city/CT_04.jpg");
 }
