@@ -27,7 +27,11 @@ public class HotelAirBizImpl implements HotelAirBiz{
 		return dao.airSearch(vo);
 	}
 	
-	
+	@Override
+	public int success(String hotelname) {
+		
+		return dao.success(hotelname);
+	}
 	
 	
 	
@@ -51,6 +55,12 @@ public class HotelAirBizImpl implements HotelAirBiz{
 	public List<HotelVo> detailList_B(String h_code){
 		return dao.detailList_B(h_code);
 	}
+
+
+
+
+
+	
 	
 	
 	

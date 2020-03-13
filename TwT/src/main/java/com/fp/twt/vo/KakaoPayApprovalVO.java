@@ -28,9 +28,9 @@ public class KakaoPayApprovalVO {
 		this.partner_order_id = partner_order_id;
 		this.partner_user_id = partner_user_id;
 		this.payment_method_type = payment_method_type;
-		this.amount = amount;
+		this.amount = amount;//총금액
 		this.card_info = card_info;
-		this.item_name = item_name;
+		this.item_name = item_name;//아이템 이름
 		this.item_code = item_code;
 		this.payload = payload;
 		this.quantity = quantity;

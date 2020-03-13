@@ -12,7 +12,7 @@ public class AmountVO {
 	public AmountVO(Integer total, Integer tax_free, Integer vat, Integer point, Integer discount) {
 		super();
 		this.total = total;
-		this.tax_free = tax_free;
+		this.tax_free = tax_free;//세금
 		this.vat = vat;
 		this.point = point;
 		this.discount = discount;

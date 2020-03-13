@@ -68,7 +68,7 @@ public class CommunityDaoImpl implements CommunityDao{
 			System.out.println("[error] : updatePotoBook_Y");
 			e.printStackTrace();
 		}
-		
+		System.out.println("결과값" + res);
 		return res;
 	}
 

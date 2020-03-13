@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.fp.twt.biz.HotelAirBiz;
 import com.fp.twt.vo.HotelVo;
@@ -36,14 +37,28 @@ public class HotelAirController {
 		logger.info("SELECT AIR");
 		
 		model.addAttribute("url", biz.airSearch(vo));
-		System.out.println(vo.getAirtype());
-		System.out.println(vo.getComing_day());
-		System.out.println(vo.getDeparture_day());
-		System.out.println(vo.getDestination());
-		System.out.println(vo.getPersonnel());
-		System.out.println(vo.getStarting_point());
+		/*
+		 * System.out.println(vo.getAirtype()); System.out.println(vo.getComing_day());
+		 * System.out.println(vo.getDeparture_day());
+		 * System.out.println(vo.getDestination());
+		 * System.out.println(vo.getPersonnel());
+		 * System.out.println(vo.getStarting_point());
+		 */
 		
 		return "TwTFlight/flight_list";
+	}
+	
+	@RequestMapping(value = "/Success.do")//예약시 예약 카운트
+	public String success(@RequestParam String hotelname) {
+		
+		logger.info("insert con");
+
+		//String hotelname = request.getParameter("hotelname");
+		System.out.println("호텔이름"+hotelname);
+		
+		biz.success(hotelname);
+		
+		return "redirect:hotel.do";//호텔.두 실행
 	}
 	
 	
@@ -57,7 +72,8 @@ public class HotelAirController {
 	public String hotel(Model model) {
 		logger.info("SELECT LIST");
 		model.addAttribute("hotellist",biz.HselectList());
-
+		
+		
 		return "TwTHotel/hotel_list";
 	}
 	

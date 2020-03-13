@@ -14,8 +14,11 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
+import com.fp.twt.vo.HotelReservation;
 import com.fp.twt.vo.KakaoPayApprovalVO;
 import com.fp.twt.vo.KakaoPayReadyVO;
+
+//카카오 결제
 
 @Service
 public class KakaoPay {
@@ -27,8 +30,8 @@ public class KakaoPay {
 	    private KakaoPayApprovalVO kakaoPayApprovalVO;
 	    
 	    //결제전
-	    public String kakaoPayReady() {
-	 
+	    public String kakaoPayReady(HotelReservation vo) {
+	    	System.out.println("가격알어란어란"+vo);
 	        RestTemplate restTemplate = new RestTemplate();
 	 
 	        // 서버로 요청할 Header
@@ -42,14 +45,13 @@ public class KakaoPay {
 	        params.add("cid", "TC0ONETIME");
 	        params.add("partner_order_id", "1001");//아이템값
 	        params.add("partner_user_id", "gorany");
-	        params.add("item_name", "갤럭시S9");
-	        params.add("quantity", "1");
-	        params.add("total_amount", "2100");
-	        params.add("tax_free_amount", "100");
-	        params.add("approval_url", "http://localhost:8787/twt/kakaoPaySuccess.do");//승인
+	        params.add("item_name", vo.getReservation_hotelname()+"("+vo.getReservation_hotelroom()+")");//결제될 아이템이름
+	        params.add("quantity", "1");//결제될 아이템 개수
+	        params.add("total_amount", vo.getReservation_price());//결제금액
+	        params.add("tax_free_amount", "100");//세금면제 퍼센트
+	        params.add("approval_url", "http://localhost:8787/twt/kakaoPaySuccess.do?hotelname="+vo.getReservation_hotelname()+"&price="+vo.getReservation_price());//승인
 	        params.add("cancel_url", "http://localhost:8787/twt/hotel.do");//취소
 	        params.add("fail_url", "http://localhost:8787/twt/flight.do");//실패
-	 
 	         HttpEntity<MultiValueMap<String, String>> body = new HttpEntity<MultiValueMap<String, String>>(params, headers);
 	 
 	        try {
@@ -72,7 +74,7 @@ public class KakaoPay {
 	    }
 	    
 	  //결제후
-	    public KakaoPayApprovalVO kakaoPayInfo(String pg_token) {
+	    public KakaoPayApprovalVO kakaoPayInfo( String pg_token) {
 	 
 	    	logger.info("KakaoPayInfoVO............................................");
 	    	logger.info("-----------------------------");
@@ -92,13 +94,13 @@ public class KakaoPay {
 	        params.add("partner_order_id", "1001");//아이템값
 	        params.add("partner_user_id", "gorany");
 	        params.add("pg_token", pg_token);
-	        params.add("total_amount", "2100");
+	        params.add("total_amount", "1000");
 	        
 	        HttpEntity<MultiValueMap<String, String>> body = new HttpEntity<MultiValueMap<String, String>>(params, headers);
 	        
 	        try {
 	            kakaoPayApprovalVO = restTemplate.postForObject(new URI(HOST + "/v1/payment/approve"), body, KakaoPayApprovalVO.class);
-	            logger.info("" + kakaoPayApprovalVO);
+	            logger.info("" + kakaoPayApprovalVO);//여기 문제있음 
 	          
 	            return kakaoPayApprovalVO;
 	        

@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.fp.twt.vo.HotelReservation;
+
 
 @Controller
 public class SampleController {
@@ -19,12 +21,6 @@ public class SampleController {
 	@Autowired
     private KakaoPay kakaopay;
     
-    @GetMapping("/kakao.do") 
-	 public String kakaobut() {
-    		logger.info("카카오두");
-    		System.out.println("프린트 카카오두");
-		  return "TwTHotel/kakaoPay";
-	 }
 	
 	 @GetMapping("/kakaoPay.do") 
 	 public void kakaoPayGet() {
@@ -34,31 +30,31 @@ public class SampleController {
 	 
     
     @PostMapping("/kakaoPay.do")
-    public String kakaoPay() {
+    public String kakaoPay(HotelReservation vo) {
     	System.out.println("프린트 카카오포스트");
     	logger.info("kakaoPay post............................................");
         
-        return "redirect:" + kakaopay.kakaoPayReady();
+        return "redirect:" + kakaopay.kakaoPayReady(vo);
  
     }
     
     @GetMapping("/kakaoPaySuccess.do")
-    public String kakaoPaySuccess(@RequestParam("pg_token") String pg_token, Model model) {
+    public String kakaoPaySuccess(@RequestParam("pg_token") String pg_token, Model model, @RequestParam("hotelname") String name, @RequestParam("price") String price) {
     	
     	System.out.println("프린트 카카오페이 석세스");
     	System.out.println("프린트 카카오페이 석세스 : " + pg_token);
+    	System.out.println("프린트 카카오페이 석세스 : " + price);
+    	
     	logger.info("kakaoPaySuccess get............................................");
     	logger.info("kakaoPaySuccess pg_token : " + pg_token);
         
         model.addAttribute("info", kakaopay.kakaoPayInfo(pg_token));
+        model.addAttribute("hotelname", name);
+        model.addAttribute("hotelprice", price);
         
         return "TwTHotel/kakaoPaySuccess";
     }
     
-    @GetMapping("/kakaoSuccess.do")
-    public String dd(){
-    	
-    	return "TwTHotel/kakaoPaySuccess";
-    }
+
     
 }

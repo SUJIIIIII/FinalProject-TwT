@@ -29,15 +29,19 @@ public class HotelVo {
     private String hr_Breakfast; //조식
     private String hr_bed; 		//침대수
     private Date hr_Date; 		//날짜
+    private int Hotel_reservation;//예약수
 	
     public HotelVo() {
 		super();
 	}
 
+	
+
 	public HotelVo(String h_Code, String city_Code, String h_Name, int h_Lati, int h_Long, String h_phone,
 			String h_Basicaddr, String h_Addr, String h_Img, String h_Content, int h_Starn, String h_Basiccontent,
 			String city_Name, String hr_Code, int hr_Standard, int hr_Max, int hr_Price, int hr_Valid, String hr_Rank,
-			String hr_Img, String hr_Wifi, String hr_Smoking, String hr_Breakfast, String hr_bed, Date hr_Date) {
+			String hr_Img, String hr_Wifi, String hr_Smoking, String hr_Breakfast, String hr_bed, Date hr_Date,
+			int hotel_reservation) {
 		super();
 		this.h_Code = h_Code;
 		this.city_Code = city_Code;
@@ -64,7 +68,10 @@ public class HotelVo {
 		this.hr_Breakfast = hr_Breakfast;
 		this.hr_bed = hr_bed;
 		this.hr_Date = hr_Date;
+		Hotel_reservation = hotel_reservation;
 	}
+
+
 
 	public String getH_Code() {
 		return h_Code;
@@ -265,6 +272,34 @@ public class HotelVo {
 	public void setHr_Date(Date hr_Date) {
 		this.hr_Date = hr_Date;
 	}
+
+
+
+	public int getHotel_reservation() {
+		return Hotel_reservation;
+	}
+
+
+
+	public void setHotel_reservation(int hotel_reservation) {
+		Hotel_reservation = hotel_reservation;
+	}
+
+
+
+	@Override
+	public String toString() {
+		return "HotelVo [h_Code=" + h_Code + ", city_Code=" + city_Code + ", h_Name=" + h_Name + ", h_Lati=" + h_Lati
+				+ ", h_Long=" + h_Long + ", h_phone=" + h_phone + ", h_Basicaddr=" + h_Basicaddr + ", h_Addr=" + h_Addr
+				+ ", h_Img=" + h_Img + ", h_Content=" + h_Content + ", h_Starn=" + h_Starn + ", h_Basiccontent="
+				+ h_Basiccontent + ", city_Name=" + city_Name + ", hr_Code=" + hr_Code + ", hr_Standard=" + hr_Standard
+				+ ", hr_Max=" + hr_Max + ", hr_Price=" + hr_Price + ", hr_Valid=" + hr_Valid + ", hr_Rank=" + hr_Rank
+				+ ", hr_Img=" + hr_Img + ", hr_Wifi=" + hr_Wifi + ", hr_Smoking=" + hr_Smoking + ", hr_Breakfast="
+				+ hr_Breakfast + ", hr_bed=" + hr_bed + ", hr_Date=" + hr_Date + ", Hotel_reservation="
+				+ Hotel_reservation + "]";
+	}
     
+	
+	
     
 }
