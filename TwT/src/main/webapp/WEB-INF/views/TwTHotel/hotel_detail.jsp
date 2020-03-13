@@ -291,26 +291,26 @@ src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCiDE5HBue4mflsdkcsGvSZrUe
 				    						</div>
 				    						<div class="tagcloud">
 				    						   <c:if test="${dList.hr_Smoking == 'N' }">
-				    						      <a href="#" class="tag-cloud-link">금연객실</a>
+				    						      <a class="tag-cloud-link">금연객실</a>
 				    						   </c:if>
 				    						   <c:if test="${dList.hr_Smoking == 'Y' }">
-				    						      <a href="#" class="tag-cloud-link">흡연객실</a>
+				    						      <a class="tag-cloud-link">흡연객실</a>
 				    						   </c:if>
 				    						   <c:if test="${dList.hr_Breakfast == 'Y' }">
-				    						      <a href="#" class="tag-cloud-link">조식</a>
+				    						      <a class="tag-cloud-link">조식</a>
 				    						   </c:if>
 				    						   <c:if test="${dList.hr_Wifi == 'Y' }">
-				    						      <a href="#" class="tag-cloud-link">WiFi</a>
+				    						      <a class="tag-cloud-link">WiFi</a>
 				    						   </c:if><br>
 								                <a class="tag-cloud-link"><i class="fas fa-bed"></i>&nbsp;${dList.hr_bed }</a>
 								                
 							              	</div>
 				    						<hr>
 				    						<div class="tagcloud">
-				    						<a href="#" class="tag-cloud-link" style="margin-bottom: -22px; font-size: 13px;">
+				    						<a class="tag-cloud-link" style="margin-bottom: -22px; font-size: 13px;">
 				    						<i class="fas fa-user-alt">&nbsp;&nbsp;${dList.hr_Standard } 명</i>
 				    						</a>
-				    						<a href="#" class="tag-cloud-link" style="margin-bottom: -22px; font-size: 13px;">
+				    						<a class="tag-cloud-link" style="margin-bottom: -22px; font-size: 13px;">
 				    						<i class="fas fa-users">&nbsp;&nbsp;${dList.hr_Max } 명</i>
 				    						</a>
 				    						</div>

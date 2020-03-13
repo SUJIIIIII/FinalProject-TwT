@@ -39,7 +39,7 @@ public class HotelVo extends PagingVo {
 		super();
 	}
 
-	public HotelVo(String h_Code, String city_Code, String h_Name, int h_Lati, int h_Long, String h_phone,
+	public HotelVo(String h_Code, String city_Code, String h_Name, Double h_Lati, Double h_Long, String h_phone,
 			String h_Basicaddr, String h_Addr, String h_Img, String h_Content, String h_Starn, String h_Basiccontent,
 			String city_Name, String hr_Code, int hr_Standard, int hr_Max, int hr_Price, int hr_Valid, String hr_Rank,
 			String hr_Img, String hr_Wifi, String hr_Smoking, String hr_Breakfast, String hr_bed, Date hr_Date) {
