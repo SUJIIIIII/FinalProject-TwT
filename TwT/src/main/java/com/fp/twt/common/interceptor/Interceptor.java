@@ -33,6 +33,11 @@ public class Interceptor implements HandlerInterceptor{
 				tf = false;
 				response.sendRedirect("login.do");
 			}
+		}else if(request.getRequestURI().contains("/plan.do")){
+			if(member == null) {
+				tf = false;
+				response.sendRedirect("login.do");
+			}
 		}
 		
 		//기본 true 리턴하여 컨트롤러 접근
