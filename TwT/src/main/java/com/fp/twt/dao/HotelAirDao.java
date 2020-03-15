@@ -11,7 +11,7 @@ public interface HotelAirDao {
 	
 	public String dateChange(String day);
 	public String airSearch(AirSearchVo vo);
-	
+	public int success(String hotelname); 
 	
 	
 	
@@ -24,7 +24,8 @@ public interface HotelAirDao {
 	public List<HotelVo> HselectList(HotelVo hotelVo);
 	public int HselectListCnt(HotelVo hotelVo);
 	public HotelVo selectOne_B(String h_code);
-	public List<HotelVo> detailList_B(String h_code); 
+	public List<HotelVo> detailList_B(String h_code);
+	
 		
 		
 		

@@ -16,14 +16,17 @@ public class TravelPointVo {
     private Double city_Long; 	//도시 경도
     private String city_Img; 	//도시 이미지
     private String city_Eng;	//도시 영문명
+    private int cc;				//인기 카운트(메인 화면에서 사용)
     
     public TravelPointVo() {
 		super();
 	}
     
-	public TravelPointVo(String tp_Code, String city_Code, String tp_Name, Double tp_Lati, Double tp_Long, String tp_Type,
-			String tp_Content, String tp_Img, String tp_Addr, String city_Name, Double city_Lati, Double city_Long, String city_Img,
-			String city_Eng) {
+	
+
+	public TravelPointVo(String tp_Code, String city_Code, String tp_Name, Double tp_Lati, Double tp_Long,
+			String tp_Type, String tp_Content, String tp_Img, String tp_Addr, String city_Name, Double city_Lati,
+			Double city_Long, String city_Img, String city_Eng, int cc) {
 		super();
 		this.tp_Code = tp_Code;
 		this.city_Code = city_Code;
@@ -39,7 +42,10 @@ public class TravelPointVo {
 		this.city_Long = city_Long;
 		this.city_Img = city_Img;
 		this.city_Eng = city_Eng;
+		this.cc = cc;
 	}
+
+
 
 	public String gettp_Code() {
         return tp_Code;
@@ -153,12 +159,14 @@ public class TravelPointVo {
 		this.city_Eng = city_Eng;
 	}
 
-	@Override
-	public String toString() {
-		return "TravelPointVo [tp_Code=" + tp_Code + ", city_Code=" + city_Code + ", tp_Name=" + tp_Name + ", tp_Lati="
-				+ tp_Lati + ", tp_Long=" + tp_Long + ", tp_Type=" + tp_Type + ", tp_Content=" + tp_Content + ", tp_Img="
-				+ tp_Img + ", tp_Addr=" + tp_Addr + ", city_Name=" + city_Name + ", city_Lati=" + city_Lati
-				+ ", city_Long=" + city_Long + ", city_Img=" + city_Img + ", city_Eng=" + city_Eng + "]\n";
+
+	public int getCc() {
+		return cc;
 	}
+
+	public void setCc(int cc) {
+		this.cc = cc;
+	}
+
 	
 }

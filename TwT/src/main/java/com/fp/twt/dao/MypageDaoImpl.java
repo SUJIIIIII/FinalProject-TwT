@@ -13,6 +13,8 @@ import org.springframework.stereotype.Repository;
 
 import com.fp.twt.vo.AirplaneInfoVo;
 import com.fp.twt.vo.HotelBookingVo;
+import com.fp.twt.vo.HotelReviewVo;
+import com.fp.twt.vo.HotelVo;
 import com.fp.twt.vo.MemberVo;
 import com.fp.twt.vo.TravelScheduleVo;
 
@@ -248,25 +250,60 @@ public class MypageDaoImpl implements MypageDao {
 
 	// 아이디 찾기
 	@Override
-	public List<MemberVo> searchId(String m_Email, HttpServletResponse response) {
-		
-		List<MemberVo> list = new ArrayList<MemberVo>();
+	public String searchId(String m_Name, String m_Email) {
+		String result = "";
+		try {
+			result = sqlSession.selectOne(namespace + "findIdM", m_Email);
+		} catch (Exception e) {
+			System.out.println("아이디 찾기 실패");
+			e.printStackTrace();
+		}
+		return result;
+	}
+
+	// 예약된 호텔 조회
+	@Override
+	public List<HotelVo> selectOneHotel(String m_Code) {
+		List<HotelVo> list = new ArrayList<HotelVo>();
 
 		try {
-			list = sqlSession.selectList(namespace + "findIdM", m_Email);
-			
-			for (MemberVo i : list) {
-				System.out.println("아이디 : " + i.getm_Id());
-				
-				PrintWriter out = response.getWriter();
-				
-				out.println("<script>alert("+i.getm_Id()+");</script>");
-				
-				out.flush();
-			}
-			
+
+			list = sqlSession.selectList(namespace + "hotelM", m_Code);
+
 		} catch (Exception e) {
-			System.out.println("내 아이디 찾기 실패");
+			System.out.println("예약된 호텔의 이름 가져오기 실패");
+			e.printStackTrace();
+		}
+		return list;
+	}
+
+	// 별점부여
+	@Override
+	public int insertStar(HotelReviewVo vo) {
+		int res = 0;
+
+		try {
+			res = sqlSession.insert(namespace + "insertStarM", vo);
+			System.out.println("res : " + res);
+		} catch (Exception e) {
+			System.out.println("별점 부여 실패");
+			e.printStackTrace();
+		}
+		return res;
+	}
+
+	// 별점조회
+	@Override
+	public List<HotelReviewVo> selectRating(String m_Code) {
+		List<HotelReviewVo> list = new ArrayList<HotelReviewVo>();
+
+		try {
+			list = sqlSession.selectList(namespace + "selectStarM", m_Code);
+			for(HotelReviewVo i : list) {
+				System.out.println(m_Code + "가 부여한 별점 : " + i.getHrv_Starn());
+			}
+		} catch (Exception e) {
+			System.out.println("별점 조회 실패");
 			e.printStackTrace();
 		}
 		return list;

@@ -2,6 +2,7 @@
 package com.fp.twt.controller;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -40,6 +41,7 @@ import com.fp.twt.common.email.UserMailSendService;
 import com.fp.twt.common.social.KakaoAPI;
 import com.fp.twt.common.social.NaverLoginBO;
 import com.fp.twt.vo.AirplaneInfoVo;
+import com.fp.twt.vo.HotelReviewVo;
 import com.fp.twt.vo.MemberVo;
 import com.github.scribejava.core.model.OAuth2AccessToken;
 
@@ -83,7 +85,7 @@ public class MypageController {
 
 	// 회원가입
 	@RequestMapping(value = "/createAccount.do", method = RequestMethod.POST)
-	public String memberInsert(MemberVo vo, HttpServletRequest request) {
+	public String memberInsert(MemberVo vo, HttpServletRequest request, HttpServletResponse response) throws IOException {
 		System.out.println("회원가입 시작");
 		// 비밀번호 암호화
 		vo.setm_Pass(passwordEncoder.encode(vo.getm_Pass()));
@@ -91,9 +93,15 @@ public class MypageController {
 
 		// 인증 메일 보내기 메소드
 		mailsender.mailSendWithUserKey(vo.getm_Email(), vo.getm_Id(), request);
+		
+		PrintWriter out = response.getWriter();
 
 		if (biz.memberInsert(vo) > 0) {
 			System.out.println("회원가입 성공" + vo.toString());
+			
+			out.println("<script>alert('회원가입이 완료되었습니다. 이메일 인증 후 로그인이 가능합니다.');</script>");
+			out.flush();
+			
 			return "TwTAccount/login";
 		} else {
 			System.out.println("회원가입 실패");
@@ -395,9 +403,28 @@ public class MypageController {
 
 	// 아이디 찾기
 	@RequestMapping(value = "searchId.do", method = RequestMethod.GET)
-	public String searchId(Model model, String m_Email, HttpServletResponse response) {
-		System.out.println("이메일 : " + m_Email);
-		model.addAttribute("searchId", biz.searchId(m_Email, response));
-		return "TwTAccount/login";
+	@ResponseBody
+	public Map<Object,Object> searchId(@RequestParam("m_Name") String m_Name, @RequestParam("m_Email") String m_Email) {
+		
+		Map<Object, Object> map = new HashMap<Object, Object>();
+		
+		System.out.println("들어오는 이름 : " + m_Name);
+		System.out.println("들어오는 이멜 : " + m_Email);
+		
+		String result1 = biz.searchId(m_Name, m_Email);
+		
+		System.out.println(result1);
+		
+		map.put("info", result1);
+		
+		return map;
+	} 
+	
+	// 별점 부여
+	@RequestMapping("/star.do")
+	public String insertStar(Model model, HotelReviewVo vo, HttpSession session) {
+		System.out.println("별점부여");
+		model.addAttribute("star", biz.insertStar(vo));
+		return "redirect:mypage.do";
 	}
 }

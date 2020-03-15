@@ -69,7 +69,7 @@ public class CommunityDaoImpl implements CommunityDao{
 			System.out.println("[error] : updatePotoBook_Y");
 			e.printStackTrace();
 		}
-		
+		System.out.println("결과값" + res);
 		return res;
 	}
 
@@ -170,7 +170,7 @@ public class CommunityDaoImpl implements CommunityDao{
 	}
 
 	@Override
-	public List<TravelScheduleVo> themeList(String ts_theme, TravelScheduleVo travelScheduleVo) {
+	public List<TravelScheduleVo> themeList(String ts_theme) {
 		List<TravelScheduleVo> list = new ArrayList<TravelScheduleVo>();
 		try {
 			list = sqlSession.selectList(NAMESPACE+"themeList_D", ts_theme);
@@ -254,22 +254,18 @@ public class CommunityDaoImpl implements CommunityDao{
 		return res;
 	}
 	
-	public int selectListCnt_D() {
-		int selectListCnt_D = 0;
-		
+	@Override
+	public List<FavoriteListVo> chkList(String m_code, FavoriteListVo favoriteListVo) {
+		List<FavoriteListVo> list = new ArrayList<FavoriteListVo>();
+		favoriteListVo.setM_Code(m_code);
 		try {
-			selectListCnt_D = sqlSession.selectOne(NAMESPACE+"selectListCnt_D");
-		}catch(Exception e) {
-			System.out.println("[error] : selectListCnt_D");
+			list = sqlSession.selectList(NAMESPACE+"chkList", favoriteListVo);
+		} catch(Exception e) {
+			System.out.println("[error] : chkList");
 			e.printStackTrace();
 		}
-		
-		return selectListCnt_D;
+		return list;
 	}
-
-
-
-
 
 
 
