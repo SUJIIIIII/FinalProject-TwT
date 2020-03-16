@@ -201,10 +201,7 @@
     					<c:forEach items="${main_Destination}" var="TravelPointVo" begin="${page.startRow }" end="${page.startRow + 5}">
 	    				<div class="item">
 		    				<div class="destination">
-		    					<a href="#" class="img d-flex justify-content-center align-items-center" style="background-image: url(${pageContext.request.contextPath}/resources/images/${TravelPointVo.city_Code}/${TravelPointVo.tp_Img});">
-		    						<div class="icon d-flex justify-content-center align-items-center">
-		    							<span class="icon-search2"></span>
-		    						</div>
+		    					<a class="img d-flex justify-content-center align-items-center" style="background-image: url(${pageContext.request.contextPath}/resources/images/plan/${TravelPointVo.city_Code}/${TravelPointVo.tp_Img});">
 		    					</a>
 		    					<div class="text p-3">
 		    						<h3>${TravelPointVo.tp_Name }</h3>
