@@ -144,6 +144,9 @@ function fList(ts_Code){
     padding-bottom: 0.5rem !important;
     padding-top: 0.5rem !important;
 }
+.btn.btn-primary.btn-outline-primary:hover {
+    background: #fc3c3c;
+}
 </style>
 </head>
 <body id="body">
