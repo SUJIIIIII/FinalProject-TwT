@@ -40,6 +40,11 @@ public class KakaoPay {
 	        headers.add("Accept", MediaType.APPLICATION_JSON_UTF8_VALUE);
 	        headers.add("Content-Type", MediaType.APPLICATION_FORM_URLENCODED_VALUE + ";charset=UTF-8");
 	        
+	        String[] pri = vo.getReservation_price().split(",");
+	    	
+	    	String price = pri[0]+pri[1];
+	    	System.out.println(price);
+	        
 	        // 서버로 요청할 Body
 	        MultiValueMap<String, String> params = new LinkedMultiValueMap<String, String>();
 	        params.add("cid", "TC0ONETIME");
@@ -47,11 +52,11 @@ public class KakaoPay {
 	        params.add("partner_user_id", "gorany");
 	        params.add("item_name", vo.getReservation_hotelname()+"("+vo.getReservation_hotelroom()+")");//결제될 아이템이름
 	        params.add("quantity", "1");//결제될 아이템 개수
-	        params.add("total_amount", vo.getReservation_price());//결제금액
+	        params.add("total_amount", price);//결제금액
 	        params.add("tax_free_amount", "100");//세금면제 퍼센트
-	        params.add("approval_url", "http://localhost:8787/twt/kakaoPaySuccess.do?hotelname="+vo.getReservation_hotelname()+"&price="+vo.getReservation_price());//승인
+	        params.add("approval_url", "http://localhost:8787/twt/kakaoPaySuccess.do?hotelname="+vo.getReservation_hotelname()+"&price="+price);//승인
 	        params.add("cancel_url", "http://localhost:8787/twt/hotel.do");//취소
-	        params.add("fail_url", "http://localhost:8787/twt/flight.do");//실패
+	        params.add("fail_url", "http://localhost:8787/twt/hotel.do");//실패
 	         HttpEntity<MultiValueMap<String, String>> body = new HttpEntity<MultiValueMap<String, String>>(params, headers);
 	 
 	        try {
