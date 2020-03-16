@@ -182,28 +182,30 @@
 							              	<span style="padding: 0 0 0 18px; float: right;">
 							              	
 							              	<!-- 로그인 돼있을 때 찜 여부 확인 후 목록 출력 -->
-							              <%-- 	<c:if test="${kakaoId ne null or naverId ne null or user ne null or googleId ne null}">
+							              <c:if test="${kakaoId ne null or naverId ne null or user ne null or googleId ne null}">
 							              	<c:set var="istrue" value="false"></c:set>
-							              		<c:forEach items="check" var="check">
+							              		<c:forEach items="${check}" var="check">
 							              			<c:if test="${check.fl_Code eq vo.ts_Code }">
 										              	<c:set var="istrue" value="true"></c:set>
 							              			</c:if>
 							              		</c:forEach>
 							              		  	<c:choose>
-										              	<c:when test="${istrue eq true}"> --%>
+										              	<c:when test="${istrue eq true}">
 									              				<div class="cnt_copy">
 																	<a onclick="fList('${vo.ts_Code}');" id="fList" style="cursor: pointer;"><i class="far fa-heart" id="fa-heart_${vo.ts_Code}" style="color: #fc3c3c; font-weight: bold;" ></i></a>&nbsp;&nbsp;
 																	<i class="fas fa-eye"></i><span style="font-size:14px;">&nbsp;&nbsp;${vo.ts_View }</span>
+																	<p class="check" id="check_${vo.ts_Code }" style="display: none;">Y</p>
 																</div>
-										              	<%-- </c:when>
-										              	<c:otherwise> --%>
-												            <div class="cnt_copy">
-																<a onclick="fList('${vo.ts_Code}');" id="fList" style="cursor: pointer;"><i class="far fa-heart" id="fa-heart_${vo.ts_Code}" style="color: #fc3c3c;" ></i></a>&nbsp;&nbsp;
-																<i class="fas fa-eye"></i><span style="font-size:14px;">&nbsp;&nbsp;${vo.ts_View }</span>
-															</div>
-										              	<%-- </c:otherwise>
-										              	</c:choose>
-											</c:if> --%>
+										              	</c:when>
+										              	<c:otherwise>
+													            <div class="cnt_copy">
+																	<a onclick="fList('${vo.ts_Code}');" id="fList" style="cursor: pointer;"><i class="far fa-heart" id="fa-heart_${vo.ts_Code}" style="color: #fc3c3c;" ></i></a>&nbsp;&nbsp;
+																	<i class="fas fa-eye"></i><span style="font-size:14px;">&nbsp;&nbsp;${vo.ts_View }</span>
+																	<p class="check" id="check_${vo.ts_Code }" style="display: none;" >N</p>
+																</div>
+										              	</c:otherwise>
+										            </c:choose>
+											</c:if>
 											
 											<!-- 로그인 안돼 있을 때 하트 클릭 시 로그인 창으로 이동 -->
 											<c:if test="${kakaoId eq null and naverId eq null and user eq null and googleId eq null}">

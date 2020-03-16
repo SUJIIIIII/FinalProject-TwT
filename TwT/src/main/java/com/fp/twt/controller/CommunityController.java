@@ -235,13 +235,13 @@ public class CommunityController {
         if(member != null) {	// 로그인 되어 있을 경우 찜 목록 체크
         	String m_code = member.getm_Code();
         	List<FavoriteListVo> fvo = biz.chkList(m_code, favoriteListVo);
+        	model.addAttribute("check", fvo);
         	
         	// 테마 별 모아보기
 			if(ts_theme != null) {	// 테마 값이 담겨 있을 때 해당 테마 값를 가진 리스트 뿌려주기
 				list = biz.themeList(ts_theme);
 			    model.addAttribute("list", list);
-     			model.addAttribute("check", fvo);
-				
+     			
 			} else if (Chk) {
 				list = biz.PselectList_D(travelScheduleVo);
 				model.addAttribute("list", list);
@@ -259,6 +259,7 @@ public class CommunityController {
 			} else if(Chk) {
 				list = biz.PselectList_D(travelScheduleVo);
 				model.addAttribute("list", list);
+				model.addAttribute("Chk", Chk);
 			} else{
 				list = biz.selectList_D();
 				model.addAttribute("list", list);
