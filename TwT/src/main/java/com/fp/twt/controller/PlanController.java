@@ -4,14 +4,19 @@ import java.io.File;
 
 
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.UUID;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -28,6 +33,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.fp.twt.biz.PlanBiz;
 import com.fp.twt.vo.CityVo;
 import com.fp.twt.vo.TravelPointVo;
+import com.fp.twt.vo.TravelScheduleVo;
 
 
 
@@ -115,29 +121,97 @@ public class PlanController {
 		return "TwTPlan/plan_detail";
 	}
 	
-	@RequestMapping("/insertPlan.do")
-	public String insertPlan(MultipartFile file,Object pn_dayList) {
-		System.out.println("컨트롤러에서 daylist : " + pn_dayList);
+   @RequestMapping(value = "/insertPlan.do", method = RequestMethod.POST)
+   @ResponseBody
+   public Map<String, String> insertPlan(HttpServletRequest request, HttpSession session,
+         @RequestBody Map<String, HashMap<String, Object>> param) throws ParseException {
+      
+      HashMap<String, Object> day_list = param.get("day_list"); // Day_List를 맵에 넣어줌
+      HashMap<String, Object> form_data = param.get("form_data"); // form Data를 맵에 넣어줌
+      
+      System.out.println("form_data : " + form_data);
+      System.out.println("day_list_obj : " + day_list);
+      
+      UUID uuid = UUID.randomUUID(); // 고유번호 만들어주기
+      String user_code = (String) session.getAttribute("userCode"); //유저번호 가져오기
+      String file_name = uuid.toString() + "_" + (String) form_data.get("file_name").toString();
+      String pn_title = (String)form_data.get("pn_title");
+      String pn_day = (String) form_data.get("pn_day").toString();
+      int pn_person = Integer.parseInt((String) form_data.get("pn_person").toString());
+      String pn_desc = (String) form_data.get("pn_desc").toString();
+      String pn_type = (String) form_data.get("pn_type").toString();
+      int pn_period = day_list.size(); 
+      
+      TravelScheduleVo ts_vo = new TravelScheduleVo(); // vo에 정보 담아주기
+      ts_vo.setm_Code(user_code);
+      ts_vo.setts_Thum(file_name);
+      ts_vo.setts_Title(pn_title);
+      ts_vo.setts_People(pn_person);
+      ts_vo.setts_Theme(pn_type);
+      ts_vo.setts_Period(pn_period);
+      ts_vo.setts_Sday(pn_day);
+        
+      int res = biz.insertSchedule(ts_vo);
+      
+      if(res == 0) {
+         System.out.println("insert가 실패하였습니다.");
+      } 
+      
+      String ts_code = "TS11" + ts_vo.getre_Code(); // TS_CODE 담아주기
+
+      
+      for (int i = 1; i < day_list.size(); i++) {
+         Object select_day = day_list.get("day"+i);
+         String select_day_str = select_day.toString();
+         
+         System.out.println("Day"+ i + " toStirng : " + select_day_str);
+         
+         select_day_str = select_day_str.replaceAll("\\{", "");
+         select_day_str = select_day_str.replaceAll("\\}", "");
+         
+         System.out.println("Day"+ i + " toStirng replace : " + select_day_str);
+         
+         String[] day_arr =  select_day_str.split(",");
+         for (int j = 0; j < day_arr.length; j++) {
+            String day_spot_num = day_arr[j].split("=")[1];
+            ts_vo.settp_Code(day_spot_num);
+            ts_vo.setTs_Day("DAY"+i);
+            ts_vo.setts_Code(ts_code);
+            
+            int res2 = biz.insertScheduleDay(ts_vo); 
+            
+            if(res2 == 0 ) {
+               System.out.println("insert가 실패하였습니다.");
+            }
+         }
+      }
+
+      Map<String, String> map = new HashMap<String, String>();
+      map.put("file_name", uuid.toString());
+
+      return map;
+   }
+
+	@RequestMapping(value = "/fileUpload.do", method = RequestMethod.POST)
+	public String fileUpload(MultipartFile file, HttpServletRequest request) {
 		
 		// ------- file upload --------
-		// 고유 id 부여
-		UUID uuid = UUID.randomUUID();
-		// 고유 id + 저장하려는 실제 파일 이름
-		String fileName = uuid.toString() + "_" + file.getOriginalFilename();
-		System.out.println("파일 이름 : " + fileName);
-		// 저장 경로, 이름 지정
-		File target = new File(uploadPath, fileName);
+		System.out.println("fileName : " + file.getOriginalFilename());
+		String uuid = request.getParameter("file_name");
+		String real_name = uuid + "_" + file.getOriginalFilename();
 		
-		try {
+		File target = new File(uploadPath, real_name);
+		try{
 			// 임시 디렉토리에 저장된 파일을 지정된 디렉토리로 복사
 			FileCopyUtils.copy(file.getBytes(), target);
-		} catch (IOException e) {
+			
+		} catch(IOException e) {
 			e.printStackTrace();
 		}
-		// ------- file upload end --------
 		
 		return "redirect:/index.jsp";
-	}
+	}	
+
 	
 	@RequestMapping("/testInsert.do")
 	public String testInsert(@RequestBody Map<String,Object> map) {

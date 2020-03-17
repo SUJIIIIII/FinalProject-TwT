@@ -258,44 +258,72 @@ public class CommunityController {
 	// 도영
 	// 여행 일정 리스트
 	@RequestMapping("/community.do")
-	public String newcommunity(@ModelAttribute("travelScheduleVo") TravelScheduleVo travelScheduleVo, FavoriteListVo favoriteListVo, boolean Chk, boolean potoChk, HttpSession session, String ts_theme, Model model, HttpServletRequest request) {
+	public String newcommunity(@ModelAttribute("travelScheduleVo") TravelScheduleVo travelScheduleVo, FavoriteListVo favoriteListVo, boolean Chk, HttpSession session, String ts_theme, Model model, HttpServletRequest request) {
 		logger.info("SELECT LIST");
 		
 		//도영
         MemberVo member = (MemberVo) session.getAttribute("user");
         List<TravelScheduleVo> list = null;
         
-        if(member != null) {	// 로그인 되어 있을 경우 찜 목록 체크
-        	String m_code = member.getm_Code();
-        	List<FavoriteListVo> fvo = biz.chkList(m_code, favoriteListVo);
-        	
-        	// 테마 별 모아보기
-			if(ts_theme != null) {	// 테마 값이 담겨 있을 때 해당 테마 값를 가진 리스트 뿌려주기
-				list = biz.themeList(ts_theme);
-			    model.addAttribute("list", list);
-     			model.addAttribute("check", fvo);
-				
-			} else if (Chk) {
-				list = biz.PselectList_D(travelScheduleVo);
-				model.addAttribute("list", list);
-				model.addAttribute("Chk", Chk);
-			} else	{
-				// 아닐 시 일반적인 리스트 출력
-				list = biz.selectList_D();
-				model.addAttribute("list", list);
-			}
-        } else if(member == null) {	// 로그인 안돼 있을 경우
-        	// 테마 별 모아보기
-			if(ts_theme != null) {
-				list = biz.themeList(ts_theme);
-			    model.addAttribute("list", list);
-			} else if(Chk) {
-				list = biz.PselectList_D(travelScheduleVo);
-				model.addAttribute("list", list);
-			} else{
-				list = biz.selectList_D();
-				model.addAttribute("list", list);
-			}
+
+        if(member != null) {   // 로그인 되어 있을 경우 찜 목록 체크
+           String m_code = member.getm_Code();
+           List<FavoriteListVo> fvo = biz.chkList(m_code, favoriteListVo);
+           model.addAttribute("check", fvo);
+           
+           // 테마 별 모아보기
+         if(ts_theme != null) {   // 테마 값이 담겨 있을 때 해당 테마 값를 가진 리스트 뿌려주기
+            list = biz.themeList(ts_theme);
+             model.addAttribute("list", list);
+              
+         } else if (Chk) {
+            list = biz.PselectList_D(travelScheduleVo);
+            model.addAttribute("list", list);
+            model.addAttribute("Chk", Chk);
+         } else   {
+            // 아닐 시 일반적인 리스트 출력
+            list = biz.selectList_D();
+            model.addAttribute("list", list);
+         }
+         
+         String curpagenum = request.getParameter("curpagenum");
+
+	        int currentPage = 0;
+
+	        if (curpagenum == null || curpagenum == "0") {
+	           currentPage = 1;
+	        } else {
+	           currentPage = Integer.parseInt(request.getParameter("curpagenum"));
+	        }
+	        
+	        int listCount = list.size();
+
+	        pageinfo page = new pageinfo();
+	        page.setBoardSize(8);
+	        page.setCurrentPage(currentPage);
+	        page.setPreve(currentPage);
+	        page.setStartRow(currentPage);
+	        page.setListCount(listCount);
+	        page.setAllPage(listCount);
+	        page.setStartPage(currentPage, page.getAllPage());
+	        page.setEndPage(currentPage, page.getAllPage());
+	        page.setNext(currentPage, page.getAllPage());
+
+	        model.addAttribute("page", page);
+         
+        } else if(member == null) {   // 로그인 안돼 있을 경우
+           // 테마 별 모아보기
+         if(ts_theme != null) {
+            list = biz.themeList(ts_theme);
+             model.addAttribute("list", list);
+         } else if(Chk) {
+            list = biz.PselectList_D(travelScheduleVo);
+            model.addAttribute("list", list);
+            model.addAttribute("Chk", Chk);
+         } else{
+            list = biz.selectList_D();
+            model.addAttribute("list", list);
+         }
 	        
 			String curpagenum = request.getParameter("curpagenum");
 

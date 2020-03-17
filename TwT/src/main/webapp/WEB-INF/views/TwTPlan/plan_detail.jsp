@@ -438,7 +438,7 @@ var count; // 스팟리스트 개수
                  +      "<div class='fl item_copy_plan' title='장소복사'><img src='/twt/resources/images/plan/item_more_icon_a.png'></div>"
                  +       "<div class='fl item_set_plan' title='메모&amp;예산' onclick='addbudget(&quot;"+spot_no+"&quot;,&quot;"+spot_name+"&quot;,&quot;"+spot_img+"&quot;,&quot;"+spot_content+"&quot;,&quot;"+spot_addr+"&quot;,&quot;"+spot_city+"&quot;,&quot;"+spot_type+"&quot;)'><img src='/twt/resources/images/plan/item_set_icon_a.png'></div>"
                  +      "<div class='fl btn_del' title='삭제'><img src='/twt/resources/images/plan/item_del_icon_a.png'></div>"
-                 +      "<div class='clear'></div>" 
+                 +      "<div class='clear'></div>" 	
                  +   "</div>"
                  +   "<div class='img_box fl'>"
                  +      "<div class='spot_order_box'>" + spot_seq + "</div>"
@@ -561,42 +561,6 @@ var count; // 스팟리스트 개수
 			marker[i].setMap(null);
 		}
 		marker = [];
-		
-	}
-	
-	function insertPlan(){
-		var total_obj = new Object();
-		var form_data = $("#form").serialize(); // form 데이터
-		//var form_data = new FormData(); // form 데이터 
-		var day_list = new Object();
-		
-		//form_data.append('file',$('#file')[0].files[0]);
-		
-		for(var i=1;i<=$(".day_menu").children().length;i++){
-			day_list['day'+i] = sessionStorage.getItem("Day"+i);
-		}
-		
-		console.log("day_list : " + JSON.stringify(day_list));
-		
-		total_obj['form_data'] = form_data;
-		total_obj['day_list'] = day_list;
-		
-		$.ajax({
-			type : "post",
-			url : "testInsert.do",
-			data : JSON.stringify(total_obj),
-			dataType : "json",
-			contentType : "application/json",
-			processData : false,
-			success : function(){
-				alert("성공");
-			},
-			erorr : function(){
-				alert("실패");
-			}
-			
-		});
-		
 		
 	}
 		
@@ -724,18 +688,19 @@ var count; // 스팟리스트 개수
 			$(".et_modal").show();
 			
 			var day_list = new Object();
-			for(var i=1;i<=$(".day_menu").children().length;i++){
+
+			for(var i = 1; i <= $(".day_menu").children().lengh; i++){
 				day_list['day'+i] = sessionStorage.getItem("Day"+i);
 			}
+			
 			$("#pn_dayList").val(day_list);
 			
-			/* var day_list = new Array();
-			for(var i=1;i<=$(".day_menu").children().length;i++){
-				day_list.push(sessionStorage.getItem("Day"+i));
+/* 			var day_list = new Array();
+			for(var i=1; i<=$(".day_menu").children().length; i++){
+				day_list.push(sessionStorage.getItem("Day" + i));
 			}
 			console.log("객체 : " + day_list);
 			$("#pn_dayList").val(day_list); */
-			
 		});
 		
 		// 완료 modal 끄기
@@ -757,23 +722,11 @@ var count; // 스팟리스트 개수
 			$(this).addClass('on');
 			// 선택외 테마 이미지 변경
 			$('img',this).attr('src',$('img',this).attr('src').replace('.gif','_on.gif'));
+			
+			var theme_val = $('theme.radio.on').data("val");
+			$("#pn_type").val(theme_val);
 
 		});
-		
-		// 완료 모달 datepicker
-		$(function(){
-			$("#start_day").datepicker();
-		});
-		
-		/* $("#insertbtn").click(function(){
-			var day_list = new Array();
-			for(var i=0;i<$(".day_menu").children().length;i++){
-				day_list.push(sessionStorage.getItem("Day"+i));
-			}
-			console.log("객체 : " + day_list);
-		}); */
-		
-		
 		
 	});
 	
@@ -928,7 +881,7 @@ src="https://maps.googleapis.com/maps/api/js?v=weekly&key=AIzaSyCiDE5HBue4mflsdk
 				</ul>
 				<ul id="cat_menu" data="87" data-member_srl="1213145" data-year="2020" style="max-height: 478px;">
 					<!-- <li id="show_all_day" data="show_all_day" original-title="">전체 일정 보기</li> -->
-					<li data="1" data-date="" data-day_week="5" data-f_ci="87" data-f_lat="" data-f_lng="" class="day_menu on" original-title="">
+<!-- 					<li data="1" data-date="01.31" data-day_week="5" data-f_ci="87" data-f_lat="18.79906428" data-f_lng="98.99514161" class="day_menu on" original-title="치앙마이">
 						<div class="fl cat_date_left_box">
 							<div class="cat_left_day">DAY1</div>
 							<div class="cat_left_date"></div>
@@ -938,7 +891,7 @@ src="https://maps.googleapis.com/maps/api/js?v=weekly&key=AIzaSyCiDE5HBue4mflsdk
 							<div class="cat_right_city"></div>
 						</div>
 						<div class="clear"></div>
-					</li>
+					</li> -->
 				</ul>
 				<ul id="cat_add_box" style="width: 160px; background: rgb(32, 51, 65); color: rgb(255, 255, 255); height: 100vh;">
 					<li style="padding-top:15px;">
@@ -976,8 +929,6 @@ src="https://maps.googleapis.com/maps/api/js?v=weekly&key=AIzaSyCiDE5HBue4mflsdk
 		        <!--//(e)스케쥴 디테일 리스트-->
 				<div class="inspot_add_box" style="height:100vh;">
 					<div class="inspot_set_box">
-						<div class="fl add_inspot_spot_btn" onclick="my_spot_inspot()">+ My 장소</div>
-						<div class="fl add_inspot_trans_btn" onclick="my_transportation_inspot()" style="background: #ffba00; border: solid #ffba00 1px;">+ 교통</div>
 						<div class="clear"></div>
 					</div>
 				</div>
@@ -1145,7 +1096,7 @@ src="https://maps.googleapis.com/maps/api/js?v=weekly&key=AIzaSyCiDE5HBue4mflsdk
 			<!-- <div class="et_modal_layer"> -->
 				<!-- modal content -->
 				<div class="modal_box" id="modal_content" style="width: 460px; height: 596px; margin-top: 95px; top: 50%; overflow: hidden; display: block;">
-					<form:form method="post" id="form" enctype="multipart/form-data" action="insertPlan.do">
+					<form:form method="post" id="form" enctype="multipart/form-data" action="fileUpload.do">
 					<div class="title_box">
 						<!--일정정보 수정-->
 						<span id="this_modal_title">일정만들기 완료</span>
@@ -1240,19 +1191,19 @@ src="https://maps.googleapis.com/maps/api/js?v=weekly&key=AIzaSyCiDE5HBue4mflsdk
 					<div class="modal_footer">
 						<div class="fr" style="margin-right:10px;">
 							<!-- <input type="button" class="m_btn_submit" id="form_submit" value="완료" onclick="insertPlan();"></div> -->
-							<input type="submit" class="m_btn_submit" id="form_submit" value="완료"></div>
+							<input type="button" class="m_btn_submit" id="form_submit" value="완료"></div>
+							<input type="hidden" name="file_name" id="file_name"/>
 						<div class="clear"></div>
 					</div>
 					</form:form>
 				</div><!-- modal content end -->
 			<!-- </div> -->
 		</div><!-- modal end -->
+
 		
 	</div><!-- full_wrap end -->
 	
 
-<!-- // jQuery 기본 js파일 -->
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
 <!-- // jQuery UI 라이브러리 js파일 -->
 <script src="http://code.jquery.com/ui/1.8.18/jquery-ui.min.js"></script>
 <script src="${pageContext.request.contextPath}/resources/js/plan/plan_detail.js?version=1.4"></script>

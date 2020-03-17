@@ -119,6 +119,5 @@ public class UserMailSendService {
 		
 		// 데이터 베이스 값은 암호한 값으로 저장시킨다.
 		biz.searchPassword(vo);
-
 	}
 }

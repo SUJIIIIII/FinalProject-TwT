@@ -79,7 +79,7 @@ public interface MypageDao {
 	public List<MemberVo> selectAllMember(MemberVo vo);
 
 	// 아이디 찾기
-	public String searchId(String m_Name, String m_Email);
+	public List<MemberVo> searchId(String m_Name, String m_Email);
 
 	// 예약된 호텔명 조회
 	public List<HotelVo> selectOneHotel(String m_Code);
@@ -89,4 +89,11 @@ public interface MypageDao {
 
 	// 별점조회
 	public List<HotelReviewVo> selectRating(String m_Code);
+
+	// 별점업뎃
+	public Object updateStar(String h_Code, int point);
+
+	// 업뎃할 별점
+	public HotelVo selectOneHotelStar(String h_Code);
+
 }

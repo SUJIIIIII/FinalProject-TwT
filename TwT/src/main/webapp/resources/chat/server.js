@@ -2,6 +2,8 @@ var express = require('express');
 var app = express();
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
+var host = "192.168.130.228";
+var port = "3000";
 
 var room = ['defalt','room1','room2','room3','room4'];
 

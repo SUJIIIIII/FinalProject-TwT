@@ -1,6 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
     <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+	<%@ page import="com.fp.twt.vo.MemberVo" %>
+	<%@ page import="com.fp.twt.vo.TravelScheduleVo" %>
+	<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+	<% MemberVo vo = (MemberVo)session.getAttribute("user"); %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -24,6 +28,55 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/flaticon.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/icomoon.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/style.css">
+    
+    <script type="text/javascript">
+	    function fn_paging(curPage) {
+			location.href = "/twt/community.do?curPage=" + curPage;
+		}
+	    
+	    function fList(ts_Code){
+	    	var tagid = "#check_"+ts_Code;
+	    	var faid = "#fa-heart_"+ts_Code;
+	    	
+	    	var tag = $(tagid);
+	    	
+			 	$.ajax({
+				url: "fList.do",
+				
+				data : ts_Code,
+					
+                type: "post",
+                
+                dataType : "json",
+                
+                success: function(data){
+                	var res = data.res;
+                	alert(tag.text());
+                	if(res){
+                		if(tag.text()=='Y'){
+                			alert("찜을 해제하였습니다.")
+                			$(faid).css("font-weight", "");
+                			tag.text('N');
+                			
+                		} else {
+                			alert("찜 목록에 등록 되었습니다.");
+                			$(faid).css("font-weight", "bold");
+                			tag.text('Y');
+                		}
+                	}
+                },
+                
+                error:function(){
+        	  		alert("에러");
+        	  	}
+			})
+		};
+		
+		function login(){
+			alert("로그인이 필요합니다.");
+			location.href="login.do";
+		};
+    </script>
     
     <style type="text/css">
     html{
@@ -89,7 +142,7 @@
 	<!-- header css 적용 -->
 	<script type="text/javascript" src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 	<script type="text/javascript">
-	    $(document).ready(function() {
+	    $(document).ready(function(){
 	      $("#nav3").addClass("active")
 	      $(".hero-wrap").attr('style',"background-image: url('${pageContext.request.contextPath}/resources/images/bg_7.jpg');");
 	      $(".bread").text('Community');
@@ -104,9 +157,7 @@
 		          <div class="col-md-12 nav-link-wrap mb-4">
 		            <div class="nav ftco-animate nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
 		              <a class="nav-link active" id="v-pills-whatwedo-tab" data-toggle="pill" href="#v-pills-whatwedo" role="tab" aria-controls="v-pills-whatwedo" aria-selected="true">Travel Plans</a>
-
-		              <a class="nav-link" id="v-pills-mission-tab" data-toggle="pill" href="#v-pills-mission" role="tab" aria-controls="v-pills-mission" aria-selected="false">Photo Book</a>
-			          
+		              <a onclick="potoBookList();" class="nav-link" id="v-pills-mission-tab" data-toggle="pill" href="#v-pills-mission" role="tab" aria-controls="v-pills-mission" aria-selected="false">Photo Book</a>
 		            </div>
 		          </div>
 		          <div class="col-md-12 d-flex align-items-center">
@@ -116,156 +167,180 @@
 					<!-- fade 1 -->
 		              <div class="tab-pane fade show active" id="v-pills-whatwedo" role="tabpanel" aria-labelledby="v-pills-whatwedo-tab">
 							<div style="margin-bottom: 25px; padding-left: 1020px;">
-					    	<span class="sort" date-id="po" onclick="" style="cursor:pointer;"><i class="far fa-thumbs-up"></i>&nbsp;인기</span>
+					    	<span class="sort" date-id="regdate" ><i class="far fa-calendar-alt"></i>&nbsp;<a href="community.do">최신</a></span>
 					    	<span class="sort">&nbsp;|&nbsp;</span>
-					    	<span class="sort" date-id="regdate" onclick="" style="cursor:pointer;"><i class="far fa-calendar-alt"></i>&nbsp;최신</span>
+					    	<span class="sort" date-id="po" ><i class="far fa-thumbs-up"></i>&nbsp;<a href="community.do?Chk=true">인기</a></span>
 					      	</div>						
 						<div class="row d-flex">
-						
-						 <%-- <c:forEach begin="${(page-1)*8 }" end="${((page-1)*8)+7 }" var="vo">
-							 <c:choose>
-							 	<c:when test="${vo >= community.size() }">
-						          <div class="col-md-3 d-flex ftco-animate">
-						            <div class="blog-entry align-self-stretch" style="min-width: 250px;">
-						              <a href="communityDetail.do" class="block-20" style="background-image: url('${pageContext.request.contextPath}/resources/images/image_1.jpg');"></a>
-						              <div class="text p-4 d-block" style="min-width: 250px;">
-						              	<span class="tag">2020.02.05</span>
-						              	<span class="tag">| 5DAYS</span>
-						              	<span style="padding: 0 0 0 18px;">
-							              	<i class="far fa-heart"></i>&nbsp;&nbsp;
-								            <i class="fas fa-eye"></i><span style="font-size:16px;">&nbsp;&nbsp;1</span>
-							            </span>
-							            <br>
-					              	    <h3 class="heading"><a href="communityDetail.do">태국 여행</a></h3>
-					                    <div class="tagcloud">
-						                <a href="#" class="tag-cloud-link">나홀로</a>
-						                <a href="#" class="tag-cloud-link">비즈니스 여행</a>
-					               	 	</div>
-					           		 	<br>
-					                    <div style="margin-top: -10px;"><i class="fas fa-user"></i> 아이디</div>			              	    
-						              </div>
-						            </div>
-						          </div>
-							 	</c:when>
-							 	<c:otherwise>
-							 		<div class="col-md-3 d-flex ftco-animate">
+							<c:forEach items="${list }" var="vo" varStatus="status" begin="${page.startRow }" end="${page.startRow + 7 }">
+							 	<div class="col-md-3 d-flex ftco-animate">
 							            <div class="blog-entry align-self-stretch" style="min-width: 250px;">
-							              <a href="communityDetail.do" class="block-20" style="background-image: url('${pageContext.request.contextPath}/resources/images/image_1.jpg');"></a>
+							              <a href="communityDetail.do?ts_code=${vo.ts_Code }" class="block-20" style="background-image: url(${pageContext.request.contextPath}/resources/images/plan/${vo.city_Code }/${vo.tp_Img });"></a>
 							              <div class="text p-4 d-block" style="min-width: 250px;">
-							              	<span class="tag">2020.02.05</span>
-							              	<span class="tag">| 5DAYS</span>
-							              	<span style="padding: 0 0 0 18px;">
-								              	<i class="far fa-heart"></i>&nbsp;&nbsp;
-									            <i class="fas fa-eye"></i><span style="font-size:16px;">&nbsp;&nbsp;1</span>
+							              	<span class="tag">${fn:substring(vo.ts_Sday,0,8)}</span>
+							              	<span class="tag">| ${vo.ts_Period }DAYS</span>
+							              	<span style="padding: 0 0 0 18px; float: right;">
+							              	
+							              	<!-- 로그인 돼있을 때 찜 여부 확인 후 목록 출력 -->
+							              <%-- 	<c:if test="${kakaoId ne null or naverId ne null or user ne null or googleId ne null}">
+							              	<c:set var="istrue" value="false"></c:set>
+							              		<c:forEach items="check" var="check">
+							              			<c:if test="${check.fl_Code eq vo.ts_Code }">
+										              	<c:set var="istrue" value="true"></c:set>
+							              			</c:if>
+							              		</c:forEach>
+							              		  	<c:choose>
+										              	<c:when test="${istrue eq true}"> --%>
+									              				<div class="cnt_copy">
+																	<a onclick="fList('${vo.ts_Code}');" id="fList" style="cursor: pointer;"><i class="far fa-heart" id="fa-heart_${vo.ts_Code}" style="color: #fc3c3c; font-weight: bold;" ></i></a>&nbsp;&nbsp;
+																	<i class="fas fa-eye"></i><span style="font-size:14px;">&nbsp;&nbsp;${vo.ts_View }</span>
+																</div>
+										              	<%-- </c:when>
+										              	<c:otherwise> --%>
+												            <div class="cnt_copy">
+																<a onclick="fList('${vo.ts_Code}');" id="fList" style="cursor: pointer;"><i class="far fa-heart" id="fa-heart_${vo.ts_Code}" style="color: #fc3c3c;" ></i></a>&nbsp;&nbsp;
+																<i class="fas fa-eye"></i><span style="font-size:14px;">&nbsp;&nbsp;${vo.ts_View }</span>
+															</div>
+										              	<%-- </c:otherwise>
+										              	</c:choose>
+											</c:if> --%>
+											
+											<!-- 로그인 안돼 있을 때 하트 클릭 시 로그인 창으로 이동 -->
+											<c:if test="${kakaoId eq null and naverId eq null and user eq null and googleId eq null}">
+												<div class="cnt_copy">
+													<a onclick="login();" id="login" style="cursor: pointer;"><i class="far fa-heart" style="color: #fc3c3c;"></i></a>&nbsp;&nbsp;
+													<i class="fas fa-eye"></i><span style="font-size:14px;">&nbsp;&nbsp;${vo.ts_View }</span>
+							              		</div>
+											</c:if>
+											
 								            </span>
 								            <br>
-						              	    <h3 class="heading"><a href="communityDetail.do">태국 여행</a></h3>
+						              	    <h3 class="heading" style="margin-top: 8px;"><a href="communityDetail.do?ts_code=${vo.ts_Code }">${vo.ts_Title }</a></h3>
 						                    <div class="tagcloud">
-							                <a href="#" class="tag-cloud-link">나홀로</a>
-							                <a href="#" class="tag-cloud-link">비즈니스 여행</a>
+							                <a href="community.do?ts_theme=${vo.ts_Theme}" class="tag-cloud-link">${vo.ts_Theme }</a>
 						               	 	</div>
 						           		 	<br>
-						                    <div style="margin-top: -10px;"><i class="fas fa-user"></i> 아이디</div>			              	    
+						                    <div style="margin-top: -10px;"><i class="fas fa-user"></i>&nbsp;${vo.m_Name }</div>			              	    
 							              </div>
 							            </div>
 							          </div>
-							 	</c:otherwise>
-							 </c:choose>
-						 </c:forEach> --%>
-
-
+						 </c:forEach>
+						 
 						</div>
+
+						<!-- 페이징 --> 
+						<script type="text/javascript">
+						   function PageMove(page,Chk){
+						      if(Chk == ""){
+						         Chk = false;
+						      }
+						       location.href = "community.do?curpagenum="+page+"&Chk="+Chk;
+						    }
+						</script>              
+						
+						<c:if test="${page.listCount > 8}">
+		                     <div class="container">
+		                       <div class="row mt-5">
+		                         <div class="col text-center">
+		                           <div class="block-27">
+		                             <ul>
+		                             <c:if test="${page.preve eq true }">
+		                               <li><a href="javascript:PageMove(${page.currentPage-1 },'${Chk}')">&lt;</a></li>
+		                             </c:if>
+		                             <c:forEach var="i" begin="${page.startPage }" end="${page.endPage }" >
+		                             <c:choose>
+		                             <c:when test="${i eq page.currentPage }">
+		                               <li class="active"><span><a href="javascript:PageMove(${i},'${Chk}')">${i}</a></span></li>
+		                             </c:when>
+		                             <c:otherwise>
+		                                <li><a href="javascript:PageMove(${i},'${Chk}')">${i}</a></li>
+		                             </c:otherwise>
+		                             </c:choose>
+		                             </c:forEach>  
+		                             <c:if test="${page.next eq true }">  
+		                               <li><a href="javascript:PageMove(${page.currentPage+1 },'${Chk}')">&gt;</a></li>
+		                             </c:if>  
+		                             </ul>
+		                           </div>
+		                         </div>
+		                       </div>
+		                     </div>
+		                  </c:if>   
+						       
 		              </div>
 
 				    <!-- fade 2 -->
 		              <div class="tab-pane fade" id="v-pills-mission" role="tabpanel" aria-labelledby="v-pills-mission-tab">
 				        <div style="float: top; margin-left:985px;">
-				        	<a href="communityInsert.do" class="btn btn-primary btn-outline-primary mt-4 px-4 py-3 mb-4"><span>Create Book</span></a>
+				        <a href="communityInsertForm.do" class="btn btn-primary btn-outline-primary mt-4 px-4 py-3 mb-4"><span>Create Book</span></a>
 				        </div>
 				        <div class="container">
-				        <div class="row justify-content-start mb-5 pb-3">
-				          <div class="col-md-5 heading-section ftco-animate">
-				            <h2 class="mb-1 pb-1"><strong>여행 제목1</strong></h2>          
+				        <div class="row justify-content-start mb-5 pb-3" id="potoList">
+				        
+				        <c:choose>
+				        <c:when test="${empty potoList}">
+				        <div>작성된 글이 없습니다.</div>
+				        </c:when>
+				        <c:otherwise>
+				        <c:forEach items="${potoList }" var="list" varStatus="status" begin="${potopage.startRow }" end="${potopage.startRow + 3 }">
+				        <div class="col-md-5 heading-section ftco-animate">
+				            <a href="potoBookDetail.do?sr_Code=${list.sr_Code }"><h2 class="mb-1 pb-1"><strong>${list.sr_Title}</strong></h2></a>
+				            <h6>작성자 : ${list.m_Code}</h6>       
 				          	<div class="row ftco-animate">
 						          <div class="col-md-12">
 						            <div class="carousel-testimony owl-carousel">
+						              <c:forTokens var="src" items="${list.sr_ImgSrc }" delims=",">
 						              <div class="item">
-										<img src="${pageContext.request.contextPath}/resources/images/image_1.jpg"/>
+										<a href="potoBookDetail.do?sr_Code=${list.sr_Code }"><img src="${src}" height="260px"/></a>
 						              </div>
-						              <div class="item">
-										<img src="${pageContext.request.contextPath}/resources/images/image_1.jpg"/>
-						              </div>
-						              <div class="item">
-										<img src="${pageContext.request.contextPath}/resources/images/image_1.jpg"/>
-						              </div>
+									  </c:forTokens>	
 						            </div>
 						          </div>
 						        </div>
 				          </div>
-				          
-						<div class="col-md-2"></div>
-						
-				          <div class="col-md-5 heading-section ftco-animate">
-				            <h2 class="mb-1 pb-1"><strong>여행 제목2</strong></h2>          
-				          	<div class="row ftco-animate">
-						          <div class="col-md-12">
-						            <div class="carousel-testimony owl-carousel">
-						              <div class="item">
-										<img src="${pageContext.request.contextPath}/resources/images/image_1.jpg"/>
-						              </div>
-						              <div class="item">
-										<img src="${pageContext.request.contextPath}/resources/images/image_1.jpg"/>
-						              </div>
-						              <div class="item">
-										<img src="${pageContext.request.contextPath}/resources/images/image_1.jpg"/>
-						              </div>
-						            </div>
-						          </div>
-						        </div>
-				          </div>
-				          
-				          <div class="col-md-5 heading-section ftco-animate">
-				            <h2 class="mb-1 pb-1"><strong>여행 제목3</strong></h2>          
-				          	<div class="row ftco-animate">
-						          <div class="col-md-12">
-						            <div class="carousel-testimony owl-carousel">
-						              <div class="item">
-										<img src="${pageContext.request.contextPath}/resources/images/image_1.jpg"/>
-						              </div>
-						              <div class="item">
-										<img src="${pageContext.request.contextPath}/resources/images/image_1.jpg"/>
-						              </div>
-						              <div class="item">
-										<img src="${pageContext.request.contextPath}/resources/images/image_1.jpg"/>
-						              </div>
-						            </div>
-						          </div>
-						        </div>
-				          </div>
-				          
-						<div class="col-md-2"></div>
-						
-				          <div class="col-md-5 heading-section ftco-animate">
-				            <h2 class="mb-1 pb-1"><strong>여행 제목4</strong></h2>          
-				          	<div class="row ftco-animate">
-						          <div class="col-md-12">
-						            <div class="carousel-testimony owl-carousel">
-						              <div class="item">
-										<img src="${pageContext.request.contextPath}/resources/images/image_1.jpg"/>
-						              </div>
-						              <div class="item">
-										<img src="${pageContext.request.contextPath}/resources/images/image_1.jpg"/>
-						              </div>
-						              <div class="item">
-										<img src="${pageContext.request.contextPath}/resources/images/image_1.jpg"/>
-						              </div>
-						            </div>
-						          </div>
-						        </div>
-				          </div>
+				          <c:if test="${status.index%2 == 0 }">
+						  <div class="col-md-2"></div>
+						  </c:if>
+						</c:forEach>
+						</c:otherwise>
+						</c:choose>
 				<!--  -->          
 				        </div>
 						</div>
+						<!-- 페이징 -->        
+<script type="text/javascript">
+	function potoPageMove(page){
+    	location.href = "community.do?potocurpagenum="+page;
+    }
+</script>              
+						<c:if test="${potopage.listCount > 4}">
+					      <div class="container">
+					        <div class="row mt-5">
+					          <div class="col text-center">
+					            <div class="block-27">
+					              <ul>
+					              <c:if test="${potopage.preve eq true }">
+					                <li><a href="javascript:potoPageMove(${potopage.currentPage-1 })">&lt;</a></li>
+					              </c:if>
+					              <c:forEach var="i" begin="${potopage.startPage }" end="${potopage.endPage }" >
+					              <c:choose>
+					              <c:when test="${i eq potopage.currentPage }">
+					                <li class="active"><span><a href="javascript:potoPageMove(${i})">${i}</a></span></li>
+					              </c:when>
+					              <c:otherwise>
+					              	<li><a href="javascript:potoPageMove(${i})">${i}</a></li>
+					              </c:otherwise>
+					              </c:choose>
+					              </c:forEach>  
+					              <c:if test="${potopage.next eq true }">  
+					                <li><a href="javascript:potoPageMove(${potopage.currentPage+1 })">&gt;</a></li>
+					              </c:if>  
+					              </ul>
+					            </div>
+					          </div>
+					        </div>
+					      </div>
+						</c:if>   
 		              </div>
 		            </div>
 		          </div>
@@ -273,24 +348,6 @@
 		      </div>
 		    </div>
     	</div>
-<!-- 페이징 -->        
-      <div class="container">
-        <div class="row mt-5">
-          <div class="col text-center">
-            <div class="block-27">
-              <ul>
-                <li><a href="#">&lt;</a></li>
-                <li class="active"><span>1</span></li>
-                <li><a href="#">2</a></li>
-                <li><a href="#">3</a></li>
-                <li><a href="#">4</a></li>
-                <li><a href="#">5</a></li>
-                <li><a href="#">&gt;</a></li>
-              </ul>
-            </div>
-          </div>
-        </div>
-      </div>
 <!--  -->
     </section>
     

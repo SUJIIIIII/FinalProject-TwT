@@ -196,7 +196,8 @@ function login_chk() {
 					} else {
 						alert("이메일 인증 후 로그인이 가능합니다.");
 					}
-				} else {
+
+				} else if (data.check1 == 0 && data.check2 == 0 || data.check1 == 0 && data.check2 == 1 || data.check1 == 1 && data.check2 == 0){
 					alert("아이디 및 비밀번호를 확인해주세요");
 				}
 			}, error:function(){
@@ -210,6 +211,30 @@ function login_chk() {
 	} else{	
 		return false;
 	}
+}
+
+// 아이디 찾기
+function findId() {
+	var m_Name = $("#m_Name").val();
+	var m_Email = $("#m_Email").val();
+	
+	console.log(m_Name);
+	console.log(m_Email);
+	
+	$.ajax({
+		url:"searchId.do?m_Name="+m_Name+"&m_Email="+m_Email,
+		type:"get",
+		dataType:"json",
+		contentType:"application/json",
+		success:function(data){
+			if(data.info == "") {
+				alert("회원 정보를 확인해주세요");
+			} else {
+				$("#find_result").show();
+				$("#find_result").append(data.info);
+			}
+		}
+	});
 }
 
 // 아이디 찾기

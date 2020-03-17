@@ -144,6 +144,9 @@ function fList(ts_Code){
     padding-bottom: 0.5rem !important;
     padding-top: 0.5rem !important;
 }
+.btn.btn-primary.btn-outline-primary:hover {
+    background: #fc3c3c;
+}
 </style>
 </head>
 <body id="body">
@@ -206,7 +209,7 @@ function fList(ts_Code){
 				
  <main id="home" class="contents">
   <div class="container">
-    <h3 class="page-title text-center" style="margin-top: 120px; color: silver; font-size: 17px;"><i class="fas fa-calendar-alt"></i>&nbsp; 2020.02.03 ~ 2020.02.06 <br/> ${detail.ts_Period }DAYS</h3>
+    <h3 class="page-title text-center" style="margin-top: 120px; color: silver; font-size: 17px;"><i class="fas fa-calendar-alt"></i><br>${detail.ts_Sday }<br> ~ <br>${detail.ts_Period }DAYS</h3>
     
     <c:choose>
     <c:when test="${empty detailList }">
@@ -219,7 +222,7 @@ function fList(ts_Code){
       <li class="timeline-line"></li>
       
       <li class="timeline-group">
-        <a href="#" class="btn btn-primary">${dayList}</a>
+        <a class="btn btn-primary" style="color: white; ">${dayList}</a>
       </li>
       
     </ul>
@@ -313,15 +316,12 @@ function fList(ts_Code){
           <div class="col-md-4 sidebar ftco-animate">
 
             <div class="sidebar-box ftco-animate">
+            
               <h3><i class="fas fa-clipboard-list"></i> Relation Post</h3>
-   	           
               <c:forEach items="${themeList}" var="theme" varStatus="status" begin="0" end="2" >
-   	           	<c:choose>
-   	       			<c:when test="${detail.ts_Code == theme.ts_Code}">
-   	           		</c:when>
-   	           		<c:otherwise>
+              	<c:if test="${detail.ts_Code != theme.ts_Code}">
 		             <div class="block-21 mb-4 d-flex">
-		               <a href="communityDetail.do?ts_code=${theme.ts_Code }" class="blog-img mr-4" style="background-image: url(${pageContext.request.contextPath}/resources/images/plan/${theme.city_Code }/${theme.tp_Img });"></a>
+		               <a href="communityDetail.do?ts_code=${theme.ts_Code }" class="blog-img mr-4" style="background-image: url(${pageContext.request.contextPath}/resources/images/thumbnail/${theme.ts_Thum});"></a>
 		               <div class="text">
 		                 <h3 class="heading"><a href="communityDetail.do?ts_code=${theme.ts_Code }">${theme.ts_Title }</a></h3>
 		                 <div class="meta">
@@ -331,32 +331,8 @@ function fList(ts_Code){
 		                 </div>
 		               </div>
 		            </div>
-           			</c:otherwise>
-           		</c:choose>
+		         </c:if>
            	</c:forEach>
-<%--               <div class="block-21 mb-4 d-flex">
-                <a class="blog-img mr-4" style="background-image: url(${pageContext.request.contextPath}/resources/images/image_2.jpg);"></a>
-                <div class="text">
-                  <h3 class="heading"><a href="#">Even the all-powerful Pointing</a></h3>
-                  <div class="meta">
-                    <div><a href="#"><i class="fa fa-calendar"></i> 날짜</a></div>
-                    <div><a href="#"><i class="fas fa-user"></i> 아이디</a></div>
-                    <div><a href="#"><i class="far fa-eye far-2x"></i> 조회수</a></div>
-                  </div>
-                </div>
-              </div>
-              <div class="block-21 mb-4 d-flex">
-                <a class="blog-img mr-4" style="background-image: url(${pageContext.request.contextPath}/resources/images/image_3.jpg);"></a>
-                <div class="text">
-                  <h3 class="heading"><a href="#">Even the all-powerful Pointing</a></h3>
-                  <div class="meta">
-                    <div><a href="#"><i class="fa fa-calendar"></i> 날짜</a></div>
-                    <div><a href="#"><i class="fas fa-user"></i> 아이디</a></div>
-                    <div><a href="#"><i class="far fa-eye far-2x"></i> 조회수</a></div>
-                  </div>
-                </div>
-              </div>
-            </div> --%>
 
             <div class="sidebar-box ftco-animate">
               <h3><i class="fas fa-hashtag"></i> Tag</h3>
