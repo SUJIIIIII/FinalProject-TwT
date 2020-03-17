@@ -3,6 +3,8 @@
  */
 
 $(document).ready(function() {
+	sessionStorage.clear(); // 세션스토리지 비워주기
+	
    // 선택한 도시번호 추가하기
    $(".item").on("click", function() {
       $('#select_detail_view_city').css("display", "block");

@@ -121,80 +121,77 @@ public class PlanController {
 		return "TwTPlan/plan_detail";
 	}
 	
-	@RequestMapping(value = "/insertPlan.do", method = RequestMethod.POST)
-	@ResponseBody
-	public Map<String, String> insertPlan(HttpServletRequest request, HttpSession session,
-			@RequestBody Map<String, HashMap<String, Object>> param) throws ParseException {
-		
-		HashMap<String, Object> day_list = param.get("day_list"); // Day_List를 맵에 넣어줌
-		HashMap<String, Object> form_data = param.get("form_data"); // form Data를 맵에 넣어줌
-		
-		System.out.println("form_data : " + form_data);
-		System.out.println("day_list_obj : " + day_list);
-		
-		UUID uuid = UUID.randomUUID(); // 고유번호 만들어주기
-		String user_code = (String) session.getAttribute("userCode"); //유저번호 가져오기
-		String file_name = uuid.toString() + "_" + (String) form_data.get("file_name").toString();
-		String pn_title = (String)form_data.get("pn_title");
-		String pn_day = (String) form_data.get("pn_day").toString();
-		int pn_person = Integer.parseInt((String) form_data.get("pn_person").toString());
-		String pn_desc = (String) form_data.get("pn_desc").toString();
-		String pn_type = (String) form_data.get("pn_type").toString();
-		int pn_period = day_list.size();
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd", Locale.ENGLISH);
-		Date s_day = sdf.parse(pn_day);
-		
-		
-		TravelScheduleVo ts_vo = new TravelScheduleVo(); // vo에 정보 담아주기
-		ts_vo.setm_Code(user_code);
-		ts_vo.setts_Thum(file_name);
-		ts_vo.setts_Title(pn_title);
-		ts_vo.setts_People(pn_person);
-		ts_vo.setts_Theme(pn_type);
-		ts_vo.setts_Period(pn_period);
-		ts_vo.setts_Sday(s_day);
-				
-		int res = biz.insertSchedule(ts_vo);
-		
-		if(res == 0) {
-			System.out.println("insert가 실패하였습니다.");
-		} 
-		
-		String ts_code = "TS11" + ts_vo.getre_Code(); // TS_CODE 담아주기
+   @RequestMapping(value = "/insertPlan.do", method = RequestMethod.POST)
+   @ResponseBody
+   public Map<String, String> insertPlan(HttpServletRequest request, HttpSession session,
+         @RequestBody Map<String, HashMap<String, Object>> param) throws ParseException {
+      
+      HashMap<String, Object> day_list = param.get("day_list"); // Day_List를 맵에 넣어줌
+      HashMap<String, Object> form_data = param.get("form_data"); // form Data를 맵에 넣어줌
+      
+      System.out.println("form_data : " + form_data);
+      System.out.println("day_list_obj : " + day_list);
+      
+      UUID uuid = UUID.randomUUID(); // 고유번호 만들어주기
+      String user_code = (String) session.getAttribute("userCode"); //유저번호 가져오기
+      String file_name = uuid.toString() + "_" + (String) form_data.get("file_name").toString();
+      String pn_title = (String)form_data.get("pn_title");
+      String pn_day = (String) form_data.get("pn_day").toString();
+      int pn_person = Integer.parseInt((String) form_data.get("pn_person").toString());
+      String pn_desc = (String) form_data.get("pn_desc").toString();
+      String pn_type = (String) form_data.get("pn_type").toString();
+      int pn_period = day_list.size(); 
+      
+      TravelScheduleVo ts_vo = new TravelScheduleVo(); // vo에 정보 담아주기
+      ts_vo.setm_Code(user_code);
+      ts_vo.setts_Thum(file_name);
+      ts_vo.setts_Title(pn_title);
+      ts_vo.setts_People(pn_person);
+      ts_vo.setts_Theme(pn_type);
+      ts_vo.setts_Period(pn_period);
+      ts_vo.setts_Sday(pn_day);
+        
+      int res = biz.insertSchedule(ts_vo);
+      
+      if(res == 0) {
+         System.out.println("insert가 실패하였습니다.");
+      } 
+      
+      String ts_code = "TS11" + ts_vo.getre_Code(); // TS_CODE 담아주기
 
-		
-		for (int i = 1; i < day_list.size(); i++) {
-			Object select_day = day_list.get("day"+i);
-			String select_day_str = select_day.toString();
-			
-			System.out.println("Day"+ i + " toStirng : " + select_day_str);
-			
-			select_day_str = select_day_str.replaceAll("\\{", "");
-			select_day_str = select_day_str.replaceAll("\\}", "");
-			
-			System.out.println("Day"+ i + " toStirng replace : " + select_day_str);
-			
-			String[] day_arr =  select_day_str.split(",");
-			for (int j = 0; j < day_arr.length; j++) {
-				String day_spot_num = day_arr[j].split("=")[1];
-				ts_vo.settp_Code(day_spot_num);
-				ts_vo.setTs_Day("DAY"+i);
-				
-				System.out.println("day_spot_num : " + day_spot_num);
-				
-				int res2 = biz.insertScheduleDay(ts_vo); 
-				
-				if(res2 == 0 ) {
-					System.out.println("insert가 실패하였습니다.");
-				}
-			}
-		}
+      
+      for (int i = 1; i < day_list.size(); i++) {
+         Object select_day = day_list.get("day"+i);
+         String select_day_str = select_day.toString();
+         
+         System.out.println("Day"+ i + " toStirng : " + select_day_str);
+         
+         select_day_str = select_day_str.replaceAll("\\{", "");
+         select_day_str = select_day_str.replaceAll("\\}", "");
+         
+         System.out.println("Day"+ i + " toStirng replace : " + select_day_str);
+         
+         String[] day_arr =  select_day_str.split(",");
+         for (int j = 0; j < day_arr.length; j++) {
+            String day_spot_num = day_arr[j].split("=")[1];
+            ts_vo.settp_Code(day_spot_num);
+            ts_vo.setTs_Day("DAY"+i);
+            
+            System.out.println("day_spot_num : " + day_spot_num);
+            
+            int res2 = biz.insertScheduleDay(ts_vo); 
+            
+            if(res2 == 0 ) {
+               System.out.println("insert가 실패하였습니다.");
+            }
+         }
+      }
 
-		Map<String, String> map = new HashMap<String, String>();
-		map.put("file_name", uuid.toString());
+      Map<String, String> map = new HashMap<String, String>();
+      map.put("file_name", uuid.toString());
 
-		return map;
-	}
+      return map;
+   }
 
 	@RequestMapping(value = "/fileUpload.do", method = RequestMethod.POST)
 	public String fileUpload(MultipartFile file, HttpServletRequest request) {
