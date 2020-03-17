@@ -175,45 +175,45 @@
 							<c:forEach items="${list }" var="vo" varStatus="status" begin="${page.startRow }" end="${page.startRow + 7 }">
 							 	<div class="col-md-3 d-flex ftco-animate">
 							            <div class="blog-entry align-self-stretch" style="min-width: 250px;">
-							              <a href="communityDetail.do?ts_code=${vo.ts_Code }" class="block-20" style="background-image: url(${pageContext.request.contextPath}/resources/images/plan/${vo.city_Code }/${vo.tp_Img });"></a>
+							              <a href="communityDetail.do?ts_code=${vo.ts_Code }" class="block-20" style="background-image: url(${pageContext.request.contextPath}/resources/images/thumbnail/${vo.ts_Thum});"></a>
 							              <div class="text p-4 d-block" style="min-width: 250px;">
-							              	<span class="tag">${fn:substring(vo.ts_Sday,0,8)}</span>
+							              	<span class="tag">${vo.ts_Sday}</span>
 							              	<span class="tag">| ${vo.ts_Period }DAYS</span>
 							              	<span style="padding: 0 0 0 18px; float: right;">
 							              	
 							              	<!-- 로그인 돼있을 때 찜 여부 확인 후 목록 출력 -->
-                                   <c:if test="${kakaoId ne null or naverId ne null or user ne null or googleId ne null}">
-                                      <c:set var="istrue" value="false"></c:set>
-                                         <c:forEach items="${check}" var="check">
-                                            <c:if test="${check.fl_Code eq vo.ts_Code }">
-                                               <c:set var="istrue" value="true"></c:set>
-                                            </c:if>
-                                         </c:forEach>
-                                              <c:choose>
-                                               <c:when test="${istrue eq true}">
-                                                     <div class="cnt_copy">
-                                                   <a onclick="fList('${vo.ts_Code}');" id="fList" style="cursor: pointer;"><i class="far fa-heart" id="fa-heart_${vo.ts_Code}" style="color: #fc3c3c; font-weight: bold;" ></i></a>&nbsp;&nbsp;
-                                                   <i class="fas fa-eye"></i><span style="font-size:14px;">&nbsp;&nbsp;${vo.ts_View }</span>
-                                                   <p class="check" id="check_${vo.ts_Code }" style="display: none;">Y</p>
-                                                </div>
-                                               </c:when>
-                                               <c:otherwise>
-                                                   <div class="cnt_copy">
-                                                   <a onclick="fList('${vo.ts_Code}');" id="fList" style="cursor: pointer;"><i class="far fa-heart" id="fa-heart_${vo.ts_Code}" style="color: #fc3c3c;" ></i></a>&nbsp;&nbsp;
-                                                   <i class="fas fa-eye"></i><span style="font-size:14px;">&nbsp;&nbsp;${vo.ts_View }</span>
-                                                   <p class="check" id="check_${vo.ts_Code }" style="display: none;" >N</p>
-                                                </div>
-                                               </c:otherwise>
-                                          </c:choose>
-                                 </c:if>
-                                 
-                                 <!-- 로그인 안돼 있을 때 하트 클릭 시 로그인 창으로 이동 -->
-                                 <c:if test="${kakaoId eq null and naverId eq null and user eq null and googleId eq null}">
-                                    <div class="cnt_copy">
-                                       <a onclick="login();" id="login" style="cursor: pointer;"><i class="far fa-heart" style="color: #fc3c3c;"></i></a>&nbsp;&nbsp;
-                                       <i class="fas fa-eye"></i><span style="font-size:14px;">&nbsp;&nbsp;${vo.ts_View }</span>
-                                         </div>
-                                 </c:if>
+							              <c:if test="${kakaoId ne null or naverId ne null or user ne null or googleId ne null}">
+							              	<c:set var="istrue" value="false"></c:set>
+							              		<c:forEach items="${check}" var="check">
+							              			<c:if test="${check.fl_Code eq vo.ts_Code }">
+										              	<c:set var="istrue" value="true"></c:set>
+							              			</c:if>
+							              		</c:forEach>
+							              		  	<c:choose>
+										              	<c:when test="${istrue eq true}">
+									              				<div class="cnt_copy">
+																	<a onclick="fList('${vo.ts_Code}');" id="fList" style="cursor: pointer;"><i class="far fa-heart" id="fa-heart_${vo.ts_Code}" style="color: #fc3c3c; font-weight: bold;" ></i></a>&nbsp;&nbsp;
+																	<i class="fas fa-eye"></i><span style="font-size:14px;">&nbsp;&nbsp;${vo.ts_View }</span>
+																	<p class="check" id="check_${vo.ts_Code }" style="display: none;">Y</p>
+																</div>
+										              	</c:when>
+										              	<c:otherwise>
+													            <div class="cnt_copy">
+																	<a onclick="fList('${vo.ts_Code}');" id="fList" style="cursor: pointer;"><i class="far fa-heart" id="fa-heart_${vo.ts_Code}" style="color: #fc3c3c;" ></i></a>&nbsp;&nbsp;
+																	<i class="fas fa-eye"></i><span style="font-size:14px;">&nbsp;&nbsp;${vo.ts_View }</span>
+																	<p class="check" id="check_${vo.ts_Code }" style="display: none;" >N</p>
+																</div>
+										              	</c:otherwise>
+										            </c:choose>
+											</c:if>
+											
+											<!-- 로그인 안돼 있을 때 하트 클릭 시 로그인 창으로 이동 -->
+											<c:if test="${kakaoId eq null and naverId eq null and user eq null and googleId eq null}">
+												<div class="cnt_copy">
+													<a onclick="login();" id="login" style="cursor: pointer;"><i class="far fa-heart" style="color: #fc3c3c;"></i></a>&nbsp;&nbsp;
+													<i class="fas fa-eye"></i><span style="font-size:14px;">&nbsp;&nbsp;${vo.ts_View }</span>
+							              		</div>
+											</c:if>
 											
 								            </span>
 								            <br>

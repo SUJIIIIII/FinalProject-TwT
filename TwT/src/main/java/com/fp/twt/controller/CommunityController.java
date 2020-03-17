@@ -251,6 +251,32 @@ public class CommunityController {
             list = biz.selectList_D();
             model.addAttribute("list", list);
          }
+         
+         String curpagenum = request.getParameter("curpagenum");
+
+	        int currentPage = 0;
+
+	        if (curpagenum == null || curpagenum == "0") {
+	           currentPage = 1;
+	        } else {
+	           currentPage = Integer.parseInt(request.getParameter("curpagenum"));
+	        }
+	        
+	        int listCount = list.size();
+
+	        pageinfo page = new pageinfo();
+	        page.setBoardSize(8);
+	        page.setCurrentPage(currentPage);
+	        page.setPreve(currentPage);
+	        page.setStartRow(currentPage);
+	        page.setListCount(listCount);
+	        page.setAllPage(listCount);
+	        page.setStartPage(currentPage, page.getAllPage());
+	        page.setEndPage(currentPage, page.getAllPage());
+	        page.setNext(currentPage, page.getAllPage());
+
+	        model.addAttribute("page", page);
+         
         } else if(member == null) {   // 로그인 안돼 있을 경우
            // 테마 별 모아보기
          if(ts_theme != null) {
