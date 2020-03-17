@@ -4,6 +4,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page import="com.fp.twt.vo.MemberVo" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -248,17 +249,18 @@
 		    					<div class="text p-3">
 		    						<div class="d-flex">
 		    							<div class="one">
-				    						<h3 class="text-truncate" style="max-width: 130px;"><a href="hotelDetail.do?h_Code=${HotelVo.h_Code }">${HotelVo.h_Name}</a></h3>
+				    						<h3 style="width: 130px;"><a href="hotelDetail.do?h_Code=${HotelVo.h_Code }" style="margin: -7px;">${HotelVo.h_Name}</a></h3>
 				    						<p class="rate">
-				    							<i class="icon-star"></i>
-				    							<i class="icon-star"></i>
-				    							<i class="icon-star"></i>
-				    							<i class="icon-star"></i>
-				    							<i class="icon-star-o"></i>
+		    									<c:forEach begin="1" end="${HotelVo.h_Starn}">
+		    										<i class="icon-star"></i>
+		    									</c:forEach>
+		    									<c:forEach begin="1" end="${5 - HotelVo.h_Starn}">
+				    								<i class="icon-star-o"></i>
+				    							</c:forEach>
 				    						</p>
 			    						</div>
 			    						<div class="two">
-			    							<span class="price per-price" style="margin: -7px;">₩169,006<br><a style="font-size: 16px;">/ 1박</a></span>
+			    							<span class="price per-price" style="margin: -7px;">₩&nbsp;<fmt:formatNumber value="${HotelVo.min_Price}" pattern="#,###" /><br><a style="font-size: 16px;">/ 1박</a></span>
 		    							</div>
 		    						</div>
 		    						<p style="width:216px; height:85px;">${HotelVo.h_Basiccontent}</p>

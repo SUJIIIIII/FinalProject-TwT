@@ -47,6 +47,7 @@ public class KakaoPay {
 	    	System.out.println(price);
 	        
 
+
 	        // 서버로 요청할 Body
 	        MultiValueMap<String, String> params = new LinkedMultiValueMap<String, String>();
 	        params.add("cid", "TC0ONETIME");

@@ -566,7 +566,6 @@ var count; // 스팟리스트 개수
 		marker = [];
 		
 	}
-
 		
 	/* script */
 	$(document).ready(function(){
