@@ -244,7 +244,7 @@ $(document).ready(function(){
 	});
 	
 	// 검색 카테고리 사진 변경
-	$(".list_cat_item").on("click", function() {
+	$(document).on(".list_cat_item", "click", function() {
 		pre_img = $('.list_cat_item.on img').attr('src');
 		pre_change_img = pre_img.replace('_c','_a');
 		$('.list_cat_item.on img').attr('src', pre_change_img);
@@ -715,7 +715,7 @@ function cat_menu_edit() {
 
 		}
 		
-		dep_date.setDate(dep_date.getDate() + 1); // 하루씩 날짜 더해주기
+		dep_date.setDate(dep_date.getDate()); // 하루씩 날짜 더해주기
 		var weekday = date_to_label(dep_date.getDay()); // 요일 반환하기
 		var set_date = day_add_zero(dep_date); 
 		
