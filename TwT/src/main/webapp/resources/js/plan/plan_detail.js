@@ -334,7 +334,7 @@ $(document).ready(function(){
 
       }
          
-         // 변경전 도시 위도/경도 삭제 ===========
+         // 변경전 도시 위도/경도 삭제
          $(".day_menu.on").removeData("f_lat");
          $(".day_menu.on").removeData("f_lng");
          // 변경된 도시 위도/경도 선택된 day에 set
@@ -439,9 +439,9 @@ $(document).ready(function(){
       var memo = $("#memo_input").val();
       var index = $(".detail_view_full_box").data("no");
       var storage_index
-
+      
       for(var i=1;i<=$("#schedule_detail_box").children().length;i++){
-         if($("#spot"+i).data("no") == index){
+         if($("#spot"+i).data("no") == index){       
             $("#spot"+i).removeData("budget");
             $("#spot"+i).removeData("memo");
             $("#spot"+i).attr("data-budget",budget);
@@ -477,12 +477,6 @@ $(document).ready(function(){
 	});
 
 });
-
-// 드래그 가능 코드
-$(function() {
-   $("#cat_menu_edit_box").sortable();
-});
-
 
 // Day 수정 버튼 클릭
 function day_edit_start(){
@@ -534,7 +528,6 @@ function create_spot_detail(set_day) {
          $("#schedule_detail_box").append("" +
              "<div class='day_spot_item' data='" + spot_seq + "' data-set_day='" + set_day + "' data-budget='" + spot_obj[num][7]+ "' data-memo='" + spot_obj[num][8]+ "' data-img='"+spot_obj[num][6]+"' data-citycd='"+ spot_obj[num][5] +"' data-seq='"+ spot_num +"' data-no='" + spot_obj[num][2] + "' data-pl_cat='301' data-latlng='" + spot_obj[num][3] + "," + spot_obj[num][4] + "' data-lat='" + spot_obj[num][3]+ "' data-lng='" + spot_obj[num][4] +"' data-ci='87' data-type='"+spot_obj[num][1]+"' id='spot" + spot_seq + "'>"
              +   "<div class='item_ctrl_box' style='display: none'>"
-             +      "<div class='fl item_copy_plan' title='장소복사'><img src='/twt/resources/images/plan/item_more_icon_a.png'></div>"
              +       "<div class='fl item_set_plan' title='메모&amp;예산' onclick='addbudget(&quot;"+spot_obj[num][2]+"&quot;,&quot;"+spot_obj[num][0]+"&quot;,&quot;"+spot_obj[num][6]+"&quot;,&quot;"+spotcontent+"&quot;,&quot;"+spotaddr+"&quot;,&quot;"+spot_obj[num][5]+"&quot;,&quot;"+spot_obj[num][1]+"&quot;)'><img src='/twt/resources/images/plan/item_set_icon_a.png'></div>"
              +      "<div class='fl btn_del' title='삭제'><img src='/twt/resources/images/plan/item_del_icon_a.png'></div>"
              +      "<div class='clear'></div>"
@@ -544,7 +537,6 @@ function create_spot_detail(set_day) {
              +      "<img src='/twt/resources/images/plan/" + spot_obj[num][5]+ "/" + spot_obj[num][6] +"'>"
              +      "<div style='position:absolute;top:35px;left:40px;width:22px;height:20px;>"
              +         "<img src='/twt/resources/images/plan/list_memo_btn_off.png' class='memo_indi' style='width:22px;height:20px;'>"
-             +         "<!-- <i class='fas fa-pencil-alt'></i> -->"
              +      "</div>"
              +   "</div>"
              +   "<div class='fl info_box'>"
@@ -608,6 +600,7 @@ function sub_totalBudget(num) {
    tmp *= -1; // String to int
    total += tmp;
    var format = formatnumber(total,"3");
+   
    $("#total").html(format);
 }
 
@@ -772,7 +765,6 @@ function cat_menu_edit() {
    var dep_date = get_departure_date(); // 시작일 가져오기
 
    $("#cat_menu_edit_box").children().remove();
-
    for (var i = 1; i <= storage_length; i++) {
       var spot_obj = JSON.parse(sessionStorage.getItem("Day"+i));
 
@@ -804,6 +796,9 @@ function cat_menu_edit() {
 
       dep_date.setDate(dep_date.getDate() + 1); // 하루씩 날짜 더해주기
    }
+   
+	//드래그 가능 코드
+	$("#cat_menu_edit_box").sortable();
    }
 
    function del_plan_day(day_num) {
@@ -868,6 +863,13 @@ function del_marker_path() {
 }
 
 
+
+$(function() {
+	//드래그 가능 코드
+	$("#cat_menu_edit_box").sortable();
+});
+
+
 // 번호 재정렬 함수
 function reorder() {
 
@@ -903,7 +905,6 @@ function insertPlan(){
 		contentType : "application/json",
 		processData : false,
 		success : function(result){
-			alert("성공 : " + result.file_name);
 			$("#file_name").val(result.file_name);
 			
 			$("#form").submit();

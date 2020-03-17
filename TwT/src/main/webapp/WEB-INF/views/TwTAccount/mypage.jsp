@@ -152,6 +152,7 @@ $(document).ready(function(){
 		alert("회원탈퇴가 성공적으로 완료되었습니다.");
 	});
 });
+
 </script>
 <style type="text/css">
 .ftco-navbar-light .navbar-nav > .nav-item.cta > a:hover {
@@ -969,6 +970,7 @@ html {
 						          <input type="hidden" name="hr_Code" value="${book.hr_Code }"/>
 						          <input type="hidden" name="hb_Code" value="${book.hb_Code}"/>
 						          <input type="hidden" name="h_Code" value="${book.h_Code}"/>
+
 							      <input class="star-rating__input" type="radio" name="hrv_Starn" id="star-rating-5" value="5">
 							      <label class="star-rating__ico far fa-star" for="star-rating-5"></label>
 							      <input class="star-rating__input" type="radio" name="hrv_Starn" id="star-rating-4" value="4">

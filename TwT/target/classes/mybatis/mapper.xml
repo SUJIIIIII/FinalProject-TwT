@@ -191,10 +191,9 @@
 	
 	<!-- 연관 일정 -->
 	<select id="themeList_D" parameterType="String" resultType="TravelSchedule">
-		SELECT TS.TS_CODE, TS.M_CODE, TS.TP_CODE, TS.TS_TITLE, TS.TS_SDAY, TS.TS_THEME, TS.TS_PERIOD, TS.TS_PEOPLE, TS.TS_THUM, TS.TS_DATE, TS.TS_VIEW, M.M_NAME, FL.FL_CHECK
+		SELECT TS.TS_CODE, TS.M_CODE, TS.TP_CODE, TS.TS_TITLE, TS.TS_SDAY, TS.TS_THEME, TS.TS_PERIOD, TS.TS_PEOPLE, TS.TS_THUM, TS.TS_DATE, TS.TS_VIEW, M.M_NAME
 		FROM TRAVELSCHEDULE TS 
 		LEFT JOIN TWTMEMBER M ON (TS.M_CODE = M.M_CODE) 
-		LEFT JOIN FAVORITE_LIST FL ON(TS.TS_CODE = FL.FL_CODE)
 		WHERE TS.TS_THEME = #{ts_Theme}
 		ORDER BY TS_VIEW DESC, TS_DATE DESC
 	</select>
@@ -403,16 +402,20 @@
     <!-- 업데이트할 호텔의 평점 가져오기 -->
     <select id="selectHotelStarM" resultType="Hotel">
        SELECT H_STARN FROM HOTEL WHERE H_CODE = #{h_Code}
-    </select>    
-
+    </select>   
 	<!-- ================================찬우================================== -->
 	
 	
 	<!-- 메인 호텔 예약많은 순으로 4개 검색 -->
 	 
 	<select id="main_hotel" resultType="Hotel">
+			SELECT TB.*
+		FROM (
+			SELECT ROWNUM as rn, ht.*
+		<include refid="hotelInc" />
+			ORDER BY H_BOOKCNT) TB
 		<![CDATA[
-		SELECT * FROM (SELECT * FROM HOTEL ORDER BY H_BOOKCNT) WHERE ROWNUM <= 6
+		WHERE ROWNUM <= 6
 		]]>
 	</select>
 	

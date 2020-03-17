@@ -387,8 +387,8 @@ src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCiDE5HBue4mflsdkcsGvSZrUe
           			<input type="hidden" id="reservation_hotelroom" name="reservation_hotelroom" value="">
           			<input type="hidden" id="reservation_price" name="reservation_price" value="">
           			<h4 class="mb-5">예약</h4>
-					<p id="reservation_hotelname" style="font-size: 10px; color: #FFA7A7;"><input type="hidden"  name="reservation_hotelname" value="${hvo.h_Name}">${hvo.h_Name} (
-						<span id="reservation_hotelroom2" style="font-size: 10px; color: #FFA7A7;">방정보</span>)
+					<p id="reservation_hotelname2" style="font-size: 20px; color: #fc3c3c;"><input type="hidden"  name="reservation_hotelname" value="${hvo.h_Name}"><b>${hvo.h_Name}</b>
+					(<span id="reservation_hotelroom2" style="font-size: 17px; color: #fc3c3c;">방정보</span>)
 					</p><!--  -->
           			<h5 class="mb-5">총금액 :<span id="reservation_price2">금액</span> 원</h5>
           			<div class="fields">
