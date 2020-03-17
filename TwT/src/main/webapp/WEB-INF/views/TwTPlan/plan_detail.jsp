@@ -564,7 +564,6 @@ var count; // 스팟리스트 개수
 		
 	}
 
-	
 		
 	/* script */
 	$(document).ready(function(){
@@ -690,6 +689,7 @@ var count; // 스팟리스트 개수
 			$(".et_modal").show();
 			
 			var day_list = new Object();
+
 			for(var i = 1; i <= $(".day_menu").children().lengh; i++){
 				day_list['day'+i] = sessionStorage.getItem("Day"+i);
 			}
@@ -729,7 +729,6 @@ var count; // 스팟리스트 개수
 
 		});
 		
-
 	});
 	
 	google.maps.event.addDomListener(window, 'load', initialize);
@@ -737,7 +736,7 @@ var count; // 스팟리스트 개수
 </script>
 <!-- 구글맵 API KEY -->
 <script async defer
-src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCiDE5HBue4mflsdkcsGvSZrUeEooX8gWQ&callback=initMap&language=ko&region=KR">
+src="https://maps.googleapis.com/maps/api/js?v=weekly&key=AIzaSyCiDE5HBue4mflsdkcsGvSZrUeEooX8gWQ&callback=initMap&language=ko&region=KR">
 </script>
 <style type="text/css">
 .list_box_overlay {
@@ -1106,6 +1105,7 @@ src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCiDE5HBue4mflsdkcsGvSZrUe
 					</div>
 					<div class="modal_content">
 						<input type="hidden" name="plan_seq" id="plan_seq" value="1213145">
+						<input type="hidden" name="pn_dayList" id="pn_dayList" value="">
 						<table class="create_table" width="100%" cellpadding="0" cellspacing="0">
 							<colgroup>
 								<col width="85"></col>

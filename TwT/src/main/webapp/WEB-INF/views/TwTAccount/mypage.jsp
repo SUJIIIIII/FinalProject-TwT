@@ -84,39 +84,12 @@ $(function(){
 		$("#date").datepicker('setDate', 'today');
 });
 
-<%-- 호텔 예약 날짜 비교하여 평점 가능 여부 --%>
+<%-- 회원탈퇴 --%>
 $(document).ready(function(){
-	$("#star").click(function(){
-		
-		// 체크아웃 날짜
-		var endDate = $("#endDate").val().substring(0,10);
-		console.log(endDate);
-		
-		var endDateArr = endDate.split("-");
-		console.log(endDateArr);
-		
-		// 오늘 날짜
-		var today = new Date().toISOString().substring(0,10);
-		console.log(today);
-		
-		var todayArr = today.split("-");
-		console.log(todayArr);
-		
-		var todayCompare = new Date(todayArr[0], parseInt(todayArr[1])-1, todayArr[2]);
-		var endDateCompare = new Date(endDateArr[0], parseInt(endDateArr[1])-1, endDateArr[2]);
-		
-		console.log(todayCompare);
-		console.log(endDateCompare);
-		
-		// 오늘 날짜가 체크아웃 날짜보다 이전이라면
-		if(todayCompare < endDateCompare) {
-			alert("평점은 호텔 체크아웃 이후에 작성할 수 있습니다");
-		} else {
-			$("#star").attr("type","submit");
-		}
+	$("#deleteMe").click(function(){
+		alert("회원탈퇴가 성공적으로 완료되었습니다.");
 	});
 });
-
 </script>
 <style type="text/css">
 .ftco-navbar-light .navbar-nav > .nav-item.cta > a:hover {
@@ -555,7 +528,6 @@ html {
 
 #air_container {
 	width: 100%;
-	height: 450px;
 }
 
 #airplane_Info {
@@ -566,7 +538,8 @@ html {
 	border-right: 3px solid #eee;
 	border-bottom: 3px solid #eee;
 	border-left: 3px solid #eee;
-	margin-top: 390px;
+	float:left;
+	margin-top:10px;
 	padding: 15px 15px;
 }
 
@@ -715,13 +688,13 @@ html {
 		<div class="col-sm-9" style="float: left;">
 			<div id="form_wrap">
 					<div class="form-group">
-						<input type="text" name="m_Id" value="${user.m_Id}" /> <label
-							for="input" class="control-label">ID</label><i class="bar"></i>
+					    <span style="color:#868686;">ID</span>
+						<p style="color:black">${user.m_Id}</p>
 					</div>
 
-					<div class="form-group">
-						<input type="text" name="m_Email" value="${user.m_Email}" /> <label
-							for="input" class="control-label">E-MAIL</label><i class="bar"></i>
+					<div class="form-group" style="margin-top:-12px;">
+					    <span style="color:#868686;">E-MAIL</span>
+						<p style="color:black">${user.m_Email}</p>
 					</div>
 					
 					<form action="updatePwd.do" method="post">
@@ -736,7 +709,7 @@ html {
 						</i>
 					</div>
 
-					<div style="margin-left: 585px;">
+					<div style="margin-left: 585px; margin-top:-25px;">
 						<button type="submit" class="btn btn-primary btn-outline-primary">수 정</button>
 					</div>
 				</form>
@@ -752,10 +725,10 @@ html {
 		</div>
 		<c:choose>
 			<c:when test="${empty airlist}">
-				<div class="col-sm-12" style="width: 100%; text-align: center; margin-top:400px;">
+				<div class="col-sm-12" style="width: 100%; text-align: center; float:left;">
 				${user.m_Name}님의 예약된 항공권 정보가 존재하지 않습니다.</div>
 
-				<div class="col-sm-6" style="margin-left: 430px; margin-top: 25px;">
+				<div class="col-sm-6" style="margin-left: 430px; margin-top: 25px; float:left;">
 					<button type="button" class="btn btn-primary btn-outline-primary"
 						data-toggle="modal" data-target="#airplaneInfo">
 						GO WRITE<i class="fas fa-pencil-alt" style="margin-left: 5px;"></i>
@@ -875,11 +848,11 @@ html {
 								<div class="date">
 								  <div style="float:left;"> 
 								     <input type="text" id="startDate" readonly="readonly" style="width:100px; border-bottom:0;"
-								     value="<fmt:formatDate value="${book.hb_Sdate}" type="both" pattern="yyyy-MM-dd [E]"/>"/>~&nbsp;&nbsp;&nbsp;&nbsp;
+								     value="${book.hb_Sdate}"/>~&nbsp;&nbsp;&nbsp;&nbsp;
 								  </div>
 								  <div style="float:left;">
-								    <input type="text" id="endDate" readonly="readonly" style="width:100px; border-bottom:0;"
-								     value="<fmt:formatDate value="${book.hb_Edate}" type="both" pattern="yyyy-MM-dd [E]"/>"/>
+								    <input type="text" id="endDate_${status.index}" readonly="readonly" style="width:100px; border-bottom:0;"
+								     value="${book.hb_Edate}"/>
 								  </div>
                                 </div>
 								<div class="day_title">방콕</div>
@@ -899,11 +872,9 @@ html {
 
 						<div class="day_sch_content">
 							<div class="spot_content_box">
-							 <%--  <c:forEach items="${hotel}" var="hotel"> --%>
 								<div class="spot_name">
 								  ${hotel[status.index].h_Name} 
 								</div> 
-							 <%--  </c:forEach> --%>
 							  	
 								<div class="spot_info">
 									<div class="tag">예약자 : ${book.hb_Name}</div>
@@ -916,66 +887,25 @@ html {
 						<%-- 평점 시작 --%>
 						   <div class="star">
 						       <div class="star-rating__wrap">
+						       
+						       <%-- 평점대로 모양 유지 끝--%>
+						         <c:if test="${rating[status.index].hrv_Starn ne null}">
+							       <c:forEach begin="1" end="${rating[status.index].hrv_Starn}">
+	 								 <i class="icon-star" style="color:#fc3c3c;"></i>
+	 								</c:forEach>
+	 								
+	 								<c:forEach begin="1" end="${5 - rating[status.index].hrv_Starn}">
+	   								  <i class="icon-star-o" style="color:#fc3c3c;"></i>
+	   							    </c:forEach>
+	   							  </c:if>
+						         <%-- 평점대로 모양 유지 끝 --%>
+						         
+						         <c:if test="${rating[status.index].hrv_Starn eq null}"> 
 						         <form action="star.do" method="post">
 						          <input type="hidden" name="m_Code" value="${user.m_Code}"/>
 						          <input type="hidden" name="hr_Code" value="${book.hr_Code }"/>
 						          <input type="hidden" name="hb_Code" value="${book.hb_Code}"/>
 						          <input type="hidden" name="h_Code" value="${book.h_Code}"/>
-						          
-						          <%-- 평점 대로 별 모양 유지 시작--%>
-						          <c:forEach items="${rating}" var="star">
-						             <c:if test="${star.hrv_Starn eq 5}">
-						                <script type="text/javascript">
-						                  $(document).ready(function(){
-						                	$(".star").css("margin-top","18px");
-                                            $("#star-rating-5").attr("checked","true");		
-                                            $("#star").hide();
-						                  });
-						                </script>
-						             </c:if>
-						             
-						             <c:if test="${star.hrv_Starn eq 4}">
-						                <script type="text/javascript">
-						                  $(document).ready(function(){
-						                	$(".star").css("margin-top","18px");
-                                            $("#star-rating-4").attr("checked","true");	
-                                            $("#star").hide();
-						                  });
-						                </script>
-						             </c:if>
-						             
-						             <c:if test="${star.hrv_Starn eq 3}">
-						                <script type="text/javascript">
-						                  $(document).ready(function(){
-						                	  $(".star").css("margin-top","18px");
-                                              $("#star-rating-3").attr("checked","true");	
-                                              $("#star").hide();
-						                  });
-						                </script>
-						             </c:if>
-						             
-						             <c:if test="${star.hrv_Starn eq 2}">
-						                <script type="text/javascript">
-						                  $(document).ready(function(){
-						                	  $(".star").css("margin-top","18px");
-                                              $("#star-rating-2").attr("checked","true");	
-                                              $("#star").hide();
-						                  });
-						                </script>
-						             </c:if>
-						             
-						             <c:if test="${star.hrv_Starn eq 1}">
-						                <script type="text/javascript">
-						                  $(document).ready(function(){
-						                	$(".star").css("margin-top","18px");
-                                            $("#star-rating-1").attr("checked","true");	
-                                            $("#star").hide();
-						                  });
-						                </script>
-						             </c:if>
-						          </c:forEach>
-						          <%-- 평점 대로 별 모양 유지 끝 --%>
-						          
 							      <input class="star-rating__input" type="radio" name="hrv_Starn" id="star-rating-5" value="5">
 							      <label class="star-rating__ico far fa-star" for="star-rating-5"></label>
 							      <input class="star-rating__input" type="radio" name="hrv_Starn" id="star-rating-4" value="4">
@@ -986,12 +916,45 @@ html {
 							      <label class="star-rating__ico far fa-star" for="star-rating-2"></label>
 							      <input class="star-rating__input" type="radio" name="hrv_Starn" id="star-rating-1" value="1">
 							      <label class="star-rating__ico far fa-star" for="star-rating-1"></label><br>
+							      <button type="button" class="tag" style="cursor:pointer; margin-left:18px;" id="star">평점주기</button>
 							      
-							      <c:if test="${star.hrv_Starn eq null}">
-							         <button type="button" class="tag" style="cursor:pointer; margin-left:18px;" id="star">평점주기</button>
-							      </c:if>
+							      <script type="text/javascript">
+							      $(document).ready(function(){
+							    		$("#star").click(function(){
+							    			
+							    			// 체크아웃 날짜
+							    			var endDate = $("#endDate_${status.index}").val().substring(0,10);
+							    			console.log(endDate);
+							    			
+							    			var endDateArr = endDate.split("-");
+							    			console.log(endDateArr);
+							    			
+							    			// 오늘 날짜
+							    			var today = new Date().toISOString().substring(0,10);
+							    			console.log(today);
+							    			
+							    			var todayArr = today.split("-");
+							    			console.log(todayArr);
+							    			
+							    			var todayCompare = new Date(todayArr[0], parseInt(todayArr[1])-1, todayArr[2]);
+							    			var endDateCompare = new Date(endDateArr[0], parseInt(endDateArr[1])-1, endDateArr[2]);
+							    			
+							    			console.log(todayCompare);
+							    			console.log(endDateCompare);
+							    			
+							    			// 오늘 날짜가 체크아웃 날짜보다 이전이라면
+							    			if(todayCompare < endDateCompare) {
+							    				alert("평점은 호텔 체크아웃 이후에 작성할 수 있습니다");
+							    				return false;
+							    			} else {
+							    			   $("#star").attr("type","submit");
+							    			}
+							    		});
+							    	});
 							      
-							     </form>
+							      </script>
+							      </form>
+							     </c:if>
 							   </div>
 						   </div>
 						<%-- 평점 끝 --%>
@@ -1006,21 +969,20 @@ html {
 		<%-- 호텔예약조회 DIV 끝 --%>
 
 		<%-- 일정 DIV시작 --%>
-		<div class="col-sm-12" style="float: left;">
+		<div class="col-sm-12" style="float:left; margin-top: 35px;">
 			<div class="title">
 				<p>나의 일정</p>
 			</div>
 		</div>
 		
-		<div class="row">
-		<div class="col-sm-6" style="margin-top:30px;">
+		<div class="col-sm-12" style="width: 100%; text-align: center; float:left;">
 		   <c:choose>
 		      <c:when test="${empty route}">
-				   <div class="col-sm-12" style="width: 80%; text-align:center; margin-left:312px;">
+				   <div class="col-sm-12" style="width: 100%; text-align:center; float:left;">
 	              ${user.m_Name}님의 일정이 존재하지 않습니다.
 		          </div>
 
-		         <div class="col-sm-6" style="margin-left: 430px; margin-top: 25px;">
+		         <div class="col-sm-6" style="margin-left: 240px; margin-top: 25px; float:left;">
 			     <button type="button" class="btn btn-primary btn-outline-primary" onclick="location.href='plan.do'">
 				     GO PLAN<i class="far fa-bookmark" style="margin-left: 5px;"></i>
 			     </button>
@@ -1044,8 +1006,7 @@ html {
 				</a>
 				</c:otherwise>
 				</c:choose>
-	      </div>
-			</div>
+	           </div>
 		<%-- 일정 DIV끝 --%>
 
 		<%-- 찜 목록 DIV 시작 --%>
@@ -1054,33 +1015,32 @@ html {
 				<p>찜 목록</p>
 			</div>
        </div>
-       		<div class="row">
-    			<div class="col-md-12" style="margin-top:40px;">
+    			<div class="col-sm-12" style="width: 100%; text-align: center; float:left;">
     			<c:choose>
     				    <c:when test="${empty like}">
-    				      <div class="col-sm-12" style="width: 100%; text-align: center;">
+    				      <div class="col-sm-12" style="width: 100%; text-align: center; float:left;">
 				              ${user.m_Name}님의 찜 목록이 존재하지 않습니다.
 				          </div>
 
-				         <div class="col-sm-6" style="margin-left: 420px; margin-top: 25px;">
+				         <div class="col-sm-6" style="margin-left: 235px; margin-top: 25px; float:left;">
 					     <button type="button" class="btn btn-primary btn-outline-primary" onclick="location.href='community.do'">
 						     SEE OTHERS<i class="far fa-bookmark" style="margin-left: 5px;"></i>
 					     </button>
 				      </div>
     				    </c:when>
     				     <c:otherwise>
-    				      <div class="destination-slider owl-carousel ftco-animate">
+    				      <div class="destination-slider owl-carousel ftco-animate" style="margin-top:20px;">
     				        <c:forEach items="${like}" var="like">
     					    <div class="item">
 		    				<div class="destination">
-		    					<a href="#" class="img d-flex justify-content-center align-items-center">
-		    					   <img src="${pageContext.request.contextPath}/resources/images/plan/thumbnail/썸네일명.으로 수정" style="height:100%; margin-left:12px;"/>
+		    					<a href="communityDetail.do?ts_code=${like.ts_Code}" class="img d-flex justify-content-center align-items-center">
+		    					   <img src="${pageContext.request.contextPath}/resources/images/plan/thumbnail/${like.ts_Thum}" style="height:100%; margin-left:12px;"/>
 		    						<div class="icon d-flex justify-content-center align-items-center">
 		    							<span class="icon-search2"></span>
 		    						</div>
 		    					</a>
 		    					<div class="text p-3">
-		    						<h3><a href="#">${like.ts_Title}</a></h3>
+		    						<h3><a href="communityDetail.do?ts_code=${like.ts_Code}">${like.ts_Title}</a></h3>
 		    						<span class="listing">VIEW : ${like.ts_View}</span>
 		    					</div>
 		    				</div>
@@ -1090,16 +1050,40 @@ html {
 	    			</c:otherwise>
 	    			</c:choose>
     				</div>
-    			</div>
 		<%-- 찜 목록 DIV 끝 --%>
 
 		<%-- 회원탈퇴 버튼 시작--%>
-		<div style="margin-left: 880px;">
-			<a href="deleteAccount.do?m_Code=${user.m_Code }" class="btn btn-primary btn-outline-primary mt-4 px-4 py-3">회원탈퇴</a>
+		<div style="margin-left: 880px; float:left;">
+			<a href="#" class="btn btn-primary btn-outline-primary mt-4 px-4 py-3" data-toggle="modal" data-target="#deleteUser">회원탈퇴</a>
 		</div>
 		<%-- 회원탈퇴 버튼 끝 --%>
 	</div>
 	<%-- container끝 --%>
+	
+	<%-- 회원 탈퇴 모달 시작 --%>
+	 <form action="deleteAccount.do">
+	  <div class="modal fade" id="deleteUser" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+		  <div class="modal-dialog modal-dialog-centered" role="document">
+		    <div class="modal-content">
+		      <div class="modal-header">
+		        <h5 class="modal-title" id="exampleModalCenterTitle">회원탈퇴</h5>
+		        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+		          <span aria-hidden="true">&times;</span>
+		        </button>
+		      </div>
+		      <div class="modal-body">
+		        <input type="hidden" name="m_Code" value="${user.m_Code}">
+		                    <h4 style="font-weight:bold; text-align:center;">${user.m_Id }님<br>정말 탈퇴 하시겠습니까?</h4>
+		      </div>
+		      <div class="modal-footer">
+		        <button type="button" class="btn btn-secondary" data-dismiss="modal">취 소</button>
+		        <button type="submit" class="btn btn-primary" id="deleteMe">확 인</button>
+		      </div>
+		    </div>
+		  </div>
+		</div>
+	</form>
+	<%-- 회원 탈퇴 모달 끝 --%>
 
 	<%-- 일정 모달 DIV 시작 --%>
 	<div class="modal fade" id="exampleModalCenter" tabindex="-1"
@@ -1118,7 +1102,7 @@ html {
 				</div>
 				<div class="modal-body">
 				  <c:forEach items="${route}" var="route">
-					<div class="my_route" id="myroute">
+					<div class="my_route" id="myroute" onclick="location.href='communityDetail.do?ts_code=${route.ts_Code}'">
 						<div style="float: left; margin-top: -3px; display: inline;">
 							<img src="${pageContext.request.contextPath}/resources/images/account/Ticket-icon.png" width="65">
 						</div>
@@ -1160,7 +1144,7 @@ html {
 						<input type="hidden" name="m_Code" value="${user.m_Code}">
 						       출국지: <input type="text" name="dep_Loca1"><br>
 						       출국 도착지 : <input type="text" name="dep_Loca2"><br>
-						       출국날짜 : <input type="text" name="dep_Date1"><br>
+						       출국날짜 : <input type="text" name="dep_Date1" id="date"><br>
 						       출국 도착날짜 : <input type="text" name="dep_Date2"><br>
 						       출국 출발시간 : <input type="text" name="dep_Time1"><br>
 						       출국 도착시간 : <input type="text" name="dep_Time2"><br>

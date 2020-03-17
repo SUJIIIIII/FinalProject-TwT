@@ -22,6 +22,7 @@ $(document).ready(function() {
    var day1_label = date_to_label(day1_date.getDay()); // 요일 반환 함수
    $(".cat_right_weekday").html(day1_label);*/
 
+
    var day_num = $(".day_menu.on").attr("data");
    var this_date = $(".day_menu.on").attr("data-date");
    var weekday = date_to_label($(".day_menu.on").attr("data-day_week"));
@@ -39,6 +40,7 @@ $(document).ready(function() {
    
    //date_info 설정
    set_info_date();
+
 });
 
 
@@ -336,6 +338,7 @@ $(document).ready(function(){
          // 변경된 도시 위도/경도 선택된 day에 set
          $(".day_menu.on").attr("data-f_lat",citylat);
          $(".day_menu.on").attr("data-f_lng",citylng);   
+
    });
 
 

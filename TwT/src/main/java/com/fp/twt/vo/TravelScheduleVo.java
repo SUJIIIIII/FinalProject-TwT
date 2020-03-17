@@ -28,6 +28,7 @@ public class TravelScheduleVo extends ts_PagingVo {
     private String fl_Code;		// 찜 목록
     private String fl_Check;	// 찜 여부
     private int re_Code; 		// 리턴되어 임시저장되는 코드
+
 	
 
     public TravelScheduleVo() {

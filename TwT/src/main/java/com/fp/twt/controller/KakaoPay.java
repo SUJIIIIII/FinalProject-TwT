@@ -40,11 +40,13 @@ public class KakaoPay {
 	        headers.add("Accept", MediaType.APPLICATION_JSON_UTF8_VALUE);
 	        headers.add("Content-Type", MediaType.APPLICATION_FORM_URLENCODED_VALUE + ";charset=UTF-8");
 	        
+
 	        String[] pri = vo.getReservation_price().split(",");
 	    	
 	    	String price = pri[0]+pri[1];
 	    	System.out.println(price);
 	        
+
 	        // 서버로 요청할 Body
 	        MultiValueMap<String, String> params = new LinkedMultiValueMap<String, String>();
 	        params.add("cid", "TC0ONETIME");

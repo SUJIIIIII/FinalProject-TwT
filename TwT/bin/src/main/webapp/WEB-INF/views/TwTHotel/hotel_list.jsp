@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c"      uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <% request.setCharacterEncoding("UTF-8"); %>
 <% response.setContentType("text/html; charset=UTF-8");%>
@@ -64,6 +66,32 @@
 	}
 	
     </style>
+    
+    <script type="text/javascript">
+	    function fn_paging(curPage) {
+    		location.href = "/twt/hotel.do?curPage=" + curPage;
+    	}
+	   
+		function f_submit() {
+			var form = document.getElementById("searchForm")
+			var chkStar = "";
+			
+			for(var i=1; i<=5; i++) {
+				if($("#exampleCheck"+i).is(":checked")) {
+					chkStar = chkStar + "\'" + $("#exampleCheck"+i).val() + "\'\,";
+				}
+			}
+
+			chkStar = chkStar.slice(0,-1)
+			
+			$("#h_Starn").val(chkStar);
+			$("#stt_Price").val($("#value1").html())
+			$("#end_Price").val($("#value2").html())
+			
+			form.submit();
+		}
+
+    </script>
 </head>
 <body id="body">
 
@@ -82,130 +110,110 @@
 	      $(".bread").text('Hotel');
 	   	});
    	</script>
-
+   	
+   	 <!------------------------------------------------------------  검색창           ----------------------------------------------------- -->
     <section class="ftco-section ftco-degree-bg">
       <div class="container">
         <div class="row">
-        	<div class="col-lg-3 sidebar">
+        	<div class="col-lg-3 sidebar" id="searchType">
+        	   <form id="searchForm" action="./hotel.do" method="get" >
         		<div class="sidebar-wrap bg-light ftco-animate">
         			<h3 class="heading mb-4">호텔 검색</h3>
-        			<form action="#">
         				<div class="fields">
 		              <div class="form-group">
-		                <input type="text" class="form-control" placeholder="검색어를 입력하세요">
+		                <input type="text" class="form-control" name="h_Name" placeholder="검색어를 입력하세요" value="">
 		              </div>
 		              
 		              <div class="form-group">
 						 <p class="rate">조식 선택</p>
 		                <div class="select-wrap one-third">
 	                    <div class="icon"><span class="ion-ios-arrow-down"></span></div>
-	                  		  <select name="" id="" class="form-control" placeholder="Breakfast">
+	                  		  <select name="hr_Breakfast" class="form-control" placeholder="Breakfast">
 	                  		    <option value="">전체</option>
-	                   		   <option value="">선택</option>
-	                   		   <option value="">미선택</option>           
+	                   		   <option value="Y">선택</option>
+	                   		   <option value="N">미선택</option>           
 	                   		 </select>
 	                	  </div>
 		              	</div>	
 		              
-		              <div class="form-group">
+		              <!-- <div class="form-group">
 		              <p class="rate">이용일정</p>
 		                <input type="text" id="checkin_date" class="form-control" placeholder="체크인">
 		              </div>
 		              <div class="form-group">
 		                <input type="text" id="checkin_date" class="form-control" placeholder="체크아웃">
-		              </div>
+		              </div> -->
 		              <div class="form-group">
 		              	<p class="rate">금액설정</p>
 		              	<div class="range-slider">
-		              		<span>
-										    <input type="number" value="25000" min="0" max="120000"/>	-
-										    <input type="number" value="50000" min="0" max="120000"/>
-							</span>
-										  <input value="1000" min="0" max="120000" step="500" type="range"/>
-										  <input value="50000" min="0" max="120000" step="500" type="range"/>
-										
+                         
+                         <label> 최소: </label>
+                                     <input type="range" name="stt_Price" min="0" max="500000" step="5000" value="0" oninput="document.getElementById('value1').innerHTML=this.value;">                                                                                               
+                                     <span id="value1" style="color: red;">0</span>
+                                                                                     원 ~ 
+                                      <label> 최대 : </label>
+                                     <input type="range" name="end_Price" min="0" max="500000" step="5000" value="500000" oninput="document.getElementById('value2').innerHTML=this.value;">
+                                     <a><span id="value2" style="color: red;">500000</span></a>
+                                                                                      원
 						</div>			
 		              </div>
-		              <div class="form-group">
-		                <input type="submit" value="호텔 검색" class="btn btn-primary py-3 px-5">
-		              </div>
-		            </div>
-	            </form>
-        		</div>
-        		<div class="sidebar-wrap bg-light ftco-animate">
-        			<h3 class="heading mb-4">호텔 등급 필터</h3>
-        			<form method="post" class="star-rating">
+		               <div class="form-group">
+		               <p class="rate">호텔 등급</p>
+						<input type="hidden" id="h_Starn" name="h_Starn"/>
 							  <div class="form-check">
-									<input type="checkbox" class="form-check-input" id="exampleCheck1">
+									<input type="checkbox" class="form-check-input" id="exampleCheck5" value="5">
 									<label class="form-check-label" for="exampleCheck1">
 										<p class="rate"><span><i class="icon-star"></i><i class="icon-star"></i><i class="icon-star"></i><i class="icon-star"></i><i class="icon-star"></i></span></p>
 									</label>
 							  </div>
 							  <div class="form-check">
-						      <input type="checkbox" class="form-check-input" id="exampleCheck1">
+						      <input type="checkbox" class="form-check-input" id="exampleCheck4" value="4">
 						      <label class="form-check-label" for="exampleCheck1">
 						    	   <p class="rate"><span><i class="icon-star"></i><i class="icon-star"></i><i class="icon-star"></i><i class="icon-star"></i><i class="icon-star-o"></i></span></p>
 						      </label>
 							  </div>
 							  <div class="form-check">
-						      <input type="checkbox" class="form-check-input" id="exampleCheck1">
+						      <input type="checkbox" class="form-check-input" id="exampleCheck3" value="3">
 						      <label class="form-check-label" for="exampleCheck1">
 						      	<p class="rate"><span><i class="icon-star"></i><i class="icon-star"></i><i class="icon-star"></i><i class="icon-star-o"></i><i class="icon-star-o"></i></span></p>
 						     </label>
 							  </div>
 							  <div class="form-check">
-							    <input type="checkbox" class="form-check-input" id="exampleCheck1">
+							    <input type="checkbox" class="form-check-input" id="exampleCheck2" value="2">
 						      <label class="form-check-label" for="exampleCheck1">
 						      	<p class="rate"><span><i class="icon-star"></i><i class="icon-star"></i><i class="icon-star-o"></i><i class="icon-star-o"></i><i class="icon-star-o"></i></span></p>
 						      </label>
 							  </div>
 							  <div class="form-check">
-						      <input type="checkbox" class="form-check-input" id="exampleCheck1">
+						      <input type="checkbox" class="form-check-input" id="exampleCheck1" value="1">
 						      <label class="form-check-label" for="exampleCheck1">
 						      	<p class="rate"><span><i class="icon-star"></i><i class="icon-star-o"></i><i class="icon-star-o"></i><i class="icon-star-o"></i><i class="icon-star-o"></i></span></p>
 							    </label>
 							  </div>
-							</form>
+							</div>
+		              
+		              <div class="form-group">
+		                <input type="button" id="searchBtn" value="호텔 검색" class="btn btn-primary py-3 px-5" onclick="f_submit()">
+		              </div>
+		              
+		            </div>
         		</div>
+             </form>
           </div>
+          
+          <!-- ---------------------------------------------------------- 검색창 종료 ---------------------------------------------------------------------------- -->
+
+
+
+
+          
           <div class="col-lg-9">
           	<div class="row">
+              <c:forEach items="${hotellist }" var="HotelVo">
           		<div class="col-md-4 ftco-animate">
 		    				<div class="destination">
-		    					<a href="hotelDetail.do" class="img img-2 d-flex justify-content-center align-items-center" style="background-image: url(${pageContext.request.contextPath}/resources/images/hotel-1.jpg);">
-		    						<div class="icon d-flex justify-content-center align-items-center">
-    							<span class="icon-search2"></span>
-    						</div>
-		    					</a>
-		    					<div class="text p-3" style="width:255px; height:242px;">
-		    						<div class="d-flex">
-		    							<div class="one">
-				    						<h3><a href="hotelDetail.do">호텔 이름</a></h3>
-				    						<p class="rate">
-				    							<i class="icon-star"></i>
-				    							<i class="icon-star"></i>
-				    							<i class="icon-star"></i>
-				    							<i class="icon-star"></i>
-				    							<i class="icon-star-o"></i>
-				    							<span>8 Rating</span>
-				    						</p>
-			    						</div>
-			    						<div class="two">
-			    							<span class="price per-price">$100<br><small>/night</small></span>
-		    							</div>
-		    						</div>
-		    						<p style="width:140px; height:75px;">간략한 설명</p>
-		    						<hr>
-		    						<p class="bottom-area d-flex">
-		    							<span><i class="icon-map-o"></i> 호텔 간략주소</span> 
-		    							<span class="ml-auto"><a href="#">Detail</a></span>
-		    						</p>
-		    					</div>
-		    				</div>
-		    			</div>
-		    			<div class="col-md-4 ftco-animate">
-		    				<div class="destination">
-		    					<a href="hotelDetail.do" class="img img-2 d-flex justify-content-center align-items-center" style="background-image: url(${pageContext.request.contextPath}/resources/images/hotel-2.jpg);">
+		    					<a href="hotelDetail.do?h_Code=${HotelVo.h_Code }" class="img img-2 d-flex justify-content-center align-items-center" 
+		    					        style="background-image: url(${pageContext.request.contextPath}/resources/images/hotel/${HotelVo.h_Img});">
 		    						<div class="icon d-flex justify-content-center align-items-center">
     							<span class="icon-search2"></span>
     						</div>
@@ -213,177 +221,70 @@
 		    					<div class="text p-3">
 		    						<div class="d-flex">
 		    							<div class="one">
-				    						<h3><a href="hotelDetail.do">Hotel, Italy</a></h3>
+				    						<h3 style="width: 130px;"><a href="hotelDetail.do?h_Code=${HotelVo.h_Code }" style="margin: -7px;">${HotelVo.h_Name}</a></h3>
 				    						<p class="rate">
-				    							<i class="icon-star"></i>
-				    							<i class="icon-star"></i>
-				    							<i class="icon-star"></i>
-				    							<i class="icon-star"></i>
-				    							<i class="icon-star-o"></i>
-				    							<span>8 Rating</span>
+		    									<c:forEach begin="1" end="${HotelVo.h_Starn}">
+		    										<i class="icon-star"></i>
+		    									</c:forEach>
+		    									<c:forEach begin="1" end="${5 - HotelVo.h_Starn}">
+				    								<i class="icon-star-o"></i>
+				    							</c:forEach>
 				    						</p>
 			    						</div>
 			    						<div class="two">
-			    							<span class="price per-price">$40<br><small>/night</small></span>
+			    							<span class="price per-price" style="margin: -7px;">₩&nbsp;<fmt:formatNumber value="${HotelVo.min_Price}" pattern="#,###" /><br><a style="font-size: 16px;">/ 1박</a></span>
 		    							</div>
 		    						</div>
-		    						<p>Far far away, behind the word mountains, far from the countries</p>
+		    						<p style="width:216px; height:85px;">${HotelVo.h_Basiccontent}</p>
 		    						<hr>
 		    						<p class="bottom-area d-flex">
-		    							<span><i class="icon-map-o"></i> Miami, Fl</span> 
-		    							<span class="ml-auto"><a href="#">Book Now</a></span>
+		    							<span><i class="icon-map-o"></i>&nbsp;&nbsp;${HotelVo.h_Basicaddr}</span> 
+		    							<span class="ml-auto"><a href="hotelDetail.do?h_Code=${HotelVo.h_Code }">상세정보</a></span>
 		    						</p>
 		    					</div>
 		    				</div>
 		    			</div>
-		    			<div class="col-md-4 ftco-animate">
-		    				<div class="destination">
-		    					<a href="hotelDetail.do" class="img img-2 d-flex justify-content-center align-items-center" style="background-image: url(${pageContext.request.contextPath}/resources/images/hotel-3.jpg);">
-		    						<div class="icon d-flex justify-content-center align-items-center">
-    							<span class="icon-search2"></span>
-    						</div>
-		    					</a>
-		    					<div class="text p-3">
-		    						<div class="d-flex">
-		    							<div class="one">
-				    						<h3><a href="hotel-single.html">Hotel, Italy</a></h3>
-				    						<p class="rate">
-				    							<i class="icon-star"></i>
-				    							<i class="icon-star"></i>
-				    							<i class="icon-star"></i>
-				    							<i class="icon-star"></i>
-				    							<i class="icon-star-o"></i>
-				    							<span>8 Rating</span>
-				    						</p>
-			    						</div>
-			    						<div class="two">
-			    							<span class="price per-price">$40<br><small>/night</small></span>
-		    							</div>
-		    						</div>
-		    						<p>Far far away, behind the word mountains, far from the countries</p>
-		    						<hr>
-		    						<p class="bottom-area d-flex">
-		    							<span><i class="icon-map-o"></i> Miami, Fl</span> 
-		    							<span class="ml-auto"><a href="#">Book Now</a></span>
-		    						</p>
-		    					</div>
-		    				</div>
-		    			</div>
-		    			<div class="col-md-4 ftco-animate">
-		    				<div class="destination">
-		    					<a href="hotelDetail.do" class="img img-2 d-flex justify-content-center align-items-center" style="background-image: url(${pageContext.request.contextPath}/resources/images/hotel-4.jpg);">
-		    						<div class="icon d-flex justify-content-center align-items-center">
-    							<span class="icon-search2"></span>
-    						</div>
-		    					</a>
-		    					<div class="text p-3">
-		    						<div class="d-flex">
-		    							<div class="one">
-				    						<h3><a href="hotelDetail.do">Hotel, Italy</a></h3>
-				    						<p class="rate">
-				    							<i class="icon-star"></i>
-				    							<i class="icon-star"></i>
-				    							<i class="icon-star"></i>
-				    							<i class="icon-star"></i>
-				    							<i class="icon-star-o"></i>
-				    							<span>8 Rating</span>
-				    						</p>
-			    						</div>
-			    						<div class="two">
-			    							<span class="price per-price">$40<br><small>/night</small></span>
-		    							</div>
-		    						</div>
-		    						<p>Far far away, behind the word mountains, far from the countries</p>
-		    						<hr>
-		    						<p class="bottom-area d-flex">
-		    							<span><i class="icon-map-o"></i> Miami, Fl</span> 
-		    							<span class="ml-auto"><a href="#">Book Now</a></span>
-		    						</p>
-		    					</div>
-		    				</div>
-		    			</div>
-		    			<div class="col-md-4 ftco-animate">
-		    				<div class="destination">
-		    					<a href="hotelDetail.do" class="img img-2 d-flex justify-content-center align-items-center" style="background-image: url(${pageContext.request.contextPath}/resources/images/hotel-5.jpg);">
-		    						<div class="icon d-flex justify-content-center align-items-center">
-    							<span class="icon-search2"></span>
-    						</div>
-		    					</a>
-		    					<div class="text p-3">
-		    						<div class="d-flex">
-		    							<div class="one">
-				    						<h3><a href="hotelDetail.do">Hotel, Italy</a></h3>
-				    						<p class="rate">
-				    							<i class="icon-star"></i>
-				    							<i class="icon-star"></i>
-				    							<i class="icon-star"></i>
-				    							<i class="icon-star"></i>
-				    							<i class="icon-star-o"></i>
-				    							<span>8 Rating</span>
-				    						</p>
-			    						</div>
-			    						<div class="two">
-			    							<span class="price per-price">$40<br><small>/night</small></span>
-		    							</div>
-		    						</div>
-		    						<p>Far far away, behind the word mountains, far from the countries</p>
-		    						<hr>
-		    						<p class="bottom-area d-flex">
-		    							<span><i class="icon-map-o"></i> Miami, Fl</span> 
-		    							<span class="ml-auto"><a href="#">Book Now</a></span>
-		    						</p>
-		    					</div>
-		    				</div>
-		    			</div>
-		    			<div class="col-md-4 ftco-animate">
-		    				<div class="destination">
-		    					<a href="hotelDetail.do" class="img img-2 d-flex justify-content-center align-items-center" style="background-image: url(${pageContext.request.contextPath}/resources/images/hotel-6.jpg);">
-		    						<div class="icon d-flex justify-content-center align-items-center">
-    							<span class="icon-search2"></span>
-    						</div>
-		    					</a>
-		    					<div class="text p-3">
-		    						<div class="d-flex">
-		    							<div class="one">
-				    						<h3><a href="hotelDetail.do">Hotel, Italy</a></h3>
-				    						<p class="rate">
-				    							<i class="icon-star"></i>
-				    							<i class="icon-star"></i>
-				    							<i class="icon-star"></i>
-				    							<i class="icon-star"></i>
-				    							<i class="icon-star-o"></i>
-				    							<span>8 Rating</span>
-				    						</p>
-			    						</div>
-			    						<div class="two">
-			    							<span class="price per-price">$40<br><small>/night</small></span>
-		    							</div>
-		    						</div>
-		    						<p>Far far away, behind the word mountains, far from the countries</p>
-		    						<hr>
-		    						<p class="bottom-area d-flex">
-		    							<span><i class="icon-map-o"></i> Miami, Fl</span> 
-		    							<span class="ml-auto"><a href="#">Book Now</a></span>
-		    						</p>
-		    					</div>
-		    				</div>
-		    			</div>
+			        </c:forEach>
           	</div>
-          	<div class="row mt-5">
-		          <div class="col text-center">
-		            <div class="block-27">
-		              <ul>
-		                <li><a href="#">&lt;</a></li>
-		                <li class="active"><span>1</span></li>
-		                <li><a href="#">2</a></li>
-		                <li><a href="#">3</a></li>
-		                <li><a href="#">4</a></li>
-		                <li><a href="#">5</a></li>
-		                <li><a href="#">&gt;</a></li>
-		              </ul>
-		            </div>
-		          </div>
-		        </div>
+
+		    			<!-- -------------------------------------------- 페이징 -------------------------------------------- -->
+		    			
+		    			
+		     <div class="row mt-5">
+	          <div class="col text-center">
+	            <div class="block-27">
+	            <ul>
+			    <c:if test="${pagination.curRange ne 1 }">
+			        <li><a href="#" onClick="fn_paging(1)">&lt;</a></li> 
+			    </c:if>
+			    <c:if test="${pagination.curPage ne 1}">
+			        <li><a href="#" onClick="fn_paging('${pagination.prevPage }')">&lt;</a></li> 
+			    </c:if>
+			    <c:forEach var="pageNum" begin="${pagination.startPage }" end="${pagination.endPage }">
+			        <c:choose>
+			            <c:when test="${pageNum eq  pagination.curPage}">
+			                <li class="active"><span style="font-weight: bold;"><a href="#" onClick="fn_paging('${pageNum }')">${pageNum }</a></span></li> 
+			            </c:when>
+			            <c:otherwise>
+			                <li><a href="#" onClick="fn_paging('${pageNum }')">${pageNum }</a></li> 
+			            </c:otherwise>
+			        </c:choose>
+			    </c:forEach>
+			    <c:if test="${pagination.curPage ne pagination.pageCnt && pagination.pageCnt > 0}">
+			        <li><a href="#" onClick="fn_paging('${pagination.nextPage }')">&gt;</a> </li>
+			    </c:if>
+			    <c:if test="${pagination.curRange ne pagination.rangeCnt && pagination.rangeCnt > 0}">
+			       <li> <a href="#" onClick="fn_paging('${pagination.pageCnt }')">&gt;</a></li> 
+			    </c:if>
+			    </ul>
+			</div>
+			</div>
+			</div>
+			
+			    <!-- ---------------------------------------              페이징 종료                      -----------------------------------   -->
+		        
+		        
+		        
           </div> <!-- .col-md-8 -->
         </div>
       </div>

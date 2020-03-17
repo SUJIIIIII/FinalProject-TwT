@@ -306,6 +306,5 @@ public class HotelVo extends PagingVo {
 		Hotel_reservation = hotel_reservation;
 	}
 
-	
-    
+
 }
