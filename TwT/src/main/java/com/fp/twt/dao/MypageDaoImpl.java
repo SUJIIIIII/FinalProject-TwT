@@ -312,6 +312,7 @@ public class MypageDaoImpl implements MypageDao {
 		return res;
 	}
 
+
 	// 별점 조회
 	@Override
 	public List<HotelReviewVo> selectRating(String m_Code) {

@@ -113,6 +113,22 @@ public class CommunityDaoImpl implements CommunityDao{
 		}
 		return list;
 	}
+	
+
+	@Override
+	public int ansDelete(String ans_Code) {
+		int res = 0;
+		
+		try {
+			res = sqlSession.delete(NAMESPACE+"ansDelete_Y", ans_Code);
+		} catch(Exception e) {
+			System.out.println("[error] : ansDelete_Y");
+			e.printStackTrace();
+		}
+		
+		return res;
+	}
+
 	//--------------------------------------------------------------------------------------------------//
 	
 	//도영

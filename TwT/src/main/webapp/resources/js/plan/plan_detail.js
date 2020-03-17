@@ -26,6 +26,7 @@ $(document).ready(function() {
    var day_num = $(".day_menu.on").attr("data");
    var this_date = $(".day_menu.on").attr("data-date");
    var weekday = date_to_label($(".day_menu.on").attr("data-day_week"));
+
    
    $(".schedule_detail_title_text").children(".fl").html(
 	       "<div class='fl'>DAY" + day_num + " " + "<span style='color:white'>|</span> " + this_date + "("+ weekday+") </div>"
@@ -330,6 +331,7 @@ $(document).ready(function(){
             sessionStorage.setItem("Day"+day_index, JSON.stringify(jsonItem));
 
             $(".day_menu.on").children(".cat_date_right_box").children(".cat_right_city").html(city_name);
+
       }
          
          // 변경전 도시 위도/경도 삭제
@@ -351,6 +353,25 @@ $(document).ready(function(){
 	  }
 	  paths = [];	
 
+     // 변경전 도시 위도/경도 삭제 			
+     $(".day_menu.on").removeData("f_lat");
+     $(".day_menu.on").removeData("f_lng");
+     // 변경된 도시 위도/경도 선택된 day에 set
+     $(".day_menu.on").attr("data-f_lat",citylat);
+     $(".day_menu.on").attr("data-f_lng",citylng);
+
+
+   });
+
+
+   // Day 선택하기
+   $(document).on("click", "#cat_menu li", function() {
+	  // path삭제
+	  for(var i=0;i<paths.length;i++){
+		  paths[i].setMap(null);
+	  }
+	  paths = [];
+	   
       $(".day_menu").removeClass("on");
       $(this).addClass("on");
       $("#schedule_detail_box").children().remove();
@@ -779,7 +800,7 @@ function cat_menu_edit() {
           +   "<div class='clear'></div>"
           + "</li>"
       );
-      
+
       dep_date.setDate(dep_date.getDate() + 1); // 하루씩 날짜 더해주기
    }
    }

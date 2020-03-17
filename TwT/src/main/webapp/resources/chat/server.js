@@ -7,6 +7,9 @@ var port = "3000";
 
 var room = ['defalt','room1','room2','room3','room4'];
 
+const host = "192.168.130.245";
+const port = "3000";
+
 //페이지를 get으로 요청을 했을때.
 app.get('/', function (req, res) {
     //아래와 같은 메시지를 출력
@@ -44,7 +47,7 @@ io.on('connection', function(socket){
 
 	});
  
-http.listen(port,host, function () {
+http.listen(port, host, function () {
     //콘솔창에 출력
     console.log('listening on *:3000');
 });

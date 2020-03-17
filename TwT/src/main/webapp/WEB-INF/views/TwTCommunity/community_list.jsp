@@ -156,8 +156,8 @@
 		    		<div class="row">
 		          <div class="col-md-12 nav-link-wrap mb-4">
 		            <div class="nav ftco-animate nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
-		              <a class="nav-link active" id="v-pills-whatwedo-tab" data-toggle="pill" href="#v-pills-whatwedo" role="tab" aria-controls="v-pills-whatwedo" aria-selected="true">Travel Plans</a>
-		              <a onclick="potoBookList();" class="nav-link" id="v-pills-mission-tab" data-toggle="pill" href="#v-pills-mission" role="tab" aria-controls="v-pills-mission" aria-selected="false">Photo Book</a>
+		              <a class="${tag1 }" id="v-pills-whatwedo-tab" data-toggle="pill" href="#v-pills-whatwedo" role="tab" aria-controls="v-pills-whatwedo" aria-selected="${val1 }">Travel Plans</a>
+		              <a class="${tag2 }" id="v-pills-mission-tab" data-toggle="pill" href="#v-pills-mission" role="tab" aria-controls="v-pills-mission" aria-selected="${val2 }">Photo Book</a>
 		            </div>
 		          </div>
 		          <div class="col-md-12 d-flex align-items-center">
@@ -165,7 +165,7 @@
 		            <div class="tab-content ftco-animate" id="v-pills-tabContent">
 
 					<!-- fade 1 -->
-		              <div class="tab-pane fade show active" id="v-pills-whatwedo" role="tabpanel" aria-labelledby="v-pills-whatwedo-tab">
+		              <div class="${fade1 }" id="v-pills-whatwedo" role="tabpanel" aria-labelledby="v-pills-whatwedo-tab">
 							<div style="margin-bottom: 25px; padding-left: 1020px;">
 					    	<span class="sort" date-id="regdate" ><i class="far fa-calendar-alt"></i>&nbsp;<a href="community.do">최신</a></span>
 					    	<span class="sort">&nbsp;|&nbsp;</span>
@@ -272,7 +272,7 @@
 		              </div>
 
 				    <!-- fade 2 -->
-		              <div class="tab-pane fade" id="v-pills-mission" role="tabpanel" aria-labelledby="v-pills-mission-tab">
+		              <div class="${fade2 }" id="v-pills-mission" role="tabpanel" aria-labelledby="v-pills-mission-tab">
 				        <div style="float: top; margin-left:985px;">
 				        <a href="communityInsertForm.do" class="btn btn-primary btn-outline-primary mt-4 px-4 py-3 mb-4"><span>Create Book</span></a>
 				        </div>
@@ -312,7 +312,8 @@
 						<!-- 페이징 -->        
 <script type="text/javascript">
 	function potoPageMove(page){
-    	location.href = "community.do?potocurpagenum="+page;
+		var potoChk = true;
+    	location.href = "community.do?potocurpagenum="+page+"&potoChk="+potoChk;
     }
 </script>              
 						<c:if test="${potopage.listCount > 4}">

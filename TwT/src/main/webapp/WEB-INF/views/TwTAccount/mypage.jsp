@@ -145,6 +145,7 @@ $(document).ready(function(){
 	});
 });
 
+
 <%-- 회원탈퇴 --%>
 $(document).ready(function(){
 	$("#deleteMe").click(function(){
@@ -934,6 +935,7 @@ html {
 
 						<div class="day_sch_content">
 							<div class="spot_content_box">
+
 								<div class="spot_name">
 								  ${hotel[status.index].h_Name} 
 								</div> 
@@ -979,6 +981,7 @@ html {
 							      <label class="star-rating__ico far fa-star" for="star-rating-2"></label>
 							      <input class="star-rating__input" type="radio" name="hrv_Starn" id="star-rating-1" value="1">
 							      <label class="star-rating__ico far fa-star" for="star-rating-1"></label><br>
+
 							      <button type="button" class="tag" style="cursor:pointer; margin-left:18px;" id="star">평점주기</button>
 							      
 							      <script type="text/javascript">
@@ -1078,6 +1081,7 @@ html {
 				<p>찜 목록</p>
 			</div>
        </div>
+
     			<div class="col-sm-12" style="width: 100%; text-align: center; float:left;">
     			<c:choose>
     				    <c:when test="${empty like}">

@@ -196,6 +196,7 @@ function login_chk() {
 					} else {
 						alert("이메일 인증 후 로그인이 가능합니다.");
 					}
+
 				} else if (data.check1 == 0 && data.check2 == 0 || data.check1 == 0 && data.check2 == 1 || data.check1 == 1 && data.check2 == 0){
 					alert("아이디 및 비밀번호를 확인해주세요");
 				}
