@@ -46,7 +46,7 @@
 							<input type="hidden" name="search_type" id="search_type" class="news" value="city">
 						</div>
 					</div>
-                    <div class="list_category_box" style="border-bottom: solid #dadada 1px;">
+                    <div class="list_category_box" style="border-bottom: solid #dadada 1px; padding-left: 37px;">
                     	<div class="list_cat_item fl on" data="1" data-type="total"><img src="${pageContext.request.contextPath}/resources/images/plan/ic_000_c.png"></div>
                     	<div class="list_cat_item fl" data="2" data-type="랜드마크"><img src="${pageContext.request.contextPath}/resources/images/plan/ic_300_a.png"></div>
                         <div class="list_cat_item fl" data="3" data-type="식당가"><img src="${pageContext.request.contextPath}/resources/images/plan/ic_200_a.png"></div>
