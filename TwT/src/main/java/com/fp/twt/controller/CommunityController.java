@@ -6,7 +6,9 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -130,6 +132,7 @@ public class CommunityController {
 		
 		HttpSession session = request.getSession(false);
 		MemberVo member = (MemberVo) session.getAttribute("user");
+		model.addAttribute("member", member);
 		
 		List<AnswerVo> anslist = biz.ansList(sr_Code);
 		
@@ -208,13 +211,43 @@ public class CommunityController {
 	
 	@RequestMapping("/ansInsert.do")
 	@ResponseBody
-	public Map<String, List<AnswerVo>> ansInsert(AnswerVo vo) {
-		Map<String, List<AnswerVo>> map = new HashMap<String, List<AnswerVo>>();
+	public Map<String, List> ansInsert(AnswerVo vo) {
+		Map<String, List> map = new HashMap<String, List>();
 		
 		vo.setReple_Code("false");
 		int res = biz.ansInsert(vo);
 
-		List<AnswerVo> anslist = biz.ansList(vo.getBoard_Code());
+		List<AnswerVo> anslist = new ArrayList<AnswerVo>();
+		if(res>0) {
+			anslist = biz.ansList(vo.getBoard_Code());
+		}
+		
+		SimpleDateFormat format = new SimpleDateFormat("MM-dd HH:mm");
+		for(int i = 0 ; i < anslist.size() ; i++) {
+			anslist.get(i).setReple_Code(format.format(anslist.get(i).getAns_Date()));
+		}
+		
+		map.put("list", anslist);
+		
+		return map;
+	}
+	
+	@RequestMapping("/ansDelete.do")
+	@ResponseBody
+	public Map<String, List> ansDelete(String ans_Code, String board_Code) {
+		Map<String, List> map = new HashMap<String, List>();
+
+		int res = biz.ansDelete(ans_Code);
+
+		List<AnswerVo> anslist = new ArrayList<AnswerVo>();
+		if(res>0) {
+			anslist = biz.ansList(board_Code);
+		}
+		
+		SimpleDateFormat format = new SimpleDateFormat("MM-dd HH:mm");
+		for(int i = 0 ; i < anslist.size() ; i++) {
+			anslist.get(i).setReple_Code(format.format(anslist.get(i).getAns_Date()));
+		}
 		
 		map.put("list", anslist);
 		
@@ -225,7 +258,7 @@ public class CommunityController {
 	// 도영
 	// 여행 일정 리스트
 	@RequestMapping("/community.do")
-	public String newcommunity(@ModelAttribute("travelScheduleVo") TravelScheduleVo travelScheduleVo, FavoriteListVo favoriteListVo, boolean Chk, HttpSession session, String ts_theme, Model model, HttpServletRequest request) {
+	public String newcommunity(@ModelAttribute("travelScheduleVo") TravelScheduleVo travelScheduleVo, FavoriteListVo favoriteListVo, boolean Chk, boolean potoChk, HttpSession session, String ts_theme, Model model, HttpServletRequest request) {
 		logger.info("SELECT LIST");
 		
 		//도영
@@ -318,7 +351,35 @@ public class CommunityController {
         potopage.setStartPage(potocurrentPage, potopage.getAllPage());
         potopage.setEndPage(potocurrentPage, potopage.getAllPage());
         potopage.setNext(potocurrentPage, potopage.getAllPage());
-
+        
+        if(potoChk) {
+        	String tag1 = "nav-link";
+        	model.addAttribute("tag1", tag1);
+        	String tag2 = "nav-link active";
+        	model.addAttribute("tag2", tag2);
+        	String val1 = "false";
+        	model.addAttribute("val1", val1);
+        	String val2 = "true";
+        	model.addAttribute("val2", val2);
+        	String fade1 = "tab-pane fade";
+        	model.addAttribute("fade1", fade1);
+        	String fade2 = "tab-pane fade show active";
+        	model.addAttribute("fade2", fade2);
+        } else {
+        	String tag1 = "nav-link active";
+        	model.addAttribute("tag1", tag1);
+        	String tag2 = "nav-link";
+        	model.addAttribute("tag2", tag2);
+        	String val1 = "true";
+        	model.addAttribute("val1", val1);
+        	String val2 = "false";
+        	model.addAttribute("val2", val2);
+        	String fade1 = "tab-pane fade show active";
+        	model.addAttribute("fade1", fade1);
+        	String fade2 = "tab-pane fade";
+        	model.addAttribute("fade2", fade2);
+        }
+        
         model.addAttribute("potopage", potopage);
 		
 		//

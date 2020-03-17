@@ -53,6 +53,10 @@ public class CommunityBizImpl implements CommunityBiz{
 	public List<AnswerVo> ansList(String sr_Code) {
 		return dao.ansList(sr_Code);
 	}
+	@Override
+	public int ansDelete(String ans_Code) {
+		return dao.ansDelete(ans_Code);
+	}
 	//--------------------------------------------------------------------------------------------------//
 	
 	//도영
@@ -112,6 +116,7 @@ public class CommunityBizImpl implements CommunityBiz{
 	public List<FavoriteListVo> chkList(String m_code, FavoriteListVo favoriteListVo) {
 		return dao.chkList(m_code, favoriteListVo);
 	}
+
 
 
 

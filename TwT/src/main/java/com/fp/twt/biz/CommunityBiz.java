@@ -19,6 +19,7 @@ public interface CommunityBiz {
 	public int potoBookDelete(String sr_Code);
 	public int ansInsert(AnswerVo vo);
 	public List<AnswerVo> ansList(String sr_Code);
+	public int ansDelete(String ans_Code);
 	
 	//--------------------------------------------------------------------------------------------------//
 	

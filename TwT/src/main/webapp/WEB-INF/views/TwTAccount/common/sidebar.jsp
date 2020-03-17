@@ -15,7 +15,7 @@
 <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js'></script>
 <script src="${pageContext.request.contextPath}/resources/js/chat.js"></script>
 
-  <script src="http://localhost:3000/socket.io/socket.io.js"></script>
+  <script src="http://192.168.130.245:3000/socket.io/socket.io.js"></script>
 
 	<script>
 	
@@ -25,8 +25,8 @@
 			var num = 0;
 			
 			if(userId != "null"){
-			    var socket = io("http://localhost:3000");
-
+			    var socket = io("http://192.168.130.245:3000");
+			    
 			    $("#room1").click(function(){
 			    	$("#chat").empty();
 			    	
@@ -124,7 +124,7 @@ $(document).ready(function() {
 		// 현재 스크롤 위치를 가져온다.
 		var scrollTop = $(window).scrollTop();
 		var newPosition = scrollTop + floatPosition + "px";
-		var newPosition2 = scrollTop + chatPosition + "px";
+		var newPosition2 = scrollTop + chatPosition + 300 + "px";
 		/* 애니메이션 없이 바로 따라감
 		$("#floatMenu").css('top', newPosition);
 		*/
@@ -134,12 +134,10 @@ $(document).ready(function() {
 		}, 500);
 
 		$("#chats").stop().animate({
-		"top" : newPosition2
+			"top" : newPosition2
 		}, 500);
 		 
 	}).scroll();
-	
-	hideChat();
 
 	$('#prime').click(function() {
 		var userId = "<%=session.getAttribute("userId")%>"
@@ -152,12 +150,6 @@ $(document).ready(function() {
 	});
 
 });
-
-	/* chat */
-	function hideChat() {
-		$('.center').css('display', 'none');
-	    };
-	/* chat */
 </script>
 <style type="text/css">
 #floatMenu {
@@ -187,7 +179,7 @@ cursor:pointer;
 </head>
 <body>
 <!-- chat -->
-<div class="center" id="chats">
+<div class="center" id="chats" style="display: none">
   <div class="contacts" style="overflow: auto;" id="chatlist">
     <div style="padding-bottom: 40px;">
     <i class="fas fa-bars fa-2x"><a href="#"></a></i>

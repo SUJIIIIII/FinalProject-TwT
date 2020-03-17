@@ -26,18 +26,22 @@
 	</resultMap>
 
 	<insert id="ansInsert_Y" parameterType="Answer">
-		INSERT INTO ANS
+		INSERT INTO COMMUNITY_ANS
 		VALUES('AS'||AS_SEQ.NEXTVAL, #{m_Code}, #{board_Code}, #{reple_Code},
 		#{ans_Content}, SYSDATE)
 	</insert>
 
 	<select id="ansList_Y" resultMap="AnswerMap"
 		parameterType="String">
-		SELECT * FROM ANS
+		SELECT * FROM COMMUNITY_ANS
 		WHERE BOARD_CODE = #{sr_Code}
 		ORDER BY ANS_DATE DESC
 	</select>
 
+	<delete id="ansDelete_Y" parameterType="String">
+		DELETE FROM COMMUNITY_ANS
+		WHERE ANS_CODE = #{ans_Code}
+	</delete>
 	<insert id="insertPotoBook_Y" parameterType="ScheduleReview">
 		INSERT INTO
 		SCHEDULEREVIEW
