@@ -762,7 +762,6 @@ function cat_menu_edit() {
          city_name = spot_obj['index1'][9];
       }
 
-      dep_date.setDate(dep_date.getDate()); // 하루씩 날짜 더해주기
       var weekday = date_to_label(dep_date.getDay()); // 요일 반환하기
       var set_date = day_add_zero(dep_date);
 
@@ -781,6 +780,7 @@ function cat_menu_edit() {
           +   "<div class='clear'></div>"
           + "</li>"
       );
+      dep_date.setDate(dep_date.getDate() + 1); // 하루씩 날짜 더해주기
    }
    }
 
