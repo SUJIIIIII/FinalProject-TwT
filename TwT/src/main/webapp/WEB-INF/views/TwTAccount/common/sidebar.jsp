@@ -25,7 +25,7 @@
 			var num = 0;
 			
 			if(userId != "null"){
-			    var socket = io("http://192.168.130.245:3000/");
+			    var socket = io("http://192.168.130.245:3000");
 
 			    $("#room1").click(function(){
 			    	$("#chat").empty();

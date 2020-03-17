@@ -2,6 +2,8 @@ var express = require('express');
 var app = express();
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
+var host = "192.168.130.228";
+var port = "3000";
 
 var room = ['defalt','room1','room2','room3','room4'];
 
@@ -42,7 +44,7 @@ io.on('connection', function(socket){
 
 	});
  
-http.listen(3000, function () {
+http.listen(port,host, function () {
     //콘솔창에 출력
     console.log('listening on *:3000');
 });
