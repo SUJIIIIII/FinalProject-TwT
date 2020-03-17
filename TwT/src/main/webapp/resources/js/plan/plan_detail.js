@@ -779,7 +779,7 @@ function cat_menu_edit() {
           +   "<div class='clear'></div>"
           + "</li>"
       );
-      
+
       dep_date.setDate(dep_date.getDate() + 1); // 하루씩 날짜 더해주기
    }
    }

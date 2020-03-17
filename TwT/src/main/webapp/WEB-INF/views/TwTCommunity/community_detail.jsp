@@ -209,7 +209,7 @@ function fList(ts_Code){
 				
  <main id="home" class="contents">
   <div class="container">
-    <h3 class="page-title text-center" style="margin-top: 120px; color: silver; font-size: 17px;"><i class="fas fa-calendar-alt"></i><br>${detail.ts_Sday }<br> ~ <br>${detail.ts_Period }DAYS</h3>
+    <h3 class="page-title text-center" style="margin-top: 120px; color: silver; font-size: 17px;"><i class="fas fa-calendar-alt"></i><br>${detail.ts_Sday }&nbsp;(${detail.ts_Period }DAYS)</h3>
     
     <c:choose>
     <c:when test="${empty detailList }">
