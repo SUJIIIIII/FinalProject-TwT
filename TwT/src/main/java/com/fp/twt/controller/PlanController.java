@@ -176,8 +176,7 @@ public class PlanController {
             String day_spot_num = day_arr[j].split("=")[1];
             ts_vo.settp_Code(day_spot_num);
             ts_vo.setTs_Day("DAY"+i);
-            
-            System.out.println("day_spot_num : " + day_spot_num);
+            ts_vo.setts_Code(ts_code);
             
             int res2 = biz.insertScheduleDay(ts_vo); 
             

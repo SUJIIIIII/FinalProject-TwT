@@ -474,22 +474,23 @@
 	<select id="selectcityspot" resultType="TravelPoint">
 		SELECT * FROM TRAVELPOINT WHERE CITY_CODE = #{citycode} ORDER BY SUBSTR(CITY_CODE, 3), TO_NUMBER(SUBSTR(TP_CODE, 3))
 	</select>
-	
-   	<!-- 일정 추가하기 -->
-   	<insert id="insertschedule" parameterType="TravelSchedule" useGeneratedKeys="true">
-    	INSERT INTO TRAVELSCHEDULE
-      	VALUES('TS11'||TS_SEQ.NEXTVAL, #{m_Code}, NULL, #{ts_Title}, #{ts_Sday}, #{ts_Theme}, #{ts_People}, #{ts_Thum}, #{ts_Period}, SYSDATE, 0)
-      	<selectKey keyProperty="re_Code" resultType="int" order="AFTER">
-        	SELECT TS_SEQ.CURRVAL FROM DUAL
-      	</selectKey>
-   	</insert>
-   	
-   	<!-- scheduleday 추가하기 -->
-   	<insert id="insertscheduleday" parameterType="TravelSchedule">
-    	INSERT INTO
-      	TRAVELSCHEDULE_DAY
-      	VALUES(#{ts_Day}, #{ts_Code}, #{tp_Code})
-   	</insert>
+	<!-- 일정 추가하기 -->
+	<insert id="insertschedule" parameterType="TravelSchedule"
+		useGeneratedKeys="true">
+		INSERT INTO TRAVELSCHEDULE
+		VALUES('TS11'||TS_SEQ.NEXTVAL, #{m_Code}, NULL, #{ts_Title}, #{ts_Sday}, #{ts_Theme}, #{ts_People}, #{ts_Thum}, #{ts_Period}, SYSDATE, 0)
+		<selectKey keyProperty="re_Code" resultType="int"
+			order="AFTER">
+			SELECT TS_SEQ.CURRVAL FROM DUAL
+		</selectKey>
+	</insert>
+	<!-- scheduleday 추가하기 -->
+	<insert id="insertscheduleday" parameterType="TravelSchedule">
+		INSERT INTO
+		TRAVELSCHEDULE_DAY
+		VALUES(#{ts_Day}, #{ts_Code}, #{tp_Code})
+	</insert>
+
 
 </mapper>
 	
