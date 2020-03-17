@@ -161,6 +161,7 @@ public class MypageController {
 			session.setAttribute("user", res);
 			
 			session.setAttribute("userId", res.getm_Id());
+			session.setAttribute("userCode", res.getm_Code()); // 추가된 부분(철환)
 			model.addAttribute("userId", res.getm_Id());
 			
 			check = true;

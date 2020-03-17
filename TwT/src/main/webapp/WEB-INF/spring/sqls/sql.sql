@@ -95,6 +95,7 @@ SELECT * FROM CITY;
 SELECT * FROM TwTMEMBER;
 SELECT * FROM SCHEDULEREVIEW;
 SELECT * FROM TRAVELPOINT ORDER BY city_code*1;
+SELECT * FROM HOTEL LEFT JOIN HOTELROOM USING(H_CODE) WHERE H_CODE = 'H1';
 --------------------------------철환-----------------------------------------
 
 
