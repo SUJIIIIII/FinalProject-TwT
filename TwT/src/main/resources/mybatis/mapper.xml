@@ -75,6 +75,7 @@
 	<!-- ================================범식================================== -->
 
 
+
 	<resultMap type="Hotel" id="hotelMap">
 		<result property="h_Code" column="H_CODE" />
 		<result property="city_Code" column="CITY_CODE" />
