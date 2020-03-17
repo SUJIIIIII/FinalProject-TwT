@@ -235,6 +235,31 @@ function findId() {
 		}
 	});
 }
+
+// 아이디 찾기
+function findId() {
+	var m_Name = $("#m_Name").val();
+	var m_Email = $("#m_Email").val();
+	
+	console.log(m_Name);
+	console.log(m_Email);
+	
+	$.ajax({
+		url:"searchId.do?m_Name="+m_Name+"&m_Email="+m_Email,
+		type:"get",
+		dataType:"json",
+		contentType:"application/json",
+		success:function(data){
+			if(data.result == "0") {
+				alert("회원 정보를 확인해주세요");
+			} else {
+				$("#find_result").show();
+				$("#find_result").append(data.info);
+			   /* alert(data.info); */
+			}
+		}
+	});
+}
 </script>
 <style type="text/css">
 * {

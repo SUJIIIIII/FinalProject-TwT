@@ -209,6 +209,8 @@
           
           <div class="col-lg-9">
           	<div class="row">
+          	<c:choose>
+          	<c:when test="${not empty hotellist}">
               <c:forEach items="${hotellist }" var="HotelVo">
           		<div class="col-md-4 ftco-animate">
 		    				<div class="destination">
@@ -245,6 +247,13 @@
 		    				</div>
 		    			</div>
 			        </c:forEach>
+			        </c:when>
+			        <c:otherwise>
+			          <div class="col-md-4" style="margin: 300px;">
+			                            <h1>검색결과가 없습니다.</h1>
+			          </div>
+			        </c:otherwise>
+			        </c:choose>
           	</div>
 
 		    			<!-- -------------------------------------------- 페이징 -------------------------------------------- -->
