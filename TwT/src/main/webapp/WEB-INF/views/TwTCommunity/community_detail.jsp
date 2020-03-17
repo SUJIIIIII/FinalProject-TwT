@@ -206,7 +206,7 @@ function fList(ts_Code){
 				
  <main id="home" class="contents">
   <div class="container">
-    <h3 class="page-title text-center" style="margin-top: 120px; color: silver; font-size: 17px;"><i class="fas fa-calendar-alt"></i>&nbsp; ${detail.ts_Sday } ~ ${detail.ts_Period }DAYS</h3>
+    <h3 class="page-title text-center" style="margin-top: 120px; color: silver; font-size: 17px;"><i class="fas fa-calendar-alt"></i><br>${detail.ts_Sday }<br> ~ <br>${detail.ts_Period }DAYS</h3>
     
     <c:choose>
     <c:when test="${empty detailList }">
@@ -320,7 +320,7 @@ function fList(ts_Code){
               <c:forEach items="${themeList}" var="theme" varStatus="status" begin="0" end="2" >
               	<c:if test="${detail.ts_Code != theme.ts_Code}">
 		             <div class="block-21 mb-4 d-flex">
-		               <a href="communityDetail.do?ts_code=${theme.ts_Code }" class="blog-img mr-4" style="background-image: url(${pageContext.request.contextPath}/resources/images/plan/${theme.city_Code }/${theme.tp_Img });"></a>
+		               <a href="communityDetail.do?ts_code=${theme.ts_Code }" class="blog-img mr-4" style="background-image: url(${pageContext.request.contextPath}/resources/images/thumbnail/${theme.ts_Thum});"></a>
 		               <div class="text">
 		                 <h3 class="heading"><a href="communityDetail.do?ts_code=${theme.ts_Code }">${theme.ts_Title }</a></h3>
 		                 <div class="meta">
