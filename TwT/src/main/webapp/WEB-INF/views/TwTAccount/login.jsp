@@ -196,7 +196,7 @@ function login_chk() {
 					} else {
 						alert("이메일 인증 후 로그인이 가능합니다.");
 					}
-				} else {
+				} else if (data.check1 == 0 && data.check2 == 0 || data.check1 == 0 && data.check2 == 1 || data.check1 == 1 && data.check2 == 0){
 					alert("아이디 및 비밀번호를 확인해주세요");
 				}
 			}, error:function(){
@@ -226,12 +226,11 @@ function findId() {
 		dataType:"json",
 		contentType:"application/json",
 		success:function(data){
-			if(data.result == "0") {
+			if(data.info == "") {
 				alert("회원 정보를 확인해주세요");
 			} else {
 				$("#find_result").show();
 				$("#find_result").append(data.info);
-			   /* alert(data.info); */
 			}
 		}
 	});

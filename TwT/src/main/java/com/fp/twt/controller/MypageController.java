@@ -42,6 +42,7 @@ import com.fp.twt.common.social.KakaoAPI;
 import com.fp.twt.common.social.NaverLoginBO;
 import com.fp.twt.vo.AirplaneInfoVo;
 import com.fp.twt.vo.HotelReviewVo;
+import com.fp.twt.vo.HotelVo;
 import com.fp.twt.vo.MemberVo;
 import com.github.scribejava.core.model.OAuth2AccessToken;
 
@@ -85,7 +86,8 @@ public class MypageController {
 
 	// 회원가입
 	@RequestMapping(value = "/createAccount.do", method = RequestMethod.POST)
-	public String memberInsert(MemberVo vo, HttpServletRequest request, HttpServletResponse response) throws IOException {
+	public String memberInsert(MemberVo vo, HttpServletRequest request, HttpServletResponse response)
+			throws IOException {
 		System.out.println("회원가입 시작");
 		// 비밀번호 암호화
 		vo.setm_Pass(passwordEncoder.encode(vo.getm_Pass()));
@@ -93,15 +95,15 @@ public class MypageController {
 
 		// 인증 메일 보내기 메소드
 		mailsender.mailSendWithUserKey(vo.getm_Email(), vo.getm_Id(), request);
-		
+
 		PrintWriter out = response.getWriter();
 
 		if (biz.memberInsert(vo) > 0) {
 			System.out.println("회원가입 성공" + vo.toString());
-			
+
 			out.println("<script>alert('회원가입이 완료되었습니다. 이메일 인증 후 로그인이 가능합니다.');</script>");
 			out.flush();
-			
+
 			return "TwTAccount/login";
 		} else {
 			System.out.println("회원가입 실패");
@@ -159,10 +161,10 @@ public class MypageController {
 		if (passwordEncoder.matches(vo.getm_Pass(), res.getm_Pass())) {
 			System.out.println("로그인 정보 : " + res.toString());
 			session.setAttribute("user", res);
-			
+
 			session.setAttribute("userId", res.getm_Id());
 			model.addAttribute("userId", res.getm_Id());
-			
+
 			check = true;
 		}
 		return "redirect:/index.jsp";
@@ -215,20 +217,31 @@ public class MypageController {
 
 		System.out.println("들어오는 아이디 : " + m_Id);
 		System.out.println("들어오는 비번 : " + m_Pass);
-		System.out.println("로그인하려는 사람 이메일 체크 :" + res.getm_Mailcheck());
 
-		int result1 = biz.loginIdChk(m_Id);
+		biz.loginIdChk(m_Id);
+
+		int result1 = 0;
 		int result2 = 0;
 		int result3 = 0;
 
-		if (res.getm_Mailcheck().contains("Y")) {
-			result3 = 1;
+		if (biz.loginIdChk(m_Id) > 0) {
+			result1 = 1;
 		}
 
-		// 비밀번호 해독
-		if (passwordEncoder.matches(m_Pass, res.getm_Pass())) {
-			System.out.println("로그인 체크 정보" + m_Id + ":" + m_Pass);
+		if (biz.loginPwdChk(m_Pass) > 0) {
 			result2 = 1;
+		}
+
+		if (result1 > 0 && result2 > 0 || result1 > 0 && result2 == 0 || result1 == 0 && result2 > 0) {
+			// 비밀번호 해독
+			if (passwordEncoder.matches(m_Pass, res.getm_Pass())) {
+				System.out.println("로그인 체크 정보" + m_Id + ":" + m_Pass);
+				result2 = 1;
+				
+				if (res.getm_Mailcheck().contains("Y")) {
+					result3 = 1;
+				}
+			}
 		}
 
 		System.out.println("확인 : " + result1 + result2 + result3);
@@ -404,27 +417,44 @@ public class MypageController {
 	// 아이디 찾기
 	@RequestMapping(value = "searchId.do", method = RequestMethod.GET)
 	@ResponseBody
-	public Map<Object,Object> searchId(@RequestParam("m_Name") String m_Name, @RequestParam("m_Email") String m_Email) {
-		
+	public Map<Object, Object> searchId(@RequestParam("m_Name") String m_Name,
+			@RequestParam("m_Email") String m_Email) {
+
 		Map<Object, Object> map = new HashMap<Object, Object>();
-		
+
 		System.out.println("들어오는 이름 : " + m_Name);
 		System.out.println("들어오는 이멜 : " + m_Email);
-		
-		String result1 = biz.searchId(m_Name, m_Email);
-		
-		System.out.println(result1);
-		
-		map.put("info", result1);
-		
+
+		List<MemberVo> result = biz.searchId(m_Name, m_Email);
+
+		System.out.println("아이디 찾은 결과 : " + result);
+
+		map.put("info", result);
+
 		return map;
-	} 
-	
+	}
+
 	// 별점 부여
 	@RequestMapping("/star.do")
-	public String insertStar(Model model, HotelReviewVo vo, HttpSession session) {
+	public String insertStar(Model model, HotelReviewVo vo, String h_Code, int hrv_Starn, HttpSession session) {
 		System.out.println("별점부여");
+		System.out.println(h_Code + "/" + hrv_Starn);
+
+		// 별점 인서트
 		model.addAttribute("star", biz.insertStar(vo));
+
+		// 호텔 번호에 맞는 호텔 리스트를 가져옴
+		HotelVo res = biz.selectOneHotelStar(h_Code);
+
+		int point = (res.getH_Starn() + hrv_Starn) / 2;
+		System.out.println("point : " + point);
+
+		// 해당 h_code 에 맞는 정보의 저장된 별점 잘 가져옴
+		System.out.println("res.getH_Starn() : " + res.getH_Starn());
+
+		// 별점 조회 후 업뎃
+		model.addAttribute("upStar", biz.updateStar(h_Code, point));
+
 		return "redirect:mypage.do";
 	}
 }

@@ -15,7 +15,7 @@
 <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js'></script>
 <script src="${pageContext.request.contextPath}/resources/js/chat.js"></script>
 
-  <script src="http://localhost:3000/socket.io/socket.io.js"></script>
+  <script src="http://192.168.130.245:3000/socket.io/socket.io.js"></script>
 
 	<script>
 	
@@ -25,7 +25,7 @@
 			var num = 0;
 			
 			if(userId != "null"){
-			    var socket = io("http://localhost:3000");
+			    var socket = io("http://192.168.130.245:3000/");
 
 			    $("#room1").click(function(){
 			    	$("#chat").empty();

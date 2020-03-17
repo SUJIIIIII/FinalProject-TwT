@@ -7,12 +7,10 @@
 <title>Insert title here</title>
 </head>
 <body>
-
 <script type="text/javascript">
 	window.onload = function gohome() {
 		location.href = "gohome.do";
 	};
 </script>
-
 </body>
 </html>

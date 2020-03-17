@@ -266,16 +266,12 @@
 
 	<!-- 로그인 시 중복되는 아이디 있나 체크 -->
 	<select id="loginIdChk" resultType="int">
-		SELECT COUNT(*) FROM
-		TWTMEMBER
-		WHERE M_ID = #{m_Id}
+		SELECT COUNT(*) FROM TWTMEMBER WHERE M_ID = #{m_Id}
 	</select>
 
 	<!-- 로그인 시 디비에 저장된 비밀번호 체크 -->
 	<select id="loginPwdChk" resultType="int">
-		SELECT COUNT(*) FROM
-		TWTMEMBER
-		WHERE M_PASS = #{m_Pass}
+		SELECT COUNT(*) FROM TWTMEMBER WHERE M_PASS = #{m_Pass}
 	</select>
 
 	<!-- 아이디 중복검사 -->
@@ -395,8 +391,18 @@
     
     <!-- 별점 조회 -->
     <select id="selectStarM" resultType="HotelReview">
-       SELECT DISTINCT HRV_STARN FROM HOTELREVIEW WHERE M_CODE = #{m_Code}
+       SELECT HRV_STARN FROM HOTELREVIEW WHERE M_CODE = #{m_Code}
     </select>
+    
+    <!-- 별점 업뎃 -->
+    <update id="updateStarM" parameterType="hashmap">
+       UPDATE HOTEL SET H_STARN = #{star} WHERE H_CODE = #{h_Code}
+    </update>
+
+    <!-- 업데이트할 호텔의 평점 가져오기 -->
+    <select id="selectHotelStarM" resultType="Hotel">
+       SELECT H_STARN FROM HOTEL WHERE H_CODE = #{h_Code}
+    </select>    
 	<!-- ================================찬우================================== -->
 	
 	

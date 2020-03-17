@@ -8,12 +8,12 @@ public class HotelBookingVo {
 	private String m_Code; // 회원번호
 	private String hr_Code; // 방코드
 	private String h_Code; // 숙소번호
-	private Date hb_Sdate; // 예약날짜 입실
-	private Date hb_Edate; // 예약날짜 퇴실
+	private String hb_Sdate; // 예약날짜 입실
+	private String hb_Edate; // 예약날짜 퇴실
 	private String hb_Check; // 결제여부
 	private int hb_People; // 예약 인원
 	private String hb_Name; // 예약 예약자
-	private Date hb_Date; // 예약한 날짜
+	private String hb_Date; // 예약한 날짜
 	private String city_Code; // 도시 번호
 	private String city_Name; // 도시 이름
 
@@ -21,8 +21,8 @@ public class HotelBookingVo {
 		super();
 	}
 
-	public HotelBookingVo(String hb_Code, String m_Code, String hr_Code, String h_Code, Date hb_Sdate, Date hb_Edate,
-			String hb_Check, int hb_People, String hb_Name, Date hb_Date, String city_Code, String city_Name) {
+	public HotelBookingVo(String hb_Code, String m_Code, String hr_Code, String h_Code, String hb_Sdate, String hb_Edate,
+			String hb_Check, int hb_People, String hb_Name, String hb_Date, String city_Code, String city_Name) {
 		super();
 		this.hb_Code = hb_Code;
 		this.m_Code = m_Code;
@@ -70,19 +70,19 @@ public class HotelBookingVo {
 		this.h_Code = h_Code;
 	}
 
-	public Date getHb_Sdate() {
+	public String getHb_Sdate() {
 		return hb_Sdate;
 	}
 
-	public void setHb_Sdate(Date hb_Sdate) {
+	public void setHb_Sdate(String hb_Sdate) {
 		this.hb_Sdate = hb_Sdate;
 	}
 
-	public Date getHb_Edate() {
+	public String getHb_Edate() {
 		return hb_Edate;
 	}
 
-	public void setHb_Edate(Date hb_Edate) {
+	public void setHb_Edate(String hb_Edate) {
 		this.hb_Edate = hb_Edate;
 	}
 
@@ -110,11 +110,11 @@ public class HotelBookingVo {
 		this.hb_Name = hb_Name;
 	}
 
-	public Date getHb_Date() {
+	public String getHb_Date() {
 		return hb_Date;
 	}
 
-	public void setHb_Date(Date hb_Date) {
+	public void setHb_Date(String hb_Date) {
 		this.hb_Date = hb_Date;
 	}
 
@@ -141,5 +141,4 @@ public class HotelBookingVo {
 				+ ", hb_People=" + hb_People + ", hb_Name=" + hb_Name + ", hb_Date=" + hb_Date + ", city_Code="
 				+ city_Code + ", city_Name=" + city_Name + "]";
 	}
-
 }
