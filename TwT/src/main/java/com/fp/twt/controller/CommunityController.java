@@ -258,7 +258,7 @@ public class CommunityController {
 	// 도영
 	// 여행 일정 리스트
 	@RequestMapping("/community.do")
-	public String newcommunity(@ModelAttribute("travelScheduleVo") TravelScheduleVo travelScheduleVo, FavoriteListVo favoriteListVo, boolean Chk, HttpSession session, String ts_theme, Model model, HttpServletRequest request) {
+	public String newcommunity(@ModelAttribute("travelScheduleVo") TravelScheduleVo travelScheduleVo, FavoriteListVo favoriteListVo, boolean Chk, boolean potoChk, HttpSession session, String ts_theme, Model model, HttpServletRequest request) {
 		logger.info("SELECT LIST");
 		
 		//도영

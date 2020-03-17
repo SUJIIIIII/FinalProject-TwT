@@ -32,16 +32,6 @@
 <script src="https://kit.fontawesome.com/6953482b42.js" crossorigin="anonymous"></script>
 <script type="text/javascript" src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 <script type="text/javascript">
-/* $(function () {
-	  // Smooth Scroll
-	  $('a[href*=#]').bind('click', function(e){
-	    var anchor = $(this);
-	    $('html, body').stop().animate({
-	      scrollTop: $(anchor.attr('href')).offset().top
-	    }, 1000);
-	    e.preventDefault();
-	  });
-	}); */
 	function deleteChk(){
 		var sr_Code = $("input[name=srcode]").val();
  		if(confirm("삭제하시겠습니까?")){
@@ -51,7 +41,6 @@
 	};
 	
 	function ansdelete(ans_Code, board_Code){
-		alert(ans_Code+", "+board_Code);
 		$.ajax({
 			type : "post",
 			url : "ansDelete.do?ans_Code="+ans_Code+"&board_Code="+board_Code,

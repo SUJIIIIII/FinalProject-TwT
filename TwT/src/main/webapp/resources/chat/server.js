@@ -2,13 +2,10 @@ var express = require('express');
 var app = express();
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
-var host = "192.168.130.228";
+var host = "192.168.130.245";
 var port = "3000";
 
 var room = ['defalt','room1','room2','room3','room4'];
-
-const host = "192.168.130.245";
-const port = "3000";
 
 //페이지를 get으로 요청을 했을때.
 app.get('/', function (req, res) {

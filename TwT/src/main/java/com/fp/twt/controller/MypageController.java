@@ -98,8 +98,6 @@ public class MypageController {
 		
 		PrintWriter out = response.getWriter();
 
-		PrintWriter out = response.getWriter();
-
 		if (biz.memberInsert(vo) > 0) {
 			System.out.println("회원가입 성공" + vo.toString());
 
