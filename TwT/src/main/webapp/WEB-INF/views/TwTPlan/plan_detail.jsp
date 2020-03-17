@@ -435,7 +435,6 @@ var count; // 스팟리스트 개수
       	$("#schedule_detail_box").append("" +  
       	"<div class='day_spot_item' data='" + spot_seq + "' data-set_day='" + set_day + "' data-budget='' data-memo='' data-pl_type='0' data-img='"+spot_img+"' data-city='"+spot_city+"' data-seq='"+ spot_num +"' data-no='" + spot_no + "' data-pl_cat='301' data-latlng='" + spot_lat + "," + spot_lng + "' data-lat='" + spot_lat+ "' data-lng='" + spot_lng +"' data-ci='87' data-type='"+spot_type+"' id='spot" + spot_seq + "'>"
                  +   "<div class='item_ctrl_box' style='display: none'>"
-                 +      "<div class='fl item_copy_plan' title='장소복사'><img src='/twt/resources/images/plan/item_more_icon_a.png'></div>"
                  +       "<div class='fl item_set_plan' title='메모&amp;예산' onclick='addbudget(&quot;"+spot_no+"&quot;,&quot;"+spot_name+"&quot;,&quot;"+spot_img+"&quot;,&quot;"+spot_content+"&quot;,&quot;"+spot_addr+"&quot;,&quot;"+spot_city+"&quot;,&quot;"+spot_type+"&quot;)'><img src='/twt/resources/images/plan/item_set_icon_a.png'></div>"
                  +      "<div class='fl btn_del' title='삭제'><img src='/twt/resources/images/plan/item_del_icon_a.png'></div>"
                  +      "<div class='clear'></div>" 	
@@ -629,7 +628,6 @@ var count; // 스팟리스트 개수
           $("#schedule_detail_box").append("" +  
           "<div class='day_spot_item' data='" + spot_seq + "' data-set_day='" + set_day + "' data-budget='' data-memo='' data-img='"+spot_img+"' data-city='"+spot_city+"' data-seq='"+ spot_num +"' data-no='" + spot_no + "' data-pl_cat='301' data-latlng='" + spot_lat + "," + spot_lng + "' data-lat='" + spot_lat+ "' data-lng='" + spot_lng +"' data-ci='87' data-type='"+spot_type+"' id='spot" + spot_seq + "'>"
                      +   "<div class='item_ctrl_box' style='display: none'>"
-                     +      "<div class='fl item_copy_plan' title='장소복사'><img src='/twt/resources/images/plan/item_more_icon_a.png'></div>"
          			 +      "<div class='fl item_set_plan' title='메모&amp;예산' onclick='addbudget(&quot;"+spot_no+"&quot;,&quot;"+spot_name+"&quot;,&quot;"+spot_img+"&quot;,&quot;"+spotcontent[spot_num]+"&quot;,&quot;"+spotaddr[spot_num]+"&quot;,&quot;"+spot_city+"&quot;,&quot;"+spot_type+"&quot;)'><img src='/twt/resources/images/plan/item_set_icon_a.png'></div>"
                      +      "<div class='fl btn_del' title='삭제'><img src='/twt/resources/images/plan/item_del_icon_a.png'></div>"
                      +      "<div class='clear'></div>" 
