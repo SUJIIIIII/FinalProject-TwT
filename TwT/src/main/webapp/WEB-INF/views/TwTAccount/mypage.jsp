@@ -11,12 +11,10 @@
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
 <%-- 부트스트랩 모달 core 파일 시작 --%>
 <script	src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
 <%-- 부트스트랩 모달 core 파일 끝 --%>
-<link rel="stylesheet" href="http://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/style.css">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/account/form.css">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/scss/bootstrap/bootstrap.scss">
@@ -62,15 +60,11 @@
 $(function(){
 		//input을 datepicker로 선언
 		$("#Start_date").datepicker({
-		dateFormat: 'yymmdd' //Input Display Format 변경
-		,showOtherMonths: true //빈 공간에 현재월의 앞뒤월의 날짜를 표시
+		showOtherMonths: true //빈 공간에 현재월의 앞뒤월의 날짜를 표시
+		,dateFormat: "yy/mm/dd"
 		,showMonthAfterYear:true //년도 먼저 나오고, 뒤에 월 표시
 		,changeYear: true //콤보박스에서 년 선택 가능
 		,changeMonth: true //콤보박스에서 월 선택 가능                
-		,showOn: "both" //button:버튼을 표시하고,버튼을 눌러야만 달력 표시 ^ both:버튼을 표시하고,버튼을 누르거나 input을 클릭하면 달력 표시  
-		,buttonImage: "http://jqueryui.com/resources/demos/datepicker/images/calendar.gif" //버튼 이미지 경로
-		,buttonImageOnly: true //기본 버튼의 회색 부분을 없애고, 이미지만 보이게 함
-		,buttonText: "선택" //버튼에 마우스 갖다 댔을 때 표시되는 텍스트                
 		,yearSuffix: "년" //달력의 년도 부분 뒤에 붙는 텍스트
 		,monthNamesShort: ['1','2','3','4','5','6','7','8','9','10','11','12'] //달력의 월 부분 텍스트
 		,monthNames: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'] //달력의 월 부분 Tooltip 텍스트
@@ -78,10 +72,77 @@ $(function(){
 		,dayNames: ['일요일','월요일','화요일','수요일','목요일','금요일','토요일'] //달력의 요일 부분 Tooltip 텍스트
 		,minDate: "0" //최소 선택일자(-1D:하루전, -1M:한달전, -1Y:일년전) 0 으로 설정했을대는 오늘 날짜 이후로 만 선택 가능함.
 		,maxDate: "+1M" //최대 선택일자(+1D:하루후, -1M:한달후, -1Y:일년후)                
-		});                    
+		});       
 		
-		//초기값을 오늘 날짜로 설정
-		$("#date").datepicker('setDate', 'today');
+		$("#End_date").datepicker({
+			showOtherMonths: true //빈 공간에 현재월의 앞뒤월의 날짜를 표시
+			,dateFormat: "yy/mm/dd"
+			,showMonthAfterYear:true //년도 먼저 나오고, 뒤에 월 표시
+			,changeYear: true //콤보박스에서 년 선택 가능
+			,changeMonth: true //콤보박스에서 월 선택 가능                
+			,yearSuffix: "년" //달력의 년도 부분 뒤에 붙는 텍스트
+			,monthNamesShort: ['1','2','3','4','5','6','7','8','9','10','11','12'] //달력의 월 부분 텍스트
+			,monthNames: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'] //달력의 월 부분 Tooltip 텍스트
+			,dayNamesMin: ['일','월','화','수','목','금','토'] //달력의 요일 부분 텍스트
+			,dayNames: ['일요일','월요일','화요일','수요일','목요일','금요일','토요일'] //달력의 요일 부분 Tooltip 텍스트
+			,minDate: "0" //최소 선택일자(-1D:하루전, -1M:한달전, -1Y:일년전) 0 으로 설정했을대는 오늘 날짜 이후로 만 선택 가능함.
+			,maxDate: "+1Y" //최대 선택일자(+1D:하루후, -1M:한달후, -1Y:일년후)                
+			}); 
+		
+		$("#Start_date2").datepicker({
+			showOtherMonths: true //빈 공간에 현재월의 앞뒤월의 날짜를 표시
+			,dateFormat: "yy/mm/dd"
+			,showMonthAfterYear:true //년도 먼저 나오고, 뒤에 월 표시
+			,changeYear: true //콤보박스에서 년 선택 가능
+			,changeMonth: true //콤보박스에서 월 선택 가능                
+			,yearSuffix: "년" //달력의 년도 부분 뒤에 붙는 텍스트
+			,monthNamesShort: ['1','2','3','4','5','6','7','8','9','10','11','12'] //달력의 월 부분 텍스트
+			,monthNames: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'] //달력의 월 부분 Tooltip 텍스트
+			,dayNamesMin: ['일','월','화','수','목','금','토'] //달력의 요일 부분 텍스트
+			,dayNames: ['일요일','월요일','화요일','수요일','목요일','금요일','토요일'] //달력의 요일 부분 Tooltip 텍스트
+			,minDate: "0" //최소 선택일자(-1D:하루전, -1M:한달전, -1Y:일년전) 0 으로 설정했을대는 오늘 날짜 이후로 만 선택 가능함.
+			,maxDate: "+1Y" //최대 선택일자(+1D:하루후, -1M:한달후, -1Y:일년후)                
+			});
+		
+		$("#End_date2").datepicker({
+			showOtherMonths: true //빈 공간에 현재월의 앞뒤월의 날짜를 표시
+			,dateFormat: "yy/mm/dd"
+			,showMonthAfterYear:true //년도 먼저 나오고, 뒤에 월 표시
+			,changeYear: true //콤보박스에서 년 선택 가능
+			,changeMonth: true //콤보박스에서 월 선택 가능                
+			,yearSuffix: "년" //달력의 년도 부분 뒤에 붙는 텍스트
+			,monthNamesShort: ['1','2','3','4','5','6','7','8','9','10','11','12'] //달력의 월 부분 텍스트
+			,monthNames: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'] //달력의 월 부분 Tooltip 텍스트
+			,dayNamesMin: ['일','월','화','수','목','금','토'] //달력의 요일 부분 텍스트
+			,dayNames: ['일요일','월요일','화요일','수요일','목요일','금요일','토요일'] //달력의 요일 부분 Tooltip 텍스트
+			,minDate: "0" //최소 선택일자(-1D:하루전, -1M:한달전, -1Y:일년전) 0 으로 설정했을대는 오늘 날짜 이후로 만 선택 가능함.
+			,maxDate: "+1Y" //최대 선택일자(+1D:하루후, -1M:한달후, -1Y:일년후)                
+			});   
+});
+
+<%-- datepicker 날짜 비교 --%>
+$(document).ready(function(){
+	$("#airBtn").click(function(){
+		var start1 = new Date($("#Start_date").datepicker("getDate"));
+		var end1 = new Date($("#End_date").datepicker("getDate"));
+		
+		var start2 = new Date($("#Start_date2").datepicker("getDate"));
+		var end2 = new Date($("#End_date2").datepicker("getDate"));
+		
+		if(end1 - start1 < 0 || end2 - start2 < 0) {
+		 alert("도착일이 출발일 보다 이전일수 없습니다"); 
+		 return false;
+		} else {
+			$("#airBtn").attr("type","submit");
+		}
+		
+		if(start2 < end1) {
+			alert("귀국일이 출국일보다 이전일 수 없습니다");
+			return false;
+		} else {
+			$("#airBtn").attr("type","submit");
+		}
+	});
 });
 
 <%-- 회원탈퇴 --%>
@@ -777,7 +838,7 @@ html {
 									<div id="info_location">${air.dep_Date1}&nbsp;&nbsp;${air.dep_Time1}</div>
 
 									<div id="info_title">
-										<p>도착일</p>
+										<p>출국 도착일</p>
 									</div>
 
 									<div id="info_location">${air.dep_Date2}&nbsp;&nbsp;${air.dep_Time2}</div>
@@ -1144,19 +1205,19 @@ html {
 						<input type="hidden" name="m_Code" value="${user.m_Code}">
 						       출국지: <input type="text" name="dep_Loca1"><br>
 						       출국 도착지 : <input type="text" name="dep_Loca2"><br>
-						       출국날짜 : <input type="text" name="dep_Date1" id="date"><br>
-						       출국 도착날짜 : <input type="text" name="dep_Date2"><br>
+						       출국날짜 : <input type="text" name="dep_Date1" id="Start_date"><br>
+						       출국 도착날짜 : <input type="text" name="dep_Date2" id="End_date"><br>
 						       출국 출발시간 : <input type="text" name="dep_Time1"><br>
 						       출국 도착시간 : <input type="text" name="dep_Time2"><br>
 						       귀국출발지 : <input type="text" name="re_Loca1"><br>
 						       귀국도착지 : <input type="text" name="re_Loca2"><br>
-						       귀국출발날짜 : <input type="text" name="re_Date1"><br>
-						       귀국도착날짜 : <input type="text" name="re_Date2"><br>
+						       귀국출발날짜 : <input type="text" name="re_Date1" id="Start_date2"><br>
+						       귀국도착날짜 : <input type="text" name="re_Date2" id="End_date2"><br>
 						       귀국출발시간 : <input type="text" name="re_Time1"><br>
 						       귀국도착시간 : <input type="text" name="re_Time2">
 					</div>
 					<div class="modal-footer">
-						<button type="submit" class="btn btn-primary btn-outline-primary">완 료</button>
+						<button type="button" class="btn btn-primary btn-outline-primary" id="airBtn">완 료</button>
 					</div>
 				</div>
 			</div>
@@ -1183,14 +1244,14 @@ html {
 					   <input type="hidden" name="air_Code" value="${airlist.air_Code}">
 						       출국지: <input type="text" name="dep_Loca1" value="${airlist.dep_Loca1}"><br>
 						       출국 도착지 : <input type="text" name="dep_Loca2" value="${airlist.dep_Loca2}"><br>
-						       출국날짜 : <input type="text" name="dep_Date1" value="${airlist.dep_Date1}"><br>
-						       출국 도착날짜 : <input type="text" name="dep_Date2" value="${airlist.dep_Date2}"><br>
+						       출국날짜 : <input type="text" name="dep_Date1" value="${airlist.dep_Date1}" id="Start_date"><br>
+						       출국 도착날짜 : <input type="text" name="dep_Date2" value="${airlist.dep_Date2}" id="End_date"><br>
 						       출국 출발시간 : <input type="text" name="dep_Time1" value="${airlist.dep_Time1}"><br>
 						       출국 도착시간 : <input type="text" name="dep_Time2" value="${airlist.dep_Time2}"><br>
 						       귀국출발지 : <input type="text" name="re_Loca1" value="${airlist.re_Loca1}"><br>
 						       귀국도착지 : <input type="text" name="re_Loca2" value="${airlist.re_Loca2}"><br>
-						       귀국출발날짜 : <input type="text" name="re_Date1" value="${airlist.re_Date1}"><br>
-						       귀국도착날짜 : <input type="text" name="re_Date2" value="${airlist.re_Date2}"><br>
+						       귀국출발날짜 : <input type="text" name="re_Date1" value="${airlist.re_Date1}" id="Start_date2"><br>
+						       귀국도착날짜 : <input type="text" name="re_Date2" value="${airlist.re_Date2}" id="End_date2"><br>
 						       귀국출발시간 : <input type="text" name="re_Time1" value="${airlist.re_Time1}"><br>
 						       귀국도착시간 : <input type="text" name="re_Time2" value="${airlist.re_Time1}">
 					</c:forEach>
@@ -1203,6 +1264,11 @@ html {
 		</div>
 	</form>
 	<%-- 항공권 수정 모달 DIV 끝--%>
+	
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/timepicker/1.3.5/jquery.timepicker.min.css">	
+<link rel="stylesheet" href="http://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/timepicker/1.3.5/jquery.timepicker.min.js"></script>
 <script src="${pageContext.request.contextPath}/resources/js/jquery-migrate-3.0.1.min.js"></script>
 <script src="${pageContext.request.contextPath}/resources/js/jquery.waypoints.min.js"></script>
 <script src="${pageContext.request.contextPath}/resources/js/jquery.stellar.min.js"></script>
