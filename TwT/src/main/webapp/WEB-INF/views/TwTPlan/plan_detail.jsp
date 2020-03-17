@@ -528,12 +528,16 @@ var count; // 스팟리스트 개수
 	}
 	
 	// 예산추가
-	function addbudget(seq,name,img,con,add,citycd,type){
+	function addbudget(seq,name,img,con,add,citycd,type){	
 		// 동일한 스팟번호의 저장된 메모&예산 가져오기
+		var tmpbud;
+		var tmpmemo;
+	
 		for(var i=0;i<$("#schedule_detail_box").children().length;i++){
 			if($("#schedule_detail_box").children().eq(i).data("no") == seq){
-				var tmpbud = $("#schedule_detail_box").children().eq(i).data("budget");
-				var tmpmemo = $("#schedule_detail_box").children().eq(i).data("memo");
+				// tmpbud = $("#schedule_detail_box").children().eq(i).data("budget");
+				tmpbud = $("#schedule_detail_box").children().eq(i).attr("data-budget");
+				tmpmemo = $("#schedule_detail_box").children().eq(i).data("memo");
 			}
 		}
 		
@@ -722,11 +726,9 @@ var count; // 스팟리스트 개수
 			// 선택외 테마 이미지 변경
 			$('img',this).attr('src',$('img',this).attr('src').replace('.gif','_on.gif'));
 			
-			var theme_val = $('theme.radio.on').data("val");
+			var theme_val = $('.theme_radio.on').data("val");
 			$("#pn_type").val(theme_val);
-
 		});
-		
 	});
 	
 	google.maps.event.addDomListener(window, 'load', initialize);
@@ -859,14 +861,11 @@ src="https://maps.googleapis.com/maps/api/js?v=weekly&key=AIzaSyCiDE5HBue4mflsdk
 			</div>				 
 			<!-- datePicker end -->
 			
-			<ul id="cat_menu_edit_box" class="ui-sortable" style="height: 598px;">
+			<ul id="cat_menu_edit_box" style="height: 598px;">
 			</ul>
 		</div>	
 	</div> <!-- 날짜 수정 모달 end -->
 
-
-<div id="ui-datepicker-div" class="ui-datepicker ui-widget ui-widget-content ui-helper-clearfix ui-corner-all"></div>
-	
 	<!-- @@ 바디 @@ -->
 	<div id="full_wrap" style="width: 100%; height: 648px;">
 		<div class="fl left_full_box">
@@ -879,8 +878,7 @@ src="https://maps.googleapis.com/maps/api/js?v=weekly&key=AIzaSyCiDE5HBue4mflsdk
 					</li>
 				</ul>
 				<ul id="cat_menu" data="87" data-member_srl="1213145" data-year="2020" style="max-height: 478px;">
-					<!-- <li id="show_all_day" data="show_all_day" original-title="">전체 일정 보기</li> -->
-<!-- 					<li data="1" data-date="01.31" data-day_week="5" data-f_ci="87" data-f_lat="18.79906428" data-f_lng="98.99514161" class="day_menu on" original-title="치앙마이">
+			 <!-- <li data="1" data-date="01.31" data-day_week="5" data-f_ci="87" data-f_lat="18.79906428" data-f_lng="98.99514161" class="day_menu on" original-title="치앙마이">
 						<div class="fl cat_date_left_box">
 							<div class="cat_left_day">DAY1</div>
 							<div class="cat_left_date"></div>
@@ -1007,7 +1005,7 @@ src="https://maps.googleapis.com/maps/api/js?v=weekly&key=AIzaSyCiDE5HBue4mflsdk
                 				<div class="clear"></div>
                 			</div>
                 			<!-- @@ 수정 필요 @@ -->
-                			<div class="sub include_pn_day" style="color:#fc3c3c">DAY1</div>
+                			<div class="sub include_pn_day" style="color:#fc3c3c"></div>
                 		</div>
                 		<div class="spot_to_inspot"><img src="${pageContext.request.contextPath}/resources/images/plan/spot_to_inspot_a.png"></div>
                 		<div class="clear"></div>
@@ -1142,34 +1140,34 @@ src="https://maps.googleapis.com/maps/api/js?v=weekly&key=AIzaSyCiDE5HBue4mflsdk
 									<th valign="top" style="padding-top:5px;">
 									<!--여행 테마-->여행 테마				</th>
 									<td>
-										<input type="hidden" name="pn_type" id="pn_type" value="0">
-										<div class="theme_radio" data-val="001">
+										<input type="hidden" name="pn_type" id="pn_type">
+										<div class="theme_radio" data-val="나홀로">
 											<div class="r_inner_box">
 												<img src="${pageContext.request.contextPath}/resources/images/plan/modal/theme_alone.gif" alt="">
 												나홀로						</div>
 										</div>
-										<div class="theme_radio" data-val="003">
+										<div class="theme_radio" data-val="커플">
 											<div class="r_inner_box">
 												<img src="${pageContext.request.contextPath}/resources/images/plan/modal/theme_couple.gif" alt="">
 												커플						</div>
 										</div>
-										<div class="theme_radio" data-val="002">
+										<div class="theme_radio" data-val="친구">
 											<div class="r_inner_box">
 												<img src="${pageContext.request.contextPath}/resources/images/plan/modal/theme_frends.gif" alt="">
 												친구						</div>
 										</div>
 										<div class="clear"></div>
-										<div class="theme_radio" data-val="004">
+										<div class="theme_radio" data-val="가족">
 											<div class="r_inner_box">
 												<img src="${pageContext.request.contextPath}/resources/images/plan/modal/theme_family.gif" alt="">
 												가족						</div>
 										</div>
-										<div class="theme_radio" data-val="007">
+										<div class="theme_radio" data-val="단체">
 											<div class="r_inner_box">
 												<img src="${pageContext.request.contextPath}/resources/images/plan/modal/theme_people.gif" alt="">
 												단체						</div>
 										</div>
-										<div class="theme_radio" data-val="005">
+										<div class="theme_radio" data-val="비즈니스">
 											<div class="r_inner_box">
 												<img src="${pageContext.request.contextPath}/resources/images/plan/modal/theme_business.gif" alt="">
 												비즈니스						</div>
@@ -1205,7 +1203,7 @@ src="https://maps.googleapis.com/maps/api/js?v=weekly&key=AIzaSyCiDE5HBue4mflsdk
 
 <!-- // jQuery UI 라이브러리 js파일 -->
 <script src="http://code.jquery.com/ui/1.8.18/jquery-ui.min.js"></script>
-<script src="${pageContext.request.contextPath}/resources/js/plan/plan_detail.js?version=1.4"></script>
+<script src="${pageContext.request.contextPath}/resources/js/plan/plan_detail.js?version=1.5"></script>
 </body>
 
 </html>
