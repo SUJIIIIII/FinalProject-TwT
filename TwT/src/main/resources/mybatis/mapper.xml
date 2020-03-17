@@ -400,14 +400,20 @@
     <select id="selectHotelStarM" resultType="Hotel">
        SELECT H_STARN FROM HOTEL WHERE H_CODE = #{h_Code}
     </select>    
+
 	<!-- ================================찬우================================== -->
 	
 	
 	<!-- 메인 호텔 예약많은 순으로 4개 검색 -->
 	 
 	<select id="main_hotel" resultType="Hotel">
+			SELECT TB.*
+		FROM (
+			SELECT ROWNUM as rn, ht.*
+		<include refid="hotelInc" />
+			ORDER BY H_BOOKCNT) TB
 		<![CDATA[
-		SELECT * FROM (SELECT * FROM HOTEL ORDER BY H_BOOKCNT) WHERE ROWNUM <= 6
+		WHERE ROWNUM <= 6
 		]]>
 	</select>
 	

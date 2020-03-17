@@ -319,6 +319,7 @@ public class MypageDaoImpl implements MypageDao {
 
 		try {
 			list = sqlSession.selectList(namespace + "selectStarM", m_Code);
+
 			for (HotelReviewVo i : list) {
 				System.out.println(m_Code + "가 부여한 별점 : " + i.getHrv_Starn());
 			}

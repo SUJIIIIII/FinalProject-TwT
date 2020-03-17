@@ -37,7 +37,7 @@ $(document).ready(function() {
 
    // 저장된 예산정보 기본으로 띄워주기
    set_storage_budget();
-   
+
    //date_info 설정
    set_info_date();
 
@@ -332,7 +332,7 @@ $(document).ready(function(){
             $(".day_menu.on").children(".cat_date_right_box").children(".cat_right_city").html(city_name);
       }
          
-         // 변경전 도시 위도/경도 삭제 ===========
+         // 변경전 도시 위도/경도 삭제
          $(".day_menu.on").removeData("f_lat");
          $(".day_menu.on").removeData("f_lng");
          // 변경된 도시 위도/경도 선택된 day에 set
@@ -751,7 +751,6 @@ function cat_menu_edit() {
    var dep_date = get_departure_date(); // 시작일 가져오기
 
    $("#cat_menu_edit_box").children().remove();
-
    for (var i = 1; i <= storage_length; i++) {
       var spot_obj = JSON.parse(sessionStorage.getItem("Day"+i));
 
@@ -762,7 +761,6 @@ function cat_menu_edit() {
          city_name = spot_obj['index1'][9];
       }
 
-      dep_date.setDate(dep_date.getDate()); // 하루씩 날짜 더해주기
       var weekday = date_to_label(dep_date.getDay()); // 요일 반환하기
       var set_date = day_add_zero(dep_date);
 
@@ -781,6 +779,8 @@ function cat_menu_edit() {
           +   "<div class='clear'></div>"
           + "</li>"
       );
+      
+      dep_date.setDate(dep_date.getDate() + 1); // 하루씩 날짜 더해주기
    }
    }
 
