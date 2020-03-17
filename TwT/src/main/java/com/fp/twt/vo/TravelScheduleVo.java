@@ -2,7 +2,7 @@ package com.fp.twt.vo;
 
 import java.util.Date;
 
-public class TravelScheduleVo extends ts_PagingVo {
+public class TravelScheduleVo {
 
     private String ts_Code; 	//여행일정 번호
     private String m_Code; 		//회원 번호
