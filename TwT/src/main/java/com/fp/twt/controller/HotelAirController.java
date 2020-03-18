@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.fp.twt.biz.HotelAirBiz;
 import com.fp.twt.vo.AirSearchVo;
+import com.fp.twt.vo.HotelReservation;
 import com.fp.twt.vo.HotelVo;
 import com.fp.twt.vo.PagingVo;
 
@@ -48,14 +49,20 @@ public class HotelAirController {
 	}
 	
 	@RequestMapping(value = "/Success.do")//예약시 예약 카운트
-	public String success(@RequestParam String hotelname) {
+	public String success(HotelReservation vo, @RequestParam String hotelname) {
 		
 		logger.info("insert con");
 
 		//String hotelname = request.getParameter("hotelname");
 		System.out.println("호텔이름"+hotelname);
-		
+		System.out.println(vo);
 		biz.success(hotelname);
+		int res = biz.insertHbooking(vo);
+		
+		if(res == 0) {
+			System.out.println("insertHbooking 오류");
+		}
+		
 		
 		return "redirect:hotel.do";//호텔.두 실행
 	}
