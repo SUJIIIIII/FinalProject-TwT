@@ -910,8 +910,8 @@ src="https://maps.googleapis.com/maps/api/js?v=weekly&key=AIzaSyCiDE5HBue4mflsdk
                   			<div class="fl">DAY1 <span style="color:white">|</span> 01.31(금요일) </div>
                   			<%-- <div class="fl day_reset_btn" style="background:url('<%=request.getContextPath()%>/Plan/images/_day_reset_icon.png') no-repeat;" onclick="del_plan_inspot_day_all()"></div> --%>
                   			<span>&nbsp;<i class="fas fa-redo-alt" id="schedule_clear" style="cursor:pointer"></i></span> <!-- 초기화 -->
-                  			<div class="fr day_next_btn" style="background:url('${pageContext.request.contextPath}/resources/images/plan/_next_icon.png') no-repeat 6px 6px;" onclick="plan_day_next()"></div>
-                  			<div class="fr day_prev_btn" style="background:url('${pageContext.request.contextPath}/resources/images/plan/_prev_icon.png') no-repeat 6px 6px;" onclick="plan_day_prev()"></div>
+                  			<%-- <div class="fr day_next_btn" style="background:url('${pageContext.request.contextPath}/resources/images/plan/_next_icon.png') no-repeat 6px 6px;" onclick="plan_day_next()"></div>
+                  			<div class="fr day_prev_btn" style="background:url('${pageContext.request.contextPath}/resources/images/plan/_prev_icon.png') no-repeat 6px 6px;" onclick="plan_day_prev()"></div> --%>
                   			<div class="clear"></div>
                   		</div>
 		                <div class="clear"></div>

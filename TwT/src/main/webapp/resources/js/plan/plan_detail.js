@@ -26,7 +26,6 @@ $(document).ready(function() {
    var day_num = $(".day_menu.on").attr("data");
    var this_date = $(".day_menu.on").attr("data-date");
    var weekday = date_to_label($(".day_menu.on").attr("data-day_week"));
-
    
    $(".schedule_detail_title_text").children(".fl").html(
 	       "<div class='fl'>DAY" + day_num + " " + "<span style='color:white'>|</span> " + this_date + "("+ weekday+") </div>"
@@ -38,7 +37,7 @@ $(document).ready(function() {
 
    // 저장된 예산정보 기본으로 띄워주기
    set_storage_budget();
-
+   
    //date_info 설정
    set_info_date();
 
@@ -330,10 +329,9 @@ $(document).ready(function(){
             sessionStorage.setItem("Day"+day_index, JSON.stringify(jsonItem));
 
             $(".day_menu.on").children(".cat_date_right_box").children(".cat_right_city").html(city_name);
-
       }
          
-         // 변경전 도시 위도/경도 삭제
+         // 변경전 도시 위도/경도 삭제 ===========
          $(".day_menu.on").removeData("f_lat");
          $(".day_menu.on").removeData("f_lng");
          // 변경된 도시 위도/경도 선택된 day에 set
@@ -352,25 +350,6 @@ $(document).ready(function(){
 	  }
 	  paths = [];	
 
-     // 변경전 도시 위도/경도 삭제 			
-     $(".day_menu.on").removeData("f_lat");
-     $(".day_menu.on").removeData("f_lng");
-     // 변경된 도시 위도/경도 선택된 day에 set
-     $(".day_menu.on").attr("data-f_lat",citylat);
-     $(".day_menu.on").attr("data-f_lng",citylng);
-
-
-   });
-
-
-   // Day 선택하기
-   $(document).on("click", "#cat_menu li", function() {
-	  // path삭제
-	  for(var i=0;i<paths.length;i++){
-		  paths[i].setMap(null);
-	  }
-	  paths = [];
-	   
       $(".day_menu").removeClass("on");
       $(this).addClass("on");
       $("#schedule_detail_box").children().remove();
@@ -438,9 +417,9 @@ $(document).ready(function(){
       var memo = $("#memo_input").val();
       var index = $(".detail_view_full_box").data("no");
       var storage_index
-      
+
       for(var i=1;i<=$("#schedule_detail_box").children().length;i++){
-         if($("#spot"+i).data("no") == index){       
+         if($("#spot"+i).data("no") == index){
             $("#spot"+i).removeData("budget");
             $("#spot"+i).removeData("memo");
             $("#spot"+i).attr("data-budget",budget);
@@ -476,6 +455,12 @@ $(document).ready(function(){
 	});
 
 });
+
+// 드래그 가능 코드
+$(function() {
+   $("#cat_menu_edit_box").sortable();
+});
+
 
 // Day 수정 버튼 클릭
 function day_edit_start(){
@@ -536,6 +521,7 @@ function create_spot_detail(set_day) {
              +      "<img src='/twt/resources/images/plan/" + spot_obj[num][5]+ "/" + spot_obj[num][6] +"'>"
              +      "<div style='position:absolute;top:35px;left:40px;width:22px;height:20px;>"
              +         "<img src='/twt/resources/images/plan/list_memo_btn_off.png' class='memo_indi' style='width:22px;height:20px;'>"
+             +         "<!-- <i class='fas fa-pencil-alt'></i> -->"
              +      "</div>"
              +   "</div>"
              +   "<div class='fl info_box'>"
@@ -599,7 +585,6 @@ function sub_totalBudget(num) {
    tmp *= -1; // String to int
    total += tmp;
    var format = formatnumber(total,"3");
-   
    $("#total").html(format);
 }
 
@@ -764,6 +749,7 @@ function cat_menu_edit() {
    var dep_date = get_departure_date(); // 시작일 가져오기
 
    $("#cat_menu_edit_box").children().remove();
+
    for (var i = 1; i <= storage_length; i++) {
       var spot_obj = JSON.parse(sessionStorage.getItem("Day"+i));
 
@@ -792,12 +778,8 @@ function cat_menu_edit() {
           +   "<div class='clear'></div>"
           + "</li>"
       );
-
       dep_date.setDate(dep_date.getDate() + 1); // 하루씩 날짜 더해주기
    }
-   
-	//드래그 가능 코드
-	$("#cat_menu_edit_box").sortable();
    }
 
    function del_plan_day(day_num) {
@@ -862,13 +844,6 @@ function del_marker_path() {
 }
 
 
-
-$(function() {
-	//드래그 가능 코드
-	$("#cat_menu_edit_box").sortable();
-});
-
-
 // 번호 재정렬 함수
 function reorder() {
 
@@ -904,6 +879,7 @@ function insertPlan(){
 		contentType : "application/json",
 		processData : false,
 		success : function(result){
+			alert("성공 : " + result.file_name);
 			$("#file_name").val(result.file_name);
 			
 			$("#form").submit();
