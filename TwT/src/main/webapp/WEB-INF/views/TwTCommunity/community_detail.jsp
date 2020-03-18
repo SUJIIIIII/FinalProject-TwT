@@ -388,7 +388,7 @@ function fList(ts_Code){
                 <h3 class="mb-5" style="margin-bottom: 0px;">&nbsp;Leave a comment</h3>
                 <form id="ansform" method="post" class="p-5 bg-light" style="margin-bottom:50px; width: 750px;">
                 <input type="hidden" name="m_Code" value="${user.m_Id }"/>
-                <input type="hidden" name="board_Code" value="${list.ts_Code }"/>
+                <input type="hidden" name="board_Code" value="${detail.ts_Code }"/>
                   <div class="form-group">
                     <label for="message">Content</label>
                     <textarea name="ans_Content" id="message" cols="60" rows="5" class="form-control"></textarea>

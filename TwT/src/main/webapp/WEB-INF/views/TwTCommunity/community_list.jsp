@@ -231,11 +231,11 @@
 
 						<!-- 페이징 --> 
 						<script type="text/javascript">
-						   function PageMove(page,Chk){
+						   function PageMove(page,Chk,ts_theme){
 						      if(Chk == ""){
 						         Chk = false;
 						      }
-						       location.href = "community.do?curpagenum="+page+"&Chk="+Chk;
+						       location.href = "community.do?curpagenum="+page+"&Chk="+Chk+"&ts_theme="+ts_theme;
 						    }
 						</script>              
 						
@@ -246,20 +246,20 @@
 		                           <div class="block-27">
 		                             <ul>
 		                             <c:if test="${page.preve eq true }">
-		                               <li><a href="javascript:PageMove(${page.currentPage-1 },'${Chk}')">&lt;</a></li>
+		                               <li><a href="javascript:PageMove(${page.currentPage-1 },'${Chk}', '${ts_theme }')">&lt;</a></li>
 		                             </c:if>
 		                             <c:forEach var="i" begin="${page.startPage }" end="${page.endPage }" >
 		                             <c:choose>
 		                             <c:when test="${i eq page.currentPage }">
-		                               <li class="active"><span><a href="javascript:PageMove(${i},'${Chk}')">${i}</a></span></li>
+		                               <li class="active"><span><a href="javascript:PageMove(${i},'${Chk}','${ts_theme }')">${i}</a></span></li>
 		                             </c:when>
 		                             <c:otherwise>
-		                                <li><a href="javascript:PageMove(${i},'${Chk}')">${i}</a></li>
+		                                <li><a href="javascript:PageMove(${i},'${Chk}','${ts_theme }')">${i}</a></li>
 		                             </c:otherwise>
 		                             </c:choose>
 		                             </c:forEach>  
 		                             <c:if test="${page.next eq true }">  
-		                               <li><a href="javascript:PageMove(${page.currentPage+1 },'${Chk}')">&gt;</a></li>
+		                               <li><a href="javascript:PageMove(${page.currentPage+1 },'${Chk}','${ts_theme }')">&gt;</a></li>
 		                             </c:if>  
 		                             </ul>
 		                           </div>
