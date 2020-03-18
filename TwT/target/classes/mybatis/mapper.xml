@@ -443,6 +443,10 @@
 		WHERE H_NAME = #{hotelname}
 	</update>
 	
+	<insert id="reservation_insert" parameterType="HotelReservation">
+		 INSERT INTO HBOOKING VALUES('HB'||HB_SEQ.NEXTVAL,#{m_code},#{reservation_hr_code},#{reservation_h_code},#{checkin_date},#{checkout_date},#{hb_check},#{hb_people},#{reservation_name},SYSDATE)
+    </insert>
+	
 
 
 	<!-- ================================수지================================== -->

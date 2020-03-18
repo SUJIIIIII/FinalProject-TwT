@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.fp.twt.vo.AirSearchVo;
+import com.fp.twt.vo.HotelReservation;
 import com.fp.twt.vo.HotelVo;
 
 @Repository
@@ -36,23 +37,7 @@ public class HotelAirDaoImpl implements HotelAirDao{
 		
 		return change;
 	}
-	
-	@Override
-	public int success(String hotelname) {
 		
-		int res= 0 ;
-		
-		try {
-			
-			res = sqlSession.update(NAMESPACE+"reservation_Hotel",hotelname);
-			
-		} catch (Exception e) {
-			e.printStackTrace();
-			System.out.println("success 애러");
-		}
-		
-		return res;
-	}
 	
 	
 	@Override
@@ -93,6 +78,42 @@ public class HotelAirDaoImpl implements HotelAirDao{
 		
 		System.out.println(url);
 		return url;
+	}
+	
+	@Override
+	public int success(String hotelname) {
+		
+		int res= 0 ;
+		
+		try {
+			
+			res = sqlSession.update(NAMESPACE+"reservation_Hotel",hotelname);
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.out.println("success 애러");
+		}
+		
+		return res;
+	}
+	
+	
+	@Override
+	public int insertHbooking(HotelReservation vo) {
+		
+		int num=0;
+		
+		try {
+			
+			num = sqlSession.insert(NAMESPACE+"reservation_insert",vo);
+			System.out.println(num);
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.out.println("insertHbooking 애러");
+		}
+		
+		return num;
 	}
 	
 	
@@ -181,6 +202,8 @@ public class HotelAirDaoImpl implements HotelAirDao{
 		
 		return list;
 	}
+
+	
 
 
 

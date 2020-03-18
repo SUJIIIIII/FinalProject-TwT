@@ -306,6 +306,19 @@ public class HotelVo extends PagingVo {
 		Hotel_reservation = hotel_reservation;
 	}
 
+	@Override
+	public String toString() {
+		return "HotelVo [h_Code=" + h_Code + ", city_Code=" + city_Code + ", h_Name=" + h_Name + ", h_Lati=" + h_Lati
+				+ ", h_Long=" + h_Long + ", h_phone=" + h_phone + ", h_Basicaddr=" + h_Basicaddr + ", h_Addr=" + h_Addr
+				+ ", h_Img=" + h_Img + ", h_Content=" + h_Content + ", h_Starn=" + h_Starn + ", h_Basiccontent="
+				+ h_Basiccontent + ", city_Name=" + city_Name + ",  여기hr_Code=" + hr_Code + ", hr_Standard=" + hr_Standard
+				+ ", hr_Max=" + hr_Max + ", hr_Price=" + hr_Price + ", hr_Valid=" + hr_Valid + ", hr_Rank=" + hr_Rank
+				+ ", hr_Img=" + hr_Img + ", hr_Wifi=" + hr_Wifi + ", hr_Smoking=" + hr_Smoking + ", hr_Breakfast="
+				+ hr_Breakfast + ", hr_bed=" + hr_bed + ", hr_Date=" + hr_Date + ", stt_Price=" + stt_Price
+				+ ", end_Price=" + end_Price + ", Hotel_reservation=" + Hotel_reservation + ", min_Price=" + min_Price
+				+ "]";
+	}
+
 	
     
 }
