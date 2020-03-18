@@ -183,7 +183,6 @@ public class MypageDaoImpl implements MypageDao {
 	// 비밀번호 찾기
 	@Override
 	public void searchPassword(MemberVo vo) {
-		// TODO Auto-generated method stub
 		sqlSession.update(namespace + "searchPasswordM", vo);
 	}
 
