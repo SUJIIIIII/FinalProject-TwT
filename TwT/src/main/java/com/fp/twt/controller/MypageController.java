@@ -1,4 +1,3 @@
-
 package com.fp.twt.controller;
 
 import java.io.IOException;
@@ -96,8 +95,6 @@ public class MypageController {
 		// 인증 메일 보내기 메소드
 		mailsender.mailSendWithUserKey(vo.getm_Email(), vo.getm_Id(), request);
 		
-		PrintWriter out = response.getWriter();
-
 		PrintWriter out = response.getWriter();
 
 		if (biz.memberInsert(vo) > 0) {
@@ -413,8 +410,8 @@ public class MypageController {
 			HttpServletRequest request) {
 
 		mailsender.mailSendWithPassword(m_Id, m_Email, request);
-
-		return "TwTAccount/login";
+		
+		return "<script>history.back();</script>";
 	}
 
 	// 아이디 찾기

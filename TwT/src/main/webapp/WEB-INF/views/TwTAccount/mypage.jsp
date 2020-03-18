@@ -117,7 +117,67 @@ $(function(){
 			,dayNames: ['일요일','월요일','화요일','수요일','목요일','금요일','토요일'] //달력의 요일 부분 Tooltip 텍스트
 			,minDate: "0" //최소 선택일자(-1D:하루전, -1M:한달전, -1Y:일년전) 0 으로 설정했을대는 오늘 날짜 이후로 만 선택 가능함.
 			,maxDate: "+1Y" //최대 선택일자(+1D:하루후, -1M:한달후, -1Y:일년후)                
-			});   
+			});  
+		
+		$("#Start_date3").datepicker({
+			showOtherMonths: true //빈 공간에 현재월의 앞뒤월의 날짜를 표시
+			,dateFormat: "yy/mm/dd"
+			,showMonthAfterYear:true //년도 먼저 나오고, 뒤에 월 표시
+			,changeYear: true //콤보박스에서 년 선택 가능
+			,changeMonth: true //콤보박스에서 월 선택 가능                
+			,yearSuffix: "년" //달력의 년도 부분 뒤에 붙는 텍스트
+			,monthNamesShort: ['1','2','3','4','5','6','7','8','9','10','11','12'] //달력의 월 부분 텍스트
+			,monthNames: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'] //달력의 월 부분 Tooltip 텍스트
+			,dayNamesMin: ['일','월','화','수','목','금','토'] //달력의 요일 부분 텍스트
+			,dayNames: ['일요일','월요일','화요일','수요일','목요일','금요일','토요일'] //달력의 요일 부분 Tooltip 텍스트
+			,minDate: "0" //최소 선택일자(-1D:하루전, -1M:한달전, -1Y:일년전) 0 으로 설정했을대는 오늘 날짜 이후로 만 선택 가능함.
+			,maxDate: "+1Y" //최대 선택일자(+1D:하루후, -1M:한달후, -1Y:일년후)                
+			});
+		
+		$("#End_date3").datepicker({
+			showOtherMonths: true //빈 공간에 현재월의 앞뒤월의 날짜를 표시
+			,dateFormat: "yy/mm/dd"
+			,showMonthAfterYear:true //년도 먼저 나오고, 뒤에 월 표시
+			,changeYear: true //콤보박스에서 년 선택 가능
+			,changeMonth: true //콤보박스에서 월 선택 가능                
+			,yearSuffix: "년" //달력의 년도 부분 뒤에 붙는 텍스트
+			,monthNamesShort: ['1','2','3','4','5','6','7','8','9','10','11','12'] //달력의 월 부분 텍스트
+			,monthNames: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'] //달력의 월 부분 Tooltip 텍스트
+			,dayNamesMin: ['일','월','화','수','목','금','토'] //달력의 요일 부분 텍스트
+			,dayNames: ['일요일','월요일','화요일','수요일','목요일','금요일','토요일'] //달력의 요일 부분 Tooltip 텍스트
+			,minDate: "0" //최소 선택일자(-1D:하루전, -1M:한달전, -1Y:일년전) 0 으로 설정했을대는 오늘 날짜 이후로 만 선택 가능함.
+			,maxDate: "+1Y" //최대 선택일자(+1D:하루후, -1M:한달후, -1Y:일년후)                
+			}); 
+		
+		$("#Start_date4").datepicker({
+			showOtherMonths: true //빈 공간에 현재월의 앞뒤월의 날짜를 표시
+			,dateFormat: "yy/mm/dd"
+			,showMonthAfterYear:true //년도 먼저 나오고, 뒤에 월 표시
+			,changeYear: true //콤보박스에서 년 선택 가능
+			,changeMonth: true //콤보박스에서 월 선택 가능                
+			,yearSuffix: "년" //달력의 년도 부분 뒤에 붙는 텍스트
+			,monthNamesShort: ['1','2','3','4','5','6','7','8','9','10','11','12'] //달력의 월 부분 텍스트
+			,monthNames: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'] //달력의 월 부분 Tooltip 텍스트
+			,dayNamesMin: ['일','월','화','수','목','금','토'] //달력의 요일 부분 텍스트
+			,dayNames: ['일요일','월요일','화요일','수요일','목요일','금요일','토요일'] //달력의 요일 부분 Tooltip 텍스트
+			,minDate: "0" //최소 선택일자(-1D:하루전, -1M:한달전, -1Y:일년전) 0 으로 설정했을대는 오늘 날짜 이후로 만 선택 가능함.
+			,maxDate: "+1Y" //최대 선택일자(+1D:하루후, -1M:한달후, -1Y:일년후)                
+			});
+		
+		$("#End_date4").datepicker({
+			showOtherMonths: true //빈 공간에 현재월의 앞뒤월의 날짜를 표시
+			,dateFormat: "yy/mm/dd"
+			,showMonthAfterYear:true //년도 먼저 나오고, 뒤에 월 표시
+			,changeYear: true //콤보박스에서 년 선택 가능
+			,changeMonth: true //콤보박스에서 월 선택 가능                
+			,yearSuffix: "년" //달력의 년도 부분 뒤에 붙는 텍스트
+			,monthNamesShort: ['1','2','3','4','5','6','7','8','9','10','11','12'] //달력의 월 부분 텍스트
+			,monthNames: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'] //달력의 월 부분 Tooltip 텍스트
+			,dayNamesMin: ['일','월','화','수','목','금','토'] //달력의 요일 부분 텍스트
+			,dayNames: ['일요일','월요일','화요일','수요일','목요일','금요일','토요일'] //달력의 요일 부분 Tooltip 텍스트
+			,minDate: "0" //최소 선택일자(-1D:하루전, -1M:한달전, -1Y:일년전) 0 으로 설정했을대는 오늘 날짜 이후로 만 선택 가능함.
+			,maxDate: "+1Y" //최대 선택일자(+1D:하루후, -1M:한달후, -1Y:일년후)                
+			});  
 });
 
 <%-- datepicker 날짜 비교 --%>
@@ -143,15 +203,40 @@ $(document).ready(function(){
 			$("#airBtn").attr("type","submit");
 		}
 	});
+	
+	$("#updateAirBtn").click(function(){
+		var start1 = new Date($("#Start_date3").datepicker("getDate"));
+		var end1 = new Date($("#End_date3").datepicker("getDate"));
+		
+		var start2 = new Date($("#Start_date4").datepicker("getDate"));
+		var end2 = new Date($("#End_date4").datepicker("getDate"));
+		
+		if(end1 - start1 < 0 || end2 - start2 < 0) {
+			 alert("도착일이 출발일 보다 이전일수 없습니다"); 
+			 return false;
+			} else {
+				$("#updateAirBtn").attr("type","submit");
+			}
+			
+			if(start2 < end1) {
+				alert("귀국일이 출국일보다 이전일 수 없습니다");
+				return false;
+			} else {
+				$("#updateAirBtn").attr("type","submit");
+			}
+	});
 });
 
-<%-- 회원탈퇴 --%>
+<%-- 회원탈퇴 , 비밀번호 alert --%>
 $(document).ready(function(){
 	$("#deleteMe").click(function(){
 		alert("회원탈퇴가 성공적으로 완료되었습니다.");
 	});
+	
+	$("#updatePWd").click(function(){
+		alert("비밀번호가 정상적으로 변경되었습니다.");
+	});
 });
-
 </script>
 <style type="text/css">
 .ftco-navbar-light .navbar-nav > .nav-item.cta > a:hover {
@@ -772,7 +857,7 @@ html {
 					</div>
 
 					<div style="margin-left: 585px; margin-top:-25px;">
-						<button type="submit" class="btn btn-primary btn-outline-primary">수 정</button>
+						<button type="submit" class="btn btn-primary btn-outline-primary" id="updatePWd">수 정</button>
 					</div>
 				</form>
 			</div>
@@ -803,14 +888,14 @@ html {
 			        <span style="color:#fc3c3c; font-size:11px;">+ 추가하기</span>
 			     </button>
 			   </div>
-			   <c:forEach items="${airlist}" var="air">
+			   <c:forEach items="${airlist}" var="air" varStatus="airstatus">
 					<div class="col-sm-12">
 						<div id="airplane_Info">
 							<div id="airInfo_title">
 								<span style="color: #fc3c3c; font-weight: bold;">
 								${user.m_Name}님의 항공권 예약</span>정보입니다.
 								<span style="margin-left:500px; cursor:pointer;">
-								<button type="button" data-toggle="modal" data-target="#airplaneModify" style="border:0; outline:0; background-color:white; cursor:pointer;">
+								<button type="button" data-toggle="modal" data-target="#airplaneModify${airstatus.index}" style="border:0; outline:0; background-color:white; cursor:pointer;">
 								<i class="far fa-edit"></i>
 								</button>
 								</span>
@@ -820,13 +905,13 @@ html {
 							<div class="col-sm-12" id="airInfo1">
 								<div class="col-sm-2" id="info">
 									<div id="info_title">
-										<p>출발지</p>
+										<p>출국 출발지</p>
 									</div>
 
 									<div id="info_location">${air.dep_Loca1}</div>
 
 									<div id="info_title">
-										<p>도착지</p>
+										<p>출국 도착지</p>
 									</div>
 
 									<div id="info_location">${air.dep_Loca2}</div>
@@ -839,20 +924,20 @@ html {
 									<div id="info_location">${air.dep_Date1}&nbsp;&nbsp;${air.dep_Time1}</div>
 
 									<div id="info_title">
-										<p>출국 도착일</p>
+										<p>도착일</p>
 									</div>
 
 									<div id="info_location">${air.dep_Date2}&nbsp;&nbsp;${air.dep_Time2}</div>
 								</div>
 								<div class="col-sm-2" id="info">
 									<div id="info_title">
-										<p>출발지</p>
+										<p>귀국 출발지</p>
 									</div>
 
 									<div id="info_location">${air.re_Loca1}</div>
 
 									<div id="info_title">
-										<p>도착지</p>
+										<p>귀국 도착지</p>
 									</div>
 
 									<div id="info_location">${air.re_Loca2}</div>
@@ -877,6 +962,41 @@ html {
 							</div>
 						</div>
 					</div>
+					
+		<form action="air_update.do" method="post">
+		 <div class="modal fade" id="airplaneModify${airstatus.index}" tabindex="-1" role="dialog"
+			aria-labelledby="airplaneInfoTitle" aria-hidden="true">
+			<div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="airplaneInfoTitle">내 항공권 수정하기</h5>
+						<button type="button" class="close" data-dismiss="modal"
+							aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+					
+					<div class="modal-body">
+						       출국지: <input type="text" name="dep_Loca1" value="${air.dep_Loca1}"><br>
+						       출국 도착지 : <input type="text" name="dep_Loca2" value="${air.dep_Loca2}"><br>
+						       출국날짜 : <input type="text" name="dep_Date1" value="${air.dep_Date1}" id="Start_date3"><br>
+						       출국 도착날짜 : <input type="text" name="dep_Date2" value="${air.dep_Date2}" id="End_date3"><br>
+						       출국 출발시간 : <input type="text" name="dep_Time1" value="${air.dep_Time1}"><br>
+						       출국 도착시간 : <input type="text" name="dep_Time2" value="${air.dep_Time2}"><br>
+						       귀국출발지 : <input type="text" name="re_Loca1" value="${air.re_Loca1}"><br>
+						       귀국도착지 : <input type="text" name="re_Loca2" value="${air.re_Loca2}"><br>
+						       귀국출발날짜 : <input type="text" name="re_Date1" value="${air.re_Date1}" id="Start_date4"><br>
+						       귀국도착날짜 : <input type="text" name="re_Date2" value="${air.re_Date2}" id="End_date4"><br>
+						       귀국출발시간 : <input type="text" name="re_Time1" value="${air.re_Time1}"><br>
+						       귀국도착시간 : <input type="text" name="re_Time2" value="${air.re_Time1}">
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-primary btn-outline-primary" id="updateAirBtn">완 료</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</form>
 				</c:forEach>
 			</c:otherwise>
 		</c:choose>
@@ -1175,7 +1295,7 @@ html {
 						</div>
 
 						<div style="float: left; display: inline; font-size: 11px; margin-left: 40px;">
-							<b>2020/02/02 - 2020/02/06</b>
+							<b>${route.ts_Sday} ~ ${route.ts_Period}DAYS</b>
 						</div>
 					</div>
 					</c:forEach>
@@ -1228,11 +1348,11 @@ html {
 	<%-- 항공권 모달 DIV 끝--%>
 	
 	<%-- 항공권 수정 모달 DIV 시작 --%>
-	<form action="air_update.do" method="post">
+	<%-- <form action="air_update.do" method="post">
+	   <c:forEach items="${airlist}" var="airlist">
 		<div class="modal fade" id="airplaneModify" tabindex="-1" role="dialog"
 			aria-labelledby="airplaneInfoTitle" aria-hidden="true">
-			<div class="modal-dialog modal-dialog-centered modal-lg"
-				role="document">
+			<div class="modal-dialog modal-dialog-centered modal-lg" role="document">
 				<div class="modal-content">
 					<div class="modal-header">
 						<h5 class="modal-title" id="airplaneInfoTitle">내 항공권 수정하기</h5>
@@ -1241,30 +1361,30 @@ html {
 							<span aria-hidden="true">&times;</span>
 						</button>
 					</div>
+					
 					<div class="modal-body">
-					<c:forEach items="${airlist}" var="airlist">
 					   <input type="hidden" name="air_Code" value="${airlist.air_Code}">
 						       출국지: <input type="text" name="dep_Loca1" value="${airlist.dep_Loca1}"><br>
 						       출국 도착지 : <input type="text" name="dep_Loca2" value="${airlist.dep_Loca2}"><br>
-						       출국날짜 : <input type="text" name="dep_Date1" value="${airlist.dep_Date1}" id="Start_date"><br>
-						       출국 도착날짜 : <input type="text" name="dep_Date2" value="${airlist.dep_Date2}" id="End_date"><br>
+						       출국날짜 : <input type="text" name="dep_Date1" value="${airlist.dep_Date1}" id="Start_date3"><br>
+						       출국 도착날짜 : <input type="text" name="dep_Date2" value="${airlist.dep_Date2}" id="End_date3"><br>
 						       출국 출발시간 : <input type="text" name="dep_Time1" value="${airlist.dep_Time1}"><br>
 						       출국 도착시간 : <input type="text" name="dep_Time2" value="${airlist.dep_Time2}"><br>
 						       귀국출발지 : <input type="text" name="re_Loca1" value="${airlist.re_Loca1}"><br>
 						       귀국도착지 : <input type="text" name="re_Loca2" value="${airlist.re_Loca2}"><br>
-						       귀국출발날짜 : <input type="text" name="re_Date1" value="${airlist.re_Date1}" id="Start_date2"><br>
-						       귀국도착날짜 : <input type="text" name="re_Date2" value="${airlist.re_Date2}" id="End_date2"><br>
+						       귀국출발날짜 : <input type="text" name="re_Date1" value="${airlist.re_Date1}" id="Start_date4"><br>
+						       귀국도착날짜 : <input type="text" name="re_Date2" value="${airlist.re_Date2}" id="End_date4"><br>
 						       귀국출발시간 : <input type="text" name="re_Time1" value="${airlist.re_Time1}"><br>
 						       귀국도착시간 : <input type="text" name="re_Time2" value="${airlist.re_Time1}">
-					</c:forEach>
 					</div>
 					<div class="modal-footer">
-						<button type="submit" class="btn btn-primary btn-outline-primary">완 료</button>
+						<button type="button" class="btn btn-primary btn-outline-primary" id="updateAirBtn">완 료</button>
 					</div>
 				</div>
 			</div>
 		</div>
-	</form>
+	  </c:forEach>
+	</form> --%>
 	<%-- 항공권 수정 모달 DIV 끝--%>
 	
 <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/timepicker/1.3.5/jquery.timepicker.min.css">	
