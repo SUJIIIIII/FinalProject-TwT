@@ -73,6 +73,8 @@
 <script type="text/javascript">
 var map;
 	window.onload = function initMap() {
+		//금액 계산버튼 하이드
+		$("#button_1").hide();
 		// 호텔 위도/경도
 		var lati = ${hvo.h_Lati};
 		var lon = ${hvo.h_Long};
@@ -93,8 +95,70 @@ var map;
         	icon: icon
    		});
 	}
+	
+	// 현재 설정된 날짜를 가져오는 함수
+	function get_date(date) {
+	   var date_val = date.split("/"); // 날짜 가져오기
+	   var date_MM = date_val[0]; // 월
+	   var date_DD = date_val[1]; // 일
+	   var day1_date = new Date(date_val[2],date_MM, date_DD); // Date 객체 생성
+	   return day1_date;
+	}
+	
+	function price1(){
+		var checkin_date = get_date($("#checkin_date").val());
+		var checkout_date = get_date($("#checkout_date").val());
+		
+		var res = checkout_date.getDate() - checkin_date.getDate();
+		
+		
+		
+		var reservation_price2 = $("#reservation_price").val();
+				
+		var rs = res * removeComma(reservation_price2);
+		
+		
+		var total_price = formatnumber(rs, "3");
+		
+		$("#reservation_price2").html(total_price);
+		$("#reservation_price").val(rs);
+		
+		$("#button_1").hide();//버튼 가리기
+		
+		//return rs;
+		
+	}
+	
+	// 콤마 제거함수
+	function removeComma(str){
+	   var number = parseInt(str.replace(/,/g,""));
 
-	/* 찬우  */
+	   return number;
+	}
+	
+	//콤마 추가
+	function formatnumber(v1,v2){
+		   var str = new Array();
+		   v1 = String(v1);
+		   for(var i=1;i<=v1.length;i++){
+		      if(i % v2) str[v1.length-i] = v1.charAt(v1.length-i);
+		      else str[v1.length-i] = ','+v1.charAt(v1.length-i);
+		   }
+		   return str.join('').replace(/^,/,'');
+		}
+	
+	//버튼 하이드
+	function hidebu(){
+		$("#button_1").hide();
+		
+	}
+	
+	function showbu(){
+		$("#button_1").show();
+	}
+	//버튼 쇼
+	
+	/* 찬우  *//* 방선택시 가격 방이름 예약탭으로 이동 */
 	function aa(){
     		console.log($("#reservation_price").val());
     	}
@@ -105,13 +169,18 @@ var map;
     		//alert("sss:" + num);
     		var hotel_room = $("#hotel_room"+num).text();
     		var hotel_price = $("#hotel_price"+num).text();
+    		var hr_code = $("#hotel_hr_code"+num).val();
+    		var h_code = $("#hotel_h_code"+num).val();
+    		
     		hotel_price = hotel_price.substring(2);
     		    		
     		console.log(hotel_room + "/" +hotel_price);
-    		    		
+    		console.log("호텔 방 코드"+ hr_code + "/" + h_code);
     		var hotelVal ={
     			"hotel_room":hotel_room,
-    			"hotel_price":hotel_price
+    			"hotel_price":hotel_price,
+    			"hr_code":hr_code,
+    			"h_code":h_code
     		};
     		
     		$.ajax({
@@ -124,14 +193,20 @@ var map;
  					$("#reservation_hotelroom").attr("value", hotel_room);//인풋히든
     				$("#reservation_price2").text(hotel_price);
     				$("#reservation_price").attr("value", hotel_price);
+    				$("#reservation_hr_code").attr("value", hr_code);
+    				$("#reservation_h_code").attr("value", h_code);
     				//$("#reservation_price").val(hotel_price);//인풋히든
-    				console.log($("#reservation_price").val());
+    				
+    				$("#button_1").show();//계산 버튼 보이기
+    				console.log("hr코드"+$("#hr_code").val());
     			},
     			error:function(){
     				alert("Room을 선택해 주세요");
     			}
     			
     		});
+    		
+    		alert(hotel_room+"가 선택되었습니다.");
     		
     	}
 	
@@ -323,9 +398,11 @@ src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCiDE5HBue4mflsdkcsGvSZrUe
 	<c:set var="cnt" value="1"/>
           	  <c:forEach items="${detailList_B}" var="dList">
           				<div class="col-md-4">
-				    				<div class="destination">
+				    				<div class="destination">	    								    					
 				    					<a class="img img-2" style="background-image: url(${pageContext.request.contextPath}/resources/images/hotel/hotelroom/${dList.hr_Img });"></a>
-									<form action="hotel_reservation.do" method="post">
+									<form action="hotel_reservation.do" method="post">	
+										<input type="hidden" id= "hotel_hr_code${cnt }" value="${dList.hr_Code }" >
+										<input type="hidden" id= "hotel_h_code${cnt }"  value="${dList.h_Code }" >																		
 				    					<div class="text p-3">
 				    						<div class="d-flex">
 				    							<div class="one">
@@ -384,6 +461,8 @@ src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCiDE5HBue4mflsdkcsGvSZrUe
           		
           		<div class="col-md-12 hotel-single ftco-animate mb-5 mt-4">
           		<form action="kakaoPay.do" method="post">
+          			<input type="hidden" id="reservation_hr_code" name="reservation_hr_code" value="">
+          			<input type="hidden" id="reservation_h_code" name="reservation_h_code" value="">
           			<input type="hidden" id="reservation_hotelroom" name="reservation_hotelroom" value="">
           			<input type="hidden" id="reservation_price" name="reservation_price" value="">
           			<h4 class="mb-5">예약</h4>
@@ -405,20 +484,27 @@ src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCiDE5HBue4mflsdkcsGvSZrUe
 			              </div>
 			              <div class="col-md-6">
 				              <div class="form-group">
-				                <input type="text" id="checkin_date" name="checkin_date" class="form-control" placeholder="체크인">
+				                <input type="text" id="checkin_date" name="checkin_date" class="form-control" placeholder="체크인" value="">
 				              </div>
 			              </div>
 			              <div class="col-md-6">
 				              <div class="form-group">
-				                <input type="text" id="checkout_date" name="checkout_date" class="form-control" placeholder="체크 아웃">
+				                <input type="text" id="checkout_date" name="checkout_date" class="form-control" placeholder="체크 아웃" value="">
 				              </div>
 				            </div>
+				            
+				             <div class="col-md-12">
+				              <div id="button_1" class="form-group">		
+				              <input value="금액 확인"  onclick="price1();"  class="btn btn-primary py-3">		              
+				              </div>
+			              </div>
+				            
 				            <div class="col-md-6">
 					            <div class="form-group">
 				                <div class="select-wrap one-third">
 			                    <div class="icon"><span class="ion-ios-arrow-down"></span></div>
 			                    <select id="reservation_guest" name="reservation_guest" class="form-control">
-			                      <option value="0">인원(성인)</option>
+			                      <option value="1">인원(성인)</option>
 			                      <option value="1">1</option>
 			                      <option value="2">2</option>
 			                      <option value="3">3</option>
@@ -443,7 +529,7 @@ src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCiDE5HBue4mflsdkcsGvSZrUe
 				              </div>
 			              </div>
 				            <div class="col-md-12">
-				              <div class="form-group">				              
+				              <div class="form-group">	              
 				                <input type="submit" value="예약 하기" class="btn btn-primary py-3">
 				              </div>
 			              </div>

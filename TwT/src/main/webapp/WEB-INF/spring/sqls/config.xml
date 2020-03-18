@@ -20,6 +20,7 @@
 			<typeAlias type="com.fp.twt.vo.CityVo" alias="City"/>
 			<typeAlias type="com.fp.twt.vo.HotelVo" alias="Hotel"/>
 			<typeAlias type="com.fp.twt.vo.FavoriteListVo" alias="Favorite"/>
+			<typeAlias type="com.fp.twt.vo.HotelReservation" alias="HotelReservation"/>
 		</typeAliases>
 		
 		<mappers>

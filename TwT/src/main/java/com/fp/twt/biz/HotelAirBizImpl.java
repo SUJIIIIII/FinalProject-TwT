@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.fp.twt.dao.HotelAirDao;
 import com.fp.twt.vo.AirSearchVo;
+import com.fp.twt.vo.HotelReservation;
 import com.fp.twt.vo.HotelVo;
 
 @Service
@@ -26,10 +27,16 @@ public class HotelAirBizImpl implements HotelAirBiz{
 		return dao.airSearch(vo);
 	}
 	
-	@Override
+	@Override //카운터 업데이트
 	public int success(String hotelname) {
 		
 		return dao.success(hotelname);
+	}
+	
+	@Override //insert Hbooking
+	public int insertHbooking(HotelReservation vo) {
+		
+		return dao.insertHbooking(vo);
 	}
 	
 	
@@ -60,6 +67,8 @@ public class HotelAirBizImpl implements HotelAirBiz{
 	public List<HotelVo> detailList_B(String h_code){
 		return dao.detailList_B(h_code);
 	}
+
+	
 
 
 
