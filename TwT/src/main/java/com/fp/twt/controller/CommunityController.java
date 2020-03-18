@@ -216,7 +216,7 @@ public class CommunityController {
 		
 		vo.setReple_Code("false");
 		int res = biz.ansInsert(vo);
-
+ 
 		List<AnswerVo> anslist = new ArrayList<AnswerVo>();
 		if(res>0) {
 			anslist = biz.ansList(vo.getBoard_Code());
@@ -258,7 +258,7 @@ public class CommunityController {
 	// 도영
 	// 여행 일정 리스트
 	@RequestMapping("/community.do")
-	public String newcommunity(@ModelAttribute("travelScheduleVo") TravelScheduleVo travelScheduleVo, FavoriteListVo favoriteListVo, boolean Chk, boolean potoChk, HttpSession session, String ts_theme, Model model, HttpServletRequest request) {
+	public String newcommunity(@ModelAttribute("travelScheduleVo") TravelScheduleVo travelScheduleVo, FavoriteListVo favoriteListVo, boolean Chk, boolean potoChk, HttpSession session, String ts_theme,Model model, HttpServletRequest request) {
 		logger.info("SELECT LIST");
 		
 		//도영
@@ -275,6 +275,7 @@ public class CommunityController {
          if(ts_theme != null) {   // 테마 값이 담겨 있을 때 해당 테마 값를 가진 리스트 뿌려주기
             list = biz.themeList(ts_theme);
              model.addAttribute("list", list);
+             model.addAttribute("ts_theme",ts_theme);
               
          } else if (Chk) {
             list = biz.PselectList_D(travelScheduleVo);
@@ -316,6 +317,7 @@ public class CommunityController {
          if(ts_theme != null) {
             list = biz.themeList(ts_theme);
              model.addAttribute("list", list);
+             model.addAttribute("ts_theme",ts_theme);
          } else if(Chk) {
             list = biz.PselectList_D(travelScheduleVo);
             model.addAttribute("list", list);
@@ -424,7 +426,7 @@ public class CommunityController {
 		System.out.println("글 번호 : " + ts_code);
 		
 		List<String> dayList = new ArrayList<String>();
-		
+		List<AnswerVo> anslist = biz.ansList(ts_code);
 		MemberVo member = (MemberVo) session.getAttribute("user");
 		if(member != null) {
 			// 디테일
@@ -450,12 +452,13 @@ public class CommunityController {
 			
 			// 연관 일정 리스트
 			TravelScheduleVo vo = biz.selectOne_D(ts_code);
-			model.addAttribute("themeList", biz.themeList(vo.getts_Theme()));
+			model.addAttribute("relList", biz.relList(vo.getts_Theme(),vo.getts_Code()));
 			
 			
 			for(int i=0; i<list.size(); i++) {
 				System.out.println("메모 값 : " + list.get(i).getSm_Memo());
 			}
+			
 		} else if(member == null) {	// 로그인이 안돼있을 시 찜 여부 제거
 			model.addAttribute("detail", biz.selectOne_D(ts_code));
 			
@@ -470,11 +473,14 @@ public class CommunityController {
 			model.addAttribute("dayList", dayList);
 		
 			TravelScheduleVo vo = biz.selectOne_D(ts_code);
-			model.addAttribute("themeList", biz.themeList(vo.getts_Theme()));
+			model.addAttribute("relList", biz.relList(vo.getts_Theme(),vo.getts_Code()));
 			for(int i=0; i<list.size(); i++) {
 				System.out.println("메모 값 : " + list.get(i).getSm_Memo());
 			}
 		}
+		
+		model.addAttribute("anslist",anslist);
+		
 		return "TwTCommunity/community_detail"; 
 	}
 	

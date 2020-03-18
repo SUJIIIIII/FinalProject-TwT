@@ -33,6 +33,7 @@ public interface CommunityBiz {
 	public TravelScheduleVo selectOne_D(String ts_code);
 	public List<TravelScheduleVo> detailList_D(String ts_code);
 	public List<TravelScheduleVo> themeList(String ts_theme);
+	public List<TravelScheduleVo> relList(String ts_theme, String ts_code);
 	
 	//조회수
 	public void viewCnt(String ts_code);
@@ -43,5 +44,6 @@ public interface CommunityBiz {
 	public int fList(String m_code, String ts_code1);
 	public int fList_Y(String m_code, String ts_code1);
 	public int fList_N(String m_code, String ts_code1);
+	
 	
 }

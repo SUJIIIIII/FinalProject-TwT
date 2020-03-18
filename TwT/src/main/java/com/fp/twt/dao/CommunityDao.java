@@ -38,6 +38,7 @@ public interface CommunityDao {
 	public int fList_Y(String m_code, String ts_code1);
 	public int fList_N(String m_code, String ts_code1);
 	public List<FavoriteListVo> chkList(String m_code, FavoriteListVo favoriteListVo);
+	public List<TravelScheduleVo> relList(String ts_theme, String ts_code);
 	
 
 }

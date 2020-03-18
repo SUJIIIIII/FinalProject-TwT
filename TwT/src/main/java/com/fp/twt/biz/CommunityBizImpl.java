@@ -117,6 +117,12 @@ public class CommunityBizImpl implements CommunityBiz{
 		return dao.chkList(m_code, favoriteListVo);
 	}
 
+	@Override
+	public List<TravelScheduleVo> relList(String ts_theme, String ts_code) {
+		return dao.relList(ts_theme, ts_code);
+	}
+
+
 
 
 
