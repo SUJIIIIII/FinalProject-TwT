@@ -108,6 +108,7 @@ public class UserMailSendService {
 		} catch (MessagingException e) {
 			e.printStackTrace();
 		}
+		
 		// 비밀번호 암호화해주는 메서드
 		key = passwordEncoder.encode(key);
 		
