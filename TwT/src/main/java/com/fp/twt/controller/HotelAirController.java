@@ -70,7 +70,6 @@ public class HotelAirController {
 	@RequestMapping("/hotel.do")
 	public String hotel(@ModelAttribute("hotelVo") HotelVo hotelVo, Model model) {
 		logger.info("SELECT LIST");
-		//model.addAttribute("hotellist",biz.HselectList()); //목록 조회
 
 		// 전체리스트 개수
         int listCnt = biz.HselectListCnt(hotelVo);
@@ -87,7 +86,6 @@ public class HotelAirController {
                 
         model.addAttribute("hotellist", list);
         model.addAttribute("hotellistCnt", listCnt);
-        //model.addAttribute("loginVO", loginVO);
         
         model.addAttribute("pagination", pagination);
 		

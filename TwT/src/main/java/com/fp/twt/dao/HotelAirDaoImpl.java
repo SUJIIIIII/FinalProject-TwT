@@ -118,8 +118,9 @@ public class HotelAirDaoImpl implements HotelAirDao{
 			System.out.println("호텔명 : " + hotelVo.getH_Name());
 			System.out.println("최소가격 : " + hotelVo.getStt_Price());
 			System.out.println("최대가격 : " + hotelVo.getEnd_Price());
-			System.out.println("평점 : " + hotelVo.getH_Starn());
+			System.out.println("평점 : " + hotelVo.getH_Starnn());
 			System.out.println("조식 : " + hotelVo.getHr_Breakfast());
+			
 			
 			try {
 				hotellist = sqlSession.selectList(NAMESPACE+"HselectList", hotelVo);

@@ -75,7 +75,6 @@
 	<!-- ================================범식================================== -->
 
 
-
 	<resultMap type="Hotel" id="hotelMap">
 		<result property="h_Code" column="H_CODE" />
 		<result property="city_Code" column="CITY_CODE" />
@@ -118,8 +117,8 @@
                <if test='h_Name != null and h_Name != ""'>
                	  AND hotel.H_NAME LIKE CONCAT('%', CONCAT(#{h_Name}, '%'))
                </if>
-               <if test='h_Starn != null and h_Starn != ""'>
-                  AND hotel.H_STARN IN (${h_Starn})
+               <if test='h_Starnn != null and h_Starnn != ""'>
+                  AND hotel.H_STARN IN (${h_Starnn})
                </if>
                <if test='hr_Breakfast != null and hr_Breakfast != ""'>
                   AND room.HR_BREAKFAST = #{hr_Breakfast}

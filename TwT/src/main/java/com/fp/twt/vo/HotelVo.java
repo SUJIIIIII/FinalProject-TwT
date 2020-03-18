@@ -14,7 +14,7 @@ public class HotelVo extends PagingVo {
     private String h_Addr; 			//숙소 주소
     private String h_Img; 			//숙소 사진
     private String h_Content; 		//숙소 설명
-    private String h_Starn; 			//숙소 별점
+    private int h_Starn; 			//숙소 별점
     private String h_Basiccontent; 	//숙소 간략 설명
     private String city_Name; 		//도시 이름
     private String hr_Code;        //방 코드
@@ -34,13 +34,15 @@ public class HotelVo extends PagingVo {
     private String end_Price;		//끝금액
 	
     private String min_Price;		//최저가
+    private String h_Starnn;      //목록 조회용 평점 
+
     
     public HotelVo() {
 		super();
 	}
 
 	public HotelVo(String h_Code, String city_Code, String h_Name, Double h_Lati, Double h_Long, String h_phone,
-			String h_Basicaddr, String h_Addr, String h_Img, String h_Content, String h_Starn, String h_Basiccontent,
+			String h_Basicaddr, String h_Addr, String h_Img, String h_Content, int h_Starn, String h_Basiccontent,
 			String city_Name, String hr_Code, int hr_Standard, int hr_Max, int hr_Price, int hr_Valid, String hr_Rank,
 			String hr_Img, String hr_Wifi, String hr_Smoking, String hr_Breakfast, String hr_bed, Date hr_Date) {
 		super();
@@ -151,11 +153,11 @@ public class HotelVo extends PagingVo {
 		this.h_Content = h_Content;
 	}
 
-	public String getH_Starn() {
+	public int getH_Starn() {
 		return h_Starn;
 	}
 
-	public void setH_Starn(String h_Starn) {
+	public void setH_Starn(int h_Starn) {
 		this.h_Starn = h_Starn;
 	}
 
@@ -293,6 +295,14 @@ public class HotelVo extends PagingVo {
 
 	public void setMin_Price(String min_Price) {
 		this.min_Price = min_Price;
+	}
+
+	public String getH_Starnn() {
+		return h_Starnn;
+	}
+
+	public void setH_Starnn(String h_Starnn) {
+		this.h_Starnn = h_Starnn;
 	}
     
     
