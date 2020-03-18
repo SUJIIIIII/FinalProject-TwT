@@ -230,7 +230,7 @@
 	        <input type="button" onclick="deleteChk();" class="btn btn-primary btn-outline-primary mt-4 px-4 py-3 mb-4" value="삭제"/>
 	        <%-- <a href="potoBookDelete.do?sr_Code=${poto.sr_Code }" class="btn btn-primary btn-outline-primary mt-4 px-4 py-3 mb-4"><span>삭제</span></a> --%>
 	        </c:if>
-	        <a href="community.do" class="btn btn-primary btn-outline-primary mt-4 px-4 py-3 mb-4"><span>목록</span></a>
+	        <a href="community.do?potoChk=true" class="btn btn-primary btn-outline-primary mt-4 px-4 py-3 mb-4"><span>목록</span></a>
 	        </div>
 	        </div>
   <!-- 댓글  -->
