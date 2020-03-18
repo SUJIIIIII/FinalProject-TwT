@@ -1,11 +1,9 @@
 package com.fp.twt.dao;
 
-import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -138,13 +136,35 @@ public class MypageDaoImpl implements MypageDao {
 	// 로그인시 디비에 저장된 아이디
 	@Override
 	public int loginIdChk(String m_Id) {
-		return sqlSession.selectOne(namespace + "loginIdChk", m_Id);
+		int res = 0;
+
+		try {
+			res = sqlSession.selectOne(namespace + "loginIdChk", m_Id);
+			
+			if(res > 0) {
+				System.out.println("아이디 존재");
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return res;
 	}
 
 	// 로그인시 디비에 저장된 비번확인
 	@Override
 	public int loginPwdChk(String m_Pass) {
-		return sqlSession.selectOne(namespace + "loginPwdChk", m_Pass);
+		int res = 0;
+
+		try {
+			res = sqlSession.selectOne(namespace + "loginPwdChk", m_Pass);
+			
+			if(res > 0) {
+				System.out.println("비밀번호 존재");
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return res;
 	}
 
 	// 로그인시 디비에 저장된 모든 정보 검토
@@ -163,7 +183,6 @@ public class MypageDaoImpl implements MypageDao {
 	// 비밀번호 찾기
 	@Override
 	public void searchPassword(MemberVo vo) {
-		// TODO Auto-generated method stub
 		sqlSession.update(namespace + "searchPasswordM", vo);
 	}
 
@@ -250,15 +269,15 @@ public class MypageDaoImpl implements MypageDao {
 
 	// 아이디 찾기
 	@Override
-	public String searchId(String m_Name, String m_Email) {
-		String result = "";
+	public List<MemberVo> searchId(String m_Name, String m_Email) {
+		List<MemberVo> list = new ArrayList<MemberVo>();
 		try {
-			result = sqlSession.selectOne(namespace + "findIdM", m_Email);
+			list = sqlSession.selectList(namespace + "findIdM", m_Email);
 		} catch (Exception e) {
 			System.out.println("아이디 찾기 실패");
 			e.printStackTrace();
 		}
-		return result;
+		return list;
 	}
 
 	// 예약된 호텔 조회
@@ -292,14 +311,16 @@ public class MypageDaoImpl implements MypageDao {
 		return res;
 	}
 
-	// 별점조회
+
+	// 별점 조회
 	@Override
 	public List<HotelReviewVo> selectRating(String m_Code) {
 		List<HotelReviewVo> list = new ArrayList<HotelReviewVo>();
 
 		try {
 			list = sqlSession.selectList(namespace + "selectStarM", m_Code);
-			for(HotelReviewVo i : list) {
+
+			for (HotelReviewVo i : list) {
 				System.out.println(m_Code + "가 부여한 별점 : " + i.getHrv_Starn());
 			}
 		} catch (Exception e) {
@@ -307,5 +328,31 @@ public class MypageDaoImpl implements MypageDao {
 			e.printStackTrace();
 		}
 		return list;
+	}
+
+	// 업뎃할 호텔 별점 조회
+	@Override
+	public HotelVo selectOneHotelStar(String h_Code) {
+		HotelVo list = new HotelVo();
+
+		try {
+			list = sqlSession.selectOne(namespace + "selectHotelStarM", h_Code);
+			System.out.println(h_Code + "의 별점 : " + list.getH_Starn());
+		} catch (Exception e) {
+			System.out.println("호텔별 별점 조회 실패");
+			e.printStackTrace();
+		}
+		return list;
+	}
+
+	// 별점 업뎃
+	@Override
+	public Object updateStar(String h_Code, int point) {
+		System.out.println("다오임플 : " + point + "/" + h_Code);
+		Map<String, Object> key = new HashMap<String, Object>();
+		key.put("h_Code", h_Code);
+		key.put("star", point);
+
+		return sqlSession.update(namespace + "updateStarM", key);
 	}
 }

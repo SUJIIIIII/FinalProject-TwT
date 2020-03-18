@@ -108,6 +108,7 @@ public class UserMailSendService {
 		} catch (MessagingException e) {
 			e.printStackTrace();
 		}
+		
 		// 비밀번호 암호화해주는 메서드
 		key = passwordEncoder.encode(key);
 		
@@ -119,6 +120,5 @@ public class UserMailSendService {
 		
 		// 데이터 베이스 값은 암호한 값으로 저장시킨다.
 		biz.searchPassword(vo);
-
 	}
 }

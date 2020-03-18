@@ -144,7 +144,6 @@ public class HotelAirDaoImpl implements HotelAirDao{
 		
 		try {
 			hotellist = sqlSession.selectList(NAMESPACE+"HselectList", hotelVo);
-			System.out.println("dao 의 hotellist : "+hotellist);
 		}catch(Exception e) {
 			System.out.println("[error] : HselectList");
 			e.printStackTrace();
@@ -160,7 +159,6 @@ public class HotelAirDaoImpl implements HotelAirDao{
 		
 		try {
 			HselectListCnt = sqlSession.selectOne(NAMESPACE+"HselectListCnt", hotelVo);
-			System.out.println("dao 의 HselectListCnt : "+HselectListCnt);
 		}catch(Exception e) {
 			System.out.println("[error] : HselectList");
 			e.printStackTrace();
@@ -177,7 +175,7 @@ public class HotelAirDaoImpl implements HotelAirDao{
 		
 		try {
 			vo = sqlSession.selectOne(NAMESPACE+"selectOne_B", h_code);
-			System.out.println("vo 확인용 : " + vo);
+			System.out.println("디테일");
 		} catch(Exception e) {
 			System.out.println("[error] : selectOne_B");
 			e.printStackTrace();
@@ -194,7 +192,7 @@ public class HotelAirDaoImpl implements HotelAirDao{
 		
 		try {
 			list = sqlSession.selectList(NAMESPACE+"detailList_B", h_code);
-			System.out.println("list 확인용 : " + list);
+			System.out.println("객실");
 		} catch(Exception e) {
 			System.out.println("[error] : detailList_B");
 			e.printStackTrace();

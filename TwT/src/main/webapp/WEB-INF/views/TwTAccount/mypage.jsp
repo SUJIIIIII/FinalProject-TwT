@@ -11,12 +11,10 @@
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
 <%-- 부트스트랩 모달 core 파일 시작 --%>
 <script	src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
 <%-- 부트스트랩 모달 core 파일 끝 --%>
-<link rel="stylesheet" href="http://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/style.css">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/account/form.css">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/scss/bootstrap/bootstrap.scss">
@@ -62,15 +60,11 @@
 $(function(){
 		//input을 datepicker로 선언
 		$("#Start_date").datepicker({
-		dateFormat: 'yymmdd' //Input Display Format 변경
-		,showOtherMonths: true //빈 공간에 현재월의 앞뒤월의 날짜를 표시
+		showOtherMonths: true //빈 공간에 현재월의 앞뒤월의 날짜를 표시
+		,dateFormat: "yy/mm/dd"
 		,showMonthAfterYear:true //년도 먼저 나오고, 뒤에 월 표시
 		,changeYear: true //콤보박스에서 년 선택 가능
 		,changeMonth: true //콤보박스에서 월 선택 가능                
-		,showOn: "both" //button:버튼을 표시하고,버튼을 눌러야만 달력 표시 ^ both:버튼을 표시하고,버튼을 누르거나 input을 클릭하면 달력 표시  
-		,buttonImage: "http://jqueryui.com/resources/demos/datepicker/images/calendar.gif" //버튼 이미지 경로
-		,buttonImageOnly: true //기본 버튼의 회색 부분을 없애고, 이미지만 보이게 함
-		,buttonText: "선택" //버튼에 마우스 갖다 댔을 때 표시되는 텍스트                
 		,yearSuffix: "년" //달력의 년도 부분 뒤에 붙는 텍스트
 		,monthNamesShort: ['1','2','3','4','5','6','7','8','9','10','11','12'] //달력의 월 부분 텍스트
 		,monthNames: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'] //달력의 월 부분 Tooltip 텍스트
@@ -78,45 +72,172 @@ $(function(){
 		,dayNames: ['일요일','월요일','화요일','수요일','목요일','금요일','토요일'] //달력의 요일 부분 Tooltip 텍스트
 		,minDate: "0" //최소 선택일자(-1D:하루전, -1M:한달전, -1Y:일년전) 0 으로 설정했을대는 오늘 날짜 이후로 만 선택 가능함.
 		,maxDate: "+1M" //최대 선택일자(+1D:하루후, -1M:한달후, -1Y:일년후)                
-		});                    
+		});       
 		
-		//초기값을 오늘 날짜로 설정
-		$("#date").datepicker('setDate', 'today');
+		$("#End_date").datepicker({
+			showOtherMonths: true //빈 공간에 현재월의 앞뒤월의 날짜를 표시
+			,dateFormat: "yy/mm/dd"
+			,showMonthAfterYear:true //년도 먼저 나오고, 뒤에 월 표시
+			,changeYear: true //콤보박스에서 년 선택 가능
+			,changeMonth: true //콤보박스에서 월 선택 가능                
+			,yearSuffix: "년" //달력의 년도 부분 뒤에 붙는 텍스트
+			,monthNamesShort: ['1','2','3','4','5','6','7','8','9','10','11','12'] //달력의 월 부분 텍스트
+			,monthNames: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'] //달력의 월 부분 Tooltip 텍스트
+			,dayNamesMin: ['일','월','화','수','목','금','토'] //달력의 요일 부분 텍스트
+			,dayNames: ['일요일','월요일','화요일','수요일','목요일','금요일','토요일'] //달력의 요일 부분 Tooltip 텍스트
+			,minDate: "0" //최소 선택일자(-1D:하루전, -1M:한달전, -1Y:일년전) 0 으로 설정했을대는 오늘 날짜 이후로 만 선택 가능함.
+			,maxDate: "+1Y" //최대 선택일자(+1D:하루후, -1M:한달후, -1Y:일년후)                
+			}); 
+		
+		$("#Start_date2").datepicker({
+			showOtherMonths: true //빈 공간에 현재월의 앞뒤월의 날짜를 표시
+			,dateFormat: "yy/mm/dd"
+			,showMonthAfterYear:true //년도 먼저 나오고, 뒤에 월 표시
+			,changeYear: true //콤보박스에서 년 선택 가능
+			,changeMonth: true //콤보박스에서 월 선택 가능                
+			,yearSuffix: "년" //달력의 년도 부분 뒤에 붙는 텍스트
+			,monthNamesShort: ['1','2','3','4','5','6','7','8','9','10','11','12'] //달력의 월 부분 텍스트
+			,monthNames: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'] //달력의 월 부분 Tooltip 텍스트
+			,dayNamesMin: ['일','월','화','수','목','금','토'] //달력의 요일 부분 텍스트
+			,dayNames: ['일요일','월요일','화요일','수요일','목요일','금요일','토요일'] //달력의 요일 부분 Tooltip 텍스트
+			,minDate: "0" //최소 선택일자(-1D:하루전, -1M:한달전, -1Y:일년전) 0 으로 설정했을대는 오늘 날짜 이후로 만 선택 가능함.
+			,maxDate: "+1Y" //최대 선택일자(+1D:하루후, -1M:한달후, -1Y:일년후)                
+			});
+		
+		$("#End_date2").datepicker({
+			showOtherMonths: true //빈 공간에 현재월의 앞뒤월의 날짜를 표시
+			,dateFormat: "yy/mm/dd"
+			,showMonthAfterYear:true //년도 먼저 나오고, 뒤에 월 표시
+			,changeYear: true //콤보박스에서 년 선택 가능
+			,changeMonth: true //콤보박스에서 월 선택 가능                
+			,yearSuffix: "년" //달력의 년도 부분 뒤에 붙는 텍스트
+			,monthNamesShort: ['1','2','3','4','5','6','7','8','9','10','11','12'] //달력의 월 부분 텍스트
+			,monthNames: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'] //달력의 월 부분 Tooltip 텍스트
+			,dayNamesMin: ['일','월','화','수','목','금','토'] //달력의 요일 부분 텍스트
+			,dayNames: ['일요일','월요일','화요일','수요일','목요일','금요일','토요일'] //달력의 요일 부분 Tooltip 텍스트
+			,minDate: "0" //최소 선택일자(-1D:하루전, -1M:한달전, -1Y:일년전) 0 으로 설정했을대는 오늘 날짜 이후로 만 선택 가능함.
+			,maxDate: "+1Y" //최대 선택일자(+1D:하루후, -1M:한달후, -1Y:일년후)                
+			});  
+		
+		$("#Start_date3").datepicker({
+			showOtherMonths: true //빈 공간에 현재월의 앞뒤월의 날짜를 표시
+			,dateFormat: "yy/mm/dd"
+			,showMonthAfterYear:true //년도 먼저 나오고, 뒤에 월 표시
+			,changeYear: true //콤보박스에서 년 선택 가능
+			,changeMonth: true //콤보박스에서 월 선택 가능                
+			,yearSuffix: "년" //달력의 년도 부분 뒤에 붙는 텍스트
+			,monthNamesShort: ['1','2','3','4','5','6','7','8','9','10','11','12'] //달력의 월 부분 텍스트
+			,monthNames: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'] //달력의 월 부분 Tooltip 텍스트
+			,dayNamesMin: ['일','월','화','수','목','금','토'] //달력의 요일 부분 텍스트
+			,dayNames: ['일요일','월요일','화요일','수요일','목요일','금요일','토요일'] //달력의 요일 부분 Tooltip 텍스트
+			,minDate: "0" //최소 선택일자(-1D:하루전, -1M:한달전, -1Y:일년전) 0 으로 설정했을대는 오늘 날짜 이후로 만 선택 가능함.
+			,maxDate: "+1Y" //최대 선택일자(+1D:하루후, -1M:한달후, -1Y:일년후)                
+			});
+		
+		$("#End_date3").datepicker({
+			showOtherMonths: true //빈 공간에 현재월의 앞뒤월의 날짜를 표시
+			,dateFormat: "yy/mm/dd"
+			,showMonthAfterYear:true //년도 먼저 나오고, 뒤에 월 표시
+			,changeYear: true //콤보박스에서 년 선택 가능
+			,changeMonth: true //콤보박스에서 월 선택 가능                
+			,yearSuffix: "년" //달력의 년도 부분 뒤에 붙는 텍스트
+			,monthNamesShort: ['1','2','3','4','5','6','7','8','9','10','11','12'] //달력의 월 부분 텍스트
+			,monthNames: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'] //달력의 월 부분 Tooltip 텍스트
+			,dayNamesMin: ['일','월','화','수','목','금','토'] //달력의 요일 부분 텍스트
+			,dayNames: ['일요일','월요일','화요일','수요일','목요일','금요일','토요일'] //달력의 요일 부분 Tooltip 텍스트
+			,minDate: "0" //최소 선택일자(-1D:하루전, -1M:한달전, -1Y:일년전) 0 으로 설정했을대는 오늘 날짜 이후로 만 선택 가능함.
+			,maxDate: "+1Y" //최대 선택일자(+1D:하루후, -1M:한달후, -1Y:일년후)                
+			}); 
+		
+		$("#Start_date4").datepicker({
+			showOtherMonths: true //빈 공간에 현재월의 앞뒤월의 날짜를 표시
+			,dateFormat: "yy/mm/dd"
+			,showMonthAfterYear:true //년도 먼저 나오고, 뒤에 월 표시
+			,changeYear: true //콤보박스에서 년 선택 가능
+			,changeMonth: true //콤보박스에서 월 선택 가능                
+			,yearSuffix: "년" //달력의 년도 부분 뒤에 붙는 텍스트
+			,monthNamesShort: ['1','2','3','4','5','6','7','8','9','10','11','12'] //달력의 월 부분 텍스트
+			,monthNames: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'] //달력의 월 부분 Tooltip 텍스트
+			,dayNamesMin: ['일','월','화','수','목','금','토'] //달력의 요일 부분 텍스트
+			,dayNames: ['일요일','월요일','화요일','수요일','목요일','금요일','토요일'] //달력의 요일 부분 Tooltip 텍스트
+			,minDate: "0" //최소 선택일자(-1D:하루전, -1M:한달전, -1Y:일년전) 0 으로 설정했을대는 오늘 날짜 이후로 만 선택 가능함.
+			,maxDate: "+1Y" //최대 선택일자(+1D:하루후, -1M:한달후, -1Y:일년후)                
+			});
+		
+		$("#End_date4").datepicker({
+			showOtherMonths: true //빈 공간에 현재월의 앞뒤월의 날짜를 표시
+			,dateFormat: "yy/mm/dd"
+			,showMonthAfterYear:true //년도 먼저 나오고, 뒤에 월 표시
+			,changeYear: true //콤보박스에서 년 선택 가능
+			,changeMonth: true //콤보박스에서 월 선택 가능                
+			,yearSuffix: "년" //달력의 년도 부분 뒤에 붙는 텍스트
+			,monthNamesShort: ['1','2','3','4','5','6','7','8','9','10','11','12'] //달력의 월 부분 텍스트
+			,monthNames: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'] //달력의 월 부분 Tooltip 텍스트
+			,dayNamesMin: ['일','월','화','수','목','금','토'] //달력의 요일 부분 텍스트
+			,dayNames: ['일요일','월요일','화요일','수요일','목요일','금요일','토요일'] //달력의 요일 부분 Tooltip 텍스트
+			,minDate: "0" //최소 선택일자(-1D:하루전, -1M:한달전, -1Y:일년전) 0 으로 설정했을대는 오늘 날짜 이후로 만 선택 가능함.
+			,maxDate: "+1Y" //최대 선택일자(+1D:하루후, -1M:한달후, -1Y:일년후)                
+			});  
 });
 
-<%-- 호텔 예약 날짜 비교하여 평점 가능 여부 --%>
+<%-- datepicker 날짜 비교 --%>
 $(document).ready(function(){
-	$("#star").click(function(){
+	$("#airBtn").click(function(){
+		var start1 = new Date($("#Start_date").datepicker("getDate"));
+		var end1 = new Date($("#End_date").datepicker("getDate"));
 		
-		// 체크아웃 날짜
-		var endDate = $("#endDate").val().substring(0,10);
-		console.log(endDate);
+		var start2 = new Date($("#Start_date2").datepicker("getDate"));
+		var end2 = new Date($("#End_date2").datepicker("getDate"));
 		
-		var endDateArr = endDate.split("-");
-		console.log(endDateArr);
-		
-		// 오늘 날짜
-		var today = new Date().toISOString().substring(0,10);
-		console.log(today);
-		
-		var todayArr = today.split("-");
-		console.log(todayArr);
-		
-		var todayCompare = new Date(todayArr[0], parseInt(todayArr[1])-1, todayArr[2]);
-		var endDateCompare = new Date(endDateArr[0], parseInt(endDateArr[1])-1, endDateArr[2]);
-		
-		console.log(todayCompare);
-		console.log(endDateCompare);
-		
-		// 오늘 날짜가 체크아웃 날짜보다 이전이라면
-		if(todayCompare < endDateCompare) {
-			alert("평점은 호텔 체크아웃 이후에 작성할 수 있습니다");
+		if(end1 - start1 < 0 || end2 - start2 < 0) {
+		 alert("도착일이 출발일 보다 이전일수 없습니다"); 
+		 return false;
 		} else {
-			$("#star").attr("type","submit");
+			$("#airBtn").attr("type","submit");
 		}
+		
+		if(start2 < end1) {
+			alert("귀국일이 출국일보다 이전일 수 없습니다");
+			return false;
+		} else {
+			$("#airBtn").attr("type","submit");
+		}
+	});
+	
+	$("#updateAirBtn").click(function(){
+		var start1 = new Date($("#Start_date3").datepicker("getDate"));
+		var end1 = new Date($("#End_date3").datepicker("getDate"));
+		
+		var start2 = new Date($("#Start_date4").datepicker("getDate"));
+		var end2 = new Date($("#End_date4").datepicker("getDate"));
+		
+		if(end1 - start1 < 0 || end2 - start2 < 0) {
+			 alert("도착일이 출발일 보다 이전일수 없습니다"); 
+			 return false;
+			} else {
+				$("#updateAirBtn").attr("type","submit");
+			}
+			
+			if(start2 < end1) {
+				alert("귀국일이 출국일보다 이전일 수 없습니다");
+				return false;
+			} else {
+				$("#updateAirBtn").attr("type","submit");
+			}
 	});
 });
 
+
+<%-- 회원탈퇴 , 비밀번호 alert --%>
+$(document).ready(function(){
+	$("#deleteMe").click(function(){
+		alert("회원탈퇴가 성공적으로 완료되었습니다.");
+	});
+	
+	$("#updatePWd").click(function(){
+		alert("비밀번호가 정상적으로 변경되었습니다.");
+	});
+});
 </script>
 <style type="text/css">
 .ftco-navbar-light .navbar-nav > .nav-item.cta > a:hover {
@@ -555,7 +676,6 @@ html {
 
 #air_container {
 	width: 100%;
-	height: 450px;
 }
 
 #airplane_Info {
@@ -566,7 +686,8 @@ html {
 	border-right: 3px solid #eee;
 	border-bottom: 3px solid #eee;
 	border-left: 3px solid #eee;
-	margin-top: 390px;
+	float:left;
+	margin-top:10px;
 	padding: 15px 15px;
 }
 
@@ -715,13 +836,13 @@ html {
 		<div class="col-sm-9" style="float: left;">
 			<div id="form_wrap">
 					<div class="form-group">
-						<input type="text" name="m_Id" value="${user.m_Id}" /> <label
-							for="input" class="control-label">ID</label><i class="bar"></i>
+					    <span style="color:#868686;">ID</span>
+						<p style="color:black">${user.m_Id}</p>
 					</div>
 
-					<div class="form-group">
-						<input type="text" name="m_Email" value="${user.m_Email}" /> <label
-							for="input" class="control-label">E-MAIL</label><i class="bar"></i>
+					<div class="form-group" style="margin-top:-12px;">
+					    <span style="color:#868686;">E-MAIL</span>
+						<p style="color:black">${user.m_Email}</p>
 					</div>
 					
 					<form action="updatePwd.do" method="post">
@@ -736,8 +857,8 @@ html {
 						</i>
 					</div>
 
-					<div style="margin-left: 585px;">
-						<button type="submit" class="btn btn-primary btn-outline-primary">수 정</button>
+					<div style="margin-left: 585px; margin-top:-25px;">
+						<button type="submit" class="btn btn-primary btn-outline-primary" id="updatePWd">수 정</button>
 					</div>
 				</form>
 			</div>
@@ -752,10 +873,10 @@ html {
 		</div>
 		<c:choose>
 			<c:when test="${empty airlist}">
-				<div class="col-sm-12" style="width: 100%; text-align: center; margin-top:400px;">
+				<div class="col-sm-12" style="width: 100%; text-align: center; float:left;">
 				${user.m_Name}님의 예약된 항공권 정보가 존재하지 않습니다.</div>
 
-				<div class="col-sm-6" style="margin-left: 430px; margin-top: 25px;">
+				<div class="col-sm-6" style="margin-left: 430px; margin-top: 25px; float:left;">
 					<button type="button" class="btn btn-primary btn-outline-primary"
 						data-toggle="modal" data-target="#airplaneInfo">
 						GO WRITE<i class="fas fa-pencil-alt" style="margin-left: 5px;"></i>
@@ -768,14 +889,14 @@ html {
 			        <span style="color:#fc3c3c; font-size:11px;">+ 추가하기</span>
 			     </button>
 			   </div>
-			   <c:forEach items="${airlist}" var="air">
+			   <c:forEach items="${airlist}" var="air" varStatus="airstatus">
 					<div class="col-sm-12">
 						<div id="airplane_Info">
 							<div id="airInfo_title">
 								<span style="color: #fc3c3c; font-weight: bold;">
 								${user.m_Name}님의 항공권 예약</span>정보입니다.
 								<span style="margin-left:500px; cursor:pointer;">
-								<button type="button" data-toggle="modal" data-target="#airplaneModify" style="border:0; outline:0; background-color:white; cursor:pointer;">
+								<button type="button" data-toggle="modal" data-target="#airplaneModify${airstatus.index}" style="border:0; outline:0; background-color:white; cursor:pointer;">
 								<i class="far fa-edit"></i>
 								</button>
 								</span>
@@ -785,13 +906,13 @@ html {
 							<div class="col-sm-12" id="airInfo1">
 								<div class="col-sm-2" id="info">
 									<div id="info_title">
-										<p>출발지</p>
+										<p>출국 출발지</p>
 									</div>
 
 									<div id="info_location">${air.dep_Loca1}</div>
 
 									<div id="info_title">
-										<p>도착지</p>
+										<p>출국 도착지</p>
 									</div>
 
 									<div id="info_location">${air.dep_Loca2}</div>
@@ -811,13 +932,13 @@ html {
 								</div>
 								<div class="col-sm-2" id="info">
 									<div id="info_title">
-										<p>출발지</p>
+										<p>귀국 출발지</p>
 									</div>
 
 									<div id="info_location">${air.re_Loca1}</div>
 
 									<div id="info_title">
-										<p>도착지</p>
+										<p>귀국 도착지</p>
 									</div>
 
 									<div id="info_location">${air.re_Loca2}</div>
@@ -842,6 +963,41 @@ html {
 							</div>
 						</div>
 					</div>
+					
+		<form action="air_update.do" method="post">
+		 <div class="modal fade" id="airplaneModify${airstatus.index}" tabindex="-1" role="dialog"
+			aria-labelledby="airplaneInfoTitle" aria-hidden="true">
+			<div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="airplaneInfoTitle">내 항공권 수정하기</h5>
+						<button type="button" class="close" data-dismiss="modal"
+							aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+					
+					<div class="modal-body">
+						       출국지: <input type="text" name="dep_Loca1" value="${air.dep_Loca1}"><br>
+						       출국 도착지 : <input type="text" name="dep_Loca2" value="${air.dep_Loca2}"><br>
+						       출국날짜 : <input type="text" name="dep_Date1" value="${air.dep_Date1}" id="Start_date3"><br>
+						       출국 도착날짜 : <input type="text" name="dep_Date2" value="${air.dep_Date2}" id="End_date3"><br>
+						       출국 출발시간 : <input type="text" name="dep_Time1" value="${air.dep_Time1}"><br>
+						       출국 도착시간 : <input type="text" name="dep_Time2" value="${air.dep_Time2}"><br>
+						       귀국출발지 : <input type="text" name="re_Loca1" value="${air.re_Loca1}"><br>
+						       귀국도착지 : <input type="text" name="re_Loca2" value="${air.re_Loca2}"><br>
+						       귀국출발날짜 : <input type="text" name="re_Date1" value="${air.re_Date1}" id="Start_date4"><br>
+						       귀국도착날짜 : <input type="text" name="re_Date2" value="${air.re_Date2}" id="End_date4"><br>
+						       귀국출발시간 : <input type="text" name="re_Time1" value="${air.re_Time1}"><br>
+						       귀국도착시간 : <input type="text" name="re_Time2" value="${air.re_Time1}">
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-primary btn-outline-primary" id="updateAirBtn">완 료</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</form>
 				</c:forEach>
 			</c:otherwise>
 		</c:choose>
@@ -875,11 +1031,11 @@ html {
 								<div class="date">
 								  <div style="float:left;"> 
 								     <input type="text" id="startDate" readonly="readonly" style="width:100px; border-bottom:0;"
-								     value="<fmt:formatDate value="${book.hb_Sdate}" type="both" pattern="yyyy-MM-dd [E]"/>"/>~&nbsp;&nbsp;&nbsp;&nbsp;
+								     value="${book.hb_Sdate}"/>~&nbsp;&nbsp;&nbsp;&nbsp;
 								  </div>
 								  <div style="float:left;">
-								    <input type="text" id="endDate" readonly="readonly" style="width:100px; border-bottom:0;"
-								     value="<fmt:formatDate value="${book.hb_Edate}" type="both" pattern="yyyy-MM-dd [E]"/>"/>
+								    <input type="text" id="endDate_${status.index}" readonly="readonly" style="width:100px; border-bottom:0;"
+								     value="${book.hb_Edate}"/>
 								  </div>
                                 </div>
 								<div class="day_title">방콕</div>
@@ -899,11 +1055,10 @@ html {
 
 						<div class="day_sch_content">
 							<div class="spot_content_box">
-							 <%--  <c:forEach items="${hotel}" var="hotel"> --%>
+
 								<div class="spot_name">
 								  ${hotel[status.index].h_Name} 
 								</div> 
-							 <%--  </c:forEach> --%>
 							  	
 								<div class="spot_info">
 									<div class="tag">예약자 : ${book.hb_Name}</div>
@@ -916,66 +1071,26 @@ html {
 						<%-- 평점 시작 --%>
 						   <div class="star">
 						       <div class="star-rating__wrap">
+						       
+						       <%-- 평점대로 모양 유지 끝--%>
+						         <c:if test="${rating[status.index].hrv_Starn ne null}">
+							       <c:forEach begin="1" end="${rating[status.index].hrv_Starn}">
+	 								 <i class="icon-star" style="color:#fc3c3c;"></i>
+	 								</c:forEach>
+	 								
+	 								<c:forEach begin="1" end="${5 - rating[status.index].hrv_Starn}">
+	   								  <i class="icon-star-o" style="color:#fc3c3c;"></i>
+	   							    </c:forEach>
+	   							  </c:if>
+						         <%-- 평점대로 모양 유지 끝 --%>
+						         
+						         <c:if test="${rating[status.index].hrv_Starn eq null}"> 
 						         <form action="star.do" method="post">
 						          <input type="hidden" name="m_Code" value="${user.m_Code}"/>
 						          <input type="hidden" name="hr_Code" value="${book.hr_Code }"/>
 						          <input type="hidden" name="hb_Code" value="${book.hb_Code}"/>
 						          <input type="hidden" name="h_Code" value="${book.h_Code}"/>
-						          
-						          <%-- 평점 대로 별 모양 유지 시작--%>
-						          <c:forEach items="${rating}" var="star">
-						             <c:if test="${star.hrv_Starn eq 5}">
-						                <script type="text/javascript">
-						                  $(document).ready(function(){
-						                	$(".star").css("margin-top","18px");
-                                            $("#star-rating-5").attr("checked","true");		
-                                            $("#star").hide();
-						                  });
-						                </script>
-						             </c:if>
-						             
-						             <c:if test="${star.hrv_Starn eq 4}">
-						                <script type="text/javascript">
-						                  $(document).ready(function(){
-						                	$(".star").css("margin-top","18px");
-                                            $("#star-rating-4").attr("checked","true");	
-                                            $("#star").hide();
-						                  });
-						                </script>
-						             </c:if>
-						             
-						             <c:if test="${star.hrv_Starn eq 3}">
-						                <script type="text/javascript">
-						                  $(document).ready(function(){
-						                	  $(".star").css("margin-top","18px");
-                                              $("#star-rating-3").attr("checked","true");	
-                                              $("#star").hide();
-						                  });
-						                </script>
-						             </c:if>
-						             
-						             <c:if test="${star.hrv_Starn eq 2}">
-						                <script type="text/javascript">
-						                  $(document).ready(function(){
-						                	  $(".star").css("margin-top","18px");
-                                              $("#star-rating-2").attr("checked","true");	
-                                              $("#star").hide();
-						                  });
-						                </script>
-						             </c:if>
-						             
-						             <c:if test="${star.hrv_Starn eq 1}">
-						                <script type="text/javascript">
-						                  $(document).ready(function(){
-						                	$(".star").css("margin-top","18px");
-                                            $("#star-rating-1").attr("checked","true");	
-                                            $("#star").hide();
-						                  });
-						                </script>
-						             </c:if>
-						          </c:forEach>
-						          <%-- 평점 대로 별 모양 유지 끝 --%>
-						          
+
 							      <input class="star-rating__input" type="radio" name="hrv_Starn" id="star-rating-5" value="5">
 							      <label class="star-rating__ico far fa-star" for="star-rating-5"></label>
 							      <input class="star-rating__input" type="radio" name="hrv_Starn" id="star-rating-4" value="4">
@@ -986,12 +1101,46 @@ html {
 							      <label class="star-rating__ico far fa-star" for="star-rating-2"></label>
 							      <input class="star-rating__input" type="radio" name="hrv_Starn" id="star-rating-1" value="1">
 							      <label class="star-rating__ico far fa-star" for="star-rating-1"></label><br>
+
+							      <button type="button" class="tag" style="cursor:pointer; margin-left:18px;" id="star">평점주기</button>
 							      
-							      <c:if test="${star.hrv_Starn eq null}">
-							         <button type="button" class="tag" style="cursor:pointer; margin-left:18px;" id="star">평점주기</button>
-							      </c:if>
+							      <script type="text/javascript">
+							      $(document).ready(function(){
+							    		$("#star").click(function(){
+							    			
+							    			// 체크아웃 날짜
+							    			var endDate = $("#endDate_${status.index}").val().substring(0,10);
+							    			console.log(endDate);
+							    			
+							    			var endDateArr = endDate.split("-");
+							    			console.log(endDateArr);
+							    			
+							    			// 오늘 날짜
+							    			var today = new Date().toISOString().substring(0,10);
+							    			console.log(today);
+							    			
+							    			var todayArr = today.split("-");
+							    			console.log(todayArr);
+							    			
+							    			var todayCompare = new Date(todayArr[0], parseInt(todayArr[1])-1, todayArr[2]);
+							    			var endDateCompare = new Date(endDateArr[0], parseInt(endDateArr[1])-1, endDateArr[2]);
+							    			
+							    			console.log(todayCompare);
+							    			console.log(endDateCompare);
+							    			
+							    			// 오늘 날짜가 체크아웃 날짜보다 이전이라면
+							    			if(todayCompare < endDateCompare) {
+							    				alert("평점은 호텔 체크아웃 이후에 작성할 수 있습니다");
+							    				return false;
+							    			} else {
+							    			   $("#star").attr("type","submit");
+							    			}
+							    		});
+							    	});
 							      
-							     </form>
+							      </script>
+							      </form>
+							     </c:if>
 							   </div>
 						   </div>
 						<%-- 평점 끝 --%>
@@ -1006,21 +1155,20 @@ html {
 		<%-- 호텔예약조회 DIV 끝 --%>
 
 		<%-- 일정 DIV시작 --%>
-		<div class="col-sm-12" style="float: left;">
+		<div class="col-sm-12" style="float:left; margin-top: 35px;">
 			<div class="title">
 				<p>나의 일정</p>
 			</div>
 		</div>
 		
-		<div class="row">
-		<div class="col-sm-6" style="margin-top:30px;">
+		<div class="col-sm-12" style="width: 100%; text-align: center; float:left;">
 		   <c:choose>
 		      <c:when test="${empty route}">
-				   <div class="col-sm-12" style="width: 80%; text-align:center; margin-left:312px;">
+				   <div class="col-sm-12" style="width: 100%; text-align:center; float:left;">
 	              ${user.m_Name}님의 일정이 존재하지 않습니다.
 		          </div>
 
-		         <div class="col-sm-6" style="margin-left: 430px; margin-top: 25px;">
+		         <div class="col-sm-6" style="margin-left: 240px; margin-top: 25px; float:left;">
 			     <button type="button" class="btn btn-primary btn-outline-primary" onclick="location.href='plan.do'">
 				     GO PLAN<i class="far fa-bookmark" style="margin-left: 5px;"></i>
 			     </button>
@@ -1044,8 +1192,7 @@ html {
 				</a>
 				</c:otherwise>
 				</c:choose>
-	      </div>
-			</div>
+	           </div>
 		<%-- 일정 DIV끝 --%>
 
 		<%-- 찜 목록 DIV 시작 --%>
@@ -1054,33 +1201,33 @@ html {
 				<p>찜 목록</p>
 			</div>
        </div>
-       		<div class="row">
-    			<div class="col-md-12" style="margin-top:40px;">
+
+    			<div class="col-sm-12" style="width: 100%; text-align: center; float:left;">
     			<c:choose>
     				    <c:when test="${empty like}">
-    				      <div class="col-sm-12" style="width: 100%; text-align: center;">
+    				      <div class="col-sm-12" style="width: 100%; text-align: center; float:left;">
 				              ${user.m_Name}님의 찜 목록이 존재하지 않습니다.
 				          </div>
 
-				         <div class="col-sm-6" style="margin-left: 420px; margin-top: 25px;">
+				         <div class="col-sm-6" style="margin-left: 235px; margin-top: 25px; float:left;">
 					     <button type="button" class="btn btn-primary btn-outline-primary" onclick="location.href='community.do'">
 						     SEE OTHERS<i class="far fa-bookmark" style="margin-left: 5px;"></i>
 					     </button>
 				      </div>
     				    </c:when>
     				     <c:otherwise>
-    				      <div class="destination-slider owl-carousel ftco-animate">
+    				      <div class="destination-slider owl-carousel ftco-animate" style="margin-top:20px;">
     				        <c:forEach items="${like}" var="like">
     					    <div class="item">
 		    				<div class="destination">
-		    					<a href="#" class="img d-flex justify-content-center align-items-center">
-		    					   <img src="${pageContext.request.contextPath}/resources/images/plan/thumbnail/썸네일명.으로 수정" style="height:100%; margin-left:12px;"/>
+		    					<a href="communityDetail.do?ts_code=${like.ts_Code}" class="img d-flex justify-content-center align-items-center">
+		    					   <img src="${pageContext.request.contextPath}/resources/images/plan/thumbnail/${like.ts_Thum}" style="height:100%; margin-left:12px;"/>
 		    						<div class="icon d-flex justify-content-center align-items-center">
 		    							<span class="icon-search2"></span>
 		    						</div>
 		    					</a>
 		    					<div class="text p-3">
-		    						<h3><a href="#">${like.ts_Title}</a></h3>
+		    						<h3><a href="communityDetail.do?ts_code=${like.ts_Code}">${like.ts_Title}</a></h3>
 		    						<span class="listing">VIEW : ${like.ts_View}</span>
 		    					</div>
 		    				</div>
@@ -1090,16 +1237,40 @@ html {
 	    			</c:otherwise>
 	    			</c:choose>
     				</div>
-    			</div>
 		<%-- 찜 목록 DIV 끝 --%>
 
 		<%-- 회원탈퇴 버튼 시작--%>
-		<div style="margin-left: 880px;">
-			<a href="deleteAccount.do?m_Code=${user.m_Code }" class="btn btn-primary btn-outline-primary mt-4 px-4 py-3">회원탈퇴</a>
+		<div style="margin-left: 880px; float:left;">
+			<a href="#" class="btn btn-primary btn-outline-primary mt-4 px-4 py-3" data-toggle="modal" data-target="#deleteUser">회원탈퇴</a>
 		</div>
 		<%-- 회원탈퇴 버튼 끝 --%>
 	</div>
 	<%-- container끝 --%>
+	
+	<%-- 회원 탈퇴 모달 시작 --%>
+	 <form action="deleteAccount.do">
+	  <div class="modal fade" id="deleteUser" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+		  <div class="modal-dialog modal-dialog-centered" role="document">
+		    <div class="modal-content">
+		      <div class="modal-header">
+		        <h5 class="modal-title" id="exampleModalCenterTitle">회원탈퇴</h5>
+		        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+		          <span aria-hidden="true">&times;</span>
+		        </button>
+		      </div>
+		      <div class="modal-body">
+		        <input type="hidden" name="m_Code" value="${user.m_Code}">
+		                    <h4 style="font-weight:bold; text-align:center;">${user.m_Id }님<br>정말 탈퇴 하시겠습니까?</h4>
+		      </div>
+		      <div class="modal-footer">
+		        <button type="button" class="btn btn-secondary" data-dismiss="modal">취 소</button>
+		        <button type="submit" class="btn btn-primary" id="deleteMe">확 인</button>
+		      </div>
+		    </div>
+		  </div>
+		</div>
+	</form>
+	<%-- 회원 탈퇴 모달 끝 --%>
 
 	<%-- 일정 모달 DIV 시작 --%>
 	<div class="modal fade" id="exampleModalCenter" tabindex="-1"
@@ -1118,7 +1289,7 @@ html {
 				</div>
 				<div class="modal-body">
 				  <c:forEach items="${route}" var="route">
-					<div class="my_route" id="myroute">
+					<div class="my_route" id="myroute" onclick="location.href='communityDetail.do?ts_code=${route.ts_Code}'">
 						<div style="float: left; margin-top: -3px; display: inline;">
 							<img src="${pageContext.request.contextPath}/resources/images/account/Ticket-icon.png" width="65">
 						</div>
@@ -1128,7 +1299,7 @@ html {
 						</div>
 
 						<div style="float: left; display: inline; font-size: 11px; margin-left: 40px;">
-							<b>2020/02/02 - 2020/02/06</b>
+							<b>${route.ts_Sday} ~ ${route.ts_Period}DAYS</b>
 						</div>
 					</div>
 					</c:forEach>
@@ -1160,19 +1331,19 @@ html {
 						<input type="hidden" name="m_Code" value="${user.m_Code}">
 						       출국지: <input type="text" name="dep_Loca1"><br>
 						       출국 도착지 : <input type="text" name="dep_Loca2"><br>
-						       출국날짜 : <input type="text" name="dep_Date1"><br>
-						       출국 도착날짜 : <input type="text" name="dep_Date2"><br>
+						       출국날짜 : <input type="text" name="dep_Date1" id="Start_date"><br>
+						       출국 도착날짜 : <input type="text" name="dep_Date2" id="End_date"><br>
 						       출국 출발시간 : <input type="text" name="dep_Time1"><br>
 						       출국 도착시간 : <input type="text" name="dep_Time2"><br>
 						       귀국출발지 : <input type="text" name="re_Loca1"><br>
 						       귀국도착지 : <input type="text" name="re_Loca2"><br>
-						       귀국출발날짜 : <input type="text" name="re_Date1"><br>
-						       귀국도착날짜 : <input type="text" name="re_Date2"><br>
+						       귀국출발날짜 : <input type="text" name="re_Date1" id="Start_date2"><br>
+						       귀국도착날짜 : <input type="text" name="re_Date2" id="End_date2"><br>
 						       귀국출발시간 : <input type="text" name="re_Time1"><br>
 						       귀국도착시간 : <input type="text" name="re_Time2">
 					</div>
 					<div class="modal-footer">
-						<button type="submit" class="btn btn-primary btn-outline-primary">완 료</button>
+						<button type="button" class="btn btn-primary btn-outline-primary" id="airBtn">완 료</button>
 					</div>
 				</div>
 			</div>
@@ -1181,11 +1352,11 @@ html {
 	<%-- 항공권 모달 DIV 끝--%>
 	
 	<%-- 항공권 수정 모달 DIV 시작 --%>
-	<form action="air_update.do" method="post">
+	<%-- <form action="air_update.do" method="post">
+	   <c:forEach items="${airlist}" var="airlist">
 		<div class="modal fade" id="airplaneModify" tabindex="-1" role="dialog"
 			aria-labelledby="airplaneInfoTitle" aria-hidden="true">
-			<div class="modal-dialog modal-dialog-centered modal-lg"
-				role="document">
+			<div class="modal-dialog modal-dialog-centered modal-lg" role="document">
 				<div class="modal-content">
 					<div class="modal-header">
 						<h5 class="modal-title" id="airplaneInfoTitle">내 항공권 수정하기</h5>
@@ -1194,31 +1365,36 @@ html {
 							<span aria-hidden="true">&times;</span>
 						</button>
 					</div>
+					
 					<div class="modal-body">
-					<c:forEach items="${airlist}" var="airlist">
 					   <input type="hidden" name="air_Code" value="${airlist.air_Code}">
 						       출국지: <input type="text" name="dep_Loca1" value="${airlist.dep_Loca1}"><br>
 						       출국 도착지 : <input type="text" name="dep_Loca2" value="${airlist.dep_Loca2}"><br>
-						       출국날짜 : <input type="text" name="dep_Date1" value="${airlist.dep_Date1}"><br>
-						       출국 도착날짜 : <input type="text" name="dep_Date2" value="${airlist.dep_Date2}"><br>
+						       출국날짜 : <input type="text" name="dep_Date1" value="${airlist.dep_Date1}" id="Start_date3"><br>
+						       출국 도착날짜 : <input type="text" name="dep_Date2" value="${airlist.dep_Date2}" id="End_date3"><br>
 						       출국 출발시간 : <input type="text" name="dep_Time1" value="${airlist.dep_Time1}"><br>
 						       출국 도착시간 : <input type="text" name="dep_Time2" value="${airlist.dep_Time2}"><br>
 						       귀국출발지 : <input type="text" name="re_Loca1" value="${airlist.re_Loca1}"><br>
 						       귀국도착지 : <input type="text" name="re_Loca2" value="${airlist.re_Loca2}"><br>
-						       귀국출발날짜 : <input type="text" name="re_Date1" value="${airlist.re_Date1}"><br>
-						       귀국도착날짜 : <input type="text" name="re_Date2" value="${airlist.re_Date2}"><br>
+						       귀국출발날짜 : <input type="text" name="re_Date1" value="${airlist.re_Date1}" id="Start_date4"><br>
+						       귀국도착날짜 : <input type="text" name="re_Date2" value="${airlist.re_Date2}" id="End_date4"><br>
 						       귀국출발시간 : <input type="text" name="re_Time1" value="${airlist.re_Time1}"><br>
 						       귀국도착시간 : <input type="text" name="re_Time2" value="${airlist.re_Time1}">
-					</c:forEach>
 					</div>
 					<div class="modal-footer">
-						<button type="submit" class="btn btn-primary btn-outline-primary">완 료</button>
+						<button type="button" class="btn btn-primary btn-outline-primary" id="updateAirBtn">완 료</button>
 					</div>
 				</div>
 			</div>
 		</div>
-	</form>
+	  </c:forEach>
+	</form> --%>
 	<%-- 항공권 수정 모달 DIV 끝--%>
+	
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/timepicker/1.3.5/jquery.timepicker.min.css">	
+<link rel="stylesheet" href="http://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/timepicker/1.3.5/jquery.timepicker.min.js"></script>
 <script src="${pageContext.request.contextPath}/resources/js/jquery-migrate-3.0.1.min.js"></script>
 <script src="${pageContext.request.contextPath}/resources/js/jquery.waypoints.min.js"></script>
 <script src="${pageContext.request.contextPath}/resources/js/jquery.stellar.min.js"></script>

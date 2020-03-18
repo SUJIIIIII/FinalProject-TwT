@@ -77,7 +77,7 @@ public interface MypageBiz {
 	public List<MemberVo> selectAllMember(MemberVo vo);
 
 	// 내 아이디 찾기
-	public String searchId(String m_Name, String m_Email);
+	public List<MemberVo> searchId(String m_Name, String m_Email);
 
 	// 예약된 호텔 이름 조회
 	public List<HotelVo> selectOneHotel(String m_Code);
@@ -87,4 +87,11 @@ public interface MypageBiz {
 
 	// 별점 조회
 	public List<HotelReviewVo> selectRating(String m_Code);
+
+	// 별점 업뎃
+	public Object updateStar(String h_Code, int point);
+
+	// 업뎃할 호텔 별 별점 조회
+	public HotelVo selectOneHotelStar(String h_Code);
+
 }

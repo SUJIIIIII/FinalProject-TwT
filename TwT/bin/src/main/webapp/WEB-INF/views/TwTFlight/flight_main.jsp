@@ -89,47 +89,47 @@
             <h1 class="mb-4" data-scrollax="properties: { translateY: '30%', opacity: 1.6 }" style="font-family: 'Kalam', cursive;"><strong>Flight Search <br></strong></h1>
             <!-- <p data-scrollax="properties: { translateY: '30%', opacity: 1.6 }">Find great places to stay, eat, shop, or visit from local experts</p> -->
             <div class="block-17 my-4" style="width:140%; height:80px;">
-              <form action="" method="post" class="d-block d-flex">
+              <form action="airsearch.do" method="post" class="d-block d-flex">
                 <div class="fields d-block d-flex" style="width:140%; height:80px;">
                 <div class="select-wrap one-third">
                     <div class="icon"><span class="ion-ios-arrow-down"></span></div>
-                    <select name="" id="" class="form-control">
-                      <option value="">왕복</option>
-                      <option value="">편도</option>
+                    <select name="airtype" class="form-control">
+                      <option value="v2&tripType=2">왕복</option>
+                      <option value="v2&tripType=1">편도</option>
                     </select>
                  </div>
                  
                   <div class="textfield-search one-third">                  
-                  	<input type="text" class="form-control" placeholder="출발지">
+                  	<input type="text" name="starting_point" class="form-control" placeholder="출발지">
                   </div>  
                                   
                   <div class="textfield-search one-third">                  
-                  	<input type="text" class="form-control" placeholder="도착지">
+                  	<input type="text" name="destination" class="form-control" placeholder="도착지">
                   </div>    
                   
                   <div class="form-group">
-		             <input type="text" id="checkin_date" class="form-control" placeholder="가는날" style=" padding-right: 0px; padding-left: 0px; width:100px;">
+		             <input type="text" name="departure_day" id="checkin_date"  class="form-control" placeholder="가는날" style=" padding-right: 0px; padding-left: 0px; width:100px;">
 		          </div>
-		          <div class="form-group">
-		             <input type="text" id="checkin_date" class="form-control" placeholder="오는날" style=" padding-right: 0px; padding-left: 0px; width:100px;">
+		          <div class="form-group" id="come_day">
+		             <input type="text" name="coming_day" id="checkout_date"  class="form-control" placeholder="오는날" style=" padding-right: 0px; padding-left: 0px; width:100px;">
 		          </div>		               
 		               
 		          <div class="select-wrap one-third">
                     <div class="icon"><span class="ion-ios-arrow-down"></span></div>
-                    <select name="" id="" class="form-control">
-                      <option value="">1명</option>
-                      <option value="">2명</option>
-                      <option value="">3명</option>
-                      <option value="">4명</option>
-                      <option value="">5명</option>
-                      <option value="">6명</option>
-                      <option value="">7명</option>
-                      <option value="">8명</option>
+                    <select name="personnel" class="form-control">
+                      <option value="1">1명</option>
+                      <option value="2">2명</option>
+                      <option value="3">3명</option>
+                      <option value="4">4명</option>
+                      <option value="5">5명</option>
+                      <option value="6">6명</option>
+                      <option value="7">7명</option>
+                      <option value="8">8명</option>
                     </select>
                  </div>      
                 </div>
                 
-                <input type="submit" class="search-submit btn btn-primary" value="검색">  
+                <input type="submit" class="search-submit btn btn-primary" value="검색" >  
               </form>
             </div>
           </div>
@@ -137,10 +137,9 @@
       </div>
     </div>
 
-    <section class="ftco-section ftco-destination">
+    <%-- <section class="ftco-section ftco-destination">
     	<div class="container">
-    		
-	    		
+	
 					    <!-- 날씨 -->
         <div class="container row justify-content-start">
           <div class="col-md-5 heading-section ftco-animate">
@@ -202,7 +201,7 @@
         </div>
 	</div>
 
-    </section>
+    </section> --%>
 		
 		
   <!-- footer -->
@@ -229,6 +228,23 @@
   <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBVWaKrjvy3MaE7SQ74_uJiULgl1JY0H2s&sensor=false"></script>
   <script src="${pageContext.request.contextPath}/resources/js/google-map.js"></script>
   <script src="${pageContext.request.contextPath}/resources/js/main.js"></script>
+  <script type="text/javascript">	
+  	$(document).ready(function() {
+  		
+  		$("select[name=airtype]").on("change", function() {
+  			var airtype = $("select[name=airtype]").val();
+			
+  			if(airtype == "v2&tripType=1"){
+				$("#come_day").css("display", "none");
+			} else if(airtype == "v2&tripType=2"){
+				$("#come_day").css("display", "block");
+			}
+		});
+  		
+
+	});
+  
+  </script>
     
   </body>
 </html>

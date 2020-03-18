@@ -113,6 +113,22 @@ public class CommunityDaoImpl implements CommunityDao{
 		}
 		return list;
 	}
+	
+
+	@Override
+	public int ansDelete(String ans_Code) {
+		int res = 0;
+		
+		try {
+			res = sqlSession.delete(NAMESPACE+"ansDelete_Y", ans_Code);
+		} catch(Exception e) {
+			System.out.println("[error] : ansDelete_Y");
+			e.printStackTrace();
+		}
+		
+		return res;
+	}
+
 	//--------------------------------------------------------------------------------------------------//
 	
 	//도영
@@ -265,6 +281,23 @@ public class CommunityDaoImpl implements CommunityDao{
 			e.printStackTrace();
 		}
 		return list;
+	}
+
+	@Override
+	public List<TravelScheduleVo> relList(String ts_theme, String ts_code) {
+		List<TravelScheduleVo> list = new ArrayList<TravelScheduleVo>();
+		TravelScheduleVo vo = new TravelScheduleVo();
+		vo.setts_Theme(ts_theme);
+		vo.setts_Code(ts_code);
+		try {
+			list = sqlSession.selectList(NAMESPACE+"relList_D", vo);
+		} catch(Exception e) {
+			System.out.println("[error] : relList_D");
+			e.printStackTrace();
+		}
+		
+		return list;
+		
 	}
 
 

@@ -61,7 +61,7 @@ public class SampleController {
     	logger.info("kakaoPaySuccess get............................................");
     	logger.info("kakaoPaySuccess pg_token : " + pg_token);
         
-    	
+
         model.addAttribute("info", kakaopay.kakaoPayInfo(pg_token));
         model.addAttribute("hotelname", name);
         model.addAttribute("price", price);

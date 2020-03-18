@@ -150,25 +150,38 @@ public class MypageBizImpl implements MypageBiz {
 
 	// 아이디 찾기
 	@Override
-	public String searchId(String m_Name, String m_Email) {
+	public List<MemberVo> searchId(String m_Name, String m_Email) {
 		return dao.searchId(m_Name, m_Email);
 	}
-	
+
 	// 예약된 호텔명 조회
 	@Override
 	public List<HotelVo> selectOneHotel(String m_Code) {
 		return dao.selectOneHotel(m_Code);
 	}
 
-	// 별점부여
+
+	// 별점 부여
 	@Override
 	public int insertStar(HotelReviewVo vo) {
 		return dao.insertStar(vo);
 	}
 
-	// 별점조회
+	// 별점 조회
 	@Override
 	public List<HotelReviewVo> selectRating(String m_Code) {
 		return dao.selectRating(m_Code);
+	}
+
+	// 업데이트할 호텔의 별점 조회
+	@Override
+	public HotelVo selectOneHotelStar(String h_Code) {
+		return dao.selectOneHotelStar(h_Code);
+	}
+
+	// 별점 업뎃
+	@Override
+	public Object updateStar(String h_Code, int point) {
+		return dao.updateStar(h_Code, point);
 	}
 }

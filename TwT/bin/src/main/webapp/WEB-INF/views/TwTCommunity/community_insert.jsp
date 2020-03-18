@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -12,6 +13,7 @@
 
 <link href="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.8/summernote.css" rel="stylesheet">
 <script src="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.8/summernote.js"></script>
+<script src="${pageContext.request.contextPath}/resources/js/summernote-ko-KR.js"></script>
 
 <link rel="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/scss/bootstrap/bootstrap.scss">
@@ -29,13 +31,41 @@
 	});
 	
 	$(document).ready(function() {
-		  $('#summernote').summernote({
+		  $("#summernote").summernote({
 		        minHeight: 600,
 		        maxHeight: null,
 		        focus: true, 
-		        lang : 'ko-KR'
+		        lang : "ko-KR",
+				callbacks: {	//여기 부분이 이미지를 첨부하는 부분
+					onImageUpload : function(files) {
+						uploadImageFile(files[0], this);
+					}
+				},
+ 			    fontNames: ['바탕체',  '굴림체', '궁서체', '돋움체'],
+			    fontNamesIgnoreCheck: ['바탕체']
 		  });
 		});
+	  
+		function uploadImageFile(file, editor) {
+			data = new FormData();
+			data.append("file", file);
+			$.ajax({
+				data : data,
+				type : "POST",
+				url : "uploadImageFile.do",
+				contentType : false,
+				processData : false,
+				enctype: "multipart/form-data",
+				success : function(data) {
+	            	//항상 업로드된 파일의 url이 있어야 한다.
+					$(editor).summernote("insertImage", data.url);
+	            	$("#potoForm").append("<input type='hidden' name='potoImg' value='"+data.url+"'/>");
+				},
+				error : function(){
+					alert("실패");
+				}
+			});
+		}
 </script>
 <style type="text/css">
 body {
@@ -57,27 +87,29 @@ body {
 </style>
 </head>
 <body>
+	<form id="potoForm" method="post" action="potoBookinsert.do" enctype="multipart/form-data">
+	<input type="hidden" name="m_Code" value="${m_Code }"/>
 	<div class="col-sm-9" id="container">
-
 		<div class="col-sm-12" style="float: left; margin-top: 30px;">
 			<div class="title">
-				<input type="text" placeholder="제목"/>
+				<input type="text" name="sr_Title" placeholder="제목을 입력하세요"/>
 			</div>
 			<br> <br> <br> <br>
 
 			<div class="row row-cols-1 row-cols-md-3">
 				<div class="col mb-4">
 					<div class="card h-100">
-						<textarea id="summernote" name="content" class="card-img-top" alt="..."></textarea>
+						<textarea id="summernote" name="sr_Content" class="card-img-top" alt="..."></textarea>
 					</div>
 				</div>
 			</div>
 		</div>
-
 		<div align="center">
-			<a href="#" style="text-decoration: none;" class="btns btns-primary btns-outline-primary mt-4 px-4 py-3">등록</a>&nbsp;&nbsp;&nbsp;
-			<a href="#" style="text-decoration: none;" class="btns btns-primary btns-outline-primary mt-4 px-4 py-3">취소</a>
+			<input type="submit" style="width: 60px;" class="btns btns-primary btns-outline-primary mt-4 px-4 py-3" value="등록" />
+			&nbsp;&nbsp;&nbsp;
+			<input type="button" style="width: 60px;" class="btns btns-primary btns-outline-primary mt-4 px-4 py-3" value="취소" onclick="location.href='community.do'"/>
 		</div>
 	</div>
+	</form>
 </body>
 </html>

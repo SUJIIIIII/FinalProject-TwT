@@ -4,16 +4,16 @@ import java.util.Date;
 
 public class TravelScheduleVo extends ts_PagingVo {
 
-    private String ts_Code; 		//여행일정 번호
+    private String ts_Code; 	//여행일정 번호
     private String m_Code; 		//회원 번호
-    private String tp_Code; 		//여행지 번호
+    private String tp_Code; 	//여행지 번호
     private String ts_Title; 	//일정 제목
-    private Date ts_Sday; 		//일정 출발일
+    private String ts_Sday; 		//일정 출발일
     private String ts_Theme; 	//일정 테마
-    private String ts_People; 	//일정 인원
-    private String ts_Thum; 		//일정 썸네일
+    private int ts_People; 		//일정 인원
+    private String ts_Thum; 	//일정 썸네일
     private int ts_Period; 		//일정 기간
-    private String ts_View; 		//일정 조회수
+    private String ts_View; 	//일정 조회수
     private Date ts_Date;		// 게시글 작성 시간
     private String m_Id;		// 유저 아이디
     private String ts_Day;		//일정 날짜
@@ -27,16 +27,18 @@ public class TravelScheduleVo extends ts_PagingVo {
     private String sm_Money;	// 여행 예산
     private String fl_Code;		// 찜 목록
     private String fl_Check;	// 찜 여부
-    
+    private int re_Code; 		// 리턴되어 임시저장되는 코드
+
 	
 
     public TravelScheduleVo() {
 		super();
 	}
 
-	public TravelScheduleVo(String ts_Code, String m_Code, String tp_Code, String ts_Title, Date ts_Sday, String ts_Theme,
-			String ts_People, String ts_Thum, int ts_Period, String ts_View, Date ts_Date, String m_Id, String ts_Day, 
-			String tp_Type, String tp_Content, String tp_Name, String m_Name, String tp_Img, String city_Code, String sm_Memo, String sm_Money, String fl_Code, String fl_Check) {
+	public TravelScheduleVo(String ts_Code, String m_Code, String tp_Code, String ts_Title, String ts_Sday,
+			String ts_Theme, int ts_People, String ts_Thum, int ts_Period, String ts_View, Date ts_Date, String m_Id,
+			String ts_Day, String tp_Type, String tp_Content, String tp_Name, String m_Name, String tp_Img,
+			String city_Code, String sm_Memo, String sm_Money, String fl_Code, String fl_Check, int re_Code) {
 		super();
 		this.ts_Code = ts_Code;
 		this.m_Code = m_Code;
@@ -61,8 +63,9 @@ public class TravelScheduleVo extends ts_PagingVo {
 		this.sm_Money = sm_Money;
 		this.fl_Code = fl_Code;
 		this.fl_Check = fl_Check;
+		this.re_Code = re_Code;
 	}
-	
+
 	public String getFl_Code() {
 		return fl_Code;
 	}
@@ -206,11 +209,11 @@ public class TravelScheduleVo extends ts_PagingVo {
         this.ts_Title = ts_Title;
     }
 
-    public Date getts_Sday() {
+    public String getts_Sday() {
         return ts_Sday;
     }
 
-    public void setts_Sday(Date ts_Sday) {
+    public void setts_Sday(String ts_Sday) {
         this.ts_Sday = ts_Sday;
     }
 
@@ -222,11 +225,11 @@ public class TravelScheduleVo extends ts_PagingVo {
         this.ts_Theme = ts_Theme;
     }
 
-    public String getts_People() {
+    public int getts_People() {
         return ts_People;
     }
 
-    public void setts_People(String ts_People) {
+    public void setts_People(int ts_People) {
         this.ts_People = ts_People;
     }
 
@@ -253,5 +256,13 @@ public class TravelScheduleVo extends ts_PagingVo {
     public void setts_View(String ts_View) {
         this.ts_View = ts_View;
     }
+
+	public int getre_Code() {
+		return re_Code;
+	}
+
+	public void setre_Code(int re_Code) {
+		this.re_Code = re_Code;
+	}
 
 }

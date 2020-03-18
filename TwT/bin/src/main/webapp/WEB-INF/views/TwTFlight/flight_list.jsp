@@ -62,8 +62,8 @@
    	</script>
 
     <section class="ftco-section ftco-degree-bg">
-      <div class="container">
-        <div class="row">
+      <!--  <div class="container">
+       <div class="row">
         	<div class="col-lg-3 sidebar">
         		<div class="sidebar-wrap bg-light ftco-animate">
         			<h3 class="heading mb-4">항공권 검색</h3>
@@ -126,13 +126,28 @@
         		</div>        		
           </div>
           <div class="col-lg-9">
-          <div>
-          	<h1>아이프레임 위치다</h1>
+          
+         	<h1>아이프레임 위치</h1>
           	
-          </div>
-          	</div>
-          	</div>
-      </div>
+          </div> 
+          	
+          	
+          
+      </div>--> <!-- 외쪽매뉴바 --> 
+      <div style="height: 1800px; width: 100%; position: relative;">
+      	
+      		<div style="position:absolute;height: 90px; width: 100%; background-color: white;"></div>
+      		<div style="position:absolute;height: 100%; width: 33px; background-color: white; left: 98%;"></div>
+	      <iframe frameborder='0'
+	        src="${url}"
+	        scrolling="yes" border="no" maginwidth="0" marginheight="0" frameborder="0"       
+	        style="height: 1800px; width: 100%"></iframe>
+	     <div></div>
+     </div>
+      
+		
+        
+      
     </section> <!-- .section -->
 
 

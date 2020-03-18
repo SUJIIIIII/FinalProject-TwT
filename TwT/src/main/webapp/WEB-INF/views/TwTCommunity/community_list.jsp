@@ -51,7 +51,6 @@
                 
                 success: function(data){
                 	var res = data.res;
-                	alert(tag.text());
                 	if(res){
                 		if(tag.text()=='Y'){
                 			alert("찜을 해제하였습니다.")
@@ -156,8 +155,8 @@
 		    		<div class="row">
 		          <div class="col-md-12 nav-link-wrap mb-4">
 		            <div class="nav ftco-animate nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
-		              <a class="nav-link active" id="v-pills-whatwedo-tab" data-toggle="pill" href="#v-pills-whatwedo" role="tab" aria-controls="v-pills-whatwedo" aria-selected="true">Travel Plans</a>
-		              <a onclick="potoBookList();" class="nav-link" id="v-pills-mission-tab" data-toggle="pill" href="#v-pills-mission" role="tab" aria-controls="v-pills-mission" aria-selected="false">Photo Book</a>
+		              <a class="${tag1 }" id="v-pills-whatwedo-tab" data-toggle="pill" href="#v-pills-whatwedo" role="tab" aria-controls="v-pills-whatwedo" aria-selected="${val1 }">Travel Plans</a>
+		              <a class="${tag2 }" id="v-pills-mission-tab" data-toggle="pill" href="#v-pills-mission" role="tab" aria-controls="v-pills-mission" aria-selected="${val2 }">Photo Book</a>
 		            </div>
 		          </div>
 		          <div class="col-md-12 d-flex align-items-center">
@@ -165,7 +164,7 @@
 		            <div class="tab-content ftco-animate" id="v-pills-tabContent">
 
 					<!-- fade 1 -->
-		              <div class="tab-pane fade show active" id="v-pills-whatwedo" role="tabpanel" aria-labelledby="v-pills-whatwedo-tab">
+		              <div class="${fade1 }" id="v-pills-whatwedo" role="tabpanel" aria-labelledby="v-pills-whatwedo-tab">
 							<div style="margin-bottom: 25px; padding-left: 1020px;">
 					    	<span class="sort" date-id="regdate" ><i class="far fa-calendar-alt"></i>&nbsp;<a href="community.do">최신</a></span>
 					    	<span class="sort">&nbsp;|&nbsp;</span>
@@ -175,35 +174,37 @@
 							<c:forEach items="${list }" var="vo" varStatus="status" begin="${page.startRow }" end="${page.startRow + 7 }">
 							 	<div class="col-md-3 d-flex ftco-animate">
 							            <div class="blog-entry align-self-stretch" style="min-width: 250px;">
-							              <a href="communityDetail.do?ts_code=${vo.ts_Code }" class="block-20" style="background-image: url(${pageContext.request.contextPath}/resources/images/plan/${vo.city_Code }/${vo.tp_Img });"></a>
+							              <a href="communityDetail.do?ts_code=${vo.ts_Code }" class="block-20" style="background-image: url(${pageContext.request.contextPath}/resources/images/plan/thumbnail/${vo.ts_Thum});"></a>
 							              <div class="text p-4 d-block" style="min-width: 250px;">
-							              	<span class="tag">${fn:substring(vo.ts_Sday,0,8)}</span>
+							              	<span class="tag">${vo.ts_Sday}</span>
 							              	<span class="tag">| ${vo.ts_Period }DAYS</span>
 							              	<span style="padding: 0 0 0 18px; float: right;">
 							              	
 							              	<!-- 로그인 돼있을 때 찜 여부 확인 후 목록 출력 -->
-							              <%-- 	<c:if test="${kakaoId ne null or naverId ne null or user ne null or googleId ne null}">
+							              <c:if test="${kakaoId ne null or naverId ne null or user ne null or googleId ne null}">
 							              	<c:set var="istrue" value="false"></c:set>
-							              		<c:forEach items="check" var="check">
+							              		<c:forEach items="${check}" var="check">
 							              			<c:if test="${check.fl_Code eq vo.ts_Code }">
 										              	<c:set var="istrue" value="true"></c:set>
 							              			</c:if>
 							              		</c:forEach>
 							              		  	<c:choose>
-										              	<c:when test="${istrue eq true}"> --%>
+										              	<c:when test="${istrue eq true}">
 									              				<div class="cnt_copy">
 																	<a onclick="fList('${vo.ts_Code}');" id="fList" style="cursor: pointer;"><i class="far fa-heart" id="fa-heart_${vo.ts_Code}" style="color: #fc3c3c; font-weight: bold;" ></i></a>&nbsp;&nbsp;
 																	<i class="fas fa-eye"></i><span style="font-size:14px;">&nbsp;&nbsp;${vo.ts_View }</span>
+																	<p class="check" id="check_${vo.ts_Code }" style="display: none;">Y</p>
 																</div>
-										              	<%-- </c:when>
-										              	<c:otherwise> --%>
-												            <div class="cnt_copy">
-																<a onclick="fList('${vo.ts_Code}');" id="fList" style="cursor: pointer;"><i class="far fa-heart" id="fa-heart_${vo.ts_Code}" style="color: #fc3c3c;" ></i></a>&nbsp;&nbsp;
-																<i class="fas fa-eye"></i><span style="font-size:14px;">&nbsp;&nbsp;${vo.ts_View }</span>
-															</div>
-										              	<%-- </c:otherwise>
-										              	</c:choose>
-											</c:if> --%>
+										              	</c:when>
+										              	<c:otherwise>
+													            <div class="cnt_copy">
+																	<a onclick="fList('${vo.ts_Code}');" id="fList" style="cursor: pointer;"><i class="far fa-heart" id="fa-heart_${vo.ts_Code}" style="color: #fc3c3c;" ></i></a>&nbsp;&nbsp;
+																	<i class="fas fa-eye"></i><span style="font-size:14px;">&nbsp;&nbsp;${vo.ts_View }</span>
+																	<p class="check" id="check_${vo.ts_Code }" style="display: none;" >N</p>
+																</div>
+										              	</c:otherwise>
+										            </c:choose>
+											</c:if>
 											
 											<!-- 로그인 안돼 있을 때 하트 클릭 시 로그인 창으로 이동 -->
 											<c:if test="${kakaoId eq null and naverId eq null and user eq null and googleId eq null}">
@@ -230,11 +231,11 @@
 
 						<!-- 페이징 --> 
 						<script type="text/javascript">
-						   function PageMove(page,Chk){
+						   function PageMove(page,Chk,ts_theme){
 						      if(Chk == ""){
 						         Chk = false;
 						      }
-						       location.href = "community.do?curpagenum="+page+"&Chk="+Chk;
+						       location.href = "community.do?curpagenum="+page+"&Chk="+Chk+"&ts_theme="+ts_theme;
 						    }
 						</script>              
 						
@@ -245,20 +246,20 @@
 		                           <div class="block-27">
 		                             <ul>
 		                             <c:if test="${page.preve eq true }">
-		                               <li><a href="javascript:PageMove(${page.currentPage-1 },'${Chk}')">&lt;</a></li>
+		                               <li><a href="javascript:PageMove(${page.currentPage-1 },'${Chk}', '${ts_theme }')">&lt;</a></li>
 		                             </c:if>
 		                             <c:forEach var="i" begin="${page.startPage }" end="${page.endPage }" >
 		                             <c:choose>
 		                             <c:when test="${i eq page.currentPage }">
-		                               <li class="active"><span><a href="javascript:PageMove(${i},'${Chk}')">${i}</a></span></li>
+		                               <li class="active"><span><a href="javascript:PageMove(${i},'${Chk}','${ts_theme }')">${i}</a></span></li>
 		                             </c:when>
 		                             <c:otherwise>
-		                                <li><a href="javascript:PageMove(${i},'${Chk}')">${i}</a></li>
+		                                <li><a href="javascript:PageMove(${i},'${Chk}','${ts_theme }')">${i}</a></li>
 		                             </c:otherwise>
 		                             </c:choose>
 		                             </c:forEach>  
 		                             <c:if test="${page.next eq true }">  
-		                               <li><a href="javascript:PageMove(${page.currentPage+1 },'${Chk}')">&gt;</a></li>
+		                               <li><a href="javascript:PageMove(${page.currentPage+1 },'${Chk}','${ts_theme }')">&gt;</a></li>
 		                             </c:if>  
 		                             </ul>
 		                           </div>
@@ -270,7 +271,7 @@
 		              </div>
 
 				    <!-- fade 2 -->
-		              <div class="tab-pane fade" id="v-pills-mission" role="tabpanel" aria-labelledby="v-pills-mission-tab">
+		              <div class="${fade2 }" id="v-pills-mission" role="tabpanel" aria-labelledby="v-pills-mission-tab">
 				        <div style="float: top; margin-left:985px;">
 				        <a href="communityInsertForm.do" class="btn btn-primary btn-outline-primary mt-4 px-4 py-3 mb-4"><span>Create Book</span></a>
 				        </div>
@@ -310,7 +311,8 @@
 						<!-- 페이징 -->        
 <script type="text/javascript">
 	function potoPageMove(page){
-    	location.href = "community.do?potocurpagenum="+page;
+		var potoChk = true;
+    	location.href = "community.do?potocurpagenum="+page+"&potoChk="+potoChk;
     }
 </script>              
 						<c:if test="${potopage.listCount > 4}">
