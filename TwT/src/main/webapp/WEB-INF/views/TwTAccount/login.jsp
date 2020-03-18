@@ -251,16 +251,21 @@ function findId() {
 		dataType:"json",
 		contentType:"application/json",
 		success:function(data){
-			if(data.result == "0") {
+			if(data.info == "") {
 				alert("회원 정보를 확인해주세요");
 			} else {
 				$("#find_result").show();
-				$("#find_result").append(data.info);
-			   /* alert(data.info); */
+				$("#find_result").append(data.info+"\n");
 			}
 		}
 	});
 }
+
+$(document).ready(function(){
+	$("#findmyPwd").click(function(){
+		alert("임시 비밀번호를 작성한 이메일로 전송했습니다.");
+	});
+});
 </script>
 <style type="text/css">
 * {
@@ -687,18 +692,8 @@ signInButton.addEventListener('click', () => {
         </div>
       </div>
       <div class="modal-footer" style="width:495px;">
-          <button type="button" class="btn btn-primary btn-outline-primary" onclick="findId();">찾 기</button>
+          <button type="button" class="btn btn-primary btn-outline-primary" onclick="findId();" id="findId">찾 기</button>
       </div>
-      
-<!--       <form action="searchId.do" method="get" style="width:100%;">
-      <div class="modal-body" id="idmodal">
-                  이름  <input type="text" name="m_Name" id="myname"><br>
-                  이메일  <input type="text" name="m_Email" id="myemail">
-      </div>
-      <div class="modal-footer" style="width:495px;">
-          <button type="submit" class="btn btn-primary btn-outline-primary">찾 기</button>
-      </div>
-      </form> -->
     </div>
   </div>
 </div>
@@ -720,7 +715,7 @@ signInButton.addEventListener('click', () => {
                   이메일  <input type="text" name="m_Email">
       </div>
       <div class="modal-footer" style="width:495px;">
-          <button type="submit" class="btn btn-primary btn-outline-primary">찾 기</button>
+          <button type="submit" class="btn btn-primary btn-outline-primary" id="findmyPwd">찾 기</button>
       </div>
       </form>
     </div>

@@ -63,4 +63,9 @@
       <url-pattern>/*</url-pattern>
    </filter-mapping>
    <!-- log filter end -->
+   
+   <!-- 세션 자동으로 타임아웃 방지 -->
+   <session-config>
+    <session-timeout>-1</session-timeout>
+   </session-config>
 </web-app>
