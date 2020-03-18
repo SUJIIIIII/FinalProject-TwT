@@ -213,14 +213,6 @@ public class PlanController {
 	}	
 
 	
-	@RequestMapping("/testInsert.do")
-	public String testInsert(@RequestBody Map<String,Object> map) {
-		System.out.println("form : " + map.get("form_data"));
-		System.out.println("day : " + map.get("day_list"));
-		
-		
-		return "redirect:/index.jsp";
-	}
 	
 
 }
