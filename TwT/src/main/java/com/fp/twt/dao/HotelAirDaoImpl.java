@@ -128,80 +128,81 @@ public class HotelAirDaoImpl implements HotelAirDao{
 	
 	
 	//호텔 리스트
-	@Override
-	public List<HotelVo> HselectList(HotelVo hotelVo) {
-		List<HotelVo> hotellist = new ArrayList<HotelVo>();
-		
-		//페이지 출력
-		System.out.println(hotelVo.getStartIndex() +":::"+ hotelVo.getEndIndex());
-		
-		//검색 옵션 출력
-		System.out.println("호텔명 : " + hotelVo.getH_Name());
-		System.out.println("최소가격 : " + hotelVo.getStt_Price());
-		System.out.println("최대가격 : " + hotelVo.getEnd_Price());
-		System.out.println("평점 : " + hotelVo.getH_Starn());
-		System.out.println("조식 : " + hotelVo.getHr_Breakfast());
-		
-		try {
-			hotellist = sqlSession.selectList(NAMESPACE+"HselectList", hotelVo);
-		}catch(Exception e) {
-			System.out.println("[error] : HselectList");
-			e.printStackTrace();
+		@Override
+		public List<HotelVo> HselectList(HotelVo hotelVo) {
+			List<HotelVo> hotellist = new ArrayList<HotelVo>();
+			
+			//페이지 출력
+			System.out.println(hotelVo.getStartIndex() +":::"+ hotelVo.getEndIndex());
+			
+			//검색 옵션 출력
+			System.out.println("호텔명 : " + hotelVo.getH_Name());
+			System.out.println("최소가격 : " + hotelVo.getStt_Price());
+			System.out.println("최대가격 : " + hotelVo.getEnd_Price());
+			System.out.println("평점 : " + hotelVo.getH_Starnn());
+			System.out.println("조식 : " + hotelVo.getHr_Breakfast());
+			
+			
+			try {
+				hotellist = sqlSession.selectList(NAMESPACE+"HselectList", hotelVo);
+				System.out.println("dao 의 hotellist : "+hotellist);
+			}catch(Exception e) {
+				System.out.println("[error] : HselectList");
+				e.printStackTrace();
+			}
+			
+			return hotellist;
 		}
 		
-		return hotellist;
-	}
-	
-	//호텔 리스트 목록 개수
-	@Override
-	public int HselectListCnt(HotelVo hotelVo) {
-		int HselectListCnt = 0;
-		
-		try {
-			HselectListCnt = sqlSession.selectOne(NAMESPACE+"HselectListCnt", hotelVo);
-		}catch(Exception e) {
-			System.out.println("[error] : HselectList");
-			e.printStackTrace();
+		//호텔 리스트 목록 개수
+		@Override
+		public int HselectListCnt(HotelVo hotelVo) {
+			int HselectListCnt = 0;
+			
+			try {
+				HselectListCnt = sqlSession.selectOne(NAMESPACE+"HselectListCnt", hotelVo);
+				System.out.println("dao 의 HselectListCnt : "+HselectListCnt);
+			}catch(Exception e) {
+				System.out.println("[error] : HselectList");
+				e.printStackTrace();
+			}
+			
+			return HselectListCnt;
 		}
 		
-		return HselectListCnt;
-	}
-	
-	//호텔 디테일
+		//호텔 디테일
 
-	@Override
-	public HotelVo selectOne_B(String h_code) {
-		HotelVo vo = null;
-		
-		try {
-			vo = sqlSession.selectOne(NAMESPACE+"selectOne_B", h_code);
-			System.out.println("디테일");
-		} catch(Exception e) {
-			System.out.println("[error] : selectOne_B");
-			e.printStackTrace();
+		@Override
+		public HotelVo selectOne_B(String h_code) {
+			HotelVo vo = null;
+			
+			try {
+				vo = sqlSession.selectOne(NAMESPACE+"selectOne_B", h_code);
+				System.out.println("vo 확인용 : " + vo);
+			} catch(Exception e) {
+				System.out.println("[error] : selectOne_B");
+				e.printStackTrace();
+			}
+			
+			return vo;
 		}
 		
-		return vo;
-	}
-	
-	// 객실  
-	
-	@Override
-	public List<HotelVo> detailList_B(String h_code) {
-		List<HotelVo> list = new ArrayList<HotelVo>();
+		// 객실  
 		
-		try {
-			list = sqlSession.selectList(NAMESPACE+"detailList_B", h_code);
-			System.out.println("객실");
-		} catch(Exception e) {
-			System.out.println("[error] : detailList_B");
-			e.printStackTrace();
+		@Override
+		public List<HotelVo> detailList_B(String h_code) {
+			List<HotelVo> list = new ArrayList<HotelVo>();
+			
+			try {
+				list = sqlSession.selectList(NAMESPACE+"detailList_B", h_code);
+				System.out.println("list 확인용 : " + list);
+			} catch(Exception e) {
+				System.out.println("[error] : detailList_B");
+				e.printStackTrace();
+			}
+			
+			return list;
 		}
-		
-		return list;
-	}
-
-	
 
 
 
