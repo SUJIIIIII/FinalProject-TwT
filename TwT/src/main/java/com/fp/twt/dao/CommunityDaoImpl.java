@@ -283,6 +283,23 @@ public class CommunityDaoImpl implements CommunityDao{
 		return list;
 	}
 
+	@Override
+	public List<TravelScheduleVo> relList(String ts_theme, String ts_code) {
+		List<TravelScheduleVo> list = new ArrayList<TravelScheduleVo>();
+		TravelScheduleVo vo = new TravelScheduleVo();
+		vo.setts_Theme(ts_theme);
+		vo.setts_Code(ts_code);
+		try {
+			list = sqlSession.selectList(NAMESPACE+"relList_D", vo);
+		} catch(Exception e) {
+			System.out.println("[error] : relList_D");
+			e.printStackTrace();
+		}
+		
+		return list;
+		
+	}
+
 
 
 }
