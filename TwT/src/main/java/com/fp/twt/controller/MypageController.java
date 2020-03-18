@@ -95,7 +95,7 @@ public class MypageController {
 
 		// 인증 메일 보내기 메소드
 		mailsender.mailSendWithUserKey(vo.getm_Email(), vo.getm_Id(), request);
-
+		
 		PrintWriter out = response.getWriter();
 
 		if (biz.memberInsert(vo) > 0) {

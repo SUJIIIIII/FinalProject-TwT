@@ -238,6 +238,9 @@ function fList(ts_Code){
     padding-bottom: 0.5rem !important;
     padding-top: 0.5rem !important;
 }
+.btn.btn-primary.btn-outline-primary:hover {
+    background: #fc3c3c;
+}
 </style>
 </head>
 <body id="body">
@@ -300,7 +303,7 @@ function fList(ts_Code){
 				
  <main id="home" class="contents">
   <div class="container">
-    <h3 class="page-title text-center" style="margin-top: 120px; color: silver; font-size: 17px;"><i class="fas fa-calendar-alt"></i><br>${detail.ts_Sday }<br> ~ <br>${detail.ts_Period }DAYS</h3>
+    <h3 class="page-title text-center" style="margin-top: 120px; color: silver; font-size: 17px;"><i class="fas fa-calendar-alt"></i><br>${detail.ts_Sday }&nbsp;(${detail.ts_Period }DAYS)</h3>
     
     <c:choose>
     <c:when test="${empty detailList }">

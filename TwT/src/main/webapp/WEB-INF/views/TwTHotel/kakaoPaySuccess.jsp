@@ -6,7 +6,6 @@
 <meta charset="UTF-8">
 <title>결제 완료</title>
 
-
 </head>
 <body>
  

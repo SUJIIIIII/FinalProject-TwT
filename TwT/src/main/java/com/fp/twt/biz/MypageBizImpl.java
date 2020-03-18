@@ -160,6 +160,7 @@ public class MypageBizImpl implements MypageBiz {
 		return dao.selectOneHotel(m_Code);
 	}
 
+
 	// 별점 부여
 	@Override
 	public int insertStar(HotelReviewVo vo) {

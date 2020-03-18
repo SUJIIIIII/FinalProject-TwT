@@ -160,7 +160,7 @@ public class PlanController {
       String ts_code = "TS11" + ts_vo.getre_Code(); // TS_CODE 담아주기
 
       
-      for (int i = 1; i < day_list.size(); i++) {
+      for (int i = 1; i <= day_list.size(); i++) {
          Object select_day = day_list.get("day"+i);
          String select_day_str = select_day.toString();
          
@@ -212,6 +212,7 @@ public class PlanController {
 		return "redirect:/index.jsp";
 	}	
 
+	
 	
 
 }

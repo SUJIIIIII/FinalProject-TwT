@@ -26,18 +26,22 @@
 	</resultMap>
 
 	<insert id="ansInsert_Y" parameterType="Answer">
-		INSERT INTO ANS
+		INSERT INTO COMMUNITY_ANS
 		VALUES('AS'||AS_SEQ.NEXTVAL, #{m_Code}, #{board_Code}, #{reple_Code},
 		#{ans_Content}, SYSDATE)
 	</insert>
 
 	<select id="ansList_Y" resultMap="AnswerMap"
 		parameterType="String">
-		SELECT * FROM ANS
+		SELECT * FROM COMMUNITY_ANS
 		WHERE BOARD_CODE = #{sr_Code}
 		ORDER BY ANS_DATE DESC
 	</select>
 
+	<delete id="ansDelete_Y" parameterType="String">
+		DELETE FROM COMMUNITY_ANS
+		WHERE ANS_CODE = #{ans_Code}
+	</delete>
 	<insert id="insertPotoBook_Y" parameterType="ScheduleReview">
 		INSERT INTO
 		SCHEDULEREVIEW
@@ -406,15 +410,21 @@
     <!-- 업데이트할 호텔의 평점 가져오기 -->
     <select id="selectHotelStarM" resultType="Hotel">
        SELECT H_STARN FROM HOTEL WHERE H_CODE = #{h_Code}
-    </select>    
+    </select>   
+ 
 	<!-- ================================찬우================================== -->
 	
 	
 	<!-- 메인 호텔 예약많은 순으로 4개 검색 -->
 	 
 	<select id="main_hotel" resultType="Hotel">
+			SELECT TB.*
+		FROM (
+			SELECT ROWNUM as rn, ht.*
+		<include refid="hotelInc" />
+			ORDER BY H_BOOKCNT) TB
 		<![CDATA[
-		SELECT * FROM (SELECT * FROM HOTEL ORDER BY H_BOOKCNT) WHERE ROWNUM <= 6
+		WHERE ROWNUM <= 6
 		]]>
 	</select>
 	
