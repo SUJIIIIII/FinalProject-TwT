@@ -120,7 +120,7 @@ public class CommunityController {
 		int res = biz.potoBookInsert(vo);
 		
 		ModelAndView mav = new ModelAndView();
-		mav.setViewName("redirect:/community.do");
+		mav.setViewName("redirect:/community.do?potoChk=true");
 		
 		return mav;
 	}
@@ -192,7 +192,7 @@ public class CommunityController {
 		int res = biz.potoBookUpdate(vo);
 		
 		ModelAndView mav = new ModelAndView();
-		mav.setViewName("redirect:/community.do");
+		mav.setViewName("redirect:/community.do?potoChk=true");
 		
 		return mav;
 	}
@@ -204,7 +204,7 @@ public class CommunityController {
 		int res = biz.potoBookDelete(sr_Code);
 		
 		ModelAndView mav = new ModelAndView();
-		mav.setViewName("redirect:/community.do");
+		mav.setViewName("redirect:/community.do?potoChk=true");
 		
 		return mav;
 	}
