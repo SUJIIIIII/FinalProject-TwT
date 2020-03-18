@@ -403,7 +403,6 @@
     <select id="selectHotelStarM" resultType="Hotel">
        SELECT H_STARN FROM HOTEL WHERE H_CODE = #{h_Code}
     </select>    
-
 	<!-- ================================찬우================================== -->
 	
 	
