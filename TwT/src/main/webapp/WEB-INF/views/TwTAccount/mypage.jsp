@@ -1110,10 +1110,10 @@ html {
 							    		$("#star").click(function(){
 							    			
 							    			// 체크아웃 날짜
-							    			var endDate = $("#endDate_${status.index}").val().substring(0,10);
+							    			var endDate = "20"+ $("#endDate_${status.index}").val().substring(0,10);
 							    			console.log(endDate);
 							    			
-							    			var endDateArr = endDate.split("-");
+							    			var endDateArr = endDate.split("/");
 							    			console.log(endDateArr);
 							    			
 							    			// 오늘 날짜
@@ -1134,7 +1134,7 @@ html {
 							    				alert("평점은 호텔 체크아웃 이후에 작성할 수 있습니다");
 							    				return false;
 							    			} else {
-							    			   $("#star").attr("type","submit");
+							    			 $("#star").attr("type","submit"); 
 							    			}
 							    		});
 							    	});
