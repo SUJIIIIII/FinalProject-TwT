@@ -51,7 +51,7 @@
                 
                 success: function(data){
                 	var res = data.res;
-                	alert(tag.text());
+                	/* alert(tag.text()); */
                 	if(res){
                 		if(tag.text()=='Y'){
                 			alert("찜을 해제하였습니다.")
