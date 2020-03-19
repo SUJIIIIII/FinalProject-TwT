@@ -374,9 +374,9 @@ function fList(ts_Code){
                     <div class="meta"><fmt:formatDate pattern="MM-dd HH:mm" value="${list.ans_Date }"/></div>
                     <h3>${list.m_Code }</h3> 
                     <h4>${list.ans_Content }</h4>
-                    <c:if test="${list.m_Code eq member.m_Id}">
+                    <%-- <c:if test="${list.m_Code eq member.m_Id}">
                     <p><a onclick="ansdelete('${list.ans_Code}','${list.board_Code }');" class="reply">삭제</a></p>
-                    </c:if>
+                    </c:if> --%>
                   </div>
                 </li>
                 </c:forEach>

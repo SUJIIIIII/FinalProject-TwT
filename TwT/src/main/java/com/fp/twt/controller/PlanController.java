@@ -159,7 +159,15 @@ public class PlanController {
             String day_spot_num_TP = day_spot_num.split("/")[0];
             String day_spot_num_budget = day_spot_num.split("/")[1];
             String day_spot_num_memo = day_spot_num.split("/")[2];
-        
+            
+            if(day_spot_num_budget == "null" || day_spot_num_budget == null) {
+                day_spot_num_budget = "0";
+            }
+             
+            if(day_spot_num_memo == "null" || day_spot_num_memo == null) {
+                day_spot_num_memo = " ";
+            }
+            
             tsd_vo.settp_Code(day_spot_num_TP);
             tsd_vo.setts_Day("DAY"+i);
             tsd_vo.setts_Code(ts_code);
