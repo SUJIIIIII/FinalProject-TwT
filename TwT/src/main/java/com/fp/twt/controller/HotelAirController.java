@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.fp.twt.biz.HotelAirBiz;
 import com.fp.twt.vo.AirSearchVo;
+import com.fp.twt.vo.HotelReservation;
 import com.fp.twt.vo.HotelVo;
 import com.fp.twt.vo.PagingVo;
 
@@ -36,26 +37,23 @@ public class HotelAirController {
 		logger.info("SELECT AIR");
 		
 		model.addAttribute("url", biz.airSearch(vo));
-		/*
-		 * System.out.println(vo.getAirtype()); System.out.println(vo.getComing_day());
-		 * System.out.println(vo.getDeparture_day());
-		 * System.out.println(vo.getDestination());
-		 * System.out.println(vo.getPersonnel());
-		 * System.out.println(vo.getStarting_point());
-		 */
 		
 		return "TwTFlight/flight_list";
 	}
 	
 	@RequestMapping(value = "/Success.do")//예약시 예약 카운트
-	public String success(@RequestParam String hotelname) {
+	public String success(HotelReservation vo, @RequestParam String hotelname) {
 		
 		logger.info("insert con");
 
 		//String hotelname = request.getParameter("hotelname");
-		System.out.println("호텔이름"+hotelname);
-		
 		biz.success(hotelname);
+		int res = biz.insertHbooking(vo);
+		
+		if(res == 0) {
+			System.out.println("insertHbooking 오류");
+		}
+		
 		
 		return "redirect:hotel.do";//호텔.두 실행
 	}
@@ -70,7 +68,6 @@ public class HotelAirController {
 	@RequestMapping("/hotel.do")
 	public String hotel(@ModelAttribute("hotelVo") HotelVo hotelVo, Model model) {
 		logger.info("SELECT LIST");
-		//model.addAttribute("hotellist",biz.HselectList()); //목록 조회
 
 		// 전체리스트 개수
         int listCnt = biz.HselectListCnt(hotelVo);
@@ -87,7 +84,6 @@ public class HotelAirController {
                 
         model.addAttribute("hotellist", list);
         model.addAttribute("hotellistCnt", listCnt);
-        //model.addAttribute("loginVO", loginVO);
         
         model.addAttribute("pagination", pagination);
 		
@@ -102,7 +98,6 @@ public class HotelAirController {
 		logger.info("SELECT ONE");
 		
 		String h_code = request.getParameter("h_Code");
-		System.out.println("컨트롤러 h_code : " + h_code);
 		
 		
 		model.addAttribute("hvo",biz.selectOne_B(h_code));
@@ -110,16 +105,6 @@ public class HotelAirController {
 		
 		return "TwTHotel/hotel_detail";
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	
 
 }

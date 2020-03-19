@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -31,16 +32,6 @@
 <script src="https://kit.fontawesome.com/6953482b42.js" crossorigin="anonymous"></script>
 <script type="text/javascript" src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 <script type="text/javascript">
-/* $(function () {
-	  // Smooth Scroll
-	  $('a[href*=#]').bind('click', function(e){
-	    var anchor = $(this);
-	    $('html, body').stop().animate({
-	      scrollTop: $(anchor.attr('href')).offset().top
-	    }, 1000);
-	    e.preventDefault();
-	  });
-	}); */
 	function deleteChk(){
 		var sr_Code = $("input[name=srcode]").val();
  		if(confirm("삭제하시겠습니까?")){
@@ -48,6 +39,42 @@
  			$(location).attr('href',url);
 		};
 	};
+	
+	function ansdelete(ans_Code, board_Code){
+		$.ajax({
+			type : "post",
+			url : "ansDelete.do?ans_Code="+ans_Code+"&board_Code="+board_Code,
+			dataType : "json",
+			success : function(data){
+				$("#message").val("");
+				var html = "";
+				var count = "";
+				if(data.list.length > 0){
+				$.each(data.list, function(index, val){
+					count++;
+					html += '<li class="comment">';
+					html += '<div class="vcard bio">';
+					html += '</div>';
+					html += '<div class="comment-body">';
+					html += '<div class="meta">'+val.reple_Code+'</div>';
+					html += '<h3>'+val.m_Code+'</h3>';
+					html += '<h4>'+val.ans_Content+'</h4>';
+					html += '<p><a onclick="ansdelete(\''+val.ans_Code+'\',\''+val.board_Code+'\')" class="reply">삭제</a></p>';
+					html += '</div>';
+					html += '</li>';
+					$("#ansList").html(html);
+				});
+					$("#comments").html(count+" Comments");				
+				} else {
+					$("#comments").remove();
+					$("#ansList").html("");
+				}
+ 			},
+			error : function(){
+				alert("실패");
+			}
+		});
+	}
 	
 	function ansfunc(){
 		if($("#message").val() == ""){
@@ -63,22 +90,40 @@
 				$("#message").val("");
 				var html = "";
 				var count = "";
-				$.each(data.list, function(index, val){
+				
+				if(data.list.length == 1){
 					count++;
+					html += '<h3 id="comments" class="mb-5">'+count+' Comments</h3>';
+					html += '<ul class="comment-list" id="ansList">';
 					html += '<li class="comment">';
 					html += '<div class="vcard bio">';
 					html += '</div>';
 					html += '<div class="comment-body">';
-					html += '<h3>'+val.m_Code+'</h3>';
-					//html += '<div class="meta">'+val.ans_Date+'</div>';
-					html += '<p>'+val.ans_Content+'</p>';
-					//html += '<p><a href="#" class="reply">Reply</a></p>';
+					html += '<div class="meta">'+data.list[0].reple_Code+'</div>';
+					html += '<h3>'+data.list[0].m_Code+'</h3>';
+					html += '<h4>'+data.list[0].ans_Content+'</h4>';
+					html += '<p><a onclick="ansdelete(\''+data.list[0].ans_Code+'\',\''+data.list[0].board_Code+'\')" class="reply">삭제</a></p>';
 					html += '</div>';
 					html += '</li>';
-					
-				});
-				$("#ansList").html(html);
-				$("#comments").html(count+" Comments");
+					html += '</ul>';
+					$("#test").prepend(html);
+				} else {
+					$.each(data.list, function(index, val){
+						count++;
+						html += '<li class="comment">';
+						html += '<div class="vcard bio">';
+						html += '</div>';
+						html += '<div class="comment-body">';
+						html += '<div class="meta">'+val.reple_Code+'</div>';
+						html += '<h3>'+val.m_Code+'</h3>';
+						html += '<h4>'+val.ans_Content+'</h4>';
+						html += '<p><a onclick="ansdelete(\''+val.ans_Code+'\',\''+val.board_Code+'\')" class="reply">삭제</a></p>';
+						html += '</div>';
+						html += '</li>';
+						$("#ansList").html(html);
+					});
+						$("#comments").html(count+" Comments");
+				};
  			},
 			error : function(){
 				alert("실패");
@@ -190,7 +235,7 @@
 	        </div>
   <!-- 댓글  -->
           <div class="col-md-8 ftco-animate" style="margin-left: 190px; margin-right: 190px;">
-            <div class="pt-5 mt-5">
+            <div class="pt-5 mt-5" id="test">
             <c:if test="${not empty anslist }">
               <h3 id="comments" class="mb-5">${anslist.size()} Comments</h3>
               <ul class="comment-list" id="ansList">
@@ -199,30 +244,19 @@
                   <div class="vcard bio">
                   </div>
                   <div class="comment-body">
-                    <h3>${list.m_Code }</h3>
-                    <%-- <div class="meta">${list.ans_Date }</div> --%>
-                    <p>${list.ans_Content }</p>
-                    <!-- <p><a href="#" class="reply">Reply</a></p> -->
+                    <div class="meta"><fmt:formatDate pattern="MM-dd HH:mm" value="${list.ans_Date }"/></div>
+                    <h3>${list.m_Code }</h3> 
+                    <h4>${list.ans_Content }</h4>
+                    <c:if test="${list.m_Code eq member.m_Id}">
+                    <p><a onclick="ansdelete('${list.ans_Code}','${list.board_Code }');" class="reply">삭제</a></p>
+                    </c:if>
                   </div>
-				  <!-- 				  
-                  <ul class="children">
-                    <li class="comment">
-                      <div class="vcard bio">
-                      </div>
-                      <div class="comment-body">
-                        <h3>이름</h3>
-                        <div class="meta">날짜</div>
-                        <p>내용</p>
-                      </div>
-                    </li>
-                  </ul>
-                   -->
                 </li>
                 </c:forEach>
               </ul>
               </c:if>
               <!-- END comment-list -->
-              <c:if test="${truefalse == true }">
+              <c:if test="${not empty user.m_Id }">
               <div class="comment-form-wrap pt-5">
                 <h3 class="mb-5">Leave a comment</h3>
                 <form id="ansform" method="post" class="p-5 bg-light" style="margin-bottom:50px; ">
@@ -233,7 +267,7 @@
                     <textarea name="ans_Content" id="message" cols="60" rows="5" class="form-control"></textarea>
                   </div>
                   <div class="form-group" align="right">
-                    <input type="button" value="Post Comment" onclick="ansfunc(); return false;" class="btn py-3 px-4 btn-primary subc">
+                    <input type="button" value="Post Comment" onclick="ansfunc();" class="btn py-3 px-4 btn-primary subc">
                   </div>
                 </form>
               </div>

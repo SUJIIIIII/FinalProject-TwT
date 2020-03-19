@@ -19,7 +19,6 @@ public class GoHomeDaompl implements GoHomeDao{
 	
 	@Override
 	public List<HotelVo> hotelRanking() {
-		System.out.println("다오 진입");
 		List<HotelVo> hotelranking = new ArrayList<HotelVo>();
 		
 		try {
@@ -39,7 +38,6 @@ public class GoHomeDaompl implements GoHomeDao{
 		
 		try {
 			planranking = sqlSession.selectList(NAMESPACE+"main_Plan");
-			System.out.println("planranking========="+planranking);
 			
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -55,7 +53,6 @@ public class GoHomeDaompl implements GoHomeDao{
 		
 		try {
 			destinationRanking = sqlSession.selectList(NAMESPACE+"main_Destination");
-			System.out.println("관광지 정보"+destinationRanking);
 			
 		} catch (Exception e) {
 			e.printStackTrace();

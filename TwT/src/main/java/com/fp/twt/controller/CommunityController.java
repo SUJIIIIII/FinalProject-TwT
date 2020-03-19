@@ -1,4 +1,4 @@
-package com.fp.twt.controller;
+﻿package com.fp.twt.controller;
 
 import java.io.File;
 
@@ -6,7 +6,9 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -118,7 +120,7 @@ public class CommunityController {
 		int res = biz.potoBookInsert(vo);
 		
 		ModelAndView mav = new ModelAndView();
-		mav.setViewName("redirect:/community.do");
+		mav.setViewName("redirect:/community.do?potoChk=true");
 		
 		return mav;
 	}
@@ -130,6 +132,7 @@ public class CommunityController {
 		
 		HttpSession session = request.getSession(false);
 		MemberVo member = (MemberVo) session.getAttribute("user");
+		model.addAttribute("member", member);
 		
 		List<AnswerVo> anslist = biz.ansList(sr_Code);
 		
@@ -162,7 +165,6 @@ public class CommunityController {
 
 		ScheduleReviewVo orgvo = biz.potoOne(vo.getSr_Code());
 		String orgsrc = orgvo.getSr_ImgSrc();
-		System.out.println(orgsrc);
 		if(!orgsrc.contains("defalt")) {
 			String[] orgimgs = orgsrc.split(",");
 			
@@ -189,32 +191,61 @@ public class CommunityController {
 		int res = biz.potoBookUpdate(vo);
 		
 		ModelAndView mav = new ModelAndView();
-		mav.setViewName("redirect:/community.do");
+		mav.setViewName("redirect:/community.do?potoChk=true");
 		
 		return mav;
 	}
 	
 	@RequestMapping("/potoBookDelete.do")
 	public ModelAndView potoBookDelete(String sr_Code) {
-		System.out.println(sr_Code);
 		
 		int res = biz.potoBookDelete(sr_Code);
 		
 		ModelAndView mav = new ModelAndView();
-		mav.setViewName("redirect:/community.do");
+		mav.setViewName("redirect:/community.do?potoChk=true");
 		
 		return mav;
 	}
 	
 	@RequestMapping("/ansInsert.do")
 	@ResponseBody
-	public Map<String, List<AnswerVo>> ansInsert(AnswerVo vo) {
-		Map<String, List<AnswerVo>> map = new HashMap<String, List<AnswerVo>>();
+	public Map<String, List> ansInsert(AnswerVo vo) {
+		Map<String, List> map = new HashMap<String, List>();
 		
 		vo.setReple_Code("false");
 		int res = biz.ansInsert(vo);
+ 
+		List<AnswerVo> anslist = new ArrayList<AnswerVo>();
+		if(res>0) {
+			anslist = biz.ansList(vo.getBoard_Code());
+		}
+		
+		SimpleDateFormat format = new SimpleDateFormat("MM-dd HH:mm");
+		for(int i = 0 ; i < anslist.size() ; i++) {
+			anslist.get(i).setReple_Code(format.format(anslist.get(i).getAns_Date()));
+		}
+		
+		map.put("list", anslist);
+		
+		return map;
+	}
+	
+	@RequestMapping("/ansDelete.do")
+	@ResponseBody
+	public Map<String, List> ansDelete(String ans_Code, String board_Code) {
+		Map<String, List> map = new HashMap<String, List>();
 
-		List<AnswerVo> anslist = biz.ansList(vo.getBoard_Code());
+		int res = biz.ansDelete(ans_Code);
+
+		List<AnswerVo> anslist = new ArrayList<AnswerVo>();
+		if(res>0) {
+			anslist = biz.ansList(board_Code);
+		}
+		
+		SimpleDateFormat format = new SimpleDateFormat("MM-dd HH:mm");
+		for(int i = 0 ; i < anslist.size() ; i++) {
+			anslist.get(i).setReple_Code(format.format(anslist.get(i).getAns_Date()));
+		}
 		
 		map.put("list", anslist);
 		
@@ -225,13 +256,14 @@ public class CommunityController {
 	// 도영
 	// 여행 일정 리스트
 	@RequestMapping("/community.do")
-	public String newcommunity(@ModelAttribute("travelScheduleVo") TravelScheduleVo travelScheduleVo, FavoriteListVo favoriteListVo, boolean Chk, HttpSession session, String ts_theme, Model model, HttpServletRequest request) {
+	public String newcommunity(@ModelAttribute("travelScheduleVo") TravelScheduleVo travelScheduleVo, FavoriteListVo favoriteListVo, boolean Chk, boolean potoChk, HttpSession session, String ts_theme,Model model, HttpServletRequest request) {
 		logger.info("SELECT LIST");
 		
 		//도영
         MemberVo member = (MemberVo) session.getAttribute("user");
         List<TravelScheduleVo> list = null;
         
+
         if(member != null) {   // 로그인 되어 있을 경우 찜 목록 체크
            String m_code = member.getm_Code();
            List<FavoriteListVo> fvo = biz.chkList(m_code, favoriteListVo);
@@ -241,6 +273,7 @@ public class CommunityController {
          if(ts_theme != null) {   // 테마 값이 담겨 있을 때 해당 테마 값를 가진 리스트 뿌려주기
             list = biz.themeList(ts_theme);
              model.addAttribute("list", list);
+             model.addAttribute("ts_theme",ts_theme);
               
          } else if (Chk) {
             list = biz.PselectList_D(travelScheduleVo);
@@ -282,6 +315,7 @@ public class CommunityController {
          if(ts_theme != null) {
             list = biz.themeList(ts_theme);
              model.addAttribute("list", list);
+             model.addAttribute("ts_theme",ts_theme);
          } else if(Chk) {
             list = biz.PselectList_D(travelScheduleVo);
             model.addAttribute("list", list);
@@ -345,7 +379,35 @@ public class CommunityController {
         potopage.setStartPage(potocurrentPage, potopage.getAllPage());
         potopage.setEndPage(potocurrentPage, potopage.getAllPage());
         potopage.setNext(potocurrentPage, potopage.getAllPage());
-
+        
+        if(potoChk) {
+        	String tag1 = "nav-link";
+        	model.addAttribute("tag1", tag1);
+        	String tag2 = "nav-link active";
+        	model.addAttribute("tag2", tag2);
+        	String val1 = "false";
+        	model.addAttribute("val1", val1);
+        	String val2 = "true";
+        	model.addAttribute("val2", val2);
+        	String fade1 = "tab-pane fade";
+        	model.addAttribute("fade1", fade1);
+        	String fade2 = "tab-pane fade show active";
+        	model.addAttribute("fade2", fade2);
+        } else {
+        	String tag1 = "nav-link active";
+        	model.addAttribute("tag1", tag1);
+        	String tag2 = "nav-link";
+        	model.addAttribute("tag2", tag2);
+        	String val1 = "true";
+        	model.addAttribute("val1", val1);
+        	String val2 = "false";
+        	model.addAttribute("val2", val2);
+        	String fade1 = "tab-pane fade show active";
+        	model.addAttribute("fade1", fade1);
+        	String fade2 = "tab-pane fade";
+        	model.addAttribute("fade2", fade2);
+        }
+        
         model.addAttribute("potopage", potopage);
 		
 		//
@@ -359,10 +421,9 @@ public class CommunityController {
 		logger.info("SELECT ONE");
 		// 조회수
 		biz.viewCnt(ts_code);
-		System.out.println("글 번호 : " + ts_code);
 		
 		List<String> dayList = new ArrayList<String>();
-		
+		List<AnswerVo> anslist = biz.ansList(ts_code);
 		MemberVo member = (MemberVo) session.getAttribute("user");
 		if(member != null) {
 			// 디테일
@@ -388,12 +449,11 @@ public class CommunityController {
 			
 			// 연관 일정 리스트
 			TravelScheduleVo vo = biz.selectOne_D(ts_code);
-			model.addAttribute("themeList", biz.themeList(vo.getts_Theme()));
+			model.addAttribute("relList", biz.relList(vo.getts_Theme(),vo.getts_Code()));
 			
 			
-			for(int i=0; i<list.size(); i++) {
-				System.out.println("메모 값 : " + list.get(i).getTs_Memo());
-			}
+			
+
 		} else if(member == null) {	// 로그인이 안돼있을 시 찜 여부 제거
 			model.addAttribute("detail", biz.selectOne_D(ts_code));
 			
@@ -408,11 +468,12 @@ public class CommunityController {
 			model.addAttribute("dayList", dayList);
 		
 			TravelScheduleVo vo = biz.selectOne_D(ts_code);
-			model.addAttribute("themeList", biz.themeList(vo.getts_Theme()));
-			for(int i=0; i<list.size(); i++) {
-				System.out.println("메모 값 : " + list.get(i).getTs_Memo());
-			}
+
+			model.addAttribute("relList", biz.relList(vo.getts_Theme(),vo.getts_Code()));
 		}
+		
+		model.addAttribute("anslist",anslist);
+		
 		return "TwTCommunity/community_detail"; 
 	}
 	
@@ -424,8 +485,6 @@ public class CommunityController {
 		MemberVo member = (MemberVo) session.getAttribute("user");
 		String m_code = member.getm_Code();
 		String ts_code1 = ts_code.substring(0,ts_code.length()-1);
-		System.out.println("회원 번호 : " + m_code);
-		System.out.println("글 번호 : " + ts_code1);
 		
 		Boolean res = false;
 		
@@ -433,16 +492,12 @@ public class CommunityController {
 		
 		if(vo == null) {	// 찜 목록에 데이터가 없을 시 데이터 인서트
 			int result = biz.fList(m_code, ts_code1);
-			System.out.println("찜 데이터 Y값 Insert");
 			res = true;
 		} else {	// 데이터가 있을 시 찜 여부 확인 후 업데이트
-			System.out.println("기존 찜 여부 : " + vo.getFl_Check());
 			if(vo.getFl_Check().equals("Y")) {
-				System.out.println("찜 여부 N으로 변경");
 				int result = biz.fList_N(m_code, ts_code1);
 				res = true;
 			} else if(vo.getFl_Check().equals("N")){
-				System.out.println("찜 여부 Y로 변경");
 				int result = biz.fList_Y(m_code, ts_code1);
 				res = true;
 			}

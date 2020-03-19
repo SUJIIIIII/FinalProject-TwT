@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.fp.twt.vo.AirSearchVo;
+import com.fp.twt.vo.HotelReservation;
 import com.fp.twt.vo.HotelVo;
 
 @Repository
@@ -27,14 +28,49 @@ public class HotelAirDaoImpl implements HotelAirDao{
         // split()은 지정한 문자를 기준으로 문자열을 잘라 배열로 반환한다.
         String date[] = change.split("/");
         
-        System.out.println(date[0]);
-        System.out.println(date[1]);
-        System.out.println(date[2]);
-        
         change = date[2]+"-"+date[0]+"-"+date[1];
 
 		
 		return change;
+	}
+		
+	
+	
+	@Override
+	public String airSearch(AirSearchVo vo) {
+		
+		String departure_day = vo.getDeparture_day();
+		String coming_day = vo.getComing_day();
+		
+		
+		String url = "";
+		
+		if(vo.getAirtype().equals("v2&tripType=2")) {
+			
+			vo.setDeparture_day(dateChange(departure_day)); //출발일 변환
+			vo.setComing_day(dateChange(coming_day));	//도착일 변환
+			
+			url= "https://www.whypaymore.co.kr/d/flt/intl/"
+					+ "sched-deals?appId=v2&tripType=2"
+					+ "&searchSource=P&depLocCodes=SEL&depLocNames=서울%28모든공항%29"
+					+ "&arrLocCodes=BKK&arrLocNames=방콕%28모든공항%29"
+					+ "&dates="+vo.getDeparture_day()+"&dates="+vo.getComing_day()
+					+ "&cabinCls=Y&adtCnt="+vo.getPersonnel()+"&chdCnt=0&infCnt=0\r\n";
+			
+			//왕복일때
+		}else if (vo.getAirtype().equals("v2&tripType=1")) {
+			
+			vo.setDeparture_day(dateChange(departure_day)); //출발일 변환
+			
+			url= "https://www.whypaymore.co.kr/d/flt/intl/"
+					+ "sched-deals?appId=v2&tripType=1"
+					+ "&searchSource=P&depLocCodes=SEL&depLocNames=서울%28모든공항%29"
+					+ "&arrLocCodes=BKK&arrLocNames=방콕%28모든공항%29"
+					+ "&dates="+vo.getDeparture_day()+"&cabinCls=Y&adtCnt="+vo.getPersonnel()+"&chdCnt=0&infCnt=0";
+			//편도일때
+		}
+		
+		return url;
 	}
 	
 	@Override
@@ -56,43 +92,20 @@ public class HotelAirDaoImpl implements HotelAirDao{
 	
 	
 	@Override
-	public String airSearch(AirSearchVo vo) {
+	public int insertHbooking(HotelReservation vo) {
 		
-		String departure_day = vo.getDeparture_day();
-		String coming_day = vo.getComing_day();
+		int num=0;
 		
-		
-		String url = "";
-		
-		if(vo.getAirtype().equals("v2&tripType=2")) {
-			System.out.println("왕복접근");
+		try {
 			
-			vo.setDeparture_day(dateChange(departure_day)); //출발일 변환
-			vo.setComing_day(dateChange(coming_day));	//도착일 변환
+			num = sqlSession.insert(NAMESPACE+"reservation_insert",vo);
 			
-			url= "https://www.whypaymore.co.kr/d/flt/intl/"
-					+ "sched-deals?appId=v2&tripType=2"
-					+ "&searchSource=P&depLocCodes=SEL&depLocNames=서울%28모든공항%29"
-					+ "&arrLocCodes=BKK&arrLocNames=방콕%28모든공항%29"
-					+ "&dates="+vo.getDeparture_day()+"&dates="+vo.getComing_day()
-					+ "&cabinCls=Y&adtCnt="+vo.getPersonnel()+"&chdCnt=0&infCnt=0\r\n";
-			
-			//왕복일때
-		}else if (vo.getAirtype().equals("v2&tripType=1")) {
-			System.out.println("편도접근");
-			
-			vo.setDeparture_day(dateChange(departure_day)); //출발일 변환
-			
-			url= "https://www.whypaymore.co.kr/d/flt/intl/"
-					+ "sched-deals?appId=v2&tripType=1"
-					+ "&searchSource=P&depLocCodes=SEL&depLocNames=서울%28모든공항%29"
-					+ "&arrLocCodes=BKK&arrLocNames=방콕%28모든공항%29"
-					+ "&dates="+vo.getDeparture_day()+"&cabinCls=Y&adtCnt="+vo.getPersonnel()+"&chdCnt=0&infCnt=0";
-			//편도일때
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.out.println("insertHbooking 애러");
 		}
 		
-		System.out.println(url);
-		return url;
+		return num;
 	}
 	
 	
@@ -107,84 +120,66 @@ public class HotelAirDaoImpl implements HotelAirDao{
 	
 	
 	//호텔 리스트
-	@Override
-	public List<HotelVo> HselectList(HotelVo hotelVo) {
-		List<HotelVo> hotellist = new ArrayList<HotelVo>();
-		
-		//페이지 출력
-		System.out.println(hotelVo.getStartIndex() +":::"+ hotelVo.getEndIndex());
-		
-		//검색 옵션 출력
-		System.out.println("호텔명 : " + hotelVo.getH_Name());
-		System.out.println("최소가격 : " + hotelVo.getStt_Price());
-		System.out.println("최대가격 : " + hotelVo.getEnd_Price());
-		System.out.println("평점 : " + hotelVo.getH_Starn());
-		System.out.println("조식 : " + hotelVo.getHr_Breakfast());
-		
-		try {
-			hotellist = sqlSession.selectList(NAMESPACE+"HselectList", hotelVo);
-		}catch(Exception e) {
-			System.out.println("[error] : HselectList");
-			e.printStackTrace();
+		@Override
+		public List<HotelVo> HselectList(HotelVo hotelVo) {
+			List<HotelVo> hotellist = new ArrayList<HotelVo>();
+			
+			try {
+				hotellist = sqlSession.selectList(NAMESPACE+"HselectList", hotelVo);
+			}catch(Exception e) {
+				System.out.println("[error] : HselectList");
+				e.printStackTrace();
+			}
+			
+			return hotellist;
 		}
 		
-		return hotellist;
-	}
-	
-	//호텔 리스트 목록 개수
-	@Override
-	public int HselectListCnt(HotelVo hotelVo) {
-		int HselectListCnt = 0;
-		
-		try {
-			HselectListCnt = sqlSession.selectOne(NAMESPACE+"HselectListCnt", hotelVo);
-		}catch(Exception e) {
-			System.out.println("[error] : HselectList");
-			e.printStackTrace();
+		//호텔 리스트 목록 개수
+		@Override
+		public int HselectListCnt(HotelVo hotelVo) {
+			int HselectListCnt = 0;
+			
+			try {
+				HselectListCnt = sqlSession.selectOne(NAMESPACE+"HselectListCnt", hotelVo);
+			}catch(Exception e) {
+				System.out.println("[error] : HselectList");
+				e.printStackTrace();
+			}
+			
+			return HselectListCnt;
 		}
 		
-		return HselectListCnt;
-	}
-	
-	//호텔 디테일
+		//호텔 디테일
 
-	@Override
-	public HotelVo selectOne_B(String h_code) {
-		HotelVo vo = null;
-		
-		try {
-			vo = sqlSession.selectOne(NAMESPACE+"selectOne_B", h_code);
-			System.out.println("디테일");
-		} catch(Exception e) {
-			System.out.println("[error] : selectOne_B");
-			e.printStackTrace();
+		@Override
+		public HotelVo selectOne_B(String h_code) {
+			HotelVo vo = null;
+			
+			try {
+				vo = sqlSession.selectOne(NAMESPACE+"selectOne_B", h_code);
+			} catch(Exception e) {
+				System.out.println("[error] : selectOne_B");
+				e.printStackTrace();
+			}
+			
+			return vo;
 		}
 		
-		return vo;
-	}
-	
-	// 객실  
-	
-	@Override
-	public List<HotelVo> detailList_B(String h_code) {
-		List<HotelVo> list = new ArrayList<HotelVo>();
+		// 객실  
 		
-		try {
-			list = sqlSession.selectList(NAMESPACE+"detailList_B", h_code);
-			System.out.println("객실");
-		} catch(Exception e) {
-			System.out.println("[error] : detailList_B");
-			e.printStackTrace();
+		@Override
+		public List<HotelVo> detailList_B(String h_code) {
+			List<HotelVo> list = new ArrayList<HotelVo>();
+			
+			try {
+				list = sqlSession.selectList(NAMESPACE+"detailList_B", h_code);
+			} catch(Exception e) {
+				System.out.println("[error] : detailList_B");
+				e.printStackTrace();
+			}
+			
+			return list;
 		}
-		
-		return list;
-	}
 
-
-
-	
-	
-	
-	
 
 }

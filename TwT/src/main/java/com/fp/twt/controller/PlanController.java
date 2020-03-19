@@ -52,22 +52,15 @@ public class PlanController {
 	
 	@RequestMapping("/selectCity.do")
 	public String selectCity(Model model, HttpServletRequest request) {
-		// 도시변경
-		System.out.println("selectCity");
 		// city 모든 정보
 		List<CityVo> allCity = biz.selectCityAll();
 
 		// 해당하는 도시에 대한 Spot 정보
 		String citycode = request.getParameter("citycode");
-		System.out.println("controller에서 citycode : " + citycode);
 		List<TravelPointVo> cityspot = biz.selectCitySpot(citycode);// 도시별 spot 불러오기s
 
 		// 선택된 city 정보
 		CityVo cityvo = biz.selectCityOne(citycode);
-
-/*		System.out.println("allspot : " + allSpot);
-		System.out.println("위도 : " + allSpot.get(0).gettp_Lati());
-		System.out.println("경도 : " + allSpot.get(0).gettp_Long());*/
 
 		model.addAttribute("allCity", allCity);
 		model.addAttribute("allSpot", cityspot);
@@ -94,25 +87,16 @@ public class PlanController {
 	
 	@RequestMapping("planDetail.do")
 	public String planDetail(Model model, HttpServletRequest request) {
-		// Day1 추가해서 만들기
-		
-		
 		// city 모든 정보
 		List<CityVo> allCity = biz.selectCityAll();
 		
 		// spot 모든 정보
 		String citycode = request.getParameter("citycode");
-		System.out.println("controller에서 citycode : " + citycode);
 //		List<TravelPointVo> allSpot = biz.selectAllSpot();
 		List<TravelPointVo> cityspot = biz.selectCitySpot(citycode);// 도시별 spot 불러오기s
 		
 		// 선택된 city 정보
 		CityVo cityvo = biz.selectCityOne(citycode);
-		
-//		System.out.println("allspot : " + cityspot);
-		System.out.println("allcity : " + allCity);
-		System.out.println("위도 : " + cityspot.get(0).gettp_Lati());
-		System.out.println("경도 : " + cityspot.get(0).gettp_Long());
 		
 		model.addAttribute("allCity",allCity);
 		model.addAttribute("allSpot",cityspot);
@@ -130,8 +114,6 @@ public class PlanController {
       HashMap<String, Object> day_list = param.get("day_list"); // Day_List를 맵에 넣어줌
       HashMap<String, Object> form_data = param.get("form_data"); // form Data를 맵에 넣어줌
       
-      System.out.println("form_data : " + form_data);
-      System.out.println("day_list_obj : " + day_list);
       
       UUID uuid = UUID.randomUUID(); // 고유번호 만들어주기
       String user_code = (String) session.getAttribute("userCode"); //유저번호 가져오기
@@ -166,12 +148,8 @@ public class PlanController {
          Object select_day = day_list.get("day"+i);
          String select_day_str = select_day.toString();
          
-         System.out.println("Day"+ i + " toStirng : " + select_day_str);
-         
          select_day_str = select_day_str.replaceAll("\\{", "");
          select_day_str = select_day_str.replaceAll("\\}", "");
-         
-         System.out.println("Day"+ i + " toStirng replace : " + select_day_str);
          
          String[] day_arr =  select_day_str.split(",");
          
@@ -209,7 +187,6 @@ public class PlanController {
 	public String fileUpload(MultipartFile file, HttpServletRequest request) {
 		
 		// ------- file upload --------
-		System.out.println("fileName : " + file.getOriginalFilename());
 		String uuid = request.getParameter("file_name");
 		String real_name = uuid + "_" + file.getOriginalFilename();
 		
@@ -224,7 +201,5 @@ public class PlanController {
 		
 		return "redirect:/index.jsp";
 	}	
-
-	
 
 }

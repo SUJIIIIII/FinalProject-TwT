@@ -29,10 +29,13 @@ public class HotelVo extends PagingVo {
     private String hr_Breakfast; //조식
     private String hr_bed; 		//침대수
     private Date hr_Date; 		//날짜
+    
     private String stt_Price;		//시작금액
     private String end_Price;		//끝금액
-    private int Hotel_reservation;//예약수
+	
     private String min_Price;		//최저가
+    private String h_Starnn;      //목록 조회용 평점 
+
     
     public HotelVo() {
 		super();
@@ -41,8 +44,7 @@ public class HotelVo extends PagingVo {
 	public HotelVo(String h_Code, String city_Code, String h_Name, Double h_Lati, Double h_Long, String h_phone,
 			String h_Basicaddr, String h_Addr, String h_Img, String h_Content, int h_Starn, String h_Basiccontent,
 			String city_Name, String hr_Code, int hr_Standard, int hr_Max, int hr_Price, int hr_Valid, String hr_Rank,
-			String hr_Img, String hr_Wifi, String hr_Smoking, String hr_Breakfast, String hr_bed, Date hr_Date,
-			int hotel_reservation) {
+			String hr_Img, String hr_Wifi, String hr_Smoking, String hr_Breakfast, String hr_bed, Date hr_Date) {
 		super();
 		this.h_Code = h_Code;
 		this.city_Code = city_Code;
@@ -69,10 +71,7 @@ public class HotelVo extends PagingVo {
 		this.hr_Breakfast = hr_Breakfast;
 		this.hr_bed = hr_bed;
 		this.hr_Date = hr_Date;
-		Hotel_reservation = hotel_reservation;
 	}
-
-
 
 	public String getH_Code() {
 		return h_Code;
@@ -297,14 +296,14 @@ public class HotelVo extends PagingVo {
 	public void setMin_Price(String min_Price) {
 		this.min_Price = min_Price;
 	}
+
+	public String getH_Starnn() {
+		return h_Starnn;
+	}
+
+	public void setH_Starnn(String h_Starnn) {
+		this.h_Starnn = h_Starnn;
+	}
     
-	public int getHotel_reservation() {
-		return Hotel_reservation;
-	}
-
-	public void setHotel_reservation(int hotel_reservation) {
-		Hotel_reservation = hotel_reservation;
-	}
-
-
+    
 }

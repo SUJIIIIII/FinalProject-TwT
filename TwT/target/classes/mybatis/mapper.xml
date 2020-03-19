@@ -26,18 +26,22 @@
 	</resultMap>
 
 	<insert id="ansInsert_Y" parameterType="Answer">
-		INSERT INTO ANS
+		INSERT INTO COMMUNITY_ANS
 		VALUES('AS'||AS_SEQ.NEXTVAL, #{m_Code}, #{board_Code}, #{reple_Code},
 		#{ans_Content}, SYSDATE)
 	</insert>
 
 	<select id="ansList_Y" resultMap="AnswerMap"
 		parameterType="String">
-		SELECT * FROM ANS
+		SELECT * FROM COMMUNITY_ANS
 		WHERE BOARD_CODE = #{sr_Code}
 		ORDER BY ANS_DATE DESC
 	</select>
 
+	<delete id="ansDelete_Y" parameterType="String">
+		DELETE FROM COMMUNITY_ANS
+		WHERE ANS_CODE = #{ans_Code}
+	</delete>
 	<insert id="insertPotoBook_Y" parameterType="ScheduleReview">
 		INSERT INTO
 		SCHEDULEREVIEW
@@ -117,8 +121,8 @@
                <if test='h_Name != null and h_Name != ""'>
                	  AND hotel.H_NAME LIKE CONCAT('%', CONCAT(#{h_Name}, '%'))
                </if>
-               <if test='h_Starn != null and h_Starn != ""'>
-                  AND hotel.H_STARN IN (${h_Starn})
+               <if test='h_Starnn != null and h_Starnn != ""'>
+                  AND hotel.H_STARN IN (${h_Starnn})
                </if>
                <if test='hr_Breakfast != null and hr_Breakfast != ""'>
                   AND room.HR_BREAKFAST = #{hr_Breakfast}
@@ -190,6 +194,14 @@
 		FROM TRAVELSCHEDULE TS 
 		LEFT JOIN TWTMEMBER M ON (TS.M_CODE = M.M_CODE) 
 		WHERE TS.TS_THEME = #{ts_Theme}
+		ORDER BY TS_VIEW DESC, TS_DATE DESC
+	</select>
+	
+	<select id="relList_D" parameterType="String" resultType="TravelSchedule">
+		SELECT TS.TS_CODE, TS.M_CODE, TS.TP_CODE, TS.TS_TITLE, TS.TS_SDAY, TS.TS_THEME, TS.TS_PERIOD, TS.TS_PEOPLE, TS.TS_THUM, TS.TS_DATE, TS.TS_VIEW, M.M_NAME
+		FROM TRAVELSCHEDULE TS 
+		LEFT JOIN TWTMEMBER M ON (TS.M_CODE = M.M_CODE) 
+		WHERE TS.TS_THEME = #{ts_Theme} AND TS.TS_CODE != #{ts_Code}
 		ORDER BY TS_VIEW DESC, TS_DATE DESC
 	</select>
 	
@@ -449,6 +461,10 @@
 		SET H_BOOKCNT = H_BOOKCNT+1 
 		WHERE H_NAME = #{hotelname}
 	</update>
+	
+	<insert id="reservation_insert" parameterType="HotelReservation">
+		 INSERT INTO HBOOKING VALUES('HB'||HB_SEQ.NEXTVAL,#{m_code},#{reservation_hr_code},#{reservation_h_code},#{checkin_date},#{checkout_date},#{hb_check},#{hb_people},#{reservation_name},SYSDATE)
+    </insert>
 	
 
 

@@ -64,7 +64,15 @@
 	.destination{
 	height:471.400px;
 	}
-	
+	.destination .text h3 a {
+    font-size: 16px;
+	}
+	.destination .text .two .per-price {
+    font-size: 18px;
+	}
+	.destination .text .bottom-area span {
+    font-size: 13px;
+	}
     </style>
     
     <script type="text/javascript">
@@ -84,7 +92,7 @@
 
 			chkStar = chkStar.slice(0,-1)
 			
-			$("#h_Starn").val(chkStar);
+			$("#h_Starnn").val(chkStar);
 			$("#stt_Price").val($("#value1").html())
 			$("#end_Price").val($("#value2").html())
 			
@@ -112,11 +120,12 @@
    	</script>
    	
    	 <!------------------------------------------------------------  검색창           ----------------------------------------------------- -->
+   	 
     <section class="ftco-section ftco-degree-bg">
       <div class="container">
         <div class="row">
         	<div class="col-lg-3 sidebar" id="searchType">
-        	   <form id="searchForm" action="./hotel.do" method="get" >
+        	   <form id="searchForm" action="./hotel.do" method="post" >
         		<div class="sidebar-wrap bg-light ftco-animate">
         			<h3 class="heading mb-4">호텔 검색</h3>
         				<div class="fields">
@@ -158,8 +167,8 @@
 						</div>			
 		              </div>
 		               <div class="form-group">
-		               <p class="rate">호텔 등급</p>
-						<input type="hidden" id="h_Starn" name="h_Starn"/>
+		               <p class="rate">호텔 평점</p>
+						<input type="hidden" id="h_Starnn" name="h_Starnn"/>
 							  <div class="form-check">
 									<input type="checkbox" class="form-check-input" id="exampleCheck5" value="5">
 									<label class="form-check-label" for="exampleCheck1">
@@ -237,7 +246,7 @@
 			    							<span class="price per-price" style="margin: -7px;">₩&nbsp;<fmt:formatNumber value="${HotelVo.min_Price}" pattern="#,###" /><br><a style="font-size: 16px;">/ 1박</a></span>
 		    							</div>
 		    						</div>
-		    						<p style="width:216px; height:85px;">${HotelVo.h_Basiccontent}</p>
+		    						<p style="width:216px; height:85px; font-size:13px;">${HotelVo.h_Basiccontent}</p>
 		    						<hr>
 		    						<p class="bottom-area d-flex">
 		    							<span><i class="icon-map-o"></i>&nbsp;&nbsp;${HotelVo.h_Basicaddr}</span> 
@@ -255,7 +264,6 @@
 			        </c:otherwise>
 			        </c:choose>
           	</div>
-
 		    			<!-- -------------------------------------------- 페이징 -------------------------------------------- -->
 		    			
 		    			

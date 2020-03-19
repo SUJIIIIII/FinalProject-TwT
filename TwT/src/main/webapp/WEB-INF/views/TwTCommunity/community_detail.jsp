@@ -2,6 +2,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
     <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+    <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %> 
 	<% MemberVo vo = (MemberVo)session.getAttribute("user"); %>
 <!DOCTYPE html>
 <html lang="en">
@@ -83,6 +84,99 @@ function fList(ts_Code){
 	function login(){
 		alert("로그인이 필요합니다.");
 		location.href="login.do";
+	}
+	
+	function ansdelete(ans_Code, board_Code){
+		$.ajax({
+			type : "post",
+			url : "ansDelete.do?ans_Code="+ans_Code+"&board_Code="+board_Code,
+			dataType : "json",
+			success : function(data){
+				$("#message").val("");
+				var html = "";
+				var count = "";
+				if(data.list.length > 0){
+				$.each(data.list, function(index, val){
+					count++;
+					html += '<li class="comment">';
+					html += '<div class="vcard bio">';
+					html += '</div>';
+					html += '<div class="comment-body">';
+					html += '<div class="meta">'+val.reple_Code+'</div>';
+					html += '<h3>'+val.m_Code+'</h3>';
+					html += '<h4>'+val.ans_Content+'</h4>';
+					html += '<p><a onclick="ansdelete(\''+val.ans_Code+'\',\''+val.board_Code+'\')" class="reply">삭제</a></p>';
+					html += '</div>';
+					html += '</li>';
+					$("#ansList").html(html);
+				});
+					$("#comments").html(count+" Comments");				
+				} else {
+					$("#comments").remove();
+					$("#ansList").html("");
+				}
+ 			},
+			error : function(){
+				alert("실패");
+			}
+		});
+	}
+	
+	function ansfunc(){
+		if($("#message").val() == ""){
+			alert("내용을 입력하세요.");
+		} else {
+		var formData = $("#ansform").serialize();
+		$.ajax({
+			data : formData,
+			type : "post",
+			url : "ansInsert.do",
+			dataType : "json",
+			success : function(data){
+				$("#message").val("");
+				var html = "";
+				var count = "";
+				
+				if(data.list.length == 1){
+					count++;
+					html += '<h3 id="comments" class="mb-5">'+count+' Comments</h3>';
+					html += '<ul class="comment-list" id="ansList">';
+					html += '<li class="comment">';
+					html += '<div class="vcard bio">';
+					html += '</div>';
+					html += '<div class="comment-body">';
+					html += '<div class="meta">'+data.list[0].reple_Code+'</div>';
+					html += '<h3>'+data.list[0].m_Code+'</h3>';
+					html += '<h4>'+data.list[0].ans_Content+'</h4>';
+					html += '<p><a onclick="ansdelete(\''+data.list[0].ans_Code+'\',\''+data.list[0].board_Code+'\')" class="reply">삭제</a></p>';
+					html += '</div>';
+					html += '</li>';
+					html += '</ul>';
+					$("#test").prepend(html);
+				} else {
+					$.each(data.list, function(index, val){
+						count++;
+						html += '<li class="comment">';
+						html += '<div class="vcard bio">';
+						html += '</div>';
+						html += '<div class="comment-body">';
+						html += '<div class="meta">'+val.reple_Code+'</div>';
+						html += '<h3>'+val.m_Code+'</h3>';
+						html += '<h4>'+val.ans_Content+'</h4>';
+						html += '<p><a onclick="ansdelete(\''+val.ans_Code+'\',\''+val.board_Code+'\')" class="reply">삭제</a></p>';
+						html += '</div>';
+						html += '</li>';
+						$("#ansList").html(html);
+					});
+						$("#comments").html(count+" Comments");
+				};
+ 			},
+			error : function(){
+				alert("실패");
+			}
+		});
+		}
+		 
 	}
 </script>
 
@@ -267,48 +361,46 @@ function fList(ts_Code){
   </div>
             
             <!-- 댓글  -->
-            <div class="pt-5 mt-5">
-              <h3 class="mb-5">6 Comments</h3>
-              <ul class="comment-list">
+          <div class="col-md-8 ftco-animate" style="margin-right: 190px;">
+            <div class="pt-5 mt-5" id="test">
+            <c:if test="${not empty anslist }">
+              <h3 id="comments" class="mb-5">${anslist.size()} Comments</h3>
+              <ul class="comment-list" id="ansList">
+            	<c:forEach items="${anslist }" var="list">
                 <li class="comment">
                   <div class="vcard bio">
                   </div>
                   <div class="comment-body">
-                    <h3>${detail.m_Name }</h3>
-                    <div class="meta">June 27, 2018 at 2:21pm</div>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Pariatur quidem laborum necessitatibus, ipsam impedit vitae autem, eum officia, fugiat saepe enim sapiente iste iure! Quam voluptas earum impedit necessitatibus, nihil?</p>
-                    <p><a href="#" class="reply">Reply</a></p>
+                    <div class="meta"><fmt:formatDate pattern="MM-dd HH:mm" value="${list.ans_Date }"/></div>
+                    <h3>${list.m_Code }</h3> 
+                    <h4>${list.ans_Content }</h4>
+                    <c:if test="${list.m_Code eq member.m_Id}">
+                    <p><a onclick="ansdelete('${list.ans_Code}','${list.board_Code }');" class="reply">삭제</a></p>
+                    </c:if>
                   </div>
                 </li>
-
-                <li class="comment">
-                  <div class="vcard bio">
-                  </div>
-                  <div class="comment-body">
-                    <h3>${detail.m_Name }</h3>
-                    <div class="meta">June 27, 2018 at 2:21pm</div>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Pariatur quidem laborum necessitatibus, ipsam impedit vitae autem, eum officia, fugiat saepe enim sapiente iste iure! Quam voluptas earum impedit necessitatibus, nihil?</p>
-                    <p><a href="#" class="reply">Reply</a></p>
-                  </div>
-
+                </c:forEach>
               </ul>
+              </c:if>
               <!-- END comment-list -->
-              
+              <c:if test="${not empty user.m_Id }">
               <div class="comment-form-wrap pt-5">
-                <h3 class="mb-5">Leave a comment</h3>
-                <form action="#" class="p-5 bg-light" style="margin-bottom:50px; ">
-
+                <h3 class="mb-5" style="margin-bottom: 0px;">&nbsp;Leave a comment</h3>
+                <form id="ansform" method="post" class="p-5 bg-light" style="margin-bottom:50px; width: 750px;">
+                <input type="hidden" name="m_Code" value="${user.m_Id }"/>
+                <input type="hidden" name="board_Code" value="${detail.ts_Code }"/>
                   <div class="form-group">
                     <label for="message">Content</label>
-                    <textarea name="" id="message" cols="60" rows="5" class="form-control"></textarea>
+                    <textarea name="ans_Content" id="message" cols="60" rows="5" class="form-control"></textarea>
                   </div>
-                  <div class="form-group" style="margin-left: 510px;">
-                    <input type="submit" value="Post Comment" class="btn py-3 px-4 btn-primary subc">
+                  <div class="form-group" align="right">
+                    <input type="button" value="Post Comment" onclick="ansfunc();" class="btn py-3 px-4 btn-primary subc">
                   </div>
-
                 </form>
               </div>
+              </c:if>	
             </div>
+          </div> 
 
           </div> 
           
@@ -316,22 +408,27 @@ function fList(ts_Code){
           <div class="col-md-4 sidebar ftco-animate">
 
             <div class="sidebar-box ftco-animate">
-            
+            <c:choose>
+            <c:when test="${fn:length(relList) > '1'}">
               <h3><i class="fas fa-clipboard-list"></i> Relation Post</h3>
-              <c:forEach items="${themeList}" var="theme" varStatus="status" begin="0" end="2" >
-              	<c:if test="${detail.ts_Code != theme.ts_Code}">
-		             <div class="block-21 mb-4 d-flex">
-		               <a href="communityDetail.do?ts_code=${theme.ts_Code }" class="blog-img mr-4" style="background-image: url(${pageContext.request.contextPath}/resources/images/thumbnail/${theme.ts_Thum});"></a>
+            </c:when>
+              <c:otherwise>
+              <i class="fas fa-clipboard-list"></i>&nbsp;연관된 일정이 없습니다.
+              </c:otherwise>
+            </c:choose>
+              <c:forEach items="${relList}" var="rel" varStatus="status" begin="0" end="2" >
+              
+              <div class="block-21 mb-4 d-flex">
+		               <a href="communityDetail.do?ts_code=${rel.ts_Code }" class="blog-img mr-4" style="background-image: url(${pageContext.request.contextPath}/resources/images/plan/thumbnail/${rel.ts_Thum});"></a>
 		               <div class="text">
-		                 <h3 class="heading"><a href="communityDetail.do?ts_code=${theme.ts_Code }">${theme.ts_Title }</a></h3>
+		                 <h3 class="heading"><a href="communityDetail.do?ts_code=${rel.ts_Code }">${rel.ts_Title }</a></h3>
 		                 <div class="meta">
-		                   <div><i class="fa fa-calendar"></i> ${theme.ts_Sday }</div>
-		                   <div><i class="fas fa-user"></i> ${theme.m_Name }</div>
-		                   <div><i class="far fa-eye far-2x"></i> ${theme.ts_View }</div>
+		                   <div><i class="fa fa-calendar"></i> ${rel.ts_Sday }</div>
+		                   <div><i class="fas fa-user"></i> ${rel.m_Name }</div>
+		                   <div><i class="far fa-eye far-2x"></i> ${rel.ts_View }</div>
 		                 </div>
 		               </div>
 		            </div>
-		         </c:if>
            	</c:forEach>
 
             <div class="sidebar-box ftco-animate">
@@ -344,6 +441,7 @@ function fList(ts_Code){
           </div>
 
         </div>
+      </div>
       </div>
     </section> <!-- .section -->
 
