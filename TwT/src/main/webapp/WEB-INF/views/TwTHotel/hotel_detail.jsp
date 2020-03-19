@@ -387,6 +387,9 @@ src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCiDE5HBue4mflsdkcsGvSZrUe
   
           		</div>
           		
+          		<!-- 위치 지도 시작 -->
+          		<div id="map" style="height: 657px; position: relative; width: 1111px; overflow: hidden; bottom:2px;"></div>
+          		<!-- 위치 지도 끝 -->
           		
           		<!-- 보유객실 정보 시작 -->
           		<div class="col-md-12 hotel-single ftco-animate mb-5 mt-4">
@@ -451,9 +454,7 @@ src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCiDE5HBue4mflsdkcsGvSZrUe
           		
           		<!-- 보유객실 정보 끝 -->
           		
-          		<!-- 위치 지도 시작 -->
-          		<div id="map" style="height: 657px; position: relative; width: 1111px; overflow: hidden; bottom:2px;"></div>
-          		<!-- 위치 지도 끝 -->
+          		
           		
           		<!-- 예약 시작 -->
           		
