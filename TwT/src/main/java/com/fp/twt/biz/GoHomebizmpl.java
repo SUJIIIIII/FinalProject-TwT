@@ -18,19 +18,16 @@ public class GoHomebizmpl implements GoHomebiz {
 	
 	@Override
 	public List<HotelVo> hotelRanking() {
-		System.out.println("hotelRanking 비즈 진입");
 		return dao.hotelRanking();
 	}
 
 	@Override
 	public List<TravelScheduleVo> PlanRanking() {
-		System.out.println("PlanRanking 비즈 진입");
 		return dao.PlanRanking();
 	}
 
 	@Override
 	public List<TravelPointVo> DestinationRanking() {
-		System.out.println("DestinationRanking 비즈 진입");
 		return dao.DestinationRanking();
 	}
 

@@ -37,13 +37,6 @@ public class HotelAirController {
 		logger.info("SELECT AIR");
 		
 		model.addAttribute("url", biz.airSearch(vo));
-		/*
-		 * System.out.println(vo.getAirtype()); System.out.println(vo.getComing_day());
-		 * System.out.println(vo.getDeparture_day());
-		 * System.out.println(vo.getDestination());
-		 * System.out.println(vo.getPersonnel());
-		 * System.out.println(vo.getStarting_point());
-		 */
 		
 		return "TwTFlight/flight_list";
 	}
@@ -54,8 +47,6 @@ public class HotelAirController {
 		logger.info("insert con");
 
 		//String hotelname = request.getParameter("hotelname");
-		System.out.println("호텔이름"+hotelname);
-		System.out.println(vo);
 		biz.success(hotelname);
 		int res = biz.insertHbooking(vo);
 		
@@ -107,7 +98,6 @@ public class HotelAirController {
 		logger.info("SELECT ONE");
 		
 		String h_code = request.getParameter("h_Code");
-		System.out.println("컨트롤러 h_code : " + h_code);
 		
 		
 		model.addAttribute("hvo",biz.selectOne_B(h_code));
@@ -115,16 +105,6 @@ public class HotelAirController {
 		
 		return "TwTHotel/hotel_detail";
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	
 
 }

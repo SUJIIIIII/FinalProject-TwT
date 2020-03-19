@@ -64,7 +64,15 @@
 	.destination{
 	height:471.400px;
 	}
-	
+	.destination .text h3 a {
+    font-size: 16px;
+	}
+	.destination .text .two .per-price {
+    font-size: 18px;
+	}
+	.destination .text .bottom-area span {
+    font-size: 13px;
+	}
     </style>
     
     <script type="text/javascript">
@@ -238,7 +246,7 @@
 			    							<span class="price per-price" style="margin: -7px;">₩&nbsp;<fmt:formatNumber value="${HotelVo.min_Price}" pattern="#,###" /><br><a style="font-size: 16px;">/ 1박</a></span>
 		    							</div>
 		    						</div>
-		    						<p style="width:216px; height:85px;">${HotelVo.h_Basiccontent}</p>
+		    						<p style="width:216px; height:85px; font-size:13px;">${HotelVo.h_Basiccontent}</p>
 		    						<hr>
 		    						<p class="bottom-area d-flex">
 		    							<span><i class="icon-map-o"></i>&nbsp;&nbsp;${HotelVo.h_Basicaddr}</span> 

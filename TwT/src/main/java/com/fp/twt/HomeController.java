@@ -94,7 +94,6 @@ public class HomeController {
 	public String mypage(Model model, HttpSession session) {
 		MemberVo user = (MemberVo) session.getAttribute("user");
 		String m_Code = user.getm_Code();
-		System.out.println("Mcode : "+m_Code);
 		
 		// 항공권 리스트 조회
 		model.addAttribute("airlist", biz.selectAirList(m_Code));
@@ -123,13 +122,11 @@ public class HomeController {
 
 		// 네이버 아이디로 인증 URL을 생성하기 위해 naverLoginBo클래스의 getAuthorizationURL메소드 호출
 		String naverAuthUrl = naverLoginBO.getAuthorizationUrl(session);
-		System.out.println("네이버 : " + naverAuthUrl);
 		model.addAttribute("url", naverAuthUrl);
 
 		// 구글 코드 발행
 		OAuth2Operations oauthOperations = googleConnectionFactory.getOAuthOperations();
 		String googleUrl = oauthOperations.buildAuthorizeUrl(GrantType.AUTHORIZATION_CODE, googleOAuth2Parameters);
-		System.out.println("구글:" + googleUrl);
 		model.addAttribute("googleUrl", googleUrl);
 
 		return "TwTAccount/login";
