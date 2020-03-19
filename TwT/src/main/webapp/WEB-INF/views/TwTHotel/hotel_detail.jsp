@@ -112,7 +112,6 @@ var map;
 		var res = checkout_date.getDate() - checkin_date.getDate();
 		
 		
-		
 		var reservation_price2 = $("#reservation_price").val();
 				
 		var rs = res * removeComma(reservation_price2);
@@ -125,7 +124,6 @@ var map;
 		
 		$("#button_1").hide();//버튼 가리기
 		
-		//return rs;
 		
 	}
 	
@@ -495,7 +493,7 @@ src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCiDE5HBue4mflsdkcsGvSZrUe
 				            
 				             <div class="col-md-12">
 				              <div id="button_1" class="form-group">		
-				              <input value="금액 확인"  onclick="price1();"  class="btn btn-primary py-3">		              
+				              <input type="button" value="금액 확인"  onclick="price1();"  class="btn btn-primary py-3">		              
 				              </div>
 			              </div>
 				            
