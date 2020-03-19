@@ -157,7 +157,7 @@ public class PlanController {
             String day_spot_num = day_arr[j].split("=")[1];
             System.out.println(day_spot_num);
             String day_spot_num_TP = day_spot_num.split("/")[0];
-            int day_spot_num_budget = Integer.parseInt(day_spot_num.split("/")[1]);
+            String day_spot_num_budget = day_spot_num.split("/")[1];
             String day_spot_num_memo = day_spot_num.split("/")[2];
         
             tsd_vo.settp_Code(day_spot_num_TP);
