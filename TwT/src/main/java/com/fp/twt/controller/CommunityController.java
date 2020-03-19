@@ -392,7 +392,7 @@ public class CommunityController {
 			
 			
 			for(int i=0; i<list.size(); i++) {
-				System.out.println("메모 값 : " + list.get(i).getSm_Memo());
+				System.out.println("메모 값 : " + list.get(i).getTs_Memo());
 			}
 		} else if(member == null) {	// 로그인이 안돼있을 시 찜 여부 제거
 			model.addAttribute("detail", biz.selectOne_D(ts_code));
@@ -410,7 +410,7 @@ public class CommunityController {
 			TravelScheduleVo vo = biz.selectOne_D(ts_code);
 			model.addAttribute("themeList", biz.themeList(vo.getts_Theme()));
 			for(int i=0; i<list.size(); i++) {
-				System.out.println("메모 값 : " + list.get(i).getSm_Memo());
+				System.out.println("메모 값 : " + list.get(i).getTs_Memo());
 			}
 		}
 		return "TwTCommunity/community_detail"; 

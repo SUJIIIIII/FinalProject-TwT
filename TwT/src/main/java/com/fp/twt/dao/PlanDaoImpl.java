@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 
 import com.fp.twt.vo.CityVo;
 import com.fp.twt.vo.TravelPointVo;
+import com.fp.twt.vo.TravelScheduleDayVo;
 import com.fp.twt.vo.TravelScheduleVo;
 
 @Repository
@@ -42,11 +43,11 @@ public class PlanDaoImpl implements PlanDao{
 	}
 	
 	@Override
-	public int insertScheduleDay(TravelScheduleVo ts_vo) {
+	public int insertScheduleDay(TravelScheduleDayVo tsd_vo) {
 		int res = 0;
 		
 		try {
-			res = sqlSession.insert(NAMESPACE + "insertscheduleday", ts_vo);
+			res = sqlSession.insert(NAMESPACE + "insertscheduleday", tsd_vo);
 		} catch(Exception e) {
 			e.printStackTrace();
 			System.out.println("scheduleday insert 오류!");

@@ -245,14 +245,14 @@ function fList(ts_Code){
           </div>
           
           <div class="timeline-content">
-          <i class="fas fa-won-sign" style="font-size: 12px;">${dList.sm_Money }</i>
+          <i class="fas fa-won-sign" style="font-size: 12px;">${dList.ts_Money }</i>
           <br>
           ${dList.tp_Content }
           </div>
           
-          <c:if test="${dList.sm_Memo ne null }">
+          <c:if test="${dList.ts_Memo ne null }">
           <div class="timeline-footer" id="timeline-footer">
-            <i class="far fa-file-alt fas-2x" id="far fa-file-alt"></i><small class="text-muted" id="text-muted"> ${dList.sm_Memo }</small>
+            <i class="far fa-file-alt fas-2x" id="far fa-file-alt"></i><small class="text-muted" id="text-muted"> ${dList.ts_Memo }</small>
           </div>
           </c:if>
         </div>

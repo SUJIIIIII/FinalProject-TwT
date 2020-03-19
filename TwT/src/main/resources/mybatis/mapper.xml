@@ -167,12 +167,11 @@
 
 	<!-- 디테일 리스트 -->
 	<select id="detailList_D" parameterType="String" resultType="TravelSchedule">
-		SELECT TS.TS_CODE, TS.M_CODE, TD.TP_CODE, M.M_ID, TD.TS_DAY, TP.TP_NAME, TP.TP_CONTENT, TP.CITY_CODE, TP.TP_IMG, TP.TP_TYPE, SM.SM_MEMO, SM.SM_MONEY
+		SELECT TS.TS_CODE, TS.M_CODE, TD.TP_CODE, M.M_ID, TD.TS_DAY, TD.TS_MEMO, TD.TS_MONEY,TP.TP_NAME, TP.TP_CONTENT, TP.CITY_CODE, TP.TP_IMG, TP.TP_TYPE
 		FROM TRAVELSCHEDULE TS
 		LEFT JOIN TWTMEMBER M ON (TS.M_CODE = M.M_CODE)
 		LEFT JOIN TRAVELSCHEDULE_DAY TD ON(TS.TS_CODE = TD.TS_CODE)
 		LEFT JOIN TRAVELPOINT TP ON(TD.TP_CODE = TP.TP_CODE)
-		LEFT JOIN SCHEDULEMEMO SM ON(TS.TS_CODE = SM.TS_CODE AND TP.TP_CODE = SM.TP_CODE)
 		WHERE TS.TS_CODE = #{ts_Code}
 		ORDER BY TD.TS_DAY ASC
 	</select>
@@ -487,10 +486,10 @@
 		</selectKey>
 	</insert>
 	<!-- scheduleday 추가하기 -->
-	<insert id="insertscheduleday" parameterType="TravelSchedule">
+	<insert id="insertscheduleday" parameterType="TravelScheduleDay">
 		INSERT INTO
 		TRAVELSCHEDULE_DAY
-		VALUES(#{ts_Day}, #{ts_Code}, #{tp_Code})
+		VALUES(#{ts_Day}, #{ts_Code}, #{tp_Code}, #{ts_Memo}, #{ts_Money})
 	</insert>
 
 
