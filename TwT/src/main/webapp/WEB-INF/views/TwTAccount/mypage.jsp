@@ -978,6 +978,7 @@ html {
 					</div>
 					
 					<div class="modal-body">
+					       <input type="hidden" name="air_Code" value="${air.air_Code}">
 						       출국지: <input type="text" name="dep_Loca1" value="${air.dep_Loca1}"><br>
 						       출국 도착지 : <input type="text" name="dep_Loca2" value="${air.dep_Loca2}"><br>
 						       출국날짜 : <input type="text" name="dep_Date1" value="${air.dep_Date1}" id="Start_date3"><br>
@@ -1299,7 +1300,7 @@ html {
 						</div>
 
 						<div style="float: left; display: inline; font-size: 11px; margin-left: 40px;">
-							<b>${route.ts_Sday} ~ ${route.ts_Period}DAYS</b>
+							<b>${route.ts_Sday}~${route.ts_Period}DAYS</b>
 						</div>
 					</div>
 					</c:forEach>
