@@ -129,6 +129,9 @@
 	.mb-4, .my-4 {
     margin-bottom: 0rem !important;
 	}
+	.blog-entry .text .heading {
+    font-size: 18px;
+	}
     </style>
 </head>
 <body id="body">
