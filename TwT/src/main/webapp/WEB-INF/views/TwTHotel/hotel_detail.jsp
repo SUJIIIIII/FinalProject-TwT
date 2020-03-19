@@ -134,6 +134,26 @@ var map;
     		});
     		
     	}
+    	
+    	//검색
+		function f_submit() {
+			var form = document.getElementById("searchForm")
+			var chkStar = "";
+			
+			for(var i=1; i<=5; i++) {
+				if($("#exampleCheck"+i).is(":checked")) {
+					chkStar = chkStar + "\'" + $("#exampleCheck"+i).val() + "\'\,";
+				}
+			}
+
+			chkStar = chkStar.slice(0,-1)
+			
+			$("#h_Starnn").val(chkStar);
+			$("#stt_Price").val($("#value1").html())
+			$("#end_Price").val($("#value2").html())
+			
+			form.submit();
+		}
 	
 </script>
 <!-- 구글맵 API KEY -->
@@ -157,24 +177,7 @@ src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCiDE5HBue4mflsdkcsGvSZrUe
 	      $(".bread").text('Hotel');
 	   	});
 	    
-		function f_submit() {
-			var form = document.getElementById("searchForm")
-			var chkStar = "";
-			
-			for(var i=1; i<=5; i++) {
-				if($("#exampleCheck"+i).is(":checked")) {
-					chkStar = chkStar + "\'" + $("#exampleCheck"+i).val() + "\'\,";
-				}
-			}
 
-			chkStar = chkStar.slice(0,-1)
-			
-			$("#h_Starn").val(chkStar);
-			$("#stt_Price").val($("#value1").html())
-			$("#end_Price").val($("#value2").html())
-			
-			form.submit();
-		}
    	</script>
    	
 	
@@ -227,7 +230,7 @@ src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCiDE5HBue4mflsdkcsGvSZrUe
 		              </div>
 		               <div class="form-group">
 		               <p class="rate">호텔 등급</p>
-						<input type="hidden" id="h_Starn" name="h_Starn"/>
+						<input type="hidden" id="h_Starnn" name="h_Starnn"/>
 							  <div class="form-check">
 									<input type="checkbox" class="form-check-input" id="exampleCheck5" value="5">
 									<label class="form-check-label" for="exampleCheck1">
