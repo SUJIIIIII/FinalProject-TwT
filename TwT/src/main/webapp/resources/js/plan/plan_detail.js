@@ -1,4 +1,4 @@
-$(document).ready(function() {
+﻿$(document).ready(function() {
    // Day1 세션 스토리지 기본 생성
    var spot_obj = JSON.parse(sessionStorage.getItem("Day1"));
    var city_name = $(".list_title").children("span").text(); // 현재 선택된 도시명 가져오기
@@ -239,6 +239,7 @@ $(document).ready(function(){
 
       if($(this).hasClass("on")){
          var type = $(this).data("type");
+
          var name_num = $(".list_box").children(".day_spot_item").length; // 전체 검색 시 가져올 것들 갯수
 
          for(i = 0; i < name_num + 1; i++){
@@ -468,11 +469,17 @@ function day_edit_start(){
 //Day 수정 완료
 function day_edit_com(){
    $('#overlay_day_edit').hide();
+   
+   var set_new_Sdate = $(".start_date").text();
+   $("#datepick_input").val(set_new_Sdate); // 날짜 재설정
+   var city_code = $(".city_item").data("code");
+   var title = $("#plan_title").text();
+   
 
    // 완료 클릭시 전체 날짜 변경
    set_storage_schedule();
-   // location reload 안하고 할 수 있는 방법 찾아보기
-   location.reload();
+   // 날짜 변경
+   location.href="http://localhost:8787/twt/planDetail.do?schedule_date=" + set_new_Sdate + "&citycode=" + city_code+ "&title= " + title;
 }
 
 //날짜 요일 변환 함수
@@ -890,47 +897,68 @@ function reorder() {
 
 
 // 파일 업로드 
-function insertPlan(){         
-   var total_obj = new Object();
-   var form_arr = $("#form").serializeObject();
-   
-   var form_data = new Object(); // form 데이터 
-   var day_list = new Object();   
-   
+function insertPlan(){			
+	var total_obj = new Object();
+	var form_arr = $("#form").serializeObject();
+	
+	var form_data = new Object(); // form 데이터 
+	var day_list = new Object();	
+	
 
-   for(var i=1;i<=$(".day_menu").length;i++){
-      var spot_obj = JSON.parse(sessionStorage.getItem("Day"+i));
-      var spot_code = new Object();
-      
-      for(var j=1; j<= Object.keys(spot_obj).length; j++){
-         spot_code['index' + j] = spot_obj['index' + j][2];
-      }
-      
-      day_list['day'+i] = spot_code;
-   }
-   
-   total_obj['form_data'] = form_arr;
-   total_obj['day_list'] = day_list; 
-   console.log(JSON.stringify(total_obj));
-   
-    $.ajax({
-      type : "POST",
-      url : "insertPlan.do",
-      data : JSON.stringify(total_obj),
-      dataType : "json",
-      contentType : "application/json",
-      processData : false,
-      success : function(result){
-         $("#file_name").val(result.file_name);
-         
-         $("#form").submit();
-         
-      },
-      erorr : function(request,status,error){
-          alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
-      }
-   
-   });
+	for(var i=1;i<=$(".day_menu").length;i++){
+		var spot_obj = JSON.parse(sessionStorage.getItem("Day"+i));
+		var spot_code = new Object();
+		
+		for(var j=1; j<= Object.keys(spot_obj).length; j++){
+			spot_code['index' + j] = spot_obj['index' + j][2] + "/" + spot_obj['index'+ j][7] + "/" + spot_obj['index'+j][8];
+		}
+		
+		day_list['day'+i] = spot_code;
+	}
+	
+	total_obj['form_data'] = form_arr;
+	total_obj['day_list'] = day_list;
+	
+	console.log(JSON.stringify(total_obj));
+	
+ 	$.ajax({
+		type : "POST",
+		url : "insertPlan.do",
+		data : JSON.stringify(total_obj),
+		dataType : "json",
+		contentType : "application/json",
+		processData : false,
+		success : function(result){
+			$("#file_name").val(result.file_name);
+			
+			$("#form").submit();
+			
+/*			var form_val = $("#form");
+			var send_form = new FormData(form_val);
+			alert(form_val + " , " + send_form);
+			
+			// file ajax
+			$.ajax({
+				type : "POST",
+				url : "fileUpload.do",
+				data : send_form,
+				processData : false,
+				contenType : false,
+				success : function() {
+					alert("성공")
+				},
+				erorr : function(request,status,error){
+					 alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+				}
+			}); // file_ajax end
+*/			
+		},
+		erorr : function(request,status,error){
+			 alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+		}
+	
+	});
+
 }
 
 jQuery.fn.serializeObject = function() {

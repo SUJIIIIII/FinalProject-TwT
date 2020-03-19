@@ -1,4 +1,4 @@
-package com.fp.twt.controller;
+﻿package com.fp.twt.controller;
 
 import java.io.File;
 
@@ -453,6 +453,7 @@ public class CommunityController {
 			
 			
 			
+
 		} else if(member == null) {	// 로그인이 안돼있을 시 찜 여부 제거
 			model.addAttribute("detail", biz.selectOne_D(ts_code));
 			
@@ -467,6 +468,7 @@ public class CommunityController {
 			model.addAttribute("dayList", dayList);
 		
 			TravelScheduleVo vo = biz.selectOne_D(ts_code);
+
 			model.addAttribute("relList", biz.relList(vo.getts_Theme(),vo.getts_Code()));
 		}
 		

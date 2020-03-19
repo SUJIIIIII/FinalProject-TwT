@@ -33,6 +33,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.fp.twt.biz.PlanBiz;
 import com.fp.twt.vo.CityVo;
 import com.fp.twt.vo.TravelPointVo;
+import com.fp.twt.vo.TravelScheduleDayVo;
 import com.fp.twt.vo.TravelScheduleVo;
 
 
@@ -124,6 +125,7 @@ public class PlanController {
       String pn_type = (String) form_data.get("pn_type").toString();
       int pn_period = day_list.size(); 
       
+      TravelScheduleDayVo tsd_vo = new TravelScheduleDayVo();
       TravelScheduleVo ts_vo = new TravelScheduleVo(); // vo에 정보 담아주기
       ts_vo.setm_Code(user_code);
       ts_vo.setts_Thum(file_name);
@@ -150,13 +152,24 @@ public class PlanController {
          select_day_str = select_day_str.replaceAll("\\}", "");
          
          String[] day_arr =  select_day_str.split(",");
+         
          for (int j = 0; j < day_arr.length; j++) {
             String day_spot_num = day_arr[j].split("=")[1];
-            ts_vo.settp_Code(day_spot_num);
-            ts_vo.setTs_Day("DAY"+i);
-            ts_vo.setts_Code(ts_code);
+            System.out.println(day_spot_num);
+            String day_spot_num_TP = day_spot_num.split("/")[0];
+            int day_spot_num_budget = Integer.parseInt(day_spot_num.split("/")[1]);
+            String day_spot_num_memo = day_spot_num.split("/")[2];
+        
+            tsd_vo.settp_Code(day_spot_num_TP);
+            tsd_vo.setts_Day("DAY"+i);
+            tsd_vo.setts_Code(ts_code);
+            tsd_vo.setts_Memo(day_spot_num_memo);
+            tsd_vo.setts_Money(day_spot_num_budget);
             
-            int res2 = biz.insertScheduleDay(ts_vo); 
+            System.out.println("===================================");
+            System.out.println(tsd_vo.gettp_Code() + tsd_vo.getts_Code() + tsd_vo.getts_Day() + tsd_vo.getts_Memo() + tsd_vo.getts_Money());
+            
+            int res2 = biz.insertScheduleDay(tsd_vo); 
             
             if(res2 == 0 ) {
                System.out.println("insert가 실패하였습니다.");

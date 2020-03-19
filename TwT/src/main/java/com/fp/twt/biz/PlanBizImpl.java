@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import com.fp.twt.dao.PlanDao;
 import com.fp.twt.vo.CityVo;
 import com.fp.twt.vo.TravelPointVo;
+import com.fp.twt.vo.TravelScheduleDayVo;
 import com.fp.twt.vo.TravelScheduleVo;
 
 @Service
@@ -26,8 +27,8 @@ public class PlanBizImpl implements PlanBiz{
 	}
 	
 	@Override
-	public int insertScheduleDay(TravelScheduleVo ts_vo) {
-		return dao.insertScheduleDay(ts_vo);
+	public int insertScheduleDay(TravelScheduleDayVo tsd_vo) {
+		return dao.insertScheduleDay(tsd_vo);
 	}
 	
 	
