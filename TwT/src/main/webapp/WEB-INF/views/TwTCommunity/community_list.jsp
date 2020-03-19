@@ -235,7 +235,11 @@
 						      if(Chk == ""){
 						         Chk = false;
 						      }
+						      if(ts_theme == ""){
+						       location.href = "community.do?curpagenum="+page+"&Chk="+Chk;
+						      } else{
 						       location.href = "community.do?curpagenum="+page+"&Chk="+Chk+"&ts_theme="+ts_theme;
+						      }
 						    }
 						</script>              
 						
