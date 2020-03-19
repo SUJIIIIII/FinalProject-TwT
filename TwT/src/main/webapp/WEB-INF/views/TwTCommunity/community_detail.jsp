@@ -409,7 +409,7 @@ function fList(ts_Code){
 
             <div class="sidebar-box ftco-animate">
             <c:choose>
-            <c:when test="${fn:length(themeList) > '1'}">
+            <c:when test="${fn:length(relList) > '1'}">
               <h3><i class="fas fa-clipboard-list"></i> Relation Post</h3>
             </c:when>
               <c:otherwise>
