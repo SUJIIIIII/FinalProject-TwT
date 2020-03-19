@@ -174,7 +174,7 @@
         <c:forEach items="${main_Plan }" var="vo" begin="${page.startRow }" end="${page.startRow + 4}">
           <div class="col-md-3 d-flex ftco-animate">
 	            <div class="blog-entry align-self-stretch" style="min-width: 250px;">
-	              <a href="communityDetail.do?ts_code=${vo.ts_Code }" class="block-20" style="background-image: url(${pageContext.request.contextPath}/resources/images/plan/${vo.city_Code }/${vo.tp_Img });"></a>
+	              <a href="communityDetail.do?ts_code=${vo.ts_Code }" class="block-20" style="background-image: url(${pageContext.request.contextPath}/resources/images/plan/thumbnail/${vo.ts_Thum});"></a>
 	              <div class="text p-4 d-block" style="min-width: 250px;">
 	              	<span class="tag">${fn:substring(vo.ts_Sday,0,8)}</span>
 	              	<span class="tag">| ${vo.ts_Period }DAYS</span>

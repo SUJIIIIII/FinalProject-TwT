@@ -564,41 +564,6 @@ var count; // 스팟리스트 개수
 		
 	}
 	
-	function insertPlan(){
-		var total_obj = new Object();
-		var form_data = $("#form").serialize(); // form 데이터
-		//var form_data = new FormData(); // form 데이터 
-		var day_list = new Object();
-		
-		//form_data.append('file',$('#file')[0].files[0]);
-		
-		for(var i=1;i<=$(".day_menu").children().length;i++){
-			day_list['day'+i] = sessionStorage.getItem("Day"+i);
-		}
-		
-		console.log("day_list : " + JSON.stringify(day_list));
-		
-		total_obj['form_data'] = form_data;
-		total_obj['day_list'] = day_list;
-		
-		$.ajax({
-			type : "post",
-			url : "testInsert.do",
-			data : JSON.stringify(total_obj),
-			dataType : "json",
-			contentType : "application/json",
-			processData : false,
-			success : function(){
-				alert("성공");
-			},
-			erorr : function(){
-				alert("실패");
-			}
-			
-		});
-		
-		
-	}
 		
 	/* script */
 	$(document).ready(function(){
