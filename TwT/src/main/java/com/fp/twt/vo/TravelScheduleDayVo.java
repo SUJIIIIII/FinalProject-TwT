@@ -6,13 +6,13 @@ public class TravelScheduleDayVo {
     private String ts_Code; 	//일정 번호
     private String tp_Code; 	//여행지 번호
     private String ts_Memo; 	//일정 메모
-    private int ts_Money; 	//일정 예산
+    private String ts_Money; 	//일정 예산
     
     public TravelScheduleDayVo() {
 		super();
 	}
 
-	public TravelScheduleDayVo(String ts_Day, String ts_Code, String tp_Code, String ts_Memo, int ts_Money) {
+	public TravelScheduleDayVo(String ts_Day, String ts_Code, String tp_Code, String ts_Memo, String ts_Money) {
 		super();
 		this.ts_Day = ts_Day;
 		this.ts_Code = ts_Code;
@@ -53,11 +53,11 @@ public class TravelScheduleDayVo {
         this.ts_Memo = ts_Memo;
     }
 
-    public int getts_Money() {
+    public String getts_Money() {
         return ts_Money;
     }
 
-    public void setts_Money(int ts_Money) {
+    public void setts_Money(String ts_Money) {
         this.ts_Money = ts_Money;
     }
     

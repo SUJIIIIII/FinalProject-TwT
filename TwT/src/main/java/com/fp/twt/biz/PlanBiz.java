@@ -4,13 +4,14 @@ import java.util.List;
 
 import com.fp.twt.vo.CityVo;
 import com.fp.twt.vo.TravelPointVo;
+import com.fp.twt.vo.TravelScheduleDayVo;
 import com.fp.twt.vo.TravelScheduleVo;
 
 public interface PlanBiz {
 	//철환
 	public List<TravelPointVo> selectCitySpot(String citycode); // 도시별 spot 불러오기
 	public int insertSchedule(TravelScheduleVo ts_vo); // 스케쥴 insert 하기
-	public int insertScheduleDay(TravelScheduleVo ts_vo); // daySpot 정보 insert
+	public int insertScheduleDay(TravelScheduleDayVo tsd_vo); // daySpot 정보 insert
 	
 	
 	
