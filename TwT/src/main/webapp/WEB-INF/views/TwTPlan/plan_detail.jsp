@@ -540,8 +540,15 @@ var count; // 스팟리스트 개수
             // tmpbud = $("#schedule_detail_box").children().eq(i).data("budget");
             tmpbud = $("#schedule_detail_box").children().eq(i).attr("data-budget");
             tmpmemo = $("#schedule_detail_box").children().eq(i).data("memo");
+            
+            
+            if(tmpbud == null || tmpbud == "null"){
+            	tmpbud = 0;
+            }
+            
          }
       }
+      
       
       // 상세box띄우며 정보 뿌려주기
       detail_view_spot(name,img,con,add,citycd,type);
