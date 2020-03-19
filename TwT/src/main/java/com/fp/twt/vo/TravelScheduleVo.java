@@ -23,8 +23,8 @@ public class TravelScheduleVo extends ts_PagingVo {
     private String m_Name;		//회원이름
     private String tp_Img;		//여행이미지
     private String city_Code;	//도시 번호
-    private String sm_Memo;		//일정 메모
-    private String sm_Money;	// 여행 예산
+    private String ts_Memo;		//일정 메모
+    private String ts_Money;	// 여행 예산
     private String fl_Code;		// 찜 목록
     private String fl_Check;	// 찜 여부
     private int re_Code; 		// 리턴되어 임시저장되는 코드
@@ -38,7 +38,7 @@ public class TravelScheduleVo extends ts_PagingVo {
 	public TravelScheduleVo(String ts_Code, String m_Code, String tp_Code, String ts_Title, String ts_Sday,
 			String ts_Theme, int ts_People, String ts_Thum, int ts_Period, String ts_View, Date ts_Date, String m_Id,
 			String ts_Day, String tp_Type, String tp_Content, String tp_Name, String m_Name, String tp_Img,
-			String city_Code, String sm_Memo, String sm_Money, String fl_Code, String fl_Check, int re_Code) {
+			String city_Code, String ts_Memo, String ts_Money, String fl_Code, String fl_Check, int re_Code) {
 		super();
 		this.ts_Code = ts_Code;
 		this.m_Code = m_Code;
@@ -59,8 +59,8 @@ public class TravelScheduleVo extends ts_PagingVo {
 		this.m_Name = m_Name;
 		this.tp_Img = tp_Img;
 		this.city_Code = city_Code;
-		this.sm_Memo = sm_Memo;
-		this.sm_Money = sm_Money;
+		this.ts_Memo = ts_Memo;
+		this.ts_Money = ts_Money;
 		this.fl_Code = fl_Code;
 		this.fl_Check = fl_Check;
 		this.re_Code = re_Code;
@@ -82,20 +82,20 @@ public class TravelScheduleVo extends ts_PagingVo {
 		this.fl_Check = fl_Check;
 	}
 
-	public String getSm_Memo() {
-		return sm_Memo;
+	public String getTs_Memo() {
+		return ts_Memo;
 	}
 
 	public void setSm_Memo(String sm_Memo) {
-		this.sm_Memo = sm_Memo;
+		this.ts_Memo = sm_Memo;
 	}
 
-	public String getSm_Money() {
-		return sm_Money;
+	public String getTs_Money() {
+		return ts_Money;
 	}
 
-	public void setSm_Money(String sm_Money) {
-		this.sm_Money = sm_Money;
+	public void setTs_Money(String sm_Money) {
+		this.ts_Money = sm_Money;
 	}
 
 	public String getCity_Code() {
