@@ -879,7 +879,6 @@ function insertPlan(){
 		contentType : "application/json",
 		processData : false,
 		success : function(result){
-			alert("성공 : " + result.file_name);
 			$("#file_name").val(result.file_name);
 			
 			$("#form").submit();

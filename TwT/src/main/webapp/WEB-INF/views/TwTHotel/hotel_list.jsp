@@ -159,7 +159,7 @@
 						</div>			
 		              </div>
 		               <div class="form-group">
-		               <p class="rate">호텔 등급</p>
+		               <p class="rate">호텔 평점</p>
 						<input type="hidden" id="h_Starnn" name="h_Starnn"/>
 							  <div class="form-check">
 									<input type="checkbox" class="form-check-input" id="exampleCheck5" value="5">
