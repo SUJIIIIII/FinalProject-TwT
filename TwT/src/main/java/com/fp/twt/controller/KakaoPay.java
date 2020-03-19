@@ -44,9 +44,6 @@ public class KakaoPay {
 	        // split()은 지정한 문자를 기준으로 문자열을 잘라 배열로 반환한다.
 	        String date[] = change.split("/");
 	        
-	        System.out.println(date[0]);
-	        System.out.println(date[1]);
-	        System.out.println(date[2]);
 	        date[2] = date[2].substring(2);
 	        if(1<=Integer.parseInt(date[0]) && Integer.parseInt(date[0])<=9) {
 	        	date[0]=0+date[0];
@@ -80,8 +77,6 @@ public class KakaoPay {
 		 */
 	       
 	    	String price = vo.getReservation_price();//pri[0]+pri[1];
-	    	System.out.println("총금액"+price);
-	    	System.out.println("아아아아아아아"+vo);
 	    	
 	    	
 	    	//&HotelReservation 에 있음
@@ -103,19 +98,6 @@ public class KakaoPay {
 		    vo.setHb_people(hb_people);
 		    vo.setReservation_price(price);
 
-		    System.out.println("회원번호"+m_code);
-		    System.out.println("방코드"+hr_code);
-		    System.out.println("속소번호"+h_code);
-		    System.out.println("체크인"+checkin);
-		    System.out.println("체크아웃"+checkout);
-		    System.out.println("결제여부"+hb_check);
-		    System.out.println("총인원"+hb_people);
-		    System.out.println("예약자명"+uname);
-		    System.out.println("오늘날짜"+now);
-		    System.out.println("오늘날짜"+hotelname);
-		    System.out.println("오늘날짜"+hotelroom);
-	    	
-		    
 	        
 
 	        // 서버로 요청할 Body
@@ -130,17 +112,6 @@ public class KakaoPay {
 	        //params.add("approval_url", "http://localhost:8787/twt/kakaoPaySuccess.do?hotelname="+hotelname+"&hotelroom="+hotelroom+"&price="+price);//승인
 	        params.add("approval_url", "http://localhost:8787/twt/kakaoPaySuccess.do?m_code="+m_code+"&hr_code="+hr_code+"&price="+price+"&h_code="+h_code+"&checkin="+checkin+"&checkout="+checkout+"&hb_check="+hb_check+"&hb_people="+hb_people+"&uname="+uname+"&now="+now+"&hotelname="+hotelname+"&hotelroom="+hotelroom);//승인
 	        
-	        System.out.println("회원번호"+m_code);
-		    System.out.println("방코드"+hr_code);
-		    System.out.println("속소번호"+h_code);
-		    System.out.println("체크인"+checkin);
-		    System.out.println("체크아웃"+checkout);
-		    System.out.println("결제여부"+hb_check);
-		    System.out.println("총인원"+hb_people);
-		    System.out.println("예약자명"+uname);
-		    System.out.println("오늘날짜"+now);
-		    System.out.println("호텔이름"+hotelname);
-		    System.out.println("방이름"+hotelroom);
 	        
 	        params.add("cancel_url", "http://localhost:8787/twt/hotel.do");//취소
 	        params.add("fail_url", "http://localhost:8787/twt/hotel.do");//실패
@@ -154,10 +125,8 @@ public class KakaoPay {
 	            return kakaoPayReadyVO.getNext_redirect_pc_url();
 	            
 	        } catch (RestClientException e) {
-	            // TODO Auto-generated catch block
 	            e.printStackTrace();
 	        } catch (URISyntaxException e) {
-	            // TODO Auto-generated catch block
 	            e.printStackTrace();
 	        }
 	        
@@ -197,10 +166,8 @@ public class KakaoPay {
 	            return kakaoPayApprovalVO;
 	        
 	        } catch (RestClientException e) {
-	            // TODO Auto-generated catch block
 	            e.printStackTrace();
 	        } catch (URISyntaxException e) {
-	            // TODO Auto-generated catch block
 	            e.printStackTrace();
 	        }
 	        

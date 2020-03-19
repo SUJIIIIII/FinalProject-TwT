@@ -65,7 +65,6 @@ public class UserMailSendService {
 	// 회원가입 발송 이메일(인증키 발송)
 	public void mailSendWithUserKey(String m_Email, String m_Id, HttpServletRequest request) {
 		String key = getKey(false, 20);
-		System.out.println("아이디 : " + m_Id + "\n이메일  : " + m_Email + "\n키:" + key);
 		biz.GetKey(m_Id, key);
 		MimeMessage mail = mailSender.createMimeMessage();
 		String htmlStr = "<h2>안녕하세요 !</h2><br><br>" + "<h3>" + m_Id + "님</h3>"

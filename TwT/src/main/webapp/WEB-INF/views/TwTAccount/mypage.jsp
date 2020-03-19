@@ -269,9 +269,9 @@ $(document).ready(function(){
 }
 
 .ftco-navbar-light.scrolled .nav-item.cta > a {
-     color: #fff !important;
-     background: #fc3c3c;
-   }
+   color: #fff !important;
+   background: #fc3c3c;
+}
    
    .destination .text .bottom-area span:last-child a:hover {
    background: #ffba00;
@@ -919,13 +919,13 @@ html {
 								</div>
 								<div class="col-sm-4" id="info">
 									<div id="info_title">
-										<p>출국일</p>
+										<p>출국 출발일</p>
 									</div>
 
 									<div id="info_location">${air.dep_Date1}&nbsp;&nbsp;${air.dep_Time1}</div>
 
 									<div id="info_title">
-										<p>도착일</p>
+										<p>출국 도착일</p>
 									</div>
 
 									<div id="info_location">${air.dep_Date2}&nbsp;&nbsp;${air.dep_Time2}</div>
@@ -945,13 +945,13 @@ html {
 								</div>
 								<div class="col-sm-4" id="info">
 									<div id="info_title">
-										<p>출국일</p>
+										<p>귀국 출발일</p>
 									</div>
 
 									<div id="info_location">${air.re_Date1}&nbsp;&nbsp;${air.re_Time1}</div>
 
 									<div id="info_title">
-										<p>도착일</p>
+										<p>귀국 도착일</p>
 									</div>
 
 									<div id="info_location">${air.re_Date2}&nbsp;&nbsp;${air.re_Time2}</div>

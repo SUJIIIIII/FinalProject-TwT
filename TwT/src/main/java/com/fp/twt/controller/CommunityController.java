@@ -165,7 +165,6 @@ public class CommunityController {
 
 		ScheduleReviewVo orgvo = biz.potoOne(vo.getSr_Code());
 		String orgsrc = orgvo.getSr_ImgSrc();
-		System.out.println(orgsrc);
 		if(!orgsrc.contains("defalt")) {
 			String[] orgimgs = orgsrc.split(",");
 			
@@ -199,7 +198,6 @@ public class CommunityController {
 	
 	@RequestMapping("/potoBookDelete.do")
 	public ModelAndView potoBookDelete(String sr_Code) {
-		System.out.println(sr_Code);
 		
 		int res = biz.potoBookDelete(sr_Code);
 		
@@ -423,7 +421,6 @@ public class CommunityController {
 		logger.info("SELECT ONE");
 		// 조회수
 		biz.viewCnt(ts_code);
-		System.out.println("글 번호 : " + ts_code);
 		
 		List<String> dayList = new ArrayList<String>();
 		List<AnswerVo> anslist = biz.ansList(ts_code);
@@ -455,9 +452,6 @@ public class CommunityController {
 			model.addAttribute("relList", biz.relList(vo.getts_Theme(),vo.getts_Code()));
 			
 			
-			for(int i=0; i<list.size(); i++) {
-				System.out.println("메모 값 : " + list.get(i).getSm_Memo());
-			}
 			
 		} else if(member == null) {	// 로그인이 안돼있을 시 찜 여부 제거
 			model.addAttribute("detail", biz.selectOne_D(ts_code));
@@ -474,9 +468,6 @@ public class CommunityController {
 		
 			TravelScheduleVo vo = biz.selectOne_D(ts_code);
 			model.addAttribute("relList", biz.relList(vo.getts_Theme(),vo.getts_Code()));
-			for(int i=0; i<list.size(); i++) {
-				System.out.println("메모 값 : " + list.get(i).getSm_Memo());
-			}
 		}
 		
 		model.addAttribute("anslist",anslist);
@@ -492,8 +483,6 @@ public class CommunityController {
 		MemberVo member = (MemberVo) session.getAttribute("user");
 		String m_code = member.getm_Code();
 		String ts_code1 = ts_code.substring(0,ts_code.length()-1);
-		System.out.println("회원 번호 : " + m_code);
-		System.out.println("글 번호 : " + ts_code1);
 		
 		Boolean res = false;
 		
@@ -501,16 +490,12 @@ public class CommunityController {
 		
 		if(vo == null) {	// 찜 목록에 데이터가 없을 시 데이터 인서트
 			int result = biz.fList(m_code, ts_code1);
-			System.out.println("찜 데이터 Y값 Insert");
 			res = true;
 		} else {	// 데이터가 있을 시 찜 여부 확인 후 업데이트
-			System.out.println("기존 찜 여부 : " + vo.getFl_Check());
 			if(vo.getFl_Check().equals("Y")) {
-				System.out.println("찜 여부 N으로 변경");
 				int result = biz.fList_N(m_code, ts_code1);
 				res = true;
 			} else if(vo.getFl_Check().equals("N")){
-				System.out.println("찜 여부 Y로 변경");
 				int result = biz.fList_Y(m_code, ts_code1);
 				res = true;
 			}

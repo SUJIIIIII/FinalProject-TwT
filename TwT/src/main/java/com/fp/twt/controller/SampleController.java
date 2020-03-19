@@ -26,14 +26,12 @@ public class SampleController {
 	
 	 @GetMapping("/kakaoPay.do") 
 	 public void kakaoPayGet() {
-		 System.out.println("프린트 카카오겟");
 		 logger.info("카카오겟");
 	 }
 	 
     
     @PostMapping("/kakaoPay.do")
     public String kakaoPay(HotelReservation vo, HttpSession session) {
-    	System.out.println("프린트 카카오포스트");
     	logger.info("kakaoPay post............................................");
     	MemberVo user = (MemberVo) session.getAttribute("user");
     	String m_code = user.getm_Code();
@@ -51,12 +49,8 @@ public class SampleController {
     		@RequestParam("checkout") String checkout, @RequestParam("hb_check") String hb_check,
     		@RequestParam("uname") String uname, @RequestParam("hb_people") String hb_people,
     		@RequestParam("now") String now) {
-    	
     
     	
-    	System.out.println("프린트 카카오페이 석세스");
-    	System.out.println("프린트 카카오페이 석세스 : " + pg_token);
-    	System.out.println("프린트 카카오페이 석세스 : " + price);
     	
     	logger.info("kakaoPaySuccess get............................................");
     	logger.info("kakaoPaySuccess pg_token : " + pg_token);
