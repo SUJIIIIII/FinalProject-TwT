@@ -69,11 +69,19 @@ public class KakaoPay {
 	        headers.add("Accept", MediaType.APPLICATION_JSON_UTF8_VALUE);
 	        headers.add("Content-Type", MediaType.APPLICATION_FORM_URLENCODED_VALUE + ";charset=UTF-8");
 	        
-	        //가격안의 , 삭제
-	        String[] pri = vo.getReservation_price().split(",");	    	
-	    	String price = pri[0]+pri[1];//가격
-	    	System.out.println(price);
-	    	
+
+		/*
+		 * String[] pri = vo.getReservation_price().split(",");
+		 * 
+		 * 
+		 * 
+		 * for(int i=0; i<=pri.length; i++) { System.out.println(i);
+		 * System.out.println("배열"+i+"="+pri[i]); }
+		 */
+	       
+	    	String price = vo.getReservation_price();//pri[0]+pri[1];
+	    	System.out.println("총금액"+price);
+	    	System.out.println("아아아아아아아"+vo);
 	    	
 	    	
 	    	//&HotelReservation 에 있음
