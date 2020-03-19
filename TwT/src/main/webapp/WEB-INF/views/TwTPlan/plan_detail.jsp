@@ -6,7 +6,7 @@
 <html lang="ko">
 <head>
 	<!-- Jquery Ui  Datepicker--> 
-	<link rel="stylesheet" href="http://code.jquery.com/ui/1.8.18/themes/base/jquery-ui.css" type="text/css" />
+	<link rel="stylesheet" href="http://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css" type="text/css" />
 	<!-- 아이콘 -->
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css" >
 	
@@ -35,6 +35,8 @@
 <% String cd = request.getParameter("citycode"); %>
 <!-- map script -->
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<!-- // jQuery UI 라이브러리 js파일 -->
+<script src="http://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
 <script type="text/javascript">
 
 //전역 변수 선언
@@ -1200,8 +1202,6 @@ src="https://maps.googleapis.com/maps/api/js?v=weekly&key=AIzaSyCiDE5HBue4mflsdk
 	</div><!-- full_wrap end -->
 	
 
-<!-- // jQuery UI 라이브러리 js파일 -->
-<script src="http://code.jquery.com/ui/1.8.18/jquery-ui.min.js"></script>
 <script src="${pageContext.request.contextPath}/resources/js/plan/plan_detail.js?version=1.5"></script>
 </body>
 

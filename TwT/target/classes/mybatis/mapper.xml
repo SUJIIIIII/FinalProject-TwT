@@ -398,8 +398,8 @@
     <!-- 업데이트할 호텔의 평점 가져오기 -->
     <select id="selectHotelStarM" resultType="Hotel">
        SELECT H_STARN FROM HOTEL WHERE H_CODE = #{h_Code}
-    </select>   
- 
+    </select>    
+
 	<!-- ================================찬우================================== -->
 	
 	

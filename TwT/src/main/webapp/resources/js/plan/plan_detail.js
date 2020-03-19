@@ -46,10 +46,10 @@ $(document).ready(function() {
 
 $(document).ready(function(){
 
-   // 페이지 새고로침 액션
+/*   // 페이지 새고로침 액션
    $(window).on("beforeunload", function() {
       return 'test';
-   });
+   });*/
 
    // 일정에 MouseHover 했을때 동작
    $(document).on("mouseenter",".day_spot_item",function(){
@@ -775,12 +775,10 @@ function cat_menu_edit() {
 
       dep_date.setDate(dep_date.getDate() + 1); // 하루씩 날짜 더해주기
    }
-   
-	//드래그 가능 코드
-	$("#cat_menu_edit_box").sortable();
-   }
 
-   function del_plan_day(day_num) {
+}
+
+function del_plan_day(day_num) {
       if(confirm("정말 삭제하시겠습니까?")){
          /*      if(sessionStorage.length ==0){
                      alert("DAY가 하나인 경우는 삭제하실 수 없습니다.")
@@ -843,16 +841,54 @@ function del_marker_path() {
 
 
 
+//드래그 가능 코드
 $(function() {
-	//드래그 가능 코드
-	$("#cat_menu_edit_box").sortable();
+   $("#cat_menu_edit_box").sortable({
+      start : function(event, ui) {
+         ui.item.data("spos", ui.item.index() + 1);
+      },
+      stop: function(event, ui) {
+         // var data_index = $("#cat_menu_edit_box li").attr("data") - 1; // 현재 클릭한 객체의  index 값
+         var data_index = ui.item.data("spos");
+         var drop_index = ui.item.index() + 1; // drop하는 곳의 위치 index
+         
+         if(data_index != drop_index){
+            var click_obj = JSON.parse(sessionStorage.getItem("Day" + data_index));  // 클릭한 객체의 sessionData 
+            var drop_obj = JSON.parse(sessionStorage.getItem("Day" + drop_index)); // 바꿀 객체의 sessionData
+          
+            sessionStorage.setItem("Day" + drop_index, JSON.stringify(click_obj));
+            sessionStorage.setItem("Day" + data_index, JSON.stringify(drop_obj));
+            
+            // alert("click index : " + data_index + "  drop_index : " + drop_index); 
+            
+            
+         }
+         
+         reorder(); // 번호 재정의 함수
+   }
+   });
 });
 
 
-// 번호 재정렬 함수
+//번호 재정렬 함수
 function reorder() {
-
+   var storage_length = sessionStorage.length; // Session에 있는 Key의 개수 가져오기
+   var dep_date = get_departure_date(); // 시작일 가져오기
+   
+   for (var i = 0; i < $("#cat_menu_edit_box li").length; i++) {
+      var day_index = i + 1;
+      var set_date = day_add_zero(dep_date) // date 0붙여주기
+      var weekday = date_to_label(dep_date.getDay());
+      
+      $("#cat_menu_edit_box li").eq(i).attr("data", day_index);
+      $("#cat_menu_edit_box li").eq(i).children(".cat_date_left_box").children(".cat_left_day").html("DAY" + day_index);
+      $("#cat_menu_edit_box li").eq(i).children(".cat_date_left_box").children(".cat_left_date").html(set_date);
+      $("#cat_menu_edit_box li").eq(i).children(".cat_date_right_box").children(".cat_right_weekday").html(weekday);
+      
+      dep_date.setDate(dep_date.getDate() + 1); // Day 하루씩 늘려주기
+   } // index 재정의
 }
+
 
 // 파일 업로드 
 function insertPlan(){			
@@ -866,9 +902,11 @@ function insertPlan(){
 	for(var i=1;i<=$(".day_menu").length;i++){
 		var spot_obj = JSON.parse(sessionStorage.getItem("Day"+i));
 		var spot_code = new Object();
+		
 		for(var j=1; j<= Object.keys(spot_obj).length; j++){
 			spot_code['index' + j] = spot_obj['index' + j][2];
 		}
+		
 		day_list['day'+i] = spot_code;
 	}
 	
