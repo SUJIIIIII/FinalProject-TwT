@@ -160,11 +160,11 @@ public class PlanController {
             String day_spot_num_budget = day_spot_num.split("/")[1];
             String day_spot_num_memo = day_spot_num.split("/")[2];
             
-            if(day_spot_num_budget == "null" || day_spot_num_budget == null) {
+            if(day_spot_num_budget.equals("null") || day_spot_num_budget == null) {
                 day_spot_num_budget = "0";
             }
              
-            if(day_spot_num_memo == "null" || day_spot_num_memo == null) {
+            if(day_spot_num_memo.equals("null") || day_spot_num_memo == null) {
                 day_spot_num_memo = " ";
             }
             
